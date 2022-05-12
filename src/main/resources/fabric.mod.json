@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "plethora",
+  "version": "${version}",
+  "name": "Plethora",
+  "description": "Peripheral provider for ComputerCraft, ported to Fabric",
+  "authors": [
+    "SquidDev",
+    "Lemmmy"
+  ],
+  "contact": {
+    "website": "https://plethora.madefor.cc",
+    "repo": "https://github.com/SwitchCraftCC/Plethora-Fabric"
+  },
+  "license": "MIT",
+  "icon": "assets/plethora/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "pw.switchcraft.plethora.gameplay.client.PlethoraClient"
+    ],
+    "main": [
+      "pw.switchcraft.plethora.Plethora"
+    ],
+    "fabric-datagen": [
+      "pw.switchcraft.plethora.gameplay.data.Generators"
+    ]
+  },
+  "mixins": [
+    "plethora.mixins.json"
+  ],
+  "accessWidener": "plethora.accesswidener",
+  "depends": {
+    "fabricloader": ">=0.14.4",
+    "fabric": "*",
+    "minecraft": "1.18.2",
+    "computercraft": ">=1.100.5"
+  }
+}
