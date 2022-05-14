@@ -13,14 +13,14 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
-import pw.switchcraft.plethora.gameplay.neural.ComputerItemHandler;
+import pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler;
 import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceContainer;
 import pw.switchcraft.plethora.util.Vec2i;
 
 import java.util.List;
 
-import static pw.switchcraft.plethora.gameplay.neural.ComputerItemHandler.HEIGHT;
-import static pw.switchcraft.plethora.gameplay.neural.ComputerItemHandler.WIDTH;
+import static pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler.HEIGHT;
+import static pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler.WIDTH;
 import static pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceContainer.*;
 import static pw.switchcraft.plethora.gameplay.registry.Registration.MOD_ID;
 
@@ -48,7 +48,7 @@ public class GuiNeuralInterface extends ComputerScreenBase<NeuralInterfaceContai
         super(container, player, new TranslatableText("gui.plethora.neuralInterface.title"), BORDER);
 
         this.container = container;
-        computer = ComputerItemHandler.getClient(container.getStack());
+        computer = NeuralComputerHandler.getClient(container.getStack());
 
         backgroundWidth = TEX_WIDTH + ComputerSidebar.WIDTH;
         backgroundHeight = TEX_HEIGHT;

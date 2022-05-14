@@ -6,19 +6,19 @@ import dan200.computercraft.shared.computer.core.ClientComputer;
 import dan200.computercraft.shared.computer.core.IComputer;
 import dan200.computercraft.shared.computer.core.ServerComputer;
 import dan200.computercraft.shared.computer.core.ServerComputerRegistry;
+import dev.emi.trinkets.api.SlotReference;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import pw.switchcraft.plethora.Plethora;
 import pw.switchcraft.plethora.gameplay.BaseItem;
-import pw.switchcraft.plethora.util.TinySlot;
 
 import javax.annotation.Nonnull;
 
 /**
  * Attempt to get computers from items
  */
-public class ComputerItemHandler {
+public class NeuralComputerHandler {
     public static final int WIDTH = 39;
     public static final int HEIGHT = 13;
 
@@ -29,10 +29,10 @@ public class ComputerItemHandler {
     public static final String DIRTY = "dirty";
     public static final String MODULE_DATA = "module_data";
 
-    private ComputerItemHandler() {
+    private NeuralComputerHandler() {
     }
 
-    public static NeuralComputer getServer(@Nonnull ItemStack stack, LivingEntity owner, TinySlot inventory) {
+    public static NeuralComputer getServer(@Nonnull ItemStack stack, LivingEntity owner, @Nonnull SlotReference slot) {
         NbtCompound nbt = BaseItem.getNbt(stack);
 
         final ServerComputerRegistry manager = ComputerCraft.serverComputerRegistry;
@@ -67,7 +67,7 @@ public class ComputerItemHandler {
             nbt.putInt(COMPUTER_ID, computerId);
 
             neural.turnOn();
-            if (inventory != null) inventory.markDirty();
+            slot.inventory().markDirty();
         }
 
         return neural;

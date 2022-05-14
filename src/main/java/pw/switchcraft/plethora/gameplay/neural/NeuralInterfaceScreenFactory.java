@@ -14,6 +14,8 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import pw.switchcraft.plethora.Plethora;
 
+import java.util.Optional;
+
 public class NeuralInterfaceScreenFactory implements ExtendedScreenHandlerFactory {
     public enum TargetType {
         PLAYER, ENTITY
@@ -38,10 +40,10 @@ public class NeuralInterfaceScreenFactory implements ExtendedScreenHandlerFactor
         LivingEntity parent = getEntity(inv.player, inv.player.world, targetType, entityId);
         if (parent == null) return null;
 
-        ItemStack stack = NeuralHelpers.getStack(parent);
-        if (stack.isEmpty()) return null;
+        Optional<ItemStack> optStack = NeuralHelpers.getStack(parent);
+        if (optStack.isEmpty() || optStack.get().isEmpty()) return null;
 
-        return new NeuralInterfaceContainer(syncId, inv, parent, stack);
+        return new NeuralInterfaceContainer(syncId, inv, parent, optStack.get());
     }
 
     @Override

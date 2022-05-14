@@ -22,13 +22,14 @@ repositories {
     maven { url "https://jitpack.io" } // TODO: CC:R on Maven?
     maven { url "https://maven.shedaniel.me" } // cloth-config-fabric etc.
     maven { url "https://maven.terraformersmc.com/releases" } // Mod Menu
-    maven {
-        url "https://ladysnake.jfrog.io/artifactory/mods"
-        content {
-            includeGroup "io.github.ladysnake"
-            includeGroupByRegex "io\\.github\\.onyxstudios.*"
-        }
-    }
+    maven { url "https://maven.terraformersmc.com/" } // Trinkets
+    maven { url "https://ladysnake.jfrog.io/artifactory/mods" } // Satin, Trinkets
+}
+
+configurations {
+    shade
+    implementation.extendsFrom shade
+    cctJavadoc
 }
 
 sourceSets {
@@ -52,6 +53,7 @@ loom {
         }
     }
 }
+
 assemble.dependsOn runData
 
 dependencies {
@@ -66,8 +68,11 @@ dependencies {
     // CC: Restitched
     modApi "com.github.cc-tweaked:cc-restitched:${cc_version}"
 
-    modImplementation(include("org.spongepowered:configurate-hocon:${configurate_version}"))
-    modImplementation(include("io.github.ladysnake:satin:${satin_version}"))
+    shade "org.spongepowered:configurate-hocon:${configurate_version}"
+    modImplementation("io.github.ladysnake:satin:${satin_version}")
+    modImplementation("dev.emi:trinkets:${trinkets_version}")
+
+    compileOnly "com.google.code.findbugs:jsr305:3.0.2"
 
     modApi("me.shedaniel.cloth:cloth-config-fabric:6.2.57") {
         exclude(group: "net.fabricmc.fabric-api")
@@ -111,6 +116,24 @@ jar {
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}" }
     }
+
+    configurations.shade.each { dep ->
+        from(project.zipTree(dep)){
+            exclude 'META-INF', 'META-INF/**'
+        }
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
+    exclude 'META-INF/INDEX.LIST', 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'module-info.class'
+}
+
+sourcesJar {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+remapJar {
+    exclude 'META-INF/INDEX.LIST', 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'module-info.class'
 }
 
 // configure the maven publication

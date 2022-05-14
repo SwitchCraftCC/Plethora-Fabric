@@ -39,10 +39,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-import static pw.switchcraft.plethora.gameplay.client.PlethoraClient.SPAWN_PACKET_ID;
 import static pw.switchcraft.plethora.gameplay.registry.Registration.LASER_ENTITY;
 import static pw.switchcraft.plethora.util.Config.Laser.damage;
 import static pw.switchcraft.plethora.util.Config.Laser.lifetime;
+import static pw.switchcraft.plethora.util.EntitySpawnPacket.SPAWN_PACKET_ID;
 
 public class LaserEntity extends Entity implements IPlayerOwnable {
     private static final Random rand = new Random();
@@ -310,10 +310,13 @@ public class LaserEntity extends Entity implements IPlayerOwnable {
 
                         if (!offsetState.isAir()) return;
 
-                        // TODO: Post a block place event here
-
-                        world.playSound(null, offset, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0f, rand.nextFloat() * 0.4f + 0.8f);
-                        world.setBlockState(offset, Blocks.FIRE.getDefaultState());
+                        if (world instanceof ServerWorld serverWorld) {
+                            // TODO: Verify this check is sufficient
+                            if (!serverWorld.getServer().isSpawnProtected(serverWorld, offset, player)) {
+                                world.playSound(null, offset, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0f, rand.nextFloat() * 0.4f + 0.8f);
+                                world.setBlockState(offset, Blocks.FIRE.getDefaultState());
+                            }
+                        }
                     } else if (hardness > -1 && hardness <= potency) {
                         potency -= hardness;
 

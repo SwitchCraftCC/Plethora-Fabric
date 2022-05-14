@@ -50,7 +50,7 @@ public class NeuralInterfaceContainer extends ContainerComputerBase implements I
     private final Inventory inventory;
 
     public NeuralInterfaceContainer(int syncId, PlayerInventory playerInventory, LivingEntity parent, ItemStack stack) {
-        super(NEURAL_INTERFACE_HANDLER_TYPE, syncId, p -> true, ComputerItemHandler.tryGetSidedComputer(parent, stack),
+        super(NEURAL_INTERFACE_HANDLER_TYPE, syncId, p -> true, NeuralComputerHandler.tryGetSidedComputer(parent, stack),
             ComputerFamily.ADVANCED);
 
         this.parent = parent;
@@ -86,7 +86,8 @@ public class NeuralInterfaceContainer extends ContainerComputerBase implements I
 
     @Override
     public boolean canUse(PlayerEntity player) {
-        return player != null && player.isAlive() && parent.isAlive() && stack == NeuralHelpers.getStack(parent);
+        return player != null && player.isAlive() && parent.isAlive()
+            && NeuralHelpers.getStack(parent).map(s -> s.equals(stack)).orElse(false);
     }
 
     @Override
@@ -99,7 +100,7 @@ public class NeuralInterfaceContainer extends ContainerComputerBase implements I
     @Nullable
     @Override
     public IComputer getComputer() {
-        return ComputerItemHandler.tryGetSidedComputer(parent, stack);
+        return NeuralComputerHandler.tryGetSidedComputer(parent, stack);
     }
 
     public ItemStack getStack() {

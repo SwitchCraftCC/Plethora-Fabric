@@ -1,22 +1,20 @@
 package pw.switchcraft.plethora.gameplay.neural;
 
-import net.minecraft.entity.EquipmentSlot;
+import dev.emi.trinkets.api.SlotReference;
+import dev.emi.trinkets.api.TrinketsApi;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 import net.minecraft.util.registry.Registry;
 import pw.switchcraft.plethora.gameplay.modules.ModuleItem;
 import pw.switchcraft.plethora.gameplay.registry.Registration;
 import pw.switchcraft.plethora.util.Config;
-import pw.switchcraft.plethora.util.TinySlot;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import java.util.Optional;
 
 public class NeuralHelpers {
-    public static final EquipmentSlot ARMOR_SLOT = EquipmentSlot.HEAD;
-
     public static final int MODULE_SIZE = 5;
     public static final int PERIPHERAL_SIZE = 5;
 
@@ -24,25 +22,15 @@ public class NeuralHelpers {
 
     public static final int BACK = 2;
 
-    @Nullable
-    public static TinySlot getSlot(LivingEntity entity) {
-        ItemStack stack = entity.getEquippedStack(ARMOR_SLOT);
-
-        if (!stack.isEmpty() && stack.getItem() == Registration.ModItems.NEURAL_INTERFACE) {
-            return entity instanceof PlayerEntity player
-                ? new TinySlot.InventorySlot(stack, player.getInventory())
-                : new TinySlot(stack);
-        }
-
-        // TODO: Baubles or something similar? Custom neural slot?
-
-        return null;
+    public static Optional<Pair<SlotReference, ItemStack>> getSlot(LivingEntity entity) {
+        return TrinketsApi.getTrinketComponent(entity)
+            .flatMap(c -> c.getEquipped(Registration.ModItems.NEURAL_INTERFACE)
+                .stream().findFirst());
     }
 
-    @Nonnull
-    public static ItemStack getStack(LivingEntity entity) {
-        TinySlot slot = getSlot(entity);
-        return slot == null ? ItemStack.EMPTY : slot.getStack();
+    public static Optional<ItemStack> getStack(LivingEntity entity) {
+        var slotPair = getSlot(entity);
+        return slotPair.map(Pair::getRight);
     }
 
     public static boolean isItemValid(int slot, @Nonnull ItemStack stack) {

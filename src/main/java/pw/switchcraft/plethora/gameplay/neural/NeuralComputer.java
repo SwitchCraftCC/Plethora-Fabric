@@ -15,7 +15,7 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
-import static pw.switchcraft.plethora.gameplay.neural.ComputerItemHandler.*;
+import static pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler.*;
 import static pw.switchcraft.plethora.gameplay.neural.NeuralHelpers.INV_SIZE;
 
 public class NeuralComputer extends ServerComputer {

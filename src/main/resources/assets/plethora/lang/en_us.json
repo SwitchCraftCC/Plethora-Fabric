@@ -5,7 +5,7 @@
   "item.plethora.neuralConnector.desc": "Used to connect to Neural Interfaces",
 
   "item.plethora.neuralInterface": "Neural interface",
-  "item.plethora.neuralInterface.desc": "Goes in your helmet slot. Connect with the neural connector.",
+  "item.plethora.neuralInterface.desc": "Goes in your face slot inside the helmet slot. Connect with the neural connector.",
 
   "item.plethora.neuralInterface.peripherals": "View peripherals",
   "item.plethora.neuralInterface.modules": "View modules",

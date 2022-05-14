@@ -2,15 +2,13 @@ package pw.switchcraft.plethora.gameplay.neural;
 
 import dan200.computercraft.shared.computer.core.ComputerFamily;
 import dan200.computercraft.shared.computer.items.IComputerItem;
+import dev.emi.trinkets.api.SlotReference;
+import dev.emi.trinkets.api.TrinketItem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.LiteralText;
@@ -21,21 +19,17 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pw.switchcraft.plethora.gameplay.BaseItem;
-import pw.switchcraft.plethora.util.TinySlot;
 
 import java.util.List;
 import java.util.Objects;
 
 import static pw.switchcraft.plethora.Plethora.MOD_ID;
-import static pw.switchcraft.plethora.gameplay.neural.ComputerItemHandler.COMPUTER_ID;
-import static pw.switchcraft.plethora.gameplay.neural.ComputerItemHandler.DIRTY;
-import static pw.switchcraft.plethora.gameplay.neural.NeuralHelpers.ARMOR_SLOT;
+import static pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler.COMPUTER_ID;
+import static pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler.DIRTY;
 
-public class NeuralInterfaceItem extends ArmorItem implements IComputerItem {
-    private static final ArmorMaterial NEURAL_ARMOR_MATERIAL = new NeuralArmorMaterial();
-
+public class NeuralInterfaceItem extends TrinketItem implements IComputerItem {
     public NeuralInterfaceItem(Settings settings) {
-        super(NEURAL_ARMOR_MATERIAL, ARMOR_SLOT, settings);
+        super(settings);
     }
 
     @Override
@@ -58,20 +52,20 @@ public class NeuralInterfaceItem extends ArmorItem implements IComputerItem {
         }
     }
 
-    private static void onUpdate(ItemStack stack, TinySlot inventory, LivingEntity player, boolean forceActive) {
+    private static void onUpdate(ItemStack stack, SlotReference slot, LivingEntity player, boolean forceActive) {
         if (player.getEntityWorld().isClient) {
             // Ensure the ClientComputer is available
-            if (forceActive && player instanceof PlayerEntity) ComputerItemHandler.getClient(stack);
+            if (forceActive && player instanceof PlayerEntity) NeuralComputerHandler.getClient(stack);
         } else {
             NbtCompound nbt = BaseItem.getNbt(stack);
             NeuralComputer neural;
 
             // Fetch computer
             if (forceActive) {
-                neural = ComputerItemHandler.getServer(stack, player, inventory);
+                neural = NeuralComputerHandler.getServer(stack, player, slot);
                 neural.keepAlive();
             } else {
-                neural = ComputerItemHandler.tryGetServer(stack);
+                neural = NeuralComputerHandler.tryGetServer(stack);
                 if (neural == null) return;
             }
 
@@ -107,35 +101,35 @@ public class NeuralInterfaceItem extends ArmorItem implements IComputerItem {
                 dirty = true;
             }
 
-            if (dirty && inventory != null) {
-                inventory.markDirty();
+            if (dirty && slot != null) {
+                slot.inventory().markDirty();
             }
         }
     }
 
-    @Override
-    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-        super.inventoryTick(stack, world, entity, slot, selected);
-
-        if (entity instanceof LivingEntity living) {
-            // 1.18: onArmorTick and onUpdate were merged into one combined inventoryTick. We need to force the tick if
-            // the neural interface is in the helmet slot, but I don't want to hardcode the helmet slot ID, so here we
-            // check if the ItemStack in the helmet slot is the same as the ItemStack being ticked, and if it is, we
-            // force the computer to become active.
-            TinySlot tinySlot;
-            boolean forceActive = false;
-
-            if (entity instanceof PlayerEntity player) {
-                ItemStack headItem = living.getEquippedStack(EquipmentSlot.HEAD);
-                tinySlot = new TinySlot.InventorySlot(stack, player.getInventory());
-                forceActive = headItem == stack;
-            } else {
-                tinySlot = new TinySlot(stack);
-            }
-
-            onUpdate(stack, tinySlot, living, forceActive);
-        }
-    }
+//    @Override
+//    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+//        super.inventoryTick(stack, world, entity, slot, selected);
+//
+//        if (entity instanceof LivingEntity living) {
+//            // 1.18: onArmorTick and onUpdate were merged into one combined inventoryTick. We need to force the tick if
+//            // the neural interface is in the helmet slot, but I don't want to hardcode the helmet slot ID, so here we
+//            // check if the ItemStack in the helmet slot is the same as the ItemStack being ticked, and if it is, we
+//            // force the computer to become active.
+//            TinySlot tinySlot;
+//            boolean forceActive = false;
+//
+//            if (entity instanceof PlayerEntity player) {
+//                ItemStack headItem = living.getEquippedStack(EquipmentSlot.HEAD);
+//                tinySlot = new TinySlot.InventorySlot(stack, player.getInventory());
+//                forceActive = headItem == stack;
+//            } else {
+//                tinySlot = new TinySlot(stack);
+//            }
+//
+//            onUpdate(stack, tinySlot, living, forceActive);
+//        }
+//    }
 
     @Override
     public int getComputerID(@NotNull ItemStack stack) {
@@ -155,5 +149,10 @@ public class NeuralInterfaceItem extends ArmorItem implements IComputerItem {
     @Override
     public ItemStack withFamily(@NotNull ItemStack stack, @NotNull ComputerFamily family) {
         return stack;
+    }
+
+    @Override
+    public void tick(ItemStack stack, SlotReference slot, LivingEntity entity) {
+        onUpdate(stack, slot, entity, true);
     }
 }

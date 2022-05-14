@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import pw.switchcraft.plethora.Plethora;
-import pw.switchcraft.plethora.gameplay.data.RecipeGenerator;
+import pw.switchcraft.plethora.gameplay.data.RecipeRegistry;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -23,15 +23,13 @@ public class RecipeManagerMixin {
     public void interceptApply(Map<Identifier, JsonElement> map, ResourceManager resourceManager, Profiler profiler, CallbackInfo ci) {
         Plethora.LOG.info("Applying custom recipes");
 
-        // Forcibly generate the custom recipes at runtime
-        RecipeGenerator generator = new RecipeGenerator(null);
-
         // Fake exporter
         Consumer<RecipeJsonProvider> exporter = provider -> {
             JsonObject recipeJson = provider.toJson();
             map.put(provider.getRecipeId(), recipeJson);
         };
 
-        generator.generateRecipes(exporter);
+        // Forcibly generate the custom recipes at runtime
+        RecipeRegistry.generateRecipes(exporter);
     }
 }

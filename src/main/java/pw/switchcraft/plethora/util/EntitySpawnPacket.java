@@ -10,7 +10,11 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 
+import static pw.switchcraft.plethora.Plethora.MOD_ID;
+
 public class EntitySpawnPacket {
+    public static final Identifier SPAWN_PACKET_ID = new Identifier(MOD_ID, "spawn_packet");
+
     public static Packet<?> create(Entity e, Identifier packetID) {
         if (e.world.isClient)
             throw new IllegalStateException("SpawnPacketUtil.create called on the logical client!");

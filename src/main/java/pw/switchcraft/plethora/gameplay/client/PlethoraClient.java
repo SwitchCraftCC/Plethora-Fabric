@@ -1,5 +1,6 @@
 package pw.switchcraft.plethora.gameplay.client;
 
+import dev.emi.trinkets.api.client.TrinketRendererRegistry;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -10,24 +11,22 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import pw.switchcraft.plethora.Plethora;
 import pw.switchcraft.plethora.gameplay.client.entity.LaserRenderer;
 import pw.switchcraft.plethora.gameplay.client.gui.GuiNeuralInterface;
+import pw.switchcraft.plethora.gameplay.client.neural.NeuralInterfaceTrinketRenderer;
 import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceContainer;
 import pw.switchcraft.plethora.gameplay.registry.Registration;
 import pw.switchcraft.plethora.util.EntitySpawnPacket;
 
 import java.util.UUID;
 
-import static pw.switchcraft.plethora.Plethora.MOD_ID;
+import static pw.switchcraft.plethora.util.EntitySpawnPacket.SPAWN_PACKET_ID;
 
 @Environment(EnvType.CLIENT)
 public class PlethoraClient implements ClientModInitializer {
-    public static final Identifier SPAWN_PACKET_ID = new Identifier(MOD_ID, "spawn_packet");
-
     @Override
     public void onInitializeClient() {
         Plethora.LOG.info("Initializing client...");
@@ -73,5 +72,7 @@ public class PlethoraClient implements ClientModInitializer {
                neuralScreen.initNeural();
            }
         });
+
+        TrinketRendererRegistry.registerRenderer(Registration.ModItems.NEURAL_INTERFACE, new NeuralInterfaceTrinketRenderer());
     }
 }
