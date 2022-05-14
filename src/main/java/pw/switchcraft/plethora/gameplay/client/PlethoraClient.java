@@ -5,13 +5,18 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
+import pw.switchcraft.plethora.Plethora;
 import pw.switchcraft.plethora.gameplay.client.entity.LaserRenderer;
+import pw.switchcraft.plethora.gameplay.client.gui.GuiNeuralInterface;
+import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceContainer;
 import pw.switchcraft.plethora.gameplay.registry.Registration;
 import pw.switchcraft.plethora.util.EntitySpawnPacket;
 
@@ -25,7 +30,12 @@ public class PlethoraClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        Plethora.LOG.info("Initializing client...");
+
         EntityRendererRegistry.register(Registration.LASER_ENTITY, LaserRenderer::new);
+
+        // These generics are required even if IDEA says they're not
+        HandledScreens.<NeuralInterfaceContainer, GuiNeuralInterface>register(Registration.ModScreens.NEURAL_INTERFACE_HANDLER_TYPE, GuiNeuralInterface::new);
 
         // Must register a packet to spawn custom entities, because Fabric API
         ClientPlayNetworking.registerGlobalReceiver(SPAWN_PACKET_ID, (client, handler, buf, responseSender) -> {
@@ -53,6 +63,15 @@ public class PlethoraClient implements ClientModInitializer {
 
                 MinecraftClient.getInstance().world.addEntity(id, e);
             });
+        });
+
+        // CC:R's ComputerScreenBase makes Screen.init() and other methods final (?!), so we have to call our own init
+        // function using this event instead
+        // TODO: PR a fix to CC:T and CC:R
+        ScreenEvents.AFTER_INIT.register((client, screen, __, ___) -> {
+           if (screen instanceof GuiNeuralInterface neuralScreen) {
+               neuralScreen.initNeural();
+           }
         });
     }
 }

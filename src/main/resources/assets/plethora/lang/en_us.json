@@ -4,6 +4,12 @@
   "item.plethora.neuralConnector": "Neural connector",
   "item.plethora.neuralConnector.desc": "Used to connect to Neural Interfaces",
 
+  "item.plethora.neuralInterface": "Neural interface",
+  "item.plethora.neuralInterface.desc": "Goes in your helmet slot. Connect with the neural connector.",
+
+  "item.plethora.neuralInterface.peripherals": "View peripherals",
+  "item.plethora.neuralInterface.modules": "View modules",
+
   "item.plethora.module.level": "Level %s (%s blocks)",
 
   "item.plethora.module.module_kinetic": "Kinetic augment",
@@ -25,5 +31,11 @@
   "death.attack.plethora.laser": "%1$s was vapourised by %2$s",
   "death.attack.plethora.laser.item": "%1$s was vapourised by %2$s using %3$s",
   "entity.plethora.plethora:laser.name": "A Frickin' laser",
-  "entity.plethora:laser.name": "A Frickin' laser"
+  "entity.plethora:laser.name": "A Frickin' laser",
+
+  "gui.plethora.tooltip.computer_id": "Computer ID: %s",
+
+  "gui.plethora.neuralInterface.title": "Neural interface",
+  "gui.plethora.neuralInterface.modules": "View modules",
+  "gui.plethora.neuralInterface.peripherals": "View peripherals"
 }

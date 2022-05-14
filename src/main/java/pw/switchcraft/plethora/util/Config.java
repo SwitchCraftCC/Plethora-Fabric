@@ -4,6 +4,7 @@ import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.meta.Comment;
 
 import java.util.Map;
+import java.util.Set;
 
 import static java.util.Map.entry;
 
@@ -13,6 +14,7 @@ public final class Config {
     public Kinetic kinetic = new Kinetic();
     public Scanner scanner = new Scanner();
     public Sensor sensor = new Sensor();
+    public NeuralInterface neuralInterface = new NeuralInterface();
 
     @ConfigSerializable
     public static class Laser {
@@ -105,5 +107,15 @@ public final class Config {
             + "The key is the full entity ID (e.g. `minecraft:creeper`) and the value is the hex of the colour "
             + "to use in #RRGGBB format (e.g. `#ff0000`).")
         public static Map<String, String> entityColours = Map.ofEntries(); // TODO: Add default colours for entities
+    }
+
+    @ConfigSerializable
+    public static class NeuralInterface {
+        @Comment("List of peripheral item IDs that can be used in neural interface. Edit with caution.") // TODO
+        public static Set<String> peripheralItemIds = Set.of( // Configurate will make this a HashSet
+            "computercraft:speaker",
+            "computercraft:wireless_modem_normal",
+            "computercraft:wireless_modem_advanced"
+        );
     }
 }

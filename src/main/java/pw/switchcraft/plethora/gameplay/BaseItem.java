@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
@@ -22,6 +23,12 @@ public abstract class BaseItem extends Item {
         super(settings);
 
         this.itemName = itemName;
+    }
+
+    public static NbtCompound getNbt(ItemStack stack) {
+        NbtCompound tag = stack.getNbt();
+        if (tag == null) stack.setNbt(tag = new NbtCompound());
+        return tag;
     }
 
     @Override

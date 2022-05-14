@@ -1,6 +1,7 @@
 package pw.switchcraft.plethora.gameplay.registry;
 
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.Item;
@@ -17,6 +18,9 @@ import pw.switchcraft.plethora.gameplay.modules.laser.LaserRecipe;
 import pw.switchcraft.plethora.gameplay.modules.scanner.ScannerModuleItem;
 import pw.switchcraft.plethora.gameplay.modules.sensor.SensorModuleItem;
 import pw.switchcraft.plethora.gameplay.neural.NeuralConnectorItem;
+import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceContainer;
+import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceItem;
+import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenFactory;
 
 import java.util.function.Function;
 
@@ -37,11 +41,15 @@ public final class Registration {
     public static void init() {
         // Similar to how CC behaves - touch each static class to force the static initializers to run.
         Object[] o = {
-            ModItems.NEURAL_CONNECTOR
+            ModItems.NEURAL_CONNECTOR,
+            ModScreens.NEURAL_INTERFACE_HANDLER_TYPE
         };
 
         Registry.register(Registry.RECIPE_SERIALIZER, new Identifier(MOD_ID, "kinetic"), KineticRecipe.SERIALIZER);
         Registry.register(Registry.RECIPE_SERIALIZER, new Identifier(MOD_ID, "laser"), LaserRecipe.SERIALIZER);
+
+        Registry.register(Registry.SCREEN_HANDLER, new Identifier(MOD_ID, "neural_interface"),
+            ModScreens.NEURAL_INTERFACE_HANDLER_TYPE);
     }
 
     public static final class ModItems {
@@ -52,6 +60,8 @@ public final class Registration {
 
         public static final NeuralConnectorItem NEURAL_CONNECTOR =
             register("neural_connector", new NeuralConnectorItem(properties().maxCount(1)));
+        public static final NeuralInterfaceItem NEURAL_INTERFACE =
+            register("neural_interface", new NeuralInterfaceItem(properties().maxCount(1)));
 
         public static final KineticModuleItem KINETIC_MODULE = registerModule("kinetic", KineticModuleItem::new);
         public static final LaserModuleItem LASER_MODULE = registerModule("laser", LaserModuleItem::new);
@@ -69,5 +79,10 @@ public final class Registration {
         private static <T extends Item> T registerModule(String id, Function<Item.Settings, T> itemCtor) {
             return register("module_" + id, itemCtor.apply(properties().maxCount(1)));
         }
+    }
+
+    public static final class ModScreens {
+        public static final ExtendedScreenHandlerType<NeuralInterfaceContainer> NEURAL_INTERFACE_HANDLER_TYPE =
+            new ExtendedScreenHandlerType<>(NeuralInterfaceScreenFactory::fromPacket);
     }
 }
