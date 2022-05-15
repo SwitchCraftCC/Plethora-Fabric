@@ -10,7 +10,9 @@ ongoing.
 - [x] Block scanner
 - [x] Entity sensor
 - [ ] Keyboard
-- [ ] Neural interface
+- [x] Neural interface
+  - [ ] Peripheral API
+  - [ ] Module API
 
 ### Peripheral modules
 - [ ] Manipulator
@@ -27,6 +29,7 @@ ongoing.
 - [ ] Minecart computer
 - [ ] Cost system
 - [ ] Module blacklist & method configuration
+- [ ] Recipe book advancements
 
 ### Integration
 - [ ] API

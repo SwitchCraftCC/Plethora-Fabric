@@ -12,6 +12,9 @@
 
   "item.plethora.module.level": "Level %s (%s blocks)",
 
+  "item.plethora.module.module_keyboard": "Keyboard",
+  "item.plethora.module.module_keyboard.desc": "Allows typing into a neural interface while in-game",
+
   "item.plethora.module.module_kinetic": "Kinetic augment",
   "item.plethora.module.module_kinetic.adjective": "Kinetic",
   "item.plethora.module.module_kinetic.desc": "Allows controlling your body via the neural interface",

@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"  C",
+		"SSI",
+		"SSS"
+	],
+	"key": {
+		"S": { "item": "minecraft:stone" },
+		"I": { "tag": "c:iron_ingots" },
+		"C": { "item": "computercraft:cable" }
+	},
+	"result": {
+		"item": "plethora:module_keyboard"
+	}
+}

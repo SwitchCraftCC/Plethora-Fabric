@@ -111,7 +111,7 @@ public final class Config {
 
     @ConfigSerializable
     public static class NeuralInterface {
-        @Comment("List of peripheral item IDs that can be used in neural interface. Edit with caution.") // TODO
+        @Comment("List of pocket upgrade item IDs that can be used in neural interface as peripherals.")
         public static Set<String> peripheralItemIds = Set.of( // Configurate will make this a HashSet
             "computercraft:speaker",
             "computercraft:wireless_modem_normal",

@@ -7,6 +7,7 @@
     "ClientConnectionAccessor",
     "RecipeManagerMixin",
     "ServerPlayNetworkHandlerAdapter",
+    "ShapedRecipeSerializerMixin",
     "ShapelessRecipeSerializerMixin",
     "SimpleInventoryAccessor",
     "TntBlockInvoker"

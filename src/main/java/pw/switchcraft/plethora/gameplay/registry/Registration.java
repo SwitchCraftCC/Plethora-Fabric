@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import pw.switchcraft.plethora.Plethora;
+import pw.switchcraft.plethora.gameplay.modules.keyboard.KeyboardModuleItem;
 import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticModuleItem;
 import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticRecipe;
 import pw.switchcraft.plethora.gameplay.modules.laser.LaserEntity;
@@ -63,6 +64,7 @@ public final class Registration {
         public static final NeuralInterfaceItem NEURAL_INTERFACE =
             register("neural_interface", new NeuralInterfaceItem(properties().maxCount(1)));
 
+        public static final KeyboardModuleItem KEYBOARD_MODULE = registerModule("keyboard", KeyboardModuleItem::new);
         public static final KineticModuleItem KINETIC_MODULE = registerModule("kinetic", KineticModuleItem::new);
         public static final LaserModuleItem LASER_MODULE = registerModule("laser", LaserModuleItem::new);
         public static final ScannerModuleItem SCANNER_MODULE = registerModule("scanner", ScannerModuleItem::new);

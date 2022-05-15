@@ -47,7 +47,8 @@ public class NeuralInterfaceItem extends TrinketItem implements IComputerItem {
         NbtCompound nbt = stack.getNbt();
         if (context.isAdvanced()) {
             if (nbt != null && nbt.contains(COMPUTER_ID)) {
-                tooltip.add(new TranslatableText("gui.plethora.tooltip.computer_id", nbt.getInt(COMPUTER_ID)));
+                tooltip.add(new TranslatableText("gui.plethora.tooltip.computer_id", nbt.getInt(COMPUTER_ID))
+                    .formatted(Formatting.GRAY));
             }
         }
     }
