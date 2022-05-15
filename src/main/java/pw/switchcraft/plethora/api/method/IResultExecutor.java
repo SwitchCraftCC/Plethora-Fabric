@@ -25,11 +25,10 @@ public interface IResultExecutor {
 	 * @param result  The method result to evaluate
 	 * @param context The context to evaluate under
 	 * @return The final result
-	 * @throws LuaException         If something went wrong
-	 * @throws InterruptedException If the code was interrupted
+	 * @throws LuaException If something went wrong
 	 */
 	@Nullable
-	Object[] execute(@Nonnull MethodResult result, @Nonnull ILuaContext context) throws LuaException, InterruptedException;
+	MethodResult execute(@Nonnull FutureMethodResult result, @Nonnull ILuaContext context) throws LuaException;
 
 	/**
 	 * Execute a task, without waiting for the result to execute.
@@ -37,5 +36,5 @@ public interface IResultExecutor {
 	 * @param result The method result to evaluate
 	 * @throws LuaException If something went wrong when queueing the task
 	 */
-	void executeAsync(@Nonnull MethodResult result) throws LuaException;
+	void executeAsync(@Nonnull FutureMethodResult result) throws LuaException;
 }

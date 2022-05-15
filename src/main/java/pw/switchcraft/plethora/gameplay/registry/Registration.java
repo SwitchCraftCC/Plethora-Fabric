@@ -10,18 +10,21 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import pw.switchcraft.plethora.Plethora;
+import pw.switchcraft.plethora.api.PlethoraEvents;
+import pw.switchcraft.plethora.api.module.IModuleContainer;
 import pw.switchcraft.plethora.gameplay.modules.keyboard.KeyboardModuleItem;
 import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticModuleItem;
 import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticRecipe;
 import pw.switchcraft.plethora.gameplay.modules.laser.LaserEntity;
+import pw.switchcraft.plethora.gameplay.modules.laser.LaserMethods;
 import pw.switchcraft.plethora.gameplay.modules.laser.LaserModuleItem;
 import pw.switchcraft.plethora.gameplay.modules.laser.LaserRecipe;
 import pw.switchcraft.plethora.gameplay.modules.scanner.ScannerModuleItem;
 import pw.switchcraft.plethora.gameplay.modules.sensor.SensorModuleItem;
 import pw.switchcraft.plethora.gameplay.neural.NeuralConnectorItem;
-import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler;
 import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceItem;
 import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenFactory;
+import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler;
 
 import java.util.function.Function;
 
@@ -51,6 +54,14 @@ public final class Registration {
 
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(MOD_ID, "neural_interface"),
             ModScreens.NEURAL_INTERFACE_HANDLER_TYPE);
+
+        PlethoraEvents.REGISTER.register(api -> {
+            api.methodRegistry().registerMethod(
+                new Identifier(MOD_ID, "laser_fire"), // TODO: should we just reflect names?
+                IModuleContainer.class,
+                LaserMethods.FIRE
+            );
+        });
     }
 
     public static final class ModItems {

@@ -3,19 +3,24 @@ package pw.switchcraft.plethora.gameplay.modules.laser;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.UseAction;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
+import pw.switchcraft.plethora.api.method.IContextBuilder;
+import pw.switchcraft.plethora.api.module.IModuleAccess;
+import pw.switchcraft.plethora.api.module.IModuleHandler;
 import pw.switchcraft.plethora.gameplay.modules.ModuleItem;
 
-import static pw.switchcraft.plethora.util.Config.Laser.maximumPotency;
-import static pw.switchcraft.plethora.util.Config.Laser.minimumPotency;
+import javax.annotation.Nonnull;
 
-public class LaserModuleItem extends ModuleItem {
+import static pw.switchcraft.plethora.gameplay.registry.Registration.MOD_ID;
+import static pw.switchcraft.plethora.util.config.Config.Laser.maximumPotency;
+import static pw.switchcraft.plethora.util.config.Config.Laser.minimumPotency;
+
+public class LaserModuleItem extends ModuleItem implements IModuleHandler {
     private static final int MAX_TICKS = 72000;
     private static final int USE_TICKS = 30;
+
+    private static final Identifier MODULE_ID = new Identifier(MOD_ID, "module_laser");
 
     /**
      * We multiply the gaussian by this number.
@@ -64,5 +69,16 @@ public class LaserModuleItem extends ModuleItem {
         double potency = (ticks / USE_TICKS) * (maximumPotency - minimumPotency) + minimumPotency;
 
         world.spawnEntity(new LaserEntity(world, player, (float) inaccuracy, (float) potency));
+    }
+
+    @Nonnull
+    @Override
+    public Identifier getModule() {
+        return MODULE_ID;
+    }
+
+    @Override
+    public void getAdditionalContext(@Nonnull ItemStack stack, @Nonnull IModuleAccess access, @Nonnull IContextBuilder builder) {
+        // TODO: this is very important!
     }
 }

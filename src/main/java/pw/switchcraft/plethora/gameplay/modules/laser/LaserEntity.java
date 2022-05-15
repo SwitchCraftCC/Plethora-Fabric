@@ -40,8 +40,8 @@ import java.util.Optional;
 import java.util.Random;
 
 import static pw.switchcraft.plethora.gameplay.registry.Registration.LASER_ENTITY;
-import static pw.switchcraft.plethora.util.Config.Laser.damage;
-import static pw.switchcraft.plethora.util.Config.Laser.lifetime;
+import static pw.switchcraft.plethora.util.config.Config.Laser.damage;
+import static pw.switchcraft.plethora.util.config.Config.Laser.lifetime;
 import static pw.switchcraft.plethora.util.EntitySpawnPacket.SPAWN_PACKET_ID;
 
 public class LaserEntity extends Entity implements IPlayerOwnable {
@@ -97,6 +97,10 @@ public class LaserEntity extends Entity implements IPlayerOwnable {
     public void setShooter(@Nullable Entity shooter, @Nullable GameProfile profile) {
         this.shooter = shooter;
         this.shooterOwner = profile;
+    }
+
+    public void setPotency(float potency) {
+        this.potency = potency;
     }
 
     @Override

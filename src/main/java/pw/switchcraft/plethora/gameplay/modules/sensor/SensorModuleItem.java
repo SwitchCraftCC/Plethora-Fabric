@@ -1,7 +1,7 @@
 package pw.switchcraft.plethora.gameplay.modules.sensor;
 
 import pw.switchcraft.plethora.gameplay.modules.LevelableModuleItem;
-import pw.switchcraft.plethora.util.Config.Sensor;
+import pw.switchcraft.plethora.util.config.Config.Sensor;
 
 public class SensorModuleItem extends LevelableModuleItem {
     public SensorModuleItem(Settings settings) {

@@ -7,8 +7,8 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.function.IntSupplier;
 
@@ -22,7 +22,7 @@ public class PlethoraDynamicImageButton extends DynamicImageButton {
     }
 
     @Override
-    public void renderButton(@NotNull MatrixStack stack, int mouseX, int mouseY, float partialTicks) {
+    public void renderButton(@Nonnull MatrixStack stack, int mouseX, int mouseY, float partialTicks) {
         // The transparent module icon does not render properly with the plain old DynamicImageButton
         RenderSystem.enableBlend();
         super.renderButton(stack, mouseX, mouseY, partialTicks);

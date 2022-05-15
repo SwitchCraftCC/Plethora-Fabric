@@ -23,7 +23,7 @@ repositories {
     maven { url "https://maven.shedaniel.me" } // cloth-config-fabric etc.
     maven { url "https://maven.terraformersmc.com/releases" } // Mod Menu
     maven { url "https://maven.terraformersmc.com/" } // Trinkets
-    maven { url "https://ladysnake.jfrog.io/artifactory/mods" } // Satin, Trinkets
+    maven { url "https://ladysnake.jfrog.io/artifactory/mods" } // Satin, Trinkets, Cardinal Components
 }
 
 sourceSets {

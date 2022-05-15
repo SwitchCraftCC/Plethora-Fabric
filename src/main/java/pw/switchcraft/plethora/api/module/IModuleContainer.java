@@ -1,13 +1,14 @@
 package pw.switchcraft.plethora.api.module;
 
 import net.minecraft.util.Identifier;
+import pw.switchcraft.plethora.api.method.IMethod;
 
 import javax.annotation.Nonnull;
 import java.util.Set;
 
 /**
  * An object representing a root level container for modules. This should be used
- * as a target for {@link org.squiddev.plethora.api.method.IMethod} when module methods
+ * as a target for {@link IMethod} when module methods
  * do not target a specific object.
  */
 public interface IModuleContainer {

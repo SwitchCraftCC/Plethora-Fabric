@@ -4,10 +4,11 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pw.switchcraft.plethora.core.PlethoraCore;
 import pw.switchcraft.plethora.gameplay.registry.Registration;
-import pw.switchcraft.plethora.util.Config;
-import pw.switchcraft.plethora.util.ConfigLoader;
-import pw.switchcraft.plethora.util.ConfigValidator;
+import pw.switchcraft.plethora.util.config.Config;
+import pw.switchcraft.plethora.util.config.ConfigLoader;
+import pw.switchcraft.plethora.util.config.ConfigValidator;
 
 public class Plethora implements ModInitializer {
     public static final String MOD_ID = "plethora";
@@ -32,5 +33,6 @@ public class Plethora implements ModInitializer {
         }
 
         Registration.init();
+        PlethoraCore.initializeCore();
     }
 }

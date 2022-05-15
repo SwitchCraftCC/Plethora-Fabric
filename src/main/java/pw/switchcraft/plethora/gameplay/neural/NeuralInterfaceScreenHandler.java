@@ -57,7 +57,7 @@ public class NeuralInterfaceScreenHandler extends ContainerComputerBase implemen
         this.stack = stack;
 
         // TODO: NeuralItemHandler?
-        inventory = new NeuralInterfaceInventory(INV_SIZE, stack);
+        inventory = new NeuralInterfaceInventory(stack);
 
         peripheralSlots = addSlots(inventory, 0, PERIPHERAL_SIZE);
         moduleSlots = addSlots(inventory, PERIPHERAL_SIZE, MODULE_SIZE);

@@ -4,16 +4,19 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.collection.DefaultedList;
 import pw.switchcraft.plethora.mixin.SimpleInventoryAccessor;
 
+import static pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler.DIRTY;
+import static pw.switchcraft.plethora.gameplay.neural.NeuralHelpers.INV_SIZE;
 import static pw.switchcraft.plethora.gameplay.neural.NeuralHelpers.isItemValid;
 
 public class NeuralInterfaceInventory extends SimpleInventory {
-    private final ItemStack parent;
+    final ItemStack parent;
 
-    public NeuralInterfaceInventory(int size, ItemStack parent) {
-        super(size);
+    public NeuralInterfaceInventory(ItemStack parent) {
+        super(INV_SIZE);
 
         this.parent = parent;
 
@@ -52,5 +55,11 @@ public class NeuralInterfaceInventory extends SimpleInventory {
         return 1;
     }
 
+    @Override
+    public void setStack(int slot, ItemStack stack) {
+        super.setStack(slot, stack);
 
+        NbtCompound nbt = parent.getOrCreateNbt();
+        nbt.putShort(DIRTY, (short) (nbt.getShort(DIRTY) | (1 << slot)));
+    }
 }

@@ -35,5 +35,10 @@
     "fabric": "*",
     "minecraft": "1.18.2",
     "computercraft": ">=1.100.5"
+  },
+  "custom": {
+    "cardinal-components": [
+      "plethora:neural_interface_inventory"
+    ]
   }
 }

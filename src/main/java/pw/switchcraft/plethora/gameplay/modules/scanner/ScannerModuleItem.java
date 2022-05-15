@@ -1,7 +1,7 @@
 package pw.switchcraft.plethora.gameplay.modules.scanner;
 
 import pw.switchcraft.plethora.gameplay.modules.LevelableModuleItem;
-import pw.switchcraft.plethora.util.Config.Scanner;
+import pw.switchcraft.plethora.util.config.Config.Scanner;
 
 public class ScannerModuleItem extends LevelableModuleItem {
     public ScannerModuleItem(Settings settings) {

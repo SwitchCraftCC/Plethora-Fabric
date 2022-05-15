@@ -51,7 +51,7 @@ public class NeuralInterfaceRecipe extends ShapedRecipe {
             // Check if the neural will actually accept the item before trying to add it. Add to the BACK slot (2)
             ItemStack upgradeStack = upgrade.getCraftingItem();
             if (NeuralHelpers.isItemValid(BACK, upgradeStack)) {
-                NeuralInterfaceInventory neuralInv = new NeuralInterfaceInventory(NeuralHelpers.INV_SIZE, output);
+                NeuralInterfaceInventory neuralInv = new NeuralInterfaceInventory(output);
                 neuralInv.setStack(BACK, upgradeStack);
 
                 // Write the new inventory to our output's NBT

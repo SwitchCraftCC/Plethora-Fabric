@@ -1,7 +1,6 @@
 package pw.switchcraft.plethora.api.method;
 
 import dan200.computercraft.api.lua.LuaException;
-import dan200.computercraft.api.lua.MethodResult;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.concurrent.Callable;
@@ -12,10 +11,7 @@ import java.util.concurrent.Callable;
  * This is used to limit the rate methods are called.
  * This can be bound as a capability to an object.
  *
- * You should aim to regenerate the energy level when possible
- *
- * @see org.squiddev.plethora.api.Constants#COST_HANDLER_CAPABILITY
- * @see IMethodRegistry#getCostHandler(ICapabilityProvider, net.minecraft.util.EnumFacing)
+ * You should aim to regenerate the energy level when possible.
  */
 @ThreadSafe
 public interface ICostHandler {
@@ -42,7 +38,7 @@ public interface ICostHandler {
 	 * @return The method result
 	 * @throws LuaException If there will never be sufficient energy.
 	 */
-	default MethodResult await(double amount, MethodResult next) throws LuaException {
+	default FutureMethodResult await(double amount, FutureMethodResult next) throws LuaException {
 		return await(amount, () -> next);
 	}
 
@@ -54,5 +50,5 @@ public interface ICostHandler {
 	 * @return The method result
 	 * @throws LuaException If there will never be sufficient energy.
 	 */
-	MethodResult await(double amount, Callable<MethodResult> next) throws LuaException;
+	FutureMethodResult await(double amount, Callable<FutureMethodResult> next) throws LuaException;
 }

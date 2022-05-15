@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import pw.switchcraft.plethora.gameplay.modules.ModuleItem;
 import pw.switchcraft.plethora.mixin.ServerPlayNetworkHandlerAdapter;
 
-import static pw.switchcraft.plethora.util.Config.Kinetic.*;
+import static pw.switchcraft.plethora.util.config.Config.Kinetic.*;
 
 public class KineticModuleItem extends ModuleItem {
     private static final int MAX_TICKS = 72000;

@@ -1,14 +1,17 @@
 package pw.switchcraft.plethora.gameplay.neural;
 
+import dan200.computercraft.core.computer.ComputerSide;
 import dan200.computercraft.shared.computer.core.ComputerFamily;
 import dan200.computercraft.shared.computer.core.ServerComputer;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import pw.switchcraft.plethora.core.executor.TaskRunner;
+import pw.switchcraft.plethora.util.Helpers;
 
 import javax.annotation.Nonnull;
 import java.lang.ref.WeakReference;
@@ -16,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler.*;
-import static pw.switchcraft.plethora.gameplay.neural.NeuralHelpers.INV_SIZE;
+import static pw.switchcraft.plethora.gameplay.neural.NeuralHelpers.*;
 
 public class NeuralComputer extends ServerComputer {
     private WeakReference<LivingEntity> entity;
@@ -63,8 +66,6 @@ public class NeuralComputer extends ServerComputer {
      * @param owner The owner of the current peripherals
      */
     public boolean update(@Nonnull LivingEntity owner, @Nonnull ItemStack stack, int dirtyStatus) {
-        // TODO: get handler
-
         LivingEntity existing = entity == null ? null : entity.get();
         if (existing != owner) {
             dirtyStatus = -1;
@@ -74,9 +75,28 @@ public class NeuralComputer extends ServerComputer {
         setLevel(owner.getEntityWorld());
         setPosition(owner.getBlockPos());
 
-        // TODO: Sync changed slots
+        // Sync changed slots
+        if (dirtyStatus != 0) {
+            Inventories.readNbt(stack.getOrCreateNbt(), stacks);
+            moduleHash = Helpers.hashStacks(stacks.subList(PERIPHERAL_SIZE, INV_SIZE));
+        }
+
         // TODO: Update peripherals
-        // TODO: Sync modules and peripherals
+
+        if (dirtyStatus != 0) {
+            for (int slot = 0; slot < PERIPHERAL_SIZE; slot++) {
+                if ((dirtyStatus & (1 << slot)) == 1 << slot) {
+                    // We skip the "back" slot
+                    // TODO: Peripherals
+                    // setPeripheral(ComputerSide.valueOf(slot < BACK ? slot : slot + 1), buildPeripheral(stacks.get(slot)));
+                }
+            }
+
+            // If the modules have changed.
+            if (dirtyStatus >> PERIPHERAL_SIZE != 0) {
+                setPeripheral(ComputerSide.BACK, buildModules(this, stacks, owner));
+            }
+        }
 
         runner.update();
 

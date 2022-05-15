@@ -16,10 +16,10 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pw.switchcraft.plethora.gameplay.BaseItem;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Objects;
 
@@ -133,12 +133,12 @@ public class NeuralInterfaceItem extends TrinketItem implements IComputerItem {
 //    }
 
     @Override
-    public int getComputerID(@NotNull ItemStack stack) {
+    public int getComputerID(@Nonnull ItemStack stack) {
         return IComputerItem.super.getComputerID(stack);
     }
 
     @Override
-    public String getLabel(@NotNull ItemStack stack) {
+    public String getLabel(@Nonnull ItemStack stack) {
         return stack.hasCustomName() ? stack.getName().getString() : null;
     }
 
@@ -148,7 +148,7 @@ public class NeuralInterfaceItem extends TrinketItem implements IComputerItem {
     }
 
     @Override
-    public ItemStack withFamily(@NotNull ItemStack stack, @NotNull ComputerFamily family) {
+    public ItemStack withFamily(@Nonnull ItemStack stack, @Nonnull ComputerFamily family) {
         return stack;
     }
 

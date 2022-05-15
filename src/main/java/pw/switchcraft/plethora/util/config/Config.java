@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.util;
+package pw.switchcraft.plethora.util.config;
 
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.meta.Comment;
@@ -16,6 +16,11 @@ public final class Config {
     public Sensor sensor = new Sensor();
     public NeuralInterface neuralInterface = new NeuralInterface();
 
+    @Comment("Some methods have a particular cost: they consume a set amount of energy from their owner. This level "
+        + "regenerates over time.\n\n"
+        + "*Note:* These values only apply to the default handler. Other mods may add custom handlers.")
+    public CostSystem costSystem = new CostSystem();
+
     @ConfigSerializable
     public static class Laser {
         @Comment("The minimum power of a laser.")
@@ -26,6 +31,9 @@ public final class Config {
 
         @Comment("The damage done to an entity by a laser per potency.")
         public static double damage = 4;
+
+        @Comment("The energy cost per potency for a laser.")
+        public static double cost = 10;
 
         @Comment("The maximum time in ticks a laser can exist for before it'll despawn.")
         public static int lifetime = 5 * 20;
@@ -117,5 +125,24 @@ public final class Config {
             "computercraft:wireless_modem_normal",
             "computercraft:wireless_modem_advanced"
         );
+    }
+
+    @ConfigSerializable
+    public static class CostSystem {
+        @Comment("The energy level all systems start at.")
+        public static double initial = 100;
+
+        @Comment("The amount of energy regenerated each tick.")
+        public static double regen = 10;
+
+        @Comment("The maximum energy level an item can have.")
+        public static double limit = 100;
+
+        @Comment("Allows costs to go into the negative. Methods will fail when there is negative energy. This allows you "
+            + "to use costs higher than the allocated buffer and so have a traditional rate-limiting system.")
+        public static boolean allowNegative = false;
+
+        @Comment("Wait for the system to get sufficient energy instead of throwing an error.")
+        public static boolean awaitRegen = true;
     }
 }

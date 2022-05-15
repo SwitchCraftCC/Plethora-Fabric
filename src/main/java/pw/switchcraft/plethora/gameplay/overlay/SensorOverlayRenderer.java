@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static pw.switchcraft.plethora.util.Config.Sensor.entityColours;
+import static pw.switchcraft.plethora.util.config.Config.Sensor.entityColours;
 
 public class SensorOverlayRenderer extends FlareOverlayRenderer {
     private static final Map<EntityType<?>, FlareColor> entityColorCache = new HashMap<>();

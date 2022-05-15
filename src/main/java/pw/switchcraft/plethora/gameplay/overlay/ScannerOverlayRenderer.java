@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static pw.switchcraft.plethora.util.Config.Scanner.oreColours;
+import static pw.switchcraft.plethora.util.config.Config.Scanner.oreColours;
 
 public class ScannerOverlayRenderer extends FlareOverlayRenderer {
     record BlockResult(int x, int y, int z, FlareColor color) {}

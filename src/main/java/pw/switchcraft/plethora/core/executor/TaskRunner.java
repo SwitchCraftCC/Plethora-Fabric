@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * This is a system capable of running a series of {@link Task}s.
@@ -21,6 +22,8 @@ public class TaskRunner { // TODO: Implements ITickable?
 
     private final Set<Task> tasks = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
+    private final AtomicLong tasksIssued = new AtomicLong(0);
+
     public void update() {
         Iterator<Task> tasks = this.tasks.iterator();
 
@@ -37,5 +40,9 @@ public class TaskRunner { // TODO: Implements ITickable?
 
     public void reset() {
         tasks.clear();
+    }
+
+    public long getNewTaskId() {
+        return tasksIssued.incrementAndGet();
     }
 }

@@ -4,8 +4,6 @@ import pw.switchcraft.plethora.api.meta.TypedMeta;
 import pw.switchcraft.plethora.api.module.IModuleContainer;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Set;
 
 /**
  * A context for a method call
@@ -83,21 +81,6 @@ public interface IPartialContext<T> {
     ICostHandler getCostHandler();
 
     /**
-     * @param key The lookup for transfer location
-     * @return The valid transfer location or {@code null} if none exists.
-     */
-    @Nullable
-    Object getTransferLocation(@Nonnull String key);
-
-    /**
-     * Get all primary transfer locations
-     *
-     * @return All valid locations
-     */
-    @Nonnull
-    Set<String> getTransferLocations();
-
-    /**
      * Get a collection of all modules in this context.
      *
      * This will not change over the course of the context's lifetime.
@@ -111,7 +94,7 @@ public interface IPartialContext<T> {
      * Get the metadata for this object
      *
      * @return The object's metadata
-     * @see org.squiddev.plethora.api.meta.IMetaProvider
+     * @see pw.switchcraft.plethora.api.meta.IMetaProvider
      */
     @Nonnull
     TypedMeta<T, ?> getMeta();

@@ -1,36 +1,37 @@
 package pw.switchcraft.plethora.core.executor;
 
 import dan200.computercraft.api.lua.LuaException;
+import dan200.computercraft.api.lua.MethodResult;
 import pw.switchcraft.plethora.Plethora;
-import pw.switchcraft.plethora.api.method.MethodResult;
+import pw.switchcraft.plethora.api.method.FutureMethodResult;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.concurrent.Callable;
 
 /**
- * Represents an evaluation of a {@link MethodResult} on the main thread.
+ * Represents an evaluation of a {@link FutureMethodResult} on the main thread.
  *
  * This will wait for the requirement to be resolved, execute the callback and either provide an exception, the result
- * or continue to unwrap the next {@link MethodResult}.
+ * or continue to unwrap the next {@link FutureMethodResult}.
  *
  * @see TaskRunner
  */
 public class Task {
     private volatile boolean done = false;
-    private Callable<MethodResult> callback;
-    private MethodResult.Resolver resolver;
+    private Callable<FutureMethodResult> callback;
+    private FutureMethodResult.Resolver resolver;
     private boolean resolved;
 
-    Object[] result;
+    MethodResult result;
     LuaException error;
 
-    Task(Callable<MethodResult> callback, MethodResult.Resolver resolver) {
+    Task(Callable<FutureMethodResult> callback, FutureMethodResult.Resolver resolver) {
         this.callback = callback;
         this.resolver = resolver;
     }
 
-    private void finish(@Nullable Object[] result) {
+    private void finish(@Nullable MethodResult result) {
         done = true;
         this.result = result;
         whenDone();
@@ -46,7 +47,7 @@ public class Task {
         while (!done && (resolved || (resolved = resolver.update()) && canWork())) {
             long start = System.nanoTime();
             try {
-                MethodResult next = callback.call();
+                FutureMethodResult next = callback.call();
                 if (next.isFinal()) {
                     finish(next.getResult());
                     return true;
