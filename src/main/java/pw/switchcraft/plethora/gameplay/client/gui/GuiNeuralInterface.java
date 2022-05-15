@@ -14,17 +14,17 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler;
-import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceContainer;
+import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler;
 import pw.switchcraft.plethora.util.Vec2i;
 
 import java.util.List;
 
 import static pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler.HEIGHT;
 import static pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler.WIDTH;
-import static pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceContainer.*;
+import static pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler.*;
 import static pw.switchcraft.plethora.gameplay.registry.Registration.MOD_ID;
 
-public class GuiNeuralInterface extends ComputerScreenBase<NeuralInterfaceContainer> {
+public class GuiNeuralInterface extends ComputerScreenBase<NeuralInterfaceScreenHandler> {
     private static final Identifier TEXTURE = new Identifier(MOD_ID, "textures/gui/neural_interface.png");
     private static final int ICON_Y = 224;
 
@@ -39,12 +39,12 @@ public class GuiNeuralInterface extends ComputerScreenBase<NeuralInterfaceContai
 
     public static final int BORDER = 8;
 
-    private final NeuralInterfaceContainer container;
+    private final NeuralInterfaceScreenHandler container;
     private final ClientComputer computer;
 
     private boolean peripherals = true;
 
-    public GuiNeuralInterface(NeuralInterfaceContainer container, PlayerInventory player, Text title) {
+    public GuiNeuralInterface(NeuralInterfaceScreenHandler container, PlayerInventory player, Text title) {
         super(container, player, new TranslatableText("gui.plethora.neuralInterface.title"), BORDER);
 
         this.container = container;
@@ -110,7 +110,7 @@ public class GuiNeuralInterface extends ComputerScreenBase<NeuralInterfaceContai
         for (int i = 0, peripheralSlotsLength = slots.length; i < peripheralSlotsLength; i++) {
             Slot slot = slots[i];
             if (visible) {
-                Vec2i pos = NeuralInterfaceContainer.POSITIONS[i];
+                Vec2i pos = NeuralInterfaceScreenHandler.POSITIONS[i];
 
                 // Had to use an access widener for this as slot position is now final - hopefully this is safe!
                 slot.x = pos.x();

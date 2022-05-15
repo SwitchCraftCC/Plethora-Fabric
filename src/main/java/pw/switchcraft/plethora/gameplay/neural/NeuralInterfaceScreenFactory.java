@@ -36,14 +36,14 @@ public class NeuralInterfaceScreenFactory implements ExtendedScreenHandlerFactor
 
     @Nullable
     @Override
-    public NeuralInterfaceContainer createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
+    public NeuralInterfaceScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
         LivingEntity parent = getEntity(inv.player, inv.player.world, targetType, entityId);
         if (parent == null) return null;
 
         Optional<ItemStack> optStack = NeuralHelpers.getStack(parent);
         if (optStack.isEmpty() || optStack.get().isEmpty()) return null;
 
-        return new NeuralInterfaceContainer(syncId, inv, parent, optStack.get());
+        return new NeuralInterfaceScreenHandler(syncId, inv, parent, optStack.get());
     }
 
     @Override
@@ -65,7 +65,7 @@ public class NeuralInterfaceScreenFactory implements ExtendedScreenHandlerFactor
         }
     }
 
-    public static NeuralInterfaceContainer fromPacket(int syncId, PlayerInventory inv, PacketByteBuf buf) {
+    public static NeuralInterfaceScreenHandler fromPacket(int syncId, PlayerInventory inv, PacketByteBuf buf) {
         var factory = new NeuralInterfaceScreenFactory(buf.readEnumConstant(TargetType.class), buf.readInt());
         return factory.createMenu(syncId, inv, inv.player);
     }

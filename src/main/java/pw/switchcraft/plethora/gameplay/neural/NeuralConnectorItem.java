@@ -34,7 +34,7 @@ public class NeuralConnectorItem extends BaseItem {
 
             // We prevent the neural connector from opening when they're already using an interface. This
             // prevents the GUI becoming unusable when one gets in a right-click loop due to a broken program.
-            if (!(player.currentScreenHandler instanceof NeuralInterfaceContainer)) {
+            if (!(player.currentScreenHandler instanceof NeuralInterfaceScreenHandler)) {
                 computer.sendTerminalState(player);
                 player.openHandledScreen(new NeuralInterfaceScreenFactory(TargetType.PLAYER, 0));
             }

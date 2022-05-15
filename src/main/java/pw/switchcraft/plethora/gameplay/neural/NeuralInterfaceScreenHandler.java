@@ -18,7 +18,7 @@ import static pw.switchcraft.plethora.gameplay.client.gui.GuiNeuralInterface.BOR
 import static pw.switchcraft.plethora.gameplay.neural.NeuralHelpers.*;
 import static pw.switchcraft.plethora.gameplay.registry.Registration.ModScreens.NEURAL_INTERFACE_HANDLER_TYPE;
 
-public class NeuralInterfaceContainer extends ContainerComputerBase implements IContainerComputer {
+public class NeuralInterfaceScreenHandler extends ContainerComputerBase implements IContainerComputer {
     public static final int START_Y = 134;
 
     private static final int MAIN_START_X = BORDER + ComputerSidebar.WIDTH;
@@ -49,7 +49,7 @@ public class NeuralInterfaceContainer extends ContainerComputerBase implements I
 
     private final Inventory inventory;
 
-    public NeuralInterfaceContainer(int syncId, PlayerInventory playerInventory, LivingEntity parent, ItemStack stack) {
+    public NeuralInterfaceScreenHandler(int syncId, PlayerInventory playerInventory, LivingEntity parent, ItemStack stack) {
         super(NEURAL_INTERFACE_HANDLER_TYPE, syncId, p -> true, NeuralComputerHandler.tryGetSidedComputer(parent, stack),
             ComputerFamily.ADVANCED);
 
@@ -105,6 +105,42 @@ public class NeuralInterfaceContainer extends ContainerComputerBase implements I
 
     public ItemStack getStack() {
         return stack;
+    }
+
+    @Override
+    public ItemStack transferSlot(PlayerEntity player, int index) {
+        // This function is solely responsible for shift+click 'quick move' behaviour. The original ScreenHandler
+        // implementation of transferSlot() causes an infinite loop as it returns the same item stack when moving it,
+        // which never shows up in practice because all implementations of ScreenHandler.transferSlot() are overridden.
+        // See: https://github.com/FabricMC/yarn/issues/2944
+
+        // Intended implementation:
+        // - If any items were moved out of the slot, it returns the original item stack in the slot.
+        // - If no items could be moved, it returns ItemStack.EMPTY.
+
+        Slot slot = slots.get(index);
+        if (slot == null || !slot.hasStack()) return ItemStack.EMPTY;
+
+        ItemStack existing = slot.getStack().copy();
+        ItemStack result = existing.copy();
+        if (index < INV_SIZE) {
+            // One of our neural slots, insert into the player's inventory
+            if (!insertItem(existing, INV_SIZE, INV_SIZE + 36, true)) return ItemStack.EMPTY;
+        } else {
+            // One of the player's inventory slots (hopefully!), insert into the neural inventory
+            if (!insertItem(existing, 0, INV_SIZE, false)) return ItemStack.EMPTY;
+        }
+
+        if (existing.isEmpty()) {
+            slot.setStack(ItemStack.EMPTY);
+        } else {
+            slot.markDirty();
+        }
+
+        if (existing.getCount() == result.getCount()) return ItemStack.EMPTY;
+
+        slot.onTakeItem(player, existing);
+        return result;
     }
 
     public static final class NeuralSlot extends Slot {

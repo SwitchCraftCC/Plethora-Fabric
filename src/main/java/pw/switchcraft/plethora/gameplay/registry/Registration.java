@@ -19,7 +19,7 @@ import pw.switchcraft.plethora.gameplay.modules.laser.LaserRecipe;
 import pw.switchcraft.plethora.gameplay.modules.scanner.ScannerModuleItem;
 import pw.switchcraft.plethora.gameplay.modules.sensor.SensorModuleItem;
 import pw.switchcraft.plethora.gameplay.neural.NeuralConnectorItem;
-import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceContainer;
+import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler;
 import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceItem;
 import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenFactory;
 
@@ -84,7 +84,7 @@ public final class Registration {
     }
 
     public static final class ModScreens {
-        public static final ExtendedScreenHandlerType<NeuralInterfaceContainer> NEURAL_INTERFACE_HANDLER_TYPE =
+        public static final ExtendedScreenHandlerType<NeuralInterfaceScreenHandler> NEURAL_INTERFACE_HANDLER_TYPE =
             new ExtendedScreenHandlerType<>(NeuralInterfaceScreenFactory::fromPacket);
     }
 }

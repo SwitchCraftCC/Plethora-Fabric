@@ -46,4 +46,11 @@ public class NeuralInterfaceInventory extends SimpleInventory {
     public DefaultedList<ItemStack> getOwnStacks() {
         return ((SimpleInventoryAccessor) this).getStacks();
     }
+
+    @Override
+    public int getMaxCountPerStack() {
+        return 1;
+    }
+
+
 }

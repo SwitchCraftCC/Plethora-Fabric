@@ -17,7 +17,7 @@ import pw.switchcraft.plethora.Plethora;
 import pw.switchcraft.plethora.gameplay.client.entity.LaserRenderer;
 import pw.switchcraft.plethora.gameplay.client.gui.GuiNeuralInterface;
 import pw.switchcraft.plethora.gameplay.client.neural.NeuralInterfaceTrinketRenderer;
-import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceContainer;
+import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler;
 import pw.switchcraft.plethora.gameplay.registry.Registration;
 import pw.switchcraft.plethora.util.EntitySpawnPacket;
 
@@ -34,7 +34,7 @@ public class PlethoraClient implements ClientModInitializer {
         EntityRendererRegistry.register(Registration.LASER_ENTITY, LaserRenderer::new);
 
         // These generics are required even if IDEA says they're not
-        HandledScreens.<NeuralInterfaceContainer, GuiNeuralInterface>register(Registration.ModScreens.NEURAL_INTERFACE_HANDLER_TYPE, GuiNeuralInterface::new);
+        HandledScreens.<NeuralInterfaceScreenHandler, GuiNeuralInterface>register(Registration.ModScreens.NEURAL_INTERFACE_HANDLER_TYPE, GuiNeuralInterface::new);
 
         // Must register a packet to spawn custom entities, because Fabric API
         ClientPlayNetworking.registerGlobalReceiver(SPAWN_PACKET_ID, (client, handler, buf, responseSender) -> {
