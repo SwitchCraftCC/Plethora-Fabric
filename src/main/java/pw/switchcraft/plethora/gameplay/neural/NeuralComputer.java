@@ -65,7 +65,7 @@ public class NeuralComputer extends ServerComputer {
      *
      * @param owner The owner of the current peripherals
      */
-    public boolean update(@Nonnull LivingEntity owner, @Nonnull ItemStack stack, int dirtyStatus) {
+    public boolean update(@Nonnull LivingEntity owner, @Nonnull ItemStack neuralStack, int dirtyStatus) {
         LivingEntity existing = entity == null ? null : entity.get();
         if (existing != owner) {
             dirtyStatus = -1;
@@ -77,7 +77,8 @@ public class NeuralComputer extends ServerComputer {
 
         // Sync changed slots
         if (dirtyStatus != 0) {
-            Inventories.readNbt(stack.getOrCreateNbt(), stacks);
+            stacks.clear();
+            Inventories.readNbt(neuralStack.getOrCreateNbt(), stacks);
             moduleHash = Helpers.hashStacks(stacks.subList(PERIPHERAL_SIZE, INV_SIZE));
         }
 
@@ -107,7 +108,7 @@ public class NeuralComputer extends ServerComputer {
             for (Map.Entry<Identifier, NbtCompound> entry : moduleData.entrySet()){
                 nbt.put(entry.getKey().toString(), entry.getValue());
             }
-            stack.getOrCreateNbt().put(MODULE_DATA, nbt);
+            neuralStack.getOrCreateNbt().put(MODULE_DATA, nbt);
             return true;
         }
 
