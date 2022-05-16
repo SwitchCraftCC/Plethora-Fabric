@@ -1,7 +1,10 @@
 package pw.switchcraft.plethora.api.module;
 
+import dan200.computercraft.api.client.TransformedModel;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.AffineTransformation;
+import net.minecraft.util.math.Vec3f;
 
 import javax.annotation.Nonnull;
 
@@ -23,7 +26,16 @@ public class BasicModuleHandler extends AbstractModuleHandler {
 		return id;
 	}
 
-//	@Nonnull
+	@Nonnull
+	@Override
+	public TransformedModel getModel(float delta) {
+		return TransformedModel.of(
+			item.getDefaultStack(),
+			new AffineTransformation(null, Vec3f.POSITIVE_Y.getDegreesQuaternion(delta), null, null)
+		);
+	}
+
+	//	@Nonnull
 //	@Override
 //	@SideOnly(Side.CLIENT)
 //	public Pair<IBakedModel, Matrix4f> getModel(float delta) {

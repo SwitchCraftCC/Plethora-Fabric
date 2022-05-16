@@ -1,9 +1,12 @@
 package pw.switchcraft.plethora.gameplay.modules.laser;
 
+import dan200.computercraft.api.client.TransformedModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
+import net.minecraft.util.math.AffineTransformation;
+import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.World;
 import pw.switchcraft.plethora.api.method.IContextBuilder;
 import pw.switchcraft.plethora.api.module.IModuleAccess;
@@ -80,5 +83,15 @@ public class LaserModuleItem extends ModuleItem implements IModuleHandler {
     @Override
     public void getAdditionalContext(@Nonnull ItemStack stack, @Nonnull IModuleAccess access, @Nonnull IContextBuilder builder) {
         // TODO: this is very important!
+    }
+
+    @Nonnull
+    @Override
+    public TransformedModel getModel(float delta) {
+        // Flip the laser so it points forwards on turtles
+        return TransformedModel.of(
+            getDefaultStack(),
+            new AffineTransformation(null, Vec3f.POSITIVE_Y.getDegreesQuaternion((delta + 180) % 360), null, null)
+        );
     }
 }

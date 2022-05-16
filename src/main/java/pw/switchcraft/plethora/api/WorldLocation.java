@@ -6,7 +6,6 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.NotImplementedException;
-import org.jetbrains.annotations.NotNull;
 import pw.switchcraft.plethora.api.reference.ConstantReference;
 
 import javax.annotation.Nonnull;

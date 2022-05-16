@@ -5,12 +5,14 @@ import dan200.computercraft.api.client.TransformedModel;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.turtle.*;
+import dan200.computercraft.fabric.mixininterface.IMatrix4f;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
+import net.minecraft.util.math.AffineTransformation;
 import net.minecraft.util.math.Direction;
-import org.jetbrains.annotations.NotNull;
+import net.minecraft.util.math.Matrix4f;
 import pw.switchcraft.plethora.api.IPlayerOwnable;
 import pw.switchcraft.plethora.api.IWorldLocation;
 import pw.switchcraft.plethora.api.TurtleWorldLocation;
@@ -120,53 +122,19 @@ public class TurtleUpgradeModule implements ITurtleUpgrade {
 		return TurtleCommandResult.failure("Cannot use tool");
 	}
 
-	// TODO: getModel
-//	@Nonnull
-//	@Override
-//	@SideOnly(Side.CLIENT)
-//	public Pair<IBakedModel, Matrix4f> getModel(ITurtleAccess turtle, @Nonnull TurtleSide side) {
-//		float xOffset = side == TurtleSide.Left ? -0.40625f : 0.40625f;
-//		Matrix4f transform = new Matrix4f(
-//			0.0f, 0.0f, 1.0f, -0.5f,
-//			0.0F, 1.0f, 0.0f, -0.5f,
-//			-1.0f, 0.0f, 0.0f, 0.5f,
-//			0.0f, 0.0f, 0.0f, 1.0f
-//		);
-//
-//
-//		Pair<IBakedModel, Matrix4f> pair = handler.getModel(0);
-//		transform.mul(pair.getRight(), transform);
-//
-//		transform.mul(new Matrix4f(
-//			0.8f, 0.0f, 0.0f, 0.5f + xOffset,
-//			0.0f, 0.8f, 0.0f, 0.6f,
-//			0.0f, 0.0f, 0.8f, 0.475f,
-//			0.0f, 0.0f, 0.0f, 1.0f
-//		), transform);
-//
-//		// Translate -0.5 -0.5 -0.5
-//		// Rotate Y PI/2
-//		// Normal transform
-//		// Scale 0.8
-//		// Ideally we'd flip if we're on the left side, but that mucks up culling.
-//		// Translate 0.5 0.5 0.5
-//		// Translate xOffset 0.1 -0.025
-//
-//		return Pair.of(pair.getLeft(), transform);
-//	}
-
 	@Nonnull
 	@Override
 	public TransformedModel getModel(@org.jetbrains.annotations.Nullable ITurtleAccess turtle, @Nonnull TurtleSide side) {
-		return null;
+		TransformedModel model = handler.getModel(0);
+		return new TransformedModel(model.getModel(), side == TurtleSide.LEFT
+			? Transforms.leftTransform : Transforms.rightTransform);
 	}
 
 	@Override
 	public void update(@Nonnull ITurtleAccess turtle, @Nonnull TurtleSide side) {
 		IPeripheral peripheral = turtle.getPeripheral(side);
 		if (peripheral instanceof MethodWrapperPeripheral) {
-			// TODO
-			// ((MethodWrapperPeripheral) peripheral).getRunner().update();
+			((MethodWrapperPeripheral) peripheral).getRunner().update();
 		}
 	}
 
@@ -243,6 +211,23 @@ public class TurtleUpgradeModule implements ITurtleUpgrade {
 		@Override
 		public TurtlePlayerOwnable safeGet() {
 			return this;
+		}
+	}
+
+	/** @see dan200.computercraft.shared.turtle.upgrades.TurtleTool */
+	private static class Transforms {
+		static final AffineTransformation leftTransform = getMatrixFor(-0.40625f);
+		static final AffineTransformation rightTransform = getMatrixFor(0.40625f);
+
+		private static AffineTransformation getMatrixFor(float offset) {
+			Matrix4f matrix = new Matrix4f();
+			((IMatrix4f) (Object) matrix).setFloatArray(new float[]{
+				0.0f, 0.0f, -1.0f, 1.0f + offset,
+				1.0f, 0.0f, 0.0f, 0.0f,
+				0.0f, -1.0f, 0.0f, 1.0f,
+				0.0f, 0.0f, 0.0f, 1.0f,
+			});
+			return new AffineTransformation(matrix);
 		}
 	}
 }

@@ -1,6 +1,9 @@
 package pw.switchcraft.plethora.api.vehicle;
 
+import dan200.computercraft.api.client.TransformedModel;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -9,7 +12,16 @@ import javax.annotation.Nullable;
  * A capability which provides an upgrade to various vehicles.
  */
 public interface IVehicleUpgradeHandler {
-	// TODO: getModel
+	/**
+	 * Get a model from this stack
+	 *
+	 * @param access The vehicle access
+	 * @return A baked model and its transformation
+	 * @see TransformedModel
+	 */
+	@Nonnull
+	@Environment(EnvType.CLIENT)
+	TransformedModel getModel(@Nonnull IVehicleAccess access);
 
 	/**
 	 * Update the vehicle handler for the specific

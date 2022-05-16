@@ -358,7 +358,7 @@ public class LaserEntity extends Entity implements IPlayerOwnable {
 
     @Nullable
     private Entity getShooter() {
-        if (shooter == null) return shooter;
+        if (shooter != null) return shooter;
 
         World worldObj = getEntityWorld();
         if (!(worldObj instanceof ServerWorld world)) return null;
@@ -367,7 +367,7 @@ public class LaserEntity extends Entity implements IPlayerOwnable {
 
     @Nullable
     private PlayerEntity getShooterPlayer() {
-        if (shooterPlayer == null) return shooterPlayer;
+        if (shooterPlayer != null) return shooterPlayer;
 
         Entity shooter = getShooter();
         if (shooter instanceof PlayerEntity p) return shooterPlayer = p;

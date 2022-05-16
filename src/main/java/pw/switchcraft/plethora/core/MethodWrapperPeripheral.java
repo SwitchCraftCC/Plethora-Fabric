@@ -82,7 +82,8 @@ public class MethodWrapperPeripheral extends MethodWrapper implements IDynamicPe
 
         @SuppressWarnings("unchecked")
         FutureMethodResult result = getMethod(method).call((UnbakedContext) full, args);
-        return ObjectUtils.firstNonNull(executor.execute(result, luaContext), MethodResult.of());
+        MethodResult executorResult = executor.execute(result, luaContext);
+        return ObjectUtils.firstNonNull(executorResult, MethodResult.of());
 
 //        RegisteredMethod<?> registeredMethod = getMethod(method);
 //        return luaContext.executeMainThreadTask(() -> registeredMethod.call((UnbakedContext) full, args)

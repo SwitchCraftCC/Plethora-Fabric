@@ -6,13 +6,11 @@ import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.MethodResult;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IWorkMonitor;
-import org.jetbrains.annotations.NotNull;
 import pw.switchcraft.plethora.api.method.FutureMethodResult;
 import pw.switchcraft.plethora.api.method.IResultExecutor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Arrays;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
@@ -52,14 +50,7 @@ public class ComputerAccessExecutor implements IResultExecutor {
 		boolean ok = runner.submit(task);
 		if (!ok) throw new LuaException("Task limit exceeded");
 
-		do {
-			// TODO: is this ok??
-			MethodResult response = new ComputerTaskCallback(taskId).pull;
-			assertAttached();
-		} while (!task.isDone());
-
-		if (task.error != null) throw task.error;
-		return task.result;
+		return new ComputerTaskCallback(taskId, task, this::assertAttached).pull;
 	}
 
 	@Override
@@ -92,17 +83,32 @@ public class ComputerAccessExecutor implements IResultExecutor {
 	private static final class ComputerTaskCallback implements ILuaCallback {
 		private final MethodResult pull = MethodResult.pullEvent(EVENT_NAME, this);
 		private final long taskId;
+		private final Task originalTask;
+		private TaskBody assertAttached;
 
-		private ComputerTaskCallback(long taskId) {
+		private ComputerTaskCallback(long taskId, Task originalTask, TaskBody assertAttached) {
 			this.taskId = taskId;
+			this.originalTask = originalTask;
+			this.assertAttached = assertAttached;
 		}
 
 		@Nonnull
 		@Override
-		public MethodResult resume(Object[] response) {
+		public MethodResult resume(Object[] response) throws LuaException {
 			if (response.length < 2 || !(response[1] instanceof Number id)) return pull;
 			if (id.longValue() != taskId) return pull;
-			return MethodResult.of(Arrays.copyOfRange(response, 1, response.length));
+
+			assertAttached.run();
+			if (!originalTask.isDone()) return pull;
+
+			if (originalTask.error != null) throw originalTask.error;
+			if (originalTask.result != null) return originalTask.result;
+			return MethodResult.of();
+		}
+
+		@FunctionalInterface
+		private interface TaskBody {
+			void run() throws LuaException;
 		}
 	}
 

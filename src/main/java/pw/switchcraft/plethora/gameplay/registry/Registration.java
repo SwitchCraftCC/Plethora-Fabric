@@ -12,6 +12,7 @@ import net.minecraft.util.registry.Registry;
 import pw.switchcraft.plethora.Plethora;
 import pw.switchcraft.plethora.api.PlethoraEvents;
 import pw.switchcraft.plethora.api.module.IModuleContainer;
+import pw.switchcraft.plethora.api.module.IModuleRegistry;
 import pw.switchcraft.plethora.gameplay.modules.keyboard.KeyboardModuleItem;
 import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticModuleItem;
 import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticRecipe;
@@ -61,6 +62,10 @@ public final class Registration {
                 IModuleContainer.class,
                 LaserMethods.FIRE
             );
+
+            IModuleRegistry moduleRegistry = api.moduleRegistry();
+            moduleRegistry.registerTurtleUpgrade(new ItemStack(ModItems.LASER_MODULE, 1));
+            // TODO: Introspection, scanner, sensor, creative chat
         });
     }
 

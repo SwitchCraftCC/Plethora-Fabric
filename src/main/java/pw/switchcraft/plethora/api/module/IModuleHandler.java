@@ -1,5 +1,8 @@
 package pw.switchcraft.plethora.api.module;
 
+import dan200.computercraft.api.client.TransformedModel;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import pw.switchcraft.plethora.api.method.IContextBuilder;
@@ -27,5 +30,14 @@ public interface IModuleHandler {
      */
     void getAdditionalContext(@Nonnull ItemStack stack, @Nonnull IModuleAccess access, @Nonnull IContextBuilder builder);
 
-    // TODO: Implement getModel or just always delegate to the vanilla item renderer?
+    /**
+     * Get a model from this stack
+     *
+     * @param delta A tick based offset. Can used to animate the model.
+     * @return A baked model and its transformation
+     * @see TransformedModel
+     */
+    @Nonnull
+    @Environment(EnvType.CLIENT)
+    TransformedModel getModel(float delta);
 }

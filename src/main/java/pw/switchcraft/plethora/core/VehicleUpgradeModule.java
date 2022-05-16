@@ -1,5 +1,6 @@
 package pw.switchcraft.plethora.core;
 
+import dan200.computercraft.api.client.TransformedModel;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -33,22 +34,11 @@ public class VehicleUpgradeModule implements IVehicleUpgradeHandler {
 		this.handler = handler;
 	}
 
-	// TODO: getModel
-//	@Nonnull
-//	@Override
-//	@SideOnly(Side.CLIENT)
-//	public Pair<IBakedModel, Matrix4f> getModel(@Nonnull IVehicleAccess access) {
-//		Pair<IBakedModel, Matrix4f> model = handler.getModel(0);
-//
-//		Matrix4f transform = new Matrix4f();
-//		transform.setIdentity();
-//
-//		// Center the view (-0.5) and then move half a pixel back out.
-//		transform.setTranslation(new Vector3f(0, 0, -0.5f + (1 / 32.0f)));
-//
-//		transform.mul(transform, model.getRight());
-//		return Pair.of(model.getLeft(), transform);
-//	}
+	@Nonnull
+	@Override
+	public TransformedModel getModel(@Nonnull IVehicleAccess access) {
+		return handler.getModel(0); // TODO
+	}
 
 	@Override
 	public void update(@Nonnull IVehicleAccess vehicle, @Nonnull IPeripheral peripheral) {

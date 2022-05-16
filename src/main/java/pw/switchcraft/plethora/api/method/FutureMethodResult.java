@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.concurrent.Callable;
 
 public final class FutureMethodResult {
-	private static final FutureMethodResult empty = new FutureMethodResult(null);
+	private static final FutureMethodResult empty = new FutureMethodResult(MethodResult.of());
 
 	private final MethodResult result;
 	private final Callable<FutureMethodResult> next;
