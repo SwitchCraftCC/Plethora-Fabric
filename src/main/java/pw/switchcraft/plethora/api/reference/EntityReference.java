@@ -3,7 +3,7 @@ package pw.switchcraft.plethora.api.reference;
 import dan200.computercraft.api.lua.LuaException;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.world.ServerWorld;
+import pw.switchcraft.plethora.util.EntityHelpers;
 
 import javax.annotation.Nonnull;
 import java.lang.ref.WeakReference;
@@ -30,7 +30,7 @@ public class EntityReference<T extends Entity> implements ConstantReference<T> {
 		T entity = this.entity.get();
 
 		if (entity == null || entity.isRemoved() || entity.getEntityWorld().getEntityById(entity.getId()) != entity) {
-			entity = (T) getEntityFromUuid(server, id);
+			entity = (T) EntityHelpers.getEntityFromUuid(server, id);
 			if (entity == null || entity.isRemoved()) throw new LuaException("The entity is no longer there");
 
 			this.entity = new WeakReference<>(entity);
@@ -46,16 +46,5 @@ public class EntityReference<T extends Entity> implements ConstantReference<T> {
 		if (value == null || value.isRemoved()) throw new LuaException("The entity is no longer there");
 
 		return value;
-	}
-
-	private static Entity getEntityFromUuid(MinecraftServer server, UUID uuid) {
-		for (ServerWorld world : server.getWorlds()) {
-			if (world != null) {
-				Entity entity = world.getEntity(uuid);
-				if (entity != null) return entity;
-			}
-		}
-
-		return null;
 	}
 }

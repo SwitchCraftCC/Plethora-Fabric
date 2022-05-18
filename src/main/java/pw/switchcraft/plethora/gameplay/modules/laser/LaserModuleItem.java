@@ -23,7 +23,7 @@ public class LaserModuleItem extends ModuleItem implements IModuleHandler {
     private static final int MAX_TICKS = 72000;
     private static final int USE_TICKS = 30;
 
-    private static final Identifier MODULE_ID = new Identifier(MOD_ID, "module_laser");
+    static final Identifier MODULE_ID = new Identifier(MOD_ID, "module_laser");
 
     /**
      * We multiply the gaussian by this number.

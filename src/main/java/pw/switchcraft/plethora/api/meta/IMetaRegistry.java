@@ -1,6 +1,7 @@
 package pw.switchcraft.plethora.api.meta;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -17,4 +18,7 @@ public interface IMetaRegistry {
 	 */
 	@Nonnull
 	List<IMetaProvider<?>> getMetaProviders(@Nonnull Class<?> target);
+
+	// TODO: javadoc
+	<T> void registerMetaProvider(@Nonnull String name, @Nullable String mod, @Nonnull Class<?> target, @Nonnull T value);
 }

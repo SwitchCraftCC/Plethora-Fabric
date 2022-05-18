@@ -6,6 +6,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import pw.switchcraft.plethora.api.reference.ConstantReference;
 
 import javax.annotation.Nonnull;
@@ -68,5 +69,13 @@ public final class WorldLocation implements ConstantReference<IWorldLocation>, I
     @Override
     public IWorldLocation safeGet() {
         return new WorldLocation(getWorld(), getLoc());
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+            .append("world", world)
+            .append("loc", loc)
+            .toString();
     }
 }

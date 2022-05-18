@@ -11,13 +11,11 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import pw.switchcraft.plethora.Plethora;
 import pw.switchcraft.plethora.api.PlethoraEvents;
-import pw.switchcraft.plethora.api.module.IModuleContainer;
 import pw.switchcraft.plethora.api.module.IModuleRegistry;
 import pw.switchcraft.plethora.gameplay.modules.keyboard.KeyboardModuleItem;
 import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticModuleItem;
 import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticRecipe;
 import pw.switchcraft.plethora.gameplay.modules.laser.LaserEntity;
-import pw.switchcraft.plethora.gameplay.modules.laser.LaserMethods;
 import pw.switchcraft.plethora.gameplay.modules.laser.LaserModuleItem;
 import pw.switchcraft.plethora.gameplay.modules.laser.LaserRecipe;
 import pw.switchcraft.plethora.gameplay.modules.scanner.ScannerModuleItem;
@@ -57,15 +55,14 @@ public final class Registration {
             ModScreens.NEURAL_INTERFACE_HANDLER_TYPE);
 
         PlethoraEvents.REGISTER.register(api -> {
-            api.methodRegistry().registerMethod(
-                new Identifier(MOD_ID, "laser_fire"), // TODO: should we just reflect names?
-                IModuleContainer.class,
-                LaserMethods.FIRE
-            );
+            MetaRegistration.registerPlethoraMetaProviders(api.metaRegistry());
+            MethodRegistration.registerPlethoraMethods(api.methodRegistry());
 
             IModuleRegistry moduleRegistry = api.moduleRegistry();
             moduleRegistry.registerTurtleUpgrade(new ItemStack(ModItems.LASER_MODULE, 1));
-            // TODO: Introspection, scanner, sensor, creative chat
+            moduleRegistry.registerTurtleUpgrade(new ItemStack(ModItems.SCANNER_MODULE, 1));
+            moduleRegistry.registerTurtleUpgrade(new ItemStack(ModItems.SENSOR_MODULE, 1));
+            // TODO: Introspection, creative chat
         });
     }
 

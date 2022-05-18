@@ -13,8 +13,7 @@ public final class API implements PlethoraAPI.IPlethoraAPI {
 
 	@Override
 	public IMetaRegistry metaRegistry() {
-		return null; // TODO: Meta registry
-		// return MetaRegistry.instance;
+		return MetaRegistry.instance;
 	}
 
 	@Override

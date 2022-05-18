@@ -36,7 +36,7 @@ public class PlethoraCore {
     }
 
     static void buildRegistries() {
-        // MetaRegistry.instance.build();
+        MetaRegistry.instance.build();
         MethodRegistry.instance.build();
     }
 }

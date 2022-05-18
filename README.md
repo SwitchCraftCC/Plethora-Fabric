@@ -12,7 +12,7 @@ ongoing.
 - [ ] Keyboard
 - [x] Neural interface
   - [ ] Peripheral API
-  - [ ] Module API
+  - [x] Module API
 
 ### Peripheral modules
 - [ ] Manipulator
@@ -20,19 +20,23 @@ ongoing.
 - [ ] Overlay glasses
 - [ ] Introspection nodule
 - [ ] Kinetic augment
-- [ ] Frickin' laser beam
+- [x] Frickin' laser beam
 - [ ] Block scanner
-- [ ] Entity sensor
+- [x] Entity sensor
 - [ ] Redstone integrator
 
 ### Other features
 - [ ] Minecart computer
-- [ ] Cost system
+- [x] Turtle upgrades
+- [ ] Pocket upgrades
+- [ ] Vehicle upgrades
+- [x] Cost system
+  - [ ] Config
 - [ ] Module blacklist & method configuration
 - [ ] Recipe book advancements
 
 ### Integration
-- [ ] API
+- [x] API
 - [ ] ComputerCraft integration (?)
 - [ ] Vanilla integration (?)
 

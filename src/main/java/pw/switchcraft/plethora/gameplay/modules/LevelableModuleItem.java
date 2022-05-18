@@ -7,7 +7,10 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import pw.switchcraft.plethora.api.method.IContextBuilder;
+import pw.switchcraft.plethora.api.module.IModuleAccess;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public abstract class LevelableModuleItem extends ModuleItem {
@@ -32,9 +35,9 @@ public abstract class LevelableModuleItem extends ModuleItem {
     }
 
     public static int getLevel(ItemStack stack) {
-        if (stack == null) return 0;
-        NbtCompound tag = stack.getNbt();
-        return tag != null && tag.contains("level", NbtCompound.NUMBER_TYPE) ? tag.getInt("level") : 0;
+        if (stack == null || stack.isEmpty()) return 0;
+        NbtCompound nbt = stack.getNbt();
+        return nbt != null && nbt.contains("level", NbtCompound.NUMBER_TYPE) ? nbt.getInt("level") : 0;
     }
 
     public static int getEffectiveRange(int baseRange, int maxRange, int level) {
@@ -56,4 +59,18 @@ public abstract class LevelableModuleItem extends ModuleItem {
 
     public abstract int getBaseRange();
     public abstract int getMaxRange();
+    public abstract int getLevelCost();
+
+    @Override
+    public void getAdditionalContext(@Nonnull ItemStack stack, @Nonnull IModuleAccess access, @Nonnull IContextBuilder builder) {
+        super.getAdditionalContext(stack, access, builder);
+
+        String moduleKey = getModule().toString();
+
+        int level = getLevel(stack);
+        builder.addContext(moduleKey, RangeInfo.of(level,
+            x -> x * getLevelCost(),
+            x -> getEffectiveRange(x, getBaseRange(), getMaxRange())
+        ));
+    }
 }

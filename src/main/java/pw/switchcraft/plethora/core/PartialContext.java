@@ -125,7 +125,6 @@ public class PartialContext<T> implements IPartialContext<T> {
 	@Nonnull
 	@Override
 	public TypedMeta<T, ?> getMeta() {
-		return null; // TODO
-		// return MetaRegistry.instance.getMeta(this);
+		return MetaRegistry.instance.getMeta(this);
 	}
 }

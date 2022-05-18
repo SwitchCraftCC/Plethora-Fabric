@@ -18,14 +18,15 @@ import pw.switchcraft.plethora.util.config.Config;
 
 import javax.annotation.Nonnull;
 
-import static pw.switchcraft.plethora.gameplay.registry.Registration.MOD_ID;
 import static pw.switchcraft.plethora.util.Helpers.normaliseAngle;
 import static pw.switchcraft.plethora.util.config.Config.Laser.maximumPotency;
 import static pw.switchcraft.plethora.util.config.Config.Laser.minimumPotency;
 
 public class LaserMethods {
+    private static final Identifier MODULE_ID = LaserModuleItem.MODULE_ID;
+
     public static final SubtargetedModuleMethod<IWorldLocation> FIRE = SubtargetedModuleMethod.of(
-        "fire", new Identifier(MOD_ID, "module_laser"), IWorldLocation.class,
+        "fire", MODULE_ID, IWorldLocation.class,
         "function(yaw:number, pitch:number, potency:number) -- Fire a laser in a set direction",
         LaserMethods::fire
     );

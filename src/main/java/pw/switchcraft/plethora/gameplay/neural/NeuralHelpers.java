@@ -10,6 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.collection.DefaultedList;
@@ -192,6 +193,12 @@ public class NeuralHelpers {
         @Override
         public NbtCompound getData() {
             return computer.getModuleData(module);
+        }
+
+        @Nonnull
+        @Override
+        public MinecraftServer getServer() {
+            return Objects.requireNonNull(owner.getServer());
         }
 
         @Override

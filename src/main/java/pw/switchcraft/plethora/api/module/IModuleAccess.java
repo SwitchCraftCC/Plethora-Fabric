@@ -1,6 +1,7 @@
 package pw.switchcraft.plethora.api.module;
 
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.MinecraftServer;
 import pw.switchcraft.plethora.api.IWorldLocation;
 
 import javax.annotation.Nonnull;
@@ -48,6 +49,14 @@ public interface IModuleAccess {
      */
     @Nonnull
     NbtCompound getData();
+
+    /**
+     * Get the Minecraft server instance
+     *
+     * @return The server instance
+     */
+    @Nonnull
+    MinecraftServer getServer();
 
     /**
      * Mark the module specific data as dirty

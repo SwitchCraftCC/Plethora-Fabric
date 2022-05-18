@@ -5,18 +5,20 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.UseAction;
+import net.minecraft.util.*;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import pw.switchcraft.plethora.gameplay.modules.ModuleItem;
 import pw.switchcraft.plethora.mixin.ServerPlayNetworkHandlerAdapter;
 
+import javax.annotation.Nonnull;
+
+import static pw.switchcraft.plethora.gameplay.registry.Registration.MOD_ID;
 import static pw.switchcraft.plethora.util.config.Config.Kinetic.*;
 
 public class KineticModuleItem extends ModuleItem {
+    private static final Identifier MODULE_ID = new Identifier(MOD_ID, "module_kinetic");
+
     private static final int MAX_TICKS = 72000;
     private static final int USE_TICKS = 30;
 
@@ -83,5 +85,11 @@ public class KineticModuleItem extends ModuleItem {
         if (launchFloatReset && entity instanceof ServerPlayerEntity spe) {
             ((ServerPlayNetworkHandlerAdapter) spe.networkHandler).setFloatingTicks(0);
         }
+    }
+
+    @Nonnull
+    @Override
+    public Identifier getModule() {
+        return MODULE_ID;
     }
 }

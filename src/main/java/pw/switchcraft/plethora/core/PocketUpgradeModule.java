@@ -8,12 +8,14 @@ import dan200.computercraft.api.pocket.IPocketUpgrade;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import pw.switchcraft.plethora.api.EntityWorldLocation;
 import pw.switchcraft.plethora.api.IPlayerOwnable;
 import pw.switchcraft.plethora.api.IWorldLocation;
@@ -31,6 +33,7 @@ import pw.switchcraft.plethora.util.PlayerHelpers;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Wraps a module item as a pocket upgrade.
@@ -137,8 +140,7 @@ class PocketUpgradeModule implements IPocketUpgrade {
 			}
 
 			// Update the task runner
-			// TODO
-			// methodWrapper.getRunner().update();
+			methodWrapper.getRunner().update();
 		}
 	}
 
@@ -207,6 +209,12 @@ class PocketUpgradeModule implements IPocketUpgrade {
 		@Override
 		public NbtCompound getData() {
 			return access.getUpgradeNBTData();
+		}
+
+		@Nonnull
+		@Override
+		public MinecraftServer getServer() {
+			return Objects.requireNonNull(location.getWorld().getServer()); // TODO
 		}
 
 		@Override
@@ -297,6 +305,16 @@ class PocketUpgradeModule implements IPocketUpgrade {
 		@Override
 		public boolean isConstant() {
 			return true;
+		}
+
+		@Override
+		public String toString() {
+			return new ToStringBuilder(this)
+				.append("pocket", pocket)
+				.append("lastEntity", lastEntity)
+				.append("world", getWorld())
+				.append("loc", getLoc())
+				.toString();
 		}
 	}
 }

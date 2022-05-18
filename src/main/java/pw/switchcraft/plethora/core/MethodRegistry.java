@@ -3,7 +3,6 @@ package pw.switchcraft.plethora.core;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.Direction;
 import pw.switchcraft.plethora.Plethora;
@@ -34,13 +33,14 @@ public final class MethodRegistry implements IMethodRegistry {
 	}
 
 	@Override
-	public <T> void registerMethod(@Nonnull Identifier identifier, @Nonnull Class<T> target, @Nonnull IMethod<T> method) {
-		Objects.requireNonNull(identifier, "identifier cannot be null");
+	public <T> void registerMethod(@Nonnull String mod, @Nonnull String name, @Nonnull Class<T> target, @Nonnull IMethod<T> method) {
+		Objects.requireNonNull(mod, "mod cannot be null");
+		Objects.requireNonNull(name, "name cannot be null");
 		Objects.requireNonNull(target, "target cannot be null");
 		Objects.requireNonNull(method, "method cannot be null");
 
-		Plethora.LOG.debug("Registering method {} for {}", identifier, target);
-		registerMethod(new RegisteredMethod.Impl<>(identifier.getNamespace(), identifier.getPath(), target, method));
+		Plethora.LOG.debug("Registering method {} for {}", mod + ":" + name, target);
+		registerMethod(new RegisteredMethod.Impl<>(mod, name, target, method));
 	}
 
 	public void build() {

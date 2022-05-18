@@ -5,6 +5,7 @@ import dan200.computercraft.api.peripheral.IPeripheral;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import pw.switchcraft.plethora.api.EntityWorldLocation;
@@ -26,6 +27,7 @@ import pw.switchcraft.plethora.core.executor.TaskRunner;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 
 public class VehicleUpgradeModule implements IVehicleUpgradeHandler {
 	private final IModuleHandler handler;
@@ -135,6 +137,12 @@ public class VehicleUpgradeModule implements IVehicleUpgradeHandler {
 		@Override
 		public NbtCompound getData() {
 			return access.getData();
+		}
+
+		@Nonnull
+		@Override
+		public MinecraftServer getServer() {
+			return Objects.requireNonNull(location.getWorld().getServer()); // TODO
 		}
 
 		@Override

@@ -1,6 +1,5 @@
 package pw.switchcraft.plethora.api.method;
 
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 
 import javax.annotation.Nonnull;
@@ -22,5 +21,6 @@ public interface IMethodRegistry {
 	@Nonnull
 	ICostHandler getCostHandler(@Nonnull Object object, @Nullable Direction side);
 
-	<T> void registerMethod(@Nonnull Identifier identifier, @Nonnull Class<T> target, IMethod<T> method);
+	// TODO: javadoc
+	<T> void registerMethod(@Nonnull String mod, @Nonnull String name, @Nonnull Class<T> target, IMethod<T> method);
 }
