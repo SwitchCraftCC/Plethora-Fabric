@@ -25,11 +25,11 @@ public final class MetaRegistry implements IMetaRegistry {
         all.put(provider.value(), provider);
     }
 
-    public <T> void registerMetaProvider(@Nonnull String name, @Nullable String mod, @Nonnull Class<?> target, @Nonnull T value) {
+    public <T extends IMetaProvider<?>> void registerMetaProvider(@Nonnull String name, @Nullable String mod, @Nonnull Class<?> target, @Nonnull T value) {
         Objects.requireNonNull(name, "name cannot be null");
         Objects.requireNonNull(target, "target cannot be null");
         Objects.requireNonNull(value, "value cannot be null");
-        registerMetaProvider(new TargetedRegisteredValue<>(name, mod, target, (IMetaProvider<?>) value));
+        registerMetaProvider(new TargetedRegisteredValue<>(name, mod, target, value));
     }
 
     void build() {

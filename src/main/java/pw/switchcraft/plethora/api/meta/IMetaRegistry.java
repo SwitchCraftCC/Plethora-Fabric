@@ -20,5 +20,5 @@ public interface IMetaRegistry {
 	List<IMetaProvider<?>> getMetaProviders(@Nonnull Class<?> target);
 
 	// TODO: javadoc
-	<T> void registerMetaProvider(@Nonnull String name, @Nullable String mod, @Nonnull Class<?> target, @Nonnull T value);
+	<T extends IMetaProvider<?>> void registerMetaProvider(@Nonnull String name, @Nullable String mod, @Nonnull Class<?> target, @Nonnull T value);
 }

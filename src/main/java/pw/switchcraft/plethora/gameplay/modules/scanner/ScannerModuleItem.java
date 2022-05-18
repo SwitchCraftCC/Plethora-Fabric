@@ -9,7 +9,7 @@ import javax.annotation.Nonnull;
 import static pw.switchcraft.plethora.gameplay.registry.Registration.MOD_ID;
 
 public class ScannerModuleItem extends LevelableModuleItem {
-    private static final Identifier MODULE_ID = new Identifier(MOD_ID, "module_scanner");
+    static final Identifier MODULE_ID = new Identifier(MOD_ID, "module_scanner");
 
     public ScannerModuleItem(Settings settings) {
         super("scanner", settings);

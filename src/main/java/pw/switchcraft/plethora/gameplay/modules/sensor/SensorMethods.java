@@ -34,13 +34,13 @@ public class SensorMethods {
 
     public static final SubtargetedModuleMethod<IWorldLocation> GET_META_BY_ID = SubtargetedModuleMethod.of(
         "getMetaByID", MODULE_ID, IWorldLocation.class,
-        "-- Find a nearby entity by UUID",
+        "function(id:string):table|nil -- Find a nearby entity by UUID",
         SensorMethods::getMetaById
     );
 
     public static final SubtargetedModuleMethod<IWorldLocation> GET_META_BY_NAME = SubtargetedModuleMethod.of(
         "getMetaByName", MODULE_ID, IWorldLocation.class,
-        "-- Find a nearby entity by name",
+        "function(name:string):table|nil -- Find a nearby entity by name",
         SensorMethods::getMetaByName
     );
 

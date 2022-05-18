@@ -64,7 +64,7 @@ public final class ContextFactory<T> implements IContextFactory<T>, IContextBuil
 		keys.add(key);
 		values.add(baked);
 		references.add(reference);
-		// ConverterRegistry.instance.extendConverted(keys, values, references, values.size() - 1);
+		ConverterRegistry.instance.extendConverted(keys, values, references, values.size() - 1);
 
 		dirty();
 		return this;
@@ -79,7 +79,7 @@ public final class ContextFactory<T> implements IContextFactory<T>, IContextBuil
 		keys.add(key);
 		values.add(object);
 		references.add(object);
-		// ConverterRegistry.instance.extendConverted(keys, values, references, values.size() - 1);
+		ConverterRegistry.instance.extendConverted(keys, values, references, values.size() - 1);
 
 		dirty();
 		return this;
@@ -130,7 +130,7 @@ public final class ContextFactory<T> implements IContextFactory<T>, IContextBuil
 			combinedKeysList.add(ContextKeys.TARGET);
 			combinedValuesList.add(targetValue);
 			combinedReferencesList.add(targetReference);
-			// ConverterRegistry.instance.extendConverted(combinedKeysList, combinedValuesList, combinedReferencesList, combinedKeysList.size() - 1);
+			ConverterRegistry.instance.extendConverted(combinedKeysList, combinedValuesList, combinedReferencesList, combinedKeysList.size() - 1);
 
 			combinedKeys = combinedKeysList.toArray(new String[0]);
 			combinedValues = combinedValuesList.toArray();

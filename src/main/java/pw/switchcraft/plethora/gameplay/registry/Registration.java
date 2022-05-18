@@ -24,6 +24,8 @@ import pw.switchcraft.plethora.gameplay.neural.NeuralConnectorItem;
 import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceItem;
 import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenFactory;
 import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler;
+import pw.switchcraft.plethora.integration.vanilla.registry.VanillaConverterRegistration;
+import pw.switchcraft.plethora.integration.vanilla.registry.VanillaMetaRegistration;
 
 import java.util.function.Function;
 
@@ -55,13 +57,18 @@ public final class Registration {
             ModScreens.NEURAL_INTERFACE_HANDLER_TYPE);
 
         PlethoraEvents.REGISTER.register(api -> {
-            MetaRegistration.registerPlethoraMetaProviders(api.metaRegistry());
-            MethodRegistration.registerPlethoraMethods(api.methodRegistry());
+            // Vanilla registration
+            VanillaConverterRegistration.registerConverters(api.converterRegistry());
+            VanillaMetaRegistration.registerMetaProviders(api.metaRegistry());
+
+            // Plethora registration
+            PlethoraMethodRegistration.registerMethods(api.methodRegistry());
 
             IModuleRegistry moduleRegistry = api.moduleRegistry();
             moduleRegistry.registerTurtleUpgrade(new ItemStack(ModItems.LASER_MODULE, 1));
             moduleRegistry.registerTurtleUpgrade(new ItemStack(ModItems.SCANNER_MODULE, 1));
             moduleRegistry.registerTurtleUpgrade(new ItemStack(ModItems.SENSOR_MODULE, 1));
+            // TODO: Pocket upgrades
             // TODO: Introspection, creative chat
         });
     }

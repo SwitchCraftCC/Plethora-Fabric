@@ -49,7 +49,7 @@ public final class Context<T> extends PartialContext<T> implements IContext<T> {
 		keys.add(ContextKeys.TARGET);
 		references.add(targetReference);
 		values.add(target);
-		// ConverterRegistry.instance.extendConverted(keys, values, references, this.values.length);
+		ConverterRegistry.instance.extendConverted(keys, values, references, this.values.length);
 
 		return new Context<>(
 			new UnbakedContext<>(this.keys.length, keys.toArray(new String[0]), references.toArray(),

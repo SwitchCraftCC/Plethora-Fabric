@@ -1,5 +1,6 @@
 package pw.switchcraft.plethora.api;
 
+import pw.switchcraft.plethora.api.converter.IConverterRegistry;
 import pw.switchcraft.plethora.api.meta.IMetaRegistry;
 import pw.switchcraft.plethora.api.method.IMethodRegistry;
 import pw.switchcraft.plethora.api.module.IModuleRegistry;
@@ -14,9 +15,11 @@ public final class PlethoraAPI {
     }
 
     public interface IPlethoraAPI {
-        IMethodRegistry methodRegistry();
+        IConverterRegistry converterRegistry();
 
         IMetaRegistry metaRegistry();
+
+        IMethodRegistry methodRegistry();
 
         IModuleRegistry moduleRegistry();
     }

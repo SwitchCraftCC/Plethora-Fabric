@@ -21,7 +21,7 @@ ongoing.
 - [ ] Introspection nodule
 - [ ] Kinetic augment
 - [x] Frickin' laser beam
-- [ ] Block scanner
+- [x] Block scanner
 - [x] Entity sensor
 - [ ] Redstone integrator
 

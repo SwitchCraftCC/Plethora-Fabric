@@ -105,7 +105,7 @@ public class PartialContext<T> implements IPartialContext<T> {
 		// Add the new target and convert it.
 		keys.add(ContextKeys.TARGET);
 		values.add(target);
-		// ConverterRegistry.instance.extendConverted(keys, values, this.values.length);
+		ConverterRegistry.instance.extendConverted(keys, values, this.values.length);
 
 		return new PartialContext<>(this.values.length, keys.toArray(new String[0]), values.toArray(), handler, modules);
 	}
