@@ -8,12 +8,10 @@ import pw.switchcraft.plethora.api.converter.IConverter;
 import pw.switchcraft.plethora.api.converter.IConverterRegistry;
 import pw.switchcraft.plethora.api.reference.BlockReference;
 
-import static pw.switchcraft.plethora.gameplay.registry.Registration.MOD_ID;
 import static pw.switchcraft.plethora.integration.vanilla.converter.VanillaConverters.*;
 
 public class VanillaConverterRegistration {
     public static void registerConverters(IConverterRegistry r) {
-        // TODO: Move vanilla registration to ../../integration/vanilla
         converter(r, "getStackItem", ItemStack.class, GET_STACK_ITEM);
         converter(r, "getBlockReferenceBlock", BlockReference.class, GET_BLOCK_REFERENCE_BLOCK);
         converter(r, "getBlockReferenceBlockEntity", BlockReference.class, GET_BLOCK_REFERENCE_BLOCK_ENTITY);
@@ -23,6 +21,6 @@ public class VanillaConverterRegistration {
     }
 
     private static <T> void converter(IConverterRegistry r, String name, Class<T> target, IConverter<T, ?> provider) {
-        r.registerConverter(name, MOD_ID, target, provider);
+        r.registerConverter(name, "minecraft", target, provider);
     }
 }

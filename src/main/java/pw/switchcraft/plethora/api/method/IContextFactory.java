@@ -30,8 +30,8 @@ public interface IContextFactory<T> {
     @Nonnull
     IContextFactory<T> withCostHandler(@Nonnull ICostHandler handler);
 
-//    @Nonnull
-//    IContextFactory<T> withExecutor(@Nonnull IResultExecutor executor);
+    @Nonnull
+    IContextFactory<T> withExecutor(@Nonnull IResultExecutor executor);
 
     /**
      * Create a new context with different modules but the same context

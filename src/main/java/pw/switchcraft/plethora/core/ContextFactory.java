@@ -95,15 +95,15 @@ public final class ContextFactory<T> implements IContextFactory<T>, IContextBuil
 		return this;
 	}
 
-//	@Nonnull
-//	@Override
-//	public ContextFactory<T> withExecutor(@Nonnull IResultExecutor executor) {
-//		Objects.requireNonNull(executor, "executor cannot be null");
-//		this.executor = executor;
-//
-//		dirty();
-//		return this;
-//	}
+	@Nonnull
+	@Override
+	public ContextFactory<T> withExecutor(@Nonnull IResultExecutor executor) {
+		Objects.requireNonNull(executor, "executor cannot be null");
+		this.executor = executor;
+
+		dirty();
+		return this;
+	}
 
 	@Nonnull
 	@Override

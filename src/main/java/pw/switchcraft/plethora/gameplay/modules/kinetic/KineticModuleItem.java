@@ -17,7 +17,7 @@ import static pw.switchcraft.plethora.gameplay.registry.Registration.MOD_ID;
 import static pw.switchcraft.plethora.util.config.Config.Kinetic.*;
 
 public class KineticModuleItem extends ModuleItem {
-    private static final Identifier MODULE_ID = new Identifier(MOD_ID, "module_kinetic");
+    private static final Identifier MODULE_ID = new Identifier(MOD_ID, "kinetic");
 
     private static final int MAX_TICKS = 72000;
     private static final int USE_TICKS = 30;

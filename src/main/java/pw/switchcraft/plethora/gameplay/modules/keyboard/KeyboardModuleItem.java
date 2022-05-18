@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 import static pw.switchcraft.plethora.gameplay.registry.Registration.MOD_ID;
 
 public class KeyboardModuleItem extends ModuleItem {
-    private static final Identifier MODULE_ID = new Identifier(MOD_ID, "module_keyboard");
+    private static final Identifier MODULE_ID = new Identifier(MOD_ID, "keyboard");
 
     public KeyboardModuleItem(Settings settings) {
         super("keyboard", settings);

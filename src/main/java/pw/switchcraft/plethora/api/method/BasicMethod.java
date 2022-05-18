@@ -1,6 +1,8 @@
 package pw.switchcraft.plethora.api.method;
 
 import com.google.common.base.Strings;
+import dan200.computercraft.api.lua.IArguments;
+import dan200.computercraft.api.lua.LuaException;
 
 import javax.annotation.Nonnull;
 
@@ -20,6 +22,17 @@ public abstract class BasicMethod<T> implements IMethod<T> {
 		this.name = name;
 		this.priority = priority;
 		this.docs = Strings.isNullOrEmpty(docs) ? null : docs;
+	}
+
+	public static <T> BasicMethod<T> of(String name, String docs, Delegate<T> delegate) {
+		return new BasicMethod<>(name, docs) {
+			@Nonnull
+			@Override
+			public FutureMethodResult apply(@Nonnull IUnbakedContext<T> context,
+											@Nonnull IArguments args) throws LuaException {
+				return delegate.apply(context, args);
+			}
+		};
 	}
 
 	@Nonnull

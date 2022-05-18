@@ -62,6 +62,7 @@ public final class Registration {
             VanillaMetaRegistration.registerMetaProviders(api.metaRegistry());
 
             // Plethora registration
+            PlethoraMetaRegistration.registerMetaProviders(api.metaRegistry());
             PlethoraMethodRegistration.registerMethods(api.methodRegistry());
 
             IModuleRegistry moduleRegistry = api.moduleRegistry();

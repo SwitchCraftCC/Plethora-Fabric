@@ -37,8 +37,9 @@ ongoing.
 
 ### Integration
 - [x] API
-- [ ] ComputerCraft integration (?)
-- [ ] Vanilla integration (?)
+- [ ] ComputerCraft integration
+- [x] Vanilla integration
+  - [ ] Vanilla modules (daylight sensor, clock, note block) 
 
 # Plethora (original Forge readme)
 
