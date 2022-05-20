@@ -64,7 +64,6 @@ public class LaserMethods {
             if (context.hasContext(BlockEntity.class) || context.hasContext(ITurtleAccess.class)) {
                 double vOff = 0.3; // The laser is 0.25 high, so we add a little more.
 
-                // TODO
                 // Offset positions to be around the edge of the manipulator. Avoids breaking the manipulator and the
                 // block below/above in most cases.
                 // Also offset to be just above/below the manipulator, depending on the pitch.

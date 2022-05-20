@@ -152,7 +152,7 @@ public class LaserEntity extends Entity implements IPlayerOwnable {
 
     @Override
     public void writeCustomDataToNbt(NbtCompound nbt) {
-        // TODO: implement PlayerHelpers and write shooterOwner
+        PlayerHelpers.writeProfile(nbt, shooterOwner);
         if (shooterPos != null) nbt.put("shooterPos", shooterPos.serializeNbt());
         nbt.putFloat("potency", potency);
     }
@@ -161,7 +161,7 @@ public class LaserEntity extends Entity implements IPlayerOwnable {
     public void readCustomDataFromNbt(NbtCompound nbt) {
         shooter = null;
         shooterPlayer = null;
-        shooterOwner = null; // TODO: implement PlayerHelpers and read shooterOwner
+        shooterOwner = PlayerHelpers.readProfile(nbt);
 
         if (nbt.contains("shooterPos", NbtType.COMPOUND)) {
             shooterPos = WorldPosition.deserializeNbt(nbt.getCompound("shooterPos"));

@@ -4,8 +4,11 @@ import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
+import java.util.Random;
 
 public final class Helpers {
+    public static final Random RANDOM = new Random();
+
     public static int hashStack(@Nonnull ItemStack stack) {
         return Objects.hash(stack.getItem(), stack.getNbt());
     }

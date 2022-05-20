@@ -27,14 +27,20 @@ public abstract class SubtargetedModuleMethod<T> extends ModuleContainerMethod {
 		this.klass = klass;
 	}
 
-	public static <T> SubtargetedModuleMethod<T> of(String name, Identifier module, Class<T> klass, String docs, Delegate<IModuleContainer> delegate) {
+	public static <T> SubtargetedModuleMethod<T> of(String name, Identifier module, Class<T> klass, String docs, Delegate<IModuleContainer> delegate, boolean worldThread) {
 		return new SubtargetedModuleMethod<T>(name, Collections.singleton(module), klass, docs) {
 			@Nonnull
 			@Override
 			public FutureMethodResult apply(@Nonnull IUnbakedContext<IModuleContainer> context, @Nonnull IArguments args) throws LuaException {
-				return delegate.apply(context, args);
+				return worldThread
+					? FutureMethodResult.nextTick(() -> delegate.apply(context, args))
+					: delegate.apply(context, args);
 			}
 		};
+	}
+
+	public static <T> SubtargetedModuleMethod<T> of(String name, Identifier module, Class<T> klass, String docs, Delegate<IModuleContainer> delegate) {
+		return of(name, module, klass, docs, delegate, true);
 	}
 
 	@Override

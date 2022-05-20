@@ -5,7 +5,9 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
@@ -14,11 +16,14 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import pw.switchcraft.plethora.Plethora;
+import pw.switchcraft.plethora.gameplay.client.block.ManipulatorOutlineRenderer;
+import pw.switchcraft.plethora.gameplay.client.block.ManipulatorRenderer;
 import pw.switchcraft.plethora.gameplay.client.entity.LaserRenderer;
 import pw.switchcraft.plethora.gameplay.client.gui.GuiNeuralInterface;
 import pw.switchcraft.plethora.gameplay.client.neural.NeuralInterfaceTrinketRenderer;
 import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler;
 import pw.switchcraft.plethora.gameplay.registry.Registration;
+import pw.switchcraft.plethora.gameplay.registry.Registration.ModBlockEntities;
 import pw.switchcraft.plethora.util.EntitySpawnPacket;
 
 import java.util.UUID;
@@ -31,7 +36,11 @@ public class PlethoraClient implements ClientModInitializer {
     public void onInitializeClient() {
         Plethora.LOG.info("Initializing client...");
 
+        // Renderers
         EntityRendererRegistry.register(Registration.LASER_ENTITY, LaserRenderer::new);
+        BlockEntityRendererRegistry.register(ModBlockEntities.MANIPULATOR_MARK_1, ManipulatorRenderer::new);
+        BlockEntityRendererRegistry.register(ModBlockEntities.MANIPULATOR_MARK_2, ManipulatorRenderer::new);
+        TrinketRendererRegistry.registerRenderer(Registration.ModItems.NEURAL_INTERFACE, new NeuralInterfaceTrinketRenderer());
 
         // These generics are required even if IDEA says they're not
         HandledScreens.<NeuralInterfaceScreenHandler, GuiNeuralInterface>register(Registration.ModScreens.NEURAL_INTERFACE_HANDLER_TYPE, GuiNeuralInterface::new);
@@ -73,6 +82,7 @@ public class PlethoraClient implements ClientModInitializer {
            }
         });
 
-        TrinketRendererRegistry.registerRenderer(Registration.ModItems.NEURAL_INTERFACE, new NeuralInterfaceTrinketRenderer());
+        // Custom outline renderer for the manipulator
+        WorldRenderEvents.BLOCK_OUTLINE.register(ManipulatorOutlineRenderer::onBlockOutline);
     }
 }

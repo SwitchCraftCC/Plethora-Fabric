@@ -24,15 +24,21 @@ public abstract class BasicMethod<T> implements IMethod<T> {
 		this.docs = Strings.isNullOrEmpty(docs) ? null : docs;
 	}
 
-	public static <T> BasicMethod<T> of(String name, String docs, Delegate<T> delegate) {
+	public static <T> BasicMethod<T> of(String name, String docs, Delegate<T> delegate, boolean worldThread) {
 		return new BasicMethod<>(name, docs) {
 			@Nonnull
 			@Override
 			public FutureMethodResult apply(@Nonnull IUnbakedContext<T> context,
 											@Nonnull IArguments args) throws LuaException {
-				return delegate.apply(context, args);
+				return worldThread
+					? FutureMethodResult.nextTick(() -> delegate.apply(context, args))
+					: delegate.apply(context, args);
 			}
 		};
+	}
+
+	public static <T> BasicMethod<T> of(String name, String docs, Delegate<T> delegate) {
+		return of(name, docs, delegate, true);
 	}
 
 	@Nonnull

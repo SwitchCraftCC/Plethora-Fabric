@@ -36,7 +36,7 @@ import java.util.UUID;
  * me passing in normal players.
  */
 public abstract class FakePlayer extends ServerPlayerEntity {
-    public FakePlayer( ServerWorld world, GameProfile profile) {
+    public FakePlayer(ServerWorld world, GameProfile profile) {
         super(world.getServer(), world, profile);
         networkHandler = new FakeNetworkHandler(this);
     }
@@ -113,4 +113,9 @@ public abstract class FakePlayer extends ServerPlayerEntity {
     public void sendUnloadChunkPacket(ChunkPos chunkPos) {}
     @Override
     public void playSound(SoundEvent event, SoundCategory category, float volume, float pitch) {}
+
+    @Override
+    public boolean isCreative() {
+        return true; // Prevent mobs from targeting the fake player
+    }
 }

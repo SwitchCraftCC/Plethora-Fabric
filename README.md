@@ -15,7 +15,7 @@ ongoing.
   - [x] Module API
 
 ### Peripheral modules
-- [ ] Manipulator
+- [x] Manipulator
 - [ ] Chat recorder
 - [ ] Overlay glasses
 - [ ] Introspection nodule

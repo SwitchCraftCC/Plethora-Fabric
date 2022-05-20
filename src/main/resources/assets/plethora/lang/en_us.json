@@ -1,6 +1,11 @@
 {
   "itemGroup.plethora.main": "Plethora",
 
+  "block.plethora.manipulator_mark_1": "Manipulator Mk I",
+  "block.plethora.manipulator_mark_2": "Manipulator Mk II",
+  "block.plethora.manipulator_mark_1.desc": "Used to interface with a module from a computer",
+  "block.plethora.manipulator_mark_2.desc": "Used to interface with multiple modules from a computer",
+
   "item.plethora.neuralConnector": "Neural connector",
   "item.plethora.neuralConnector.desc": "Used to connect to Neural Interfaces",
 

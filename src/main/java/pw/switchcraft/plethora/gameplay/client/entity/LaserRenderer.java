@@ -23,7 +23,7 @@ public class LaserRenderer extends EntityRenderer<LaserEntity> {
     private static final ManagedCoreShader shader = ShaderEffectManager.getInstance()
         .manageCoreShader(new Identifier(MOD_ID, "laser"));
 
-    private static final RenderLayer LAYER = shader.getRenderLayer(RenderLayerHelper.copy(
+    public static final RenderLayer LAYER = shader.getRenderLayer(RenderLayerHelper.copy(
         RenderLayer.getTranslucent(),
         "laser_render_layer",
         b -> b.cull(RenderPhase.DISABLE_CULLING)
