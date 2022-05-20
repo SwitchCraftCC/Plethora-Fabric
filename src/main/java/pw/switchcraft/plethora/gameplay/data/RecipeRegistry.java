@@ -23,7 +23,7 @@ public class RecipeRegistry {
 //            .pattern("RGR")
 //            .input('P', Blocks.PISTON)
 //            .input('R', ConventionalItemTags.REDSTONE_DUSTS)
-//            .input('B', Blocks.PISTON) // TODO: IngredientBrew
+//            .input('B', Blocks.PISTON)
 //            .input('G', ConventionalItemTags.GOLD_INGOTS)
 //            .criterion("has_redstone", inventoryChange(ConventionalItemTags.REDSTONE_DUSTS)) // TODO
 //            .offerTo(exporter);
