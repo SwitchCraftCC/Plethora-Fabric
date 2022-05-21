@@ -44,6 +44,9 @@ public final class Config {
         @Comment("The maximum velocity the kinetic manipulator can apply to you.")
         public static int launchMax = 4;
 
+        @Comment("The cost per launch power.")
+        public static int launchCost = 0;
+
         @Comment("The value to scale the y velocity by, helps limit how high the player can go.")
         public static double launchYScale = 0.5;
 

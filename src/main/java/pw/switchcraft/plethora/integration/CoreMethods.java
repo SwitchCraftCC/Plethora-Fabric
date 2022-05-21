@@ -18,22 +18,6 @@ public final class CoreMethods {
         "listModules", "function():table -- Lists all modules available",
         CoreMethods::listModules
     );
-
-    public static final BasicMethod<IModuleContainer> HAS_MODULE = BasicMethod.of(
-        "hasModule", "function(module:string):boolean -- Checks whether a module is available",
-        CoreMethods::hasModule
-    );
-
-    public static final BasicMethod<IModuleContainer> FILTER_MODULES = BasicMethod.of(
-        "filterModules", "function(names:string...):table|nil -- Gets the methods which require these modules",
-        CoreMethods::filterModules
-    );
-
-    public static final BasicMethod<IMethodCollection> GET_DOCS = BasicMethod.of(
-        "getDocs", "function([name: string]):string|table -- Get the documentation for all functions or the function specified. Errors if the function cannot be found.",
-        CoreMethods::getDocs
-    );
-
     public static FutureMethodResult listModules(@Nonnull IUnbakedContext<IModuleContainer> unbaked,
                                                  @Nonnull IArguments args) throws LuaException {
         IModuleContainer container = unbaked.bake().getTarget();
@@ -45,6 +29,10 @@ public final class CoreMethods {
         return FutureMethodResult.result(modules);
     }
 
+    public static final BasicMethod<IModuleContainer> HAS_MODULE = BasicMethod.of(
+        "hasModule", "function(module:string):boolean -- Checks whether a module is available",
+        CoreMethods::hasModule
+    );
     public static FutureMethodResult hasModule(@Nonnull IUnbakedContext<IModuleContainer> unbaked,
                                                @Nonnull IArguments args) throws LuaException {
         IModuleContainer container = unbaked.bake().getTarget();
@@ -52,6 +40,10 @@ public final class CoreMethods {
         return FutureMethodResult.result(container.hasModule(new Identifier(module)));
     }
 
+    public static final BasicMethod<IModuleContainer> FILTER_MODULES = BasicMethod.of(
+        "filterModules", "function(names:string...):table|nil -- Gets the methods which require these modules",
+        CoreMethods::filterModules
+    );
     public static FutureMethodResult filterModules(@Nonnull IUnbakedContext<IModuleContainer> unbaked,
                                                    @Nonnull IArguments args) throws LuaException {
         IContext<IModuleContainer> context = unbaked.bake();
@@ -72,6 +64,10 @@ public final class CoreMethods {
         return FutureMethodResult.result(object.getMethodNames().length == 0 ? null : object);
     }
 
+    public static final BasicMethod<IMethodCollection> GET_DOCS = BasicMethod.of(
+        "getDocs", "function([name: string]):string|table -- Get the documentation for all functions or the function specified. Errors if the function cannot be found.",
+        CoreMethods::getDocs
+    );
     public static FutureMethodResult getDocs(@Nonnull IUnbakedContext<IMethodCollection> unbaked,
                                              @Nonnull IArguments args) throws LuaException {
         IMethodCollection methodCollection = unbaked.bake().getTarget();

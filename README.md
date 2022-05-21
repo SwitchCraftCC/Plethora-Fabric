@@ -19,7 +19,7 @@ ongoing.
 - [ ] Chat recorder
 - [ ] Overlay glasses
 - [ ] Introspection nodule
-- [ ] Kinetic augment
+- [x] Kinetic augment
 - [x] Frickin' laser beam
 - [x] Block scanner
 - [x] Entity sensor

@@ -30,10 +30,8 @@ public class LaserMethods {
         "function(yaw:number, pitch:number, potency:number) -- Fire a laser in a set direction",
         LaserMethods::fire
     );
-
-    @Nonnull
     private static FutureMethodResult fire(@Nonnull final IUnbakedContext<IModuleContainer> unbaked,
-                                     @Nonnull IArguments args) throws LuaException {
+                                           @Nonnull IArguments args) throws LuaException {
         double yaw = normaliseAngle(args.getFiniteDouble(0));
         double pitch = normaliseAngle(args.getFiniteDouble(1));
         final float potency = (float) args.getFiniteDouble(2);

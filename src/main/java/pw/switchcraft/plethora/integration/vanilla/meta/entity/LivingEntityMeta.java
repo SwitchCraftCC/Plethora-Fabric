@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.integration.vanilla.entity;
+package pw.switchcraft.plethora.integration.vanilla.meta.entity;
 
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;

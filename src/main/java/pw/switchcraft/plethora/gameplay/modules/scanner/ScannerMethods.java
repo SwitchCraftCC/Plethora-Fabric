@@ -14,7 +14,7 @@ import pw.switchcraft.plethora.api.module.IModuleContainer;
 import pw.switchcraft.plethora.api.module.SubtargetedModuleMethod;
 import pw.switchcraft.plethora.api.reference.BlockReference;
 import pw.switchcraft.plethora.gameplay.modules.RangeInfo;
-import pw.switchcraft.plethora.integration.vanilla.block.BlockStateMeta;
+import pw.switchcraft.plethora.integration.vanilla.meta.block.BlockStateMeta;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -30,15 +30,8 @@ public class ScannerMethods {
         "function():table -- Scan all blocks in the vicinity",
         ScannerMethods::scan
     );
-
-    public static final SubtargetedModuleMethod<IWorldLocation> GET_BLOCK_META = SubtargetedModuleMethod.of(
-        "getBlockMeta", MODULE_ID, IWorldLocation.class,
-        "function(x:integer, y:integer, z:integer):table|nil -- -- Get metadata about a nearby block",
-        ScannerMethods::getBlockMeta
-    );
-
     private static FutureMethodResult scan(@Nonnull IUnbakedContext<IModuleContainer> unbaked,
-                                            @Nonnull IArguments args) throws LuaException {
+                                           @Nonnull IArguments args) throws LuaException {
         ScannerMethodContext ctx = getContext(unbaked);
         World world = ctx.loc.getWorld();
         BlockPos pos = ctx.loc.getPos();
@@ -74,6 +67,11 @@ public class ScannerMethods {
         return result;
     }
 
+    public static final SubtargetedModuleMethod<IWorldLocation> GET_BLOCK_META = SubtargetedModuleMethod.of(
+        "getBlockMeta", MODULE_ID, IWorldLocation.class,
+        "function(x:integer, y:integer, z:integer):table|nil -- -- Get metadata about a nearby block",
+        ScannerMethods::getBlockMeta
+    );
     private static FutureMethodResult getBlockMeta(@Nonnull IUnbakedContext<IModuleContainer> unbaked,
                                                    @Nonnull IArguments args) throws LuaException {
         ScannerMethodContext ctx = getContext(unbaked);

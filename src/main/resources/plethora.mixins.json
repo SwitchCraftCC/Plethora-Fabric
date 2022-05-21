@@ -5,7 +5,11 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "ClientConnectionAccessor",
+    "EntityAccessor",
+    "LivingEntityMixin",
+    "MeleeAttackGoalMixin",
     "RecipeManagerMixin",
+    "ServerPlayerInteractionManagerAccessor",
     "ServerPlayNetworkHandlerAdapter",
     "ShapedRecipeSerializerMixin",
     "ShapelessRecipeSerializerMixin",

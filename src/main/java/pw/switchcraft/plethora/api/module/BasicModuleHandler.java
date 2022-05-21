@@ -31,7 +31,7 @@ public class BasicModuleHandler extends AbstractModuleHandler {
 	public TransformedModel getModel(float delta) {
 		return TransformedModel.of(
 			item.getDefaultStack(),
-			new AffineTransformation(null, Vec3f.POSITIVE_Y.getDegreesQuaternion(delta), null, null)
+			new AffineTransformation(null, Vec3f.POSITIVE_X.getDegreesQuaternion(delta), null, null)
 		);
 	}
 

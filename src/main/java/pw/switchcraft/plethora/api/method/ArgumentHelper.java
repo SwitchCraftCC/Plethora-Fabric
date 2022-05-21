@@ -1,6 +1,10 @@
 package pw.switchcraft.plethora.api.method;
 
+import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.LuaException;
+import net.minecraft.util.Hand;
+
+import java.util.Locale;
 
 /**
  * Various helpers for arguments. These are available in
@@ -17,5 +21,14 @@ public final class ArgumentHelper {
         if (value < min || value > max) {
             throw new LuaException(String.format(message, "between " + min + " and " + max));
         }
+    }
+
+    public static Hand optHand(IArguments args, int index) throws LuaException {
+        String hand = args.optString(index, "main").toLowerCase(Locale.ENGLISH);
+        return switch (hand) {
+            case "main", "mainhand", "right" -> Hand.MAIN_HAND;
+            case "off", "offhand", "left" -> Hand.OFF_HAND;
+            default -> throw new LuaException("Unknown hand '" + hand + "', expected 'main' or 'off'");
+        };
     }
 }

@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.integration.vanilla.item;
+package pw.switchcraft.plethora.integration.vanilla.meta.item;
 
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.item.BannerItem;

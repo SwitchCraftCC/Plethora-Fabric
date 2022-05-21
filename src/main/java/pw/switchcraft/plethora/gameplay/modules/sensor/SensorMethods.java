@@ -15,7 +15,7 @@ import pw.switchcraft.plethora.api.module.IModuleContainer;
 import pw.switchcraft.plethora.api.module.SubtargetedModuleMethod;
 import pw.switchcraft.plethora.api.reference.Reference;
 import pw.switchcraft.plethora.gameplay.modules.RangeInfo;
-import pw.switchcraft.plethora.integration.vanilla.entity.EntityMeta;
+import pw.switchcraft.plethora.integration.vanilla.meta.entity.EntityMeta;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -31,19 +31,6 @@ public class SensorMethods {
         "function():table -- Scan for entities in the vicinity",
         SensorMethods::sense
     );
-
-    public static final SubtargetedModuleMethod<IWorldLocation> GET_META_BY_ID = SubtargetedModuleMethod.of(
-        "getMetaByID", MODULE_ID, IWorldLocation.class,
-        "function(id:string):table|nil -- Find a nearby entity by UUID",
-        SensorMethods::getMetaById
-    );
-
-    public static final SubtargetedModuleMethod<IWorldLocation> GET_META_BY_NAME = SubtargetedModuleMethod.of(
-        "getMetaByName", MODULE_ID, IWorldLocation.class,
-        "function(name:string):table|nil -- Find a nearby entity by name",
-        SensorMethods::getMetaByName
-    );
-
     private static FutureMethodResult sense(@Nonnull IUnbakedContext<IModuleContainer> unbaked,
                                             @Nonnull IArguments args) throws LuaException {
         SensorMethodContext ctx = getContext(unbaked);
@@ -61,6 +48,11 @@ public class SensorMethods {
         });
     }
 
+    public static final SubtargetedModuleMethod<IWorldLocation> GET_META_BY_ID = SubtargetedModuleMethod.of(
+        "getMetaByID", MODULE_ID, IWorldLocation.class,
+        "function(id:string):table|nil -- Find a nearby entity by UUID",
+        SensorMethods::getMetaById
+    );
     private static FutureMethodResult getMetaById(@Nonnull IUnbakedContext<IModuleContainer> unbaked,
                                                   @Nonnull IArguments args) throws LuaException {
         SensorMethodContext ctx = getContext(unbaked);
@@ -73,6 +65,11 @@ public class SensorMethods {
             .getMeta());
     }
 
+    public static final SubtargetedModuleMethod<IWorldLocation> GET_META_BY_NAME = SubtargetedModuleMethod.of(
+        "getMetaByName", MODULE_ID, IWorldLocation.class,
+        "function(name:string):table|nil -- Find a nearby entity by name",
+        SensorMethods::getMetaByName
+    );
     private static FutureMethodResult getMetaByName(@Nonnull IUnbakedContext<IModuleContainer> unbaked,
                                                     @Nonnull IArguments args) throws LuaException {
         SensorMethodContext ctx = getContext(unbaked);

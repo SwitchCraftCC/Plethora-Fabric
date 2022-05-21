@@ -16,6 +16,7 @@ public class ConfigValidator {
         min("laser.lifetime", lifetime);
 
         min("kinetic.launchMax", launchMax);
+        min("kinetic.launchCost", launchCost);
         min("kinetic.launchYScale", launchYScale);
         min("kinetic.launchElytraScale", launchElytraScale);
 

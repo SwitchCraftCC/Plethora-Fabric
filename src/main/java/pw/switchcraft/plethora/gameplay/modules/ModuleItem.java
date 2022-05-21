@@ -36,7 +36,7 @@ public abstract class ModuleItem extends BaseItem implements IModuleHandler {
     public TransformedModel getModel(float delta) {
         return TransformedModel.of(
             this.getDefaultStack(),
-            new AffineTransformation(null, Vec3f.POSITIVE_Y.getDegreesQuaternion(delta), null, null)
+            new AffineTransformation(null, Vec3f.POSITIVE_Y.getDegreesQuaternion((delta - 90) % 360), null, null)
         );
     }
 

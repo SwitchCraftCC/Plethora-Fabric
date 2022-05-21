@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.integration.vanilla.block;
+package pw.switchcraft.plethora.integration.vanilla.meta.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.util.Identifier;

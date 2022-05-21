@@ -10,16 +10,16 @@ import net.minecraft.item.ItemStack;
 import pw.switchcraft.plethora.api.meta.IMetaProvider;
 import pw.switchcraft.plethora.api.meta.IMetaRegistry;
 import pw.switchcraft.plethora.api.reference.BlockReference;
-import pw.switchcraft.plethora.integration.vanilla.block.BlockMeta;
-import pw.switchcraft.plethora.integration.vanilla.block.BlockReferenceMeta;
-import pw.switchcraft.plethora.integration.vanilla.block.BlockStateMeta;
-import pw.switchcraft.plethora.integration.vanilla.entity.EntityMetaProviders;
-import pw.switchcraft.plethora.integration.vanilla.entity.LivingEntityMeta;
-import pw.switchcraft.plethora.integration.vanilla.entity.PlayerEntityMeta;
-import pw.switchcraft.plethora.integration.vanilla.item.ArmorItemMeta;
-import pw.switchcraft.plethora.integration.vanilla.item.BannerItemMeta;
-import pw.switchcraft.plethora.integration.vanilla.item.BasicItemMeta;
-import pw.switchcraft.plethora.integration.vanilla.item.ItemMaterialMeta;
+import pw.switchcraft.plethora.integration.vanilla.meta.block.BlockMeta;
+import pw.switchcraft.plethora.integration.vanilla.meta.block.BlockReferenceMeta;
+import pw.switchcraft.plethora.integration.vanilla.meta.block.BlockStateMeta;
+import pw.switchcraft.plethora.integration.vanilla.meta.entity.EntityMetaProviders;
+import pw.switchcraft.plethora.integration.vanilla.meta.entity.LivingEntityMeta;
+import pw.switchcraft.plethora.integration.vanilla.meta.entity.PlayerEntityMeta;
+import pw.switchcraft.plethora.integration.vanilla.meta.item.ArmorItemMeta;
+import pw.switchcraft.plethora.integration.vanilla.meta.item.BannerItemMeta;
+import pw.switchcraft.plethora.integration.vanilla.meta.item.BasicItemMeta;
+import pw.switchcraft.plethora.integration.vanilla.meta.item.ItemMaterialMeta;
 
 public class VanillaMetaRegistration {
     public static void registerMetaProviders(IMetaRegistry r) {

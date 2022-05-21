@@ -113,9 +113,4 @@ public abstract class FakePlayer extends ServerPlayerEntity {
     public void sendUnloadChunkPacket(ChunkPos chunkPos) {}
     @Override
     public void playSound(SoundEvent event, SoundCategory category, float volume, float pitch) {}
-
-    @Override
-    public boolean isCreative() {
-        return true; // Prevent mobs from targeting the fake player
-    }
 }

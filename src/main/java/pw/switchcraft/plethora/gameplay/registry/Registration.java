@@ -30,6 +30,7 @@ import pw.switchcraft.plethora.gameplay.manipulator.ManipulatorType;
 import pw.switchcraft.plethora.gameplay.modules.keyboard.KeyboardModuleItem;
 import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticModuleItem;
 import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticRecipe;
+import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticTurtleUpgrade;
 import pw.switchcraft.plethora.gameplay.modules.laser.LaserEntity;
 import pw.switchcraft.plethora.gameplay.modules.laser.LaserModuleItem;
 import pw.switchcraft.plethora.gameplay.modules.laser.LaserRecipe;
@@ -42,8 +43,10 @@ import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler;
 import pw.switchcraft.plethora.gameplay.redstone.RedstoneIntegratorBlock;
 import pw.switchcraft.plethora.gameplay.redstone.RedstoneIntegratorBlockEntity;
 import pw.switchcraft.plethora.gameplay.redstone.RedstoneIntegratorTicker;
+import pw.switchcraft.plethora.integration.computercraft.registry.ComputerCraftMethodRegistration;
 import pw.switchcraft.plethora.integration.vanilla.registry.VanillaConverterRegistration;
 import pw.switchcraft.plethora.integration.vanilla.registry.VanillaMetaRegistration;
+import pw.switchcraft.plethora.integration.vanilla.registry.VanillaMethodRegistration;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -82,15 +85,29 @@ public final class Registration {
             // Vanilla registration
             VanillaConverterRegistration.registerConverters(api.converterRegistry());
             VanillaMetaRegistration.registerMetaProviders(api.metaRegistry());
+            VanillaMethodRegistration.registerMethods(api.methodRegistry());
 
             // Plethora registration
             PlethoraMetaRegistration.registerMetaProviders(api.metaRegistry());
             PlethoraMethodRegistration.registerMethods(api.methodRegistry());
 
+            // ComputerCraft integration registration
+            ComputerCraftMethodRegistration.registerMethods(api.methodRegistry());
+
             IModuleRegistry moduleRegistry = api.moduleRegistry();
-            moduleRegistry.registerTurtleUpgrade(new ItemStack(ModItems.LASER_MODULE, 1));
-            moduleRegistry.registerTurtleUpgrade(new ItemStack(ModItems.SCANNER_MODULE, 1));
-            moduleRegistry.registerTurtleUpgrade(new ItemStack(ModItems.SENSOR_MODULE, 1));
+            moduleRegistry.registerTurtleUpgrade(new ItemStack(ModItems.LASER_MODULE));
+            moduleRegistry.registerTurtleUpgrade(new ItemStack(ModItems.SCANNER_MODULE));
+            moduleRegistry.registerTurtleUpgrade(new ItemStack(ModItems.SENSOR_MODULE));
+
+            // Kinetic augment gets a special upgrade.
+            {
+                ItemStack kineticStack = new ItemStack(ModItems.KINETIC_MODULE);
+                ComputerCraftAPI.registerTurtleUpgrade(new KineticTurtleUpgrade(
+                    kineticStack,
+                    ModItems.KINETIC_MODULE,
+                    kineticStack.getTranslationKey() + ".adjective"
+                ));
+            }
 
             ComputerCraftAPI.registerPeripheralProvider(new ManipulatorPeripheral());
 
