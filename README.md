@@ -23,7 +23,7 @@ ongoing.
 - [x] Frickin' laser beam
 - [x] Block scanner
 - [x] Entity sensor
-- [ ] Redstone integrator
+- [x] Redstone integrator
 
 ### Other features
 - [ ] Minecart computer

@@ -39,6 +39,9 @@ import pw.switchcraft.plethora.gameplay.neural.NeuralConnectorItem;
 import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceItem;
 import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenFactory;
 import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler;
+import pw.switchcraft.plethora.gameplay.redstone.RedstoneIntegratorBlock;
+import pw.switchcraft.plethora.gameplay.redstone.RedstoneIntegratorBlockEntity;
+import pw.switchcraft.plethora.gameplay.redstone.RedstoneIntegratorTicker;
 import pw.switchcraft.plethora.integration.vanilla.registry.VanillaConverterRegistration;
 import pw.switchcraft.plethora.integration.vanilla.registry.VanillaMetaRegistration;
 
@@ -95,11 +98,15 @@ public final class Registration {
             // TODO: Introspection, creative chat
         });
 
-        ServerBlockEntityEvents.BLOCK_ENTITY_UNLOAD.register((blockEntity, world) -> {
-            if (blockEntity instanceof BaseBlockEntity base) {
-                base.onChunkUnloaded();
-            }
+        ServerBlockEntityEvents.BLOCK_ENTITY_LOAD.register((blockEntity, world) -> {
+            if (blockEntity instanceof BaseBlockEntity base) base.onChunkLoaded();
         });
+
+        ServerBlockEntityEvents.BLOCK_ENTITY_UNLOAD.register((blockEntity, world) -> {
+            if (blockEntity instanceof BaseBlockEntity base) base.onChunkUnloaded();
+        });
+
+        RedstoneIntegratorTicker.registerEvents();
     }
 
     public static final class ModItems {
@@ -121,6 +128,7 @@ public final class Registration {
 
         public static final BlockItem MANIPULATOR_MARK_1 = ofBlock(ModBlocks.MANIPULATOR_MARK_1, BlockItem::new);
         public static final BlockItem MANIPULATOR_MARK_2 = ofBlock(ModBlocks.MANIPULATOR_MARK_2, BlockItem::new);
+        public static final BlockItem REDSTONE_INTEGRATOR = ofBlock(ModBlocks.REDSTONE_INTEGRATOR, BlockItem::new);
 
         private static Item.Settings properties() {
             return new Item.Settings().group(itemGroup);
@@ -144,6 +152,8 @@ public final class Registration {
             new ManipulatorBlock(properties(), ManipulatorType.MARK_1));
         public static final Block MANIPULATOR_MARK_2 = register("manipulator_mark_2",
             new ManipulatorBlock(properties(), ManipulatorType.MARK_2));
+        public static final Block REDSTONE_INTEGRATOR = register("redstone_integrator",
+            new RedstoneIntegratorBlock(properties()));
 
         private static <T extends Block> T register(String id, T value) {
             return Registry.register(BLOCK, new Identifier(MOD_ID, id), value);
@@ -163,6 +173,9 @@ public final class Registration {
             ModBlocks.MANIPULATOR_MARK_2, "manipulator_mark_2", (blockPos, blockState) ->
                 new ManipulatorBlockEntity(ModBlockEntities.MANIPULATOR_MARK_2, blockPos, blockState,
                     ManipulatorType.MARK_2));
+        public static final BlockEntityType<RedstoneIntegratorBlockEntity> REDSTONE_INTEGRATOR = ofBlock(
+            ModBlocks.REDSTONE_INTEGRATOR, "redstone_integrator", (blockPos, blockState) ->
+                new RedstoneIntegratorBlockEntity(ModBlockEntities.REDSTONE_INTEGRATOR, blockPos, blockState));
 
         private static <T extends BlockEntity> BlockEntityType<T> ofBlock(Block block, String id,
                                                                           BiFunction<BlockPos, BlockState, T> factory) {

@@ -33,6 +33,9 @@ public abstract class BaseBlockEntity extends BlockEntity {
         unload();
     }
 
+    /** Called by a {@link ServerBlockEntityEvents#BLOCK_ENTITY_LOAD} event hook in {@link Registration}. */
+    public void onChunkLoaded() {}
+
     /** Called by a {@link ServerBlockEntityEvents#BLOCK_ENTITY_UNLOAD} event hook in {@link Registration}. */
     public void onChunkUnloaded() {
         unload();

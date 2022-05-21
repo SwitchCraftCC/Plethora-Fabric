@@ -1,0 +1,7 @@
+{
+	"variants": {
+		"": {
+			"model": "plethora:blocks/redstone_integrator"
+		}
+	}
+}
