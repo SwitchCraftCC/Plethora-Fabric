@@ -61,7 +61,7 @@ public final class BasicItemMeta extends BasicMetaProvider<ItemStack> {
         data.put("name", Registry.ITEM.getId(stack.getItem()).toString());
         data.put("damage", stack.getDamage());
         data.put("count", stack.getCount());
-        data.put("nbtHash", getNbtHash(stack));
+        data.put("nbt", getNbtHash(stack));
     }
 
     @Nullable

@@ -14,7 +14,8 @@
     "ShapedRecipeSerializerMixin",
     "ShapelessRecipeSerializerMixin",
     "SimpleInventoryAccessor",
-    "TntBlockInvoker"
+    "TntBlockInvoker",
+    "computercraft.ItemDataMixin"
   ],
   "client": [
     "client.WorldRendererMixin"
