@@ -18,7 +18,8 @@ ongoing.
 - [x] Manipulator
 - [ ] Chat recorder
 - [ ] Overlay glasses
-- [ ] Introspection nodule
+- [x] Introspection nodule
+  - [ ] Inventory methods
 - [x] Kinetic augment
 - [x] Frickin' laser beam
 - [x] Block scanner

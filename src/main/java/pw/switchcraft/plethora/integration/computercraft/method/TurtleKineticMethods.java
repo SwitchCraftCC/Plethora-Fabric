@@ -9,7 +9,6 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import pw.switchcraft.plethora.api.IPlayerOwnable;
-import pw.switchcraft.plethora.api.method.ContextKeys;
 import pw.switchcraft.plethora.api.method.FutureMethodResult;
 import pw.switchcraft.plethora.api.method.IContext;
 import pw.switchcraft.plethora.api.method.IUnbakedContext;
@@ -23,6 +22,10 @@ import pw.switchcraft.plethora.util.PlayerHelpers;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import static pw.switchcraft.plethora.api.method.ContextKeys.ORIGIN;
+import static pw.switchcraft.plethora.core.ContextHelpers.fromContext;
+import static pw.switchcraft.plethora.core.ContextHelpers.fromSubtarget;
 
 public class TurtleKineticMethods {
     public static final SubtargetedModuleMethod<ITurtleAccess> USE = SubtargetedModuleMethod.of(
@@ -96,9 +99,9 @@ public class TurtleKineticMethods {
     public record TurtleKineticMethodContext(IContext<IModuleContainer> context, ITurtleAccess turtle,
                                              @Nullable IPlayerOwnable ownable) {}
     public static TurtleKineticMethodContext getContext(@Nonnull IUnbakedContext<IModuleContainer> unbaked) throws LuaException {
-        IContext<IModuleContainer> context = unbaked.bake();
-        ITurtleAccess turtle = context.getContext(ContextKeys.ORIGIN, ITurtleAccess.class);
-        IPlayerOwnable ownable = context.getContext(ContextKeys.ORIGIN, IPlayerOwnable.class);
-        return new TurtleKineticMethodContext(context, turtle, ownable);
+        IContext<IModuleContainer> ctx = unbaked.bake();
+        ITurtleAccess turtle = fromSubtarget(ctx, ITurtleAccess.class, ORIGIN);
+        IPlayerOwnable ownable = fromContext(ctx, IPlayerOwnable.class, ORIGIN);
+        return new TurtleKineticMethodContext(ctx, turtle, ownable);
     }
 }

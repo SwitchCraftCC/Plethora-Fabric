@@ -1,7 +1,7 @@
 {
 	"variants": {
 		"": {
-			"model": "plethora:blocks/redstone_integrator"
+			"model": "plethora:block/redstone_integrator"
 		}
 	}
 }

@@ -36,7 +36,7 @@ public class PlayerHelpers {
 
         NbtCompound owner = nbt.getCompound("owner");
         return new GameProfile(
-            new UUID(owner.getLong("upper_id"), owner.getLong("lower_id")),
+            new UUID(owner.getLong("id_upper"), owner.getLong("id_lower")),
             owner.getString("name")
         );
     }
@@ -48,8 +48,8 @@ public class PlayerHelpers {
             NbtCompound owner = new NbtCompound();
             nbt.put("owner", owner);
 
-            owner.putLong("upper_id", profile.getId().getMostSignificantBits());
-            owner.putLong("lower_id", profile.getId().getLeastSignificantBits());
+            owner.putLong("id_upper", profile.getId().getMostSignificantBits());
+            owner.putLong("id_lower", profile.getId().getLeastSignificantBits());
             owner.putString("name", profile.getName());
         }
     }

@@ -11,7 +11,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import pw.switchcraft.plethora.api.IPlayerOwnable;
-import pw.switchcraft.plethora.api.method.ContextKeys;
 import pw.switchcraft.plethora.api.method.FutureMethodResult;
 import pw.switchcraft.plethora.api.method.IContext;
 import pw.switchcraft.plethora.api.method.IUnbakedContext;
@@ -25,6 +24,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import static pw.switchcraft.plethora.api.method.ArgumentHelper.assertBetween;
+import static pw.switchcraft.plethora.api.method.ContextKeys.ORIGIN;
+import static pw.switchcraft.plethora.core.ContextHelpers.fromContext;
+import static pw.switchcraft.plethora.core.ContextHelpers.fromSubtarget;
 import static pw.switchcraft.plethora.util.Helpers.normaliseAngle;
 import static pw.switchcraft.plethora.util.config.Config.Kinetic.*;
 
@@ -47,7 +49,7 @@ public class KineticMethods {
         assertBetween(power, 0, Kinetic.launchMax, "Power out of range (%s).");
 
         return unbaked.getCostHandler().await(power * Kinetic.launchCost, FutureMethodResult.nextTick(() -> {
-            LivingEntity entity = unbaked.bake().getContext(ContextKeys.ORIGIN, LivingEntity.class);
+            LivingEntity entity = unbaked.bake().getContext(ORIGIN, LivingEntity.class);
             launch(entity, yaw, pitch, power);
             return FutureMethodResult.empty();
         }));
@@ -83,10 +85,10 @@ public class KineticMethods {
     public record KineticMethodContext(IContext<IModuleContainer> context, LivingEntity entity,
                                        @Nullable IPlayerOwnable ownable) {}
     public static KineticMethodContext getContext(@Nonnull IUnbakedContext<IModuleContainer> unbaked) throws LuaException {
-        IContext<IModuleContainer> context = unbaked.bake();
-        LivingEntity entity = context.getContext(ContextKeys.ORIGIN, LivingEntity.class);
-        IPlayerOwnable ownable = context.getContext(ContextKeys.ORIGIN, IPlayerOwnable.class);
-        return new KineticMethodContext(context, entity, ownable);
+        IContext<IModuleContainer> ctx = unbaked.bake();
+        LivingEntity entity = fromSubtarget(ctx, LivingEntity.class);
+        IPlayerOwnable ownable = fromContext(ctx, IPlayerOwnable.class, ORIGIN);
+        return new KineticMethodContext(ctx, entity, ownable);
     }
 
     public record KineticMethodPlayer(ServerWorld world, ServerPlayerEntity player, PlethoraFakePlayer fakePlayer) {}

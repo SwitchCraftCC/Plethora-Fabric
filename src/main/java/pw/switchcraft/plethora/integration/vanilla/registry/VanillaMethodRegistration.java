@@ -1,5 +1,6 @@
 package pw.switchcraft.plethora.integration.vanilla.registry;
 
+import net.minecraft.util.Identifier;
 import pw.switchcraft.plethora.api.method.IMethod;
 import pw.switchcraft.plethora.api.method.IMethodRegistry;
 import pw.switchcraft.plethora.api.module.IModuleContainer;
@@ -13,11 +14,11 @@ public final class VanillaMethodRegistration {
     }
 
     private static <T> void method(IMethodRegistry r, String name, Class<T> target, IMethod<T> method) {
-        r.registerMethod("minecraft", name, target, method);
+        r.registerMethod(Identifier.DEFAULT_NAMESPACE, name, target, method);
     }
 
     private static <T> void method(IMethodRegistry r, Class<T> target, IMethod<T> method) {
-        r.registerMethod("minecraft", method.getName(), target, method);
+        r.registerMethod(Identifier.DEFAULT_NAMESPACE, method.getName(), target, method);
     }
 
     private static void moduleMethod(IMethodRegistry r, String name, IMethod<IModuleContainer> method) {

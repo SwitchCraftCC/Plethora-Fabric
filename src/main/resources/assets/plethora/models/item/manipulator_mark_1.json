@@ -1,5 +1,5 @@
 {
-  "parent": "plethora:blocks/manipulator_mark_1",
+  "parent": "plethora:block/manipulator_mark_1",
 	"display": {
 		"thirdperson": {
 			"rotation": [ 10, -45, 170 ],

@@ -6,10 +6,10 @@ import pw.switchcraft.plethora.util.config.Config.Sensor;
 
 import javax.annotation.Nonnull;
 
-import static pw.switchcraft.plethora.gameplay.registry.Registration.MOD_ID;
+import static pw.switchcraft.plethora.Plethora.MOD_ID;
 
 public class SensorModuleItem extends LevelableModuleItem {
-    static final Identifier MODULE_ID = new Identifier(MOD_ID, "sensor");
+    public static final Identifier MODULE_ID = new Identifier(MOD_ID, "sensor");
 
     public SensorModuleItem(Settings settings) {
         super("sensor", settings);

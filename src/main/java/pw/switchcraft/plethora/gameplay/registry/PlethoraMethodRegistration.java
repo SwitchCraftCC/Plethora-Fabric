@@ -4,6 +4,7 @@ import pw.switchcraft.plethora.api.method.IMethod;
 import pw.switchcraft.plethora.api.method.IMethodCollection;
 import pw.switchcraft.plethora.api.method.IMethodRegistry;
 import pw.switchcraft.plethora.api.module.IModuleContainer;
+import pw.switchcraft.plethora.gameplay.modules.introspection.IntrospectionMethods;
 import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticMethods;
 import pw.switchcraft.plethora.gameplay.modules.laser.LaserMethods;
 import pw.switchcraft.plethora.gameplay.modules.scanner.ScannerMethods;
@@ -11,7 +12,7 @@ import pw.switchcraft.plethora.gameplay.modules.sensor.SensorMethods;
 import pw.switchcraft.plethora.integration.CoreMethods;
 import pw.switchcraft.plethora.integration.GetMetadataMethod;
 
-import static pw.switchcraft.plethora.gameplay.registry.Registration.MOD_ID;
+import static pw.switchcraft.plethora.Plethora.MOD_ID;
 
 final class PlethoraMethodRegistration {
     static void registerMethods(IMethodRegistry r) {
@@ -23,6 +24,9 @@ final class PlethoraMethodRegistration {
         method(r, IMethodCollection.class, CoreMethods.GET_DOCS);
 
         // Modules
+        moduleMethod(r, "introspection:getID", IntrospectionMethods.GET_ID);
+        moduleMethod(r, "introspection:getName", IntrospectionMethods.GET_NAME);
+        moduleMethod(r, "introspection:getMetaOwner", IntrospectionMethods.GET_META_OWNER);
         moduleMethod(r, "kinetic:launch", KineticMethods.LAUNCH);
         moduleMethod(r, "laser:fire", LaserMethods.FIRE);
         moduleMethod(r, "sensor:sense", SensorMethods.SENSE);

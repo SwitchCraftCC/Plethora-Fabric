@@ -9,7 +9,7 @@ import pw.switchcraft.plethora.gameplay.modules.ModuleItem;
 
 import javax.annotation.Nonnull;
 
-import static pw.switchcraft.plethora.gameplay.registry.Registration.MOD_ID;
+import static pw.switchcraft.plethora.Plethora.MOD_ID;
 import static pw.switchcraft.plethora.util.config.Config.Kinetic.launchMax;
 
 public class KineticModuleItem extends ModuleItem {
@@ -39,7 +39,7 @@ public class KineticModuleItem extends ModuleItem {
         // TODO: Check module blacklist here
 
         player.setCurrentHand(hand);
-        return new TypedActionResult<>(ActionResult.SUCCESS, stack);
+        return TypedActionResult.success(stack);
     }
 
     @Override

@@ -4,6 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
 import pw.switchcraft.plethora.api.converter.IConverter;
 import pw.switchcraft.plethora.api.converter.IConverterRegistry;
 import pw.switchcraft.plethora.api.reference.BlockReference;
@@ -21,6 +22,6 @@ public class VanillaConverterRegistration {
     }
 
     private static <T> void converter(IConverterRegistry r, String name, Class<T> target, IConverter<T, ?> provider) {
-        r.registerConverter(name, "minecraft", target, provider);
+        r.registerConverter(name, Identifier.DEFAULT_NAMESPACE, target, provider);
     }
 }

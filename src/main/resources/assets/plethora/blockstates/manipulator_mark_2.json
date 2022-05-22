@@ -1,29 +1,29 @@
 {
 	"variants": {
 		"facing=down": {
-			"model": "plethora:blocks/manipulator_mark_2"
+			"model": "plethora:block/manipulator_mark_2"
 		},
 		"facing=up": {
-			"model": "plethora:blocks/manipulator_mark_2",
+			"model": "plethora:block/manipulator_mark_2",
 			"x": 180
 		},
 		"facing=east": {
-			"model": "plethora:blocks/manipulator_mark_2",
+			"model": "plethora:block/manipulator_mark_2",
 			"x": 90,
 			"y": 270
 		},
 		"facing=west": {
-			"model": "plethora:blocks/manipulator_mark_2",
+			"model": "plethora:block/manipulator_mark_2",
 			"x": 90,
 			"y": 90
 		},
 		"facing=north": {
-			"model": "plethora:blocks/manipulator_mark_2",
+			"model": "plethora:block/manipulator_mark_2",
 			"x": 90,
 			"y": 180
 		},
 		"facing=south": {
-			"model": "plethora:blocks/manipulator_mark_2",
+			"model": "plethora:block/manipulator_mark_2",
 			"x": 90,
 			"y": 0
 		}

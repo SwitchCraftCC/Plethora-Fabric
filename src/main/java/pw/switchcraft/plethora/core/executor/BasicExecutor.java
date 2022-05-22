@@ -30,10 +30,12 @@ public final class BasicExecutor implements IResultExecutor {
 		if (result.isFinal()) return result.getResult();
 
 		BlockingTask task = new BlockingTask(result.getResolver(), result.getCallback());
-		while (!task.done()) {
-			context.executeMainThreadTask(task);
-		}
-		return MethodResult.of(task.returnValue);
+		return context.executeMainThreadTask(task);
+
+//		while (!task.done()) {
+//			context.executeMainThreadTask(task);
+//		}
+//		return MethodResult.of(task.returnValue);
 	}
 
 	@Override
@@ -67,7 +69,7 @@ public final class BasicExecutor implements IResultExecutor {
 					FutureMethodResult result = callback.call();
 					if (result.isFinal()) {
 						returnValue = result.getResult().getResult();
-						return null;
+						return new Object[] { returnValue };
 					} else {
 						resolver = result.getResolver();
 						callback = result.getCallback();

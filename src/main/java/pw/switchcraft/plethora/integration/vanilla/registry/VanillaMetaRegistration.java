@@ -7,6 +7,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
 import pw.switchcraft.plethora.api.meta.IMetaProvider;
 import pw.switchcraft.plethora.api.meta.IMetaRegistry;
 import pw.switchcraft.plethora.api.reference.BlockReference;
@@ -42,6 +43,6 @@ public class VanillaMetaRegistration {
     }
 
     private static <T> void provider(IMetaRegistry r, String name, Class<T> target, IMetaProvider<T> provider) {
-        r.registerMetaProvider(name, "minecraft", target, provider);
+        r.registerMetaProvider(name, Identifier.DEFAULT_NAMESPACE, target, provider);
     }
 }

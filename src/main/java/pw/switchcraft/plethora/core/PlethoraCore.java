@@ -11,12 +11,9 @@ public class PlethoraCore {
     public static void initializeCore() {
         Plethora.LOG.info("Plethora core initializing");
 
-        ServerLifecycleEvents.SERVER_STARTING.register(server -> {
-            // Allow mods to register their own methods, meta providers, etc.
-            Plethora.LOG.debug("Server started, building registries");
-            PlethoraEvents.REGISTER.invoker().onRegister(PlethoraAPI.instance());
-            buildRegistries();
-        });
+        Plethora.LOG.debug("Building registries");
+        PlethoraEvents.REGISTER.invoker().onRegister(PlethoraAPI.instance());
+        buildRegistries();
 
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             Plethora.LOG.debug("Server started, resetting shared task runner");

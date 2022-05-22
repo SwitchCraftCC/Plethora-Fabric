@@ -19,10 +19,10 @@ import pw.switchcraft.plethora.util.Vec2i;
 
 import java.util.List;
 
+import static pw.switchcraft.plethora.Plethora.MOD_ID;
 import static pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler.HEIGHT;
 import static pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler.WIDTH;
 import static pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler.*;
-import static pw.switchcraft.plethora.gameplay.registry.Registration.MOD_ID;
 
 public class GuiNeuralInterface extends ComputerScreenBase<NeuralInterfaceScreenHandler> {
     private static final Identifier TEXTURE = new Identifier(MOD_ID, "textures/gui/neural_interface.png");

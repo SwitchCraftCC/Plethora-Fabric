@@ -22,6 +22,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static pw.switchcraft.plethora.api.method.ContextKeys.ORIGIN;
+import static pw.switchcraft.plethora.core.ContextHelpers.fromContext;
+
 public class ScannerMethods {
     private static final Identifier MODULE_ID = ScannerModuleItem.MODULE_ID;
 
@@ -91,9 +94,9 @@ public class ScannerMethods {
 
     private record ScannerMethodContext(IContext<IModuleContainer> context, IWorldLocation loc, RangeInfo range) {}
     private static ScannerMethodContext getContext(@Nonnull IUnbakedContext<IModuleContainer> unbaked) throws LuaException {
-        IContext<IModuleContainer> context = unbaked.bake();
-        IWorldLocation location = context.getContext(ContextKeys.ORIGIN, IWorldLocation.class);
-        RangeInfo range = context.getContext(ScannerModuleItem.MODULE_ID, RangeInfo.class);
-        return new ScannerMethodContext(context, location, range);
+        IContext<IModuleContainer> ctx = unbaked.bake();
+        IWorldLocation location = fromContext(ctx, IWorldLocation.class, ORIGIN);
+        RangeInfo range = fromContext(ctx, RangeInfo.class, MODULE_ID);
+        return new ScannerMethodContext(ctx, location, range);
     }
 }

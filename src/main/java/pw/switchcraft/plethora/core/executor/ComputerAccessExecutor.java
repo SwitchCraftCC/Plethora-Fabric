@@ -48,7 +48,9 @@ public class ComputerAccessExecutor implements IResultExecutor {
 
 		ComputerTask task = new ComputerTask(this, result.getCallback(), result.getResolver(), true, taskId);
 		boolean ok = runner.submit(task);
-		if (!ok) throw new LuaException("Task limit exceeded");
+		if (!ok) {
+			throw new LuaException("Task limit exceeded");
+		}
 
 		return new ComputerTaskCallback(taskId, task, this::assertAttached).pull;
 	}

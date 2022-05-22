@@ -20,7 +20,7 @@ import static com.mojang.blaze3d.platform.GlStateManager.SrcFactor.ONE;
 import static com.mojang.blaze3d.platform.GlStateManager.SrcFactor.SRC_ALPHA;
 import static net.minecraft.client.render.VertexFormat.DrawMode.QUADS;
 import static net.minecraft.client.render.VertexFormats.POSITION_TEXTURE;
-import static pw.switchcraft.plethora.gameplay.registry.Registration.MOD_ID;
+import static pw.switchcraft.plethora.Plethora.MOD_ID;
 
 public class FlareOverlayRenderer {
     public static final Identifier TEXTURE = new Identifier(MOD_ID, "textures/misc/flare.png");

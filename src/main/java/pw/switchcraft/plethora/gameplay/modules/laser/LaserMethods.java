@@ -18,6 +18,7 @@ import pw.switchcraft.plethora.util.config.Config;
 
 import javax.annotation.Nonnull;
 
+import static pw.switchcraft.plethora.api.method.ContextKeys.ORIGIN;
 import static pw.switchcraft.plethora.util.Helpers.normaliseAngle;
 import static pw.switchcraft.plethora.util.config.Config.Laser.maximumPotency;
 import static pw.switchcraft.plethora.util.config.Config.Laser.minimumPotency;
@@ -43,14 +44,14 @@ public class LaserMethods {
         final double motionY = -Math.sin(pitch / 180.0f * (float) Math.PI);
 
         return unbaked.getCostHandler().await(potency * Config.Laser.cost, FutureMethodResult.nextTick(() -> {
-            IContext<IModuleContainer> context = unbaked.bake();
-            IWorldLocation location = context.getContext(ContextKeys.ORIGIN, IWorldLocation.class);
+            IContext<IModuleContainer> ctx = unbaked.bake();
+            IWorldLocation location = ctx.getContext(ORIGIN, IWorldLocation.class);
             Vec3d pos = location.getLoc();
 
             LaserEntity laser = new LaserEntity(location.getWorld(), pos);
             {
-                IPlayerOwnable ownable = context.getContext(ContextKeys.ORIGIN, IPlayerOwnable.class);
-                Entity entity = context.getContext(ContextKeys.ORIGIN, Entity.class);
+                IPlayerOwnable ownable = ctx.getContext(ORIGIN, IPlayerOwnable.class);
+                Entity entity = ctx.getContext(ORIGIN, Entity.class);
 
                 GameProfile profile = null;
                 if (ownable != null) profile = ownable.getOwningProfile();
@@ -59,7 +60,7 @@ public class LaserMethods {
                 laser.setShooter(entity, profile);
             }
 
-            if (context.hasContext(BlockEntity.class) || context.hasContext(ITurtleAccess.class)) {
+            if (ctx.hasContext(BlockEntity.class) || ctx.hasContext(ITurtleAccess.class)) {
                 double vOff = 0.3; // The laser is 0.25 high, so we add a little more.
 
                 // Offset positions to be around the edge of the manipulator. Avoids breaking the manipulator and the
@@ -79,8 +80,8 @@ public class LaserMethods {
                 }
 
                 laser.setPosition(pos.add(offset));
-            } else if (context.hasContext(Entity.class)) {
-                Entity entity = context.getContext(Entity.class);
+            } else if (ctx.hasContext(Entity.class)) {
+                Entity entity = ctx.getContext(Entity.class);
                 Vec3d vector = entity.getPos();
                 double offset = entity.getWidth() + 0.2;
                 double length = Math.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ);

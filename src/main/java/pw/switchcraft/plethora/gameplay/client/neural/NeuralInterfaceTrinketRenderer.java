@@ -13,7 +13,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
-import static pw.switchcraft.plethora.gameplay.registry.Registration.MOD_ID;
+import static pw.switchcraft.plethora.Plethora.MOD_ID;
 
 public class NeuralInterfaceTrinketRenderer implements TrinketRenderer {
     public static final Identifier TEXTURE = new Identifier(MOD_ID, "textures/models/neural_interface.png");

@@ -5,7 +5,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import pw.switchcraft.plethora.api.IWorldLocation;
 import pw.switchcraft.plethora.api.meta.BaseMetaProvider;
-import pw.switchcraft.plethora.api.method.ContextKeys;
 import pw.switchcraft.plethora.api.method.IPartialContext;
 import pw.switchcraft.plethora.util.EntityHelpers;
 
@@ -15,6 +14,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
+import static pw.switchcraft.plethora.api.method.ContextKeys.ORIGIN;
 import static pw.switchcraft.plethora.util.Helpers.normaliseAngle;
 
 public class EntityMeta extends BaseMetaProvider<Entity> {
@@ -26,9 +26,9 @@ public class EntityMeta extends BaseMetaProvider<Entity> {
 
     @Nonnull
     @Override
-    public Map<String, ?> getMeta(@Nonnull IPartialContext<Entity> context) {
-        Entity entity = context.getTarget();
-        IWorldLocation location = context.getContext(ContextKeys.ORIGIN, IWorldLocation.class);
+    public Map<String, ?> getMeta(@Nonnull IPartialContext<Entity> ctx) {
+        Entity entity = ctx.getTarget();
+        IWorldLocation location = ctx.getContext(ORIGIN, IWorldLocation.class);
 
         Map<String, Object> result = getBasicProperties(entity, location);
 

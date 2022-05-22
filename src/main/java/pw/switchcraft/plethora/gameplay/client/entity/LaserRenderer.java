@@ -15,7 +15,7 @@ import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec3f;
 import pw.switchcraft.plethora.gameplay.modules.laser.LaserEntity;
 
-import static pw.switchcraft.plethora.gameplay.registry.Registration.MOD_ID;
+import static pw.switchcraft.plethora.Plethora.MOD_ID;
 
 public class LaserRenderer extends EntityRenderer<LaserEntity> {
     private static final float SCALE = 0.05625f;

@@ -20,6 +20,14 @@
 
   "item.plethora.module.level": "Level %s (%s blocks)",
 
+  "item.plethora.module.module_introspection": "Introspection module",
+  "item.plethora.module.module_introspection.adjective": "Introspective",
+  "item.plethora.module.module_introspection.desc": "Wraps your inventory as a peripheral. Shift+Use to bind to player.",
+
+  "item.plethora.module.module_introspection.bound": "Bound to %s",
+  "item.plethora.module.module_introspection.cleared": "Binding cleared",
+  "item.plethora.module.module_introspection.binding": "Bound to %s",
+
   "item.plethora.module.module_keyboard": "Keyboard",
   "item.plethora.module.module_keyboard.desc": "Allows typing into a neural interface while in-game",
 

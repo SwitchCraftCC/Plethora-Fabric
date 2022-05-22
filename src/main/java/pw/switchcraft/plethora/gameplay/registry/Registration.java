@@ -27,6 +27,7 @@ import pw.switchcraft.plethora.gameplay.manipulator.ManipulatorBlock;
 import pw.switchcraft.plethora.gameplay.manipulator.ManipulatorBlockEntity;
 import pw.switchcraft.plethora.gameplay.manipulator.ManipulatorPeripheral;
 import pw.switchcraft.plethora.gameplay.manipulator.ManipulatorType;
+import pw.switchcraft.plethora.gameplay.modules.introspection.IntrospectionModuleItem;
 import pw.switchcraft.plethora.gameplay.modules.keyboard.KeyboardModuleItem;
 import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticModuleItem;
 import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticRecipe;
@@ -52,10 +53,9 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import static net.minecraft.util.registry.Registry.*;
+import static pw.switchcraft.plethora.Plethora.MOD_ID;
 
 public final class Registration {
-    public static final String MOD_ID = Plethora.MOD_ID;
-
     public static final EntityType<LaserEntity> LASER_ENTITY = Registry.register(
         Registry.ENTITY_TYPE,
         new Identifier(MOD_ID, "laser"),
@@ -137,6 +137,7 @@ public final class Registration {
         public static final NeuralInterfaceItem NEURAL_INTERFACE =
             register("neural_interface", new NeuralInterfaceItem(properties().maxCount(1)));
 
+        public static final IntrospectionModuleItem INTROSPECTION_MODULE = registerModule("introspection", IntrospectionModuleItem::new);
         public static final KeyboardModuleItem KEYBOARD_MODULE = registerModule("keyboard", KeyboardModuleItem::new);
         public static final KineticModuleItem KINETIC_MODULE = registerModule("kinetic", KineticModuleItem::new);
         public static final LaserModuleItem LASER_MODULE = registerModule("laser", LaserModuleItem::new);

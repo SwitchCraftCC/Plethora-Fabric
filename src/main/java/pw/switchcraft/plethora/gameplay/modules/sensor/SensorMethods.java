@@ -7,7 +7,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import pw.switchcraft.plethora.api.IWorldLocation;
-import pw.switchcraft.plethora.api.method.ContextKeys;
 import pw.switchcraft.plethora.api.method.FutureMethodResult;
 import pw.switchcraft.plethora.api.method.IContext;
 import pw.switchcraft.plethora.api.method.IUnbakedContext;
@@ -21,6 +20,8 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.UUID;
 
+import static pw.switchcraft.plethora.api.method.ContextKeys.ORIGIN;
+import static pw.switchcraft.plethora.core.ContextHelpers.fromContext;
 import static pw.switchcraft.plethora.gameplay.modules.sensor.SensorHelpers.*;
 
 public class SensorMethods {
@@ -58,7 +59,14 @@ public class SensorMethods {
         SensorMethodContext ctx = getContext(unbaked);
         int radius = ctx.range.getRange();
 
-        Entity entity = findEntityByUuid(ctx.loc, radius, UUID.fromString(args.getString(0)));
+        UUID uuid;
+        try {
+            uuid = UUID.fromString(args.getString(0));
+        } catch (IllegalArgumentException e) {
+            throw new LuaException("Invalid UUID");
+        }
+
+        Entity entity = findEntityByUuid(ctx.loc, radius, uuid);
         if (entity == null) return null;
 
         return FutureMethodResult.result(ctx.context.makeChild(entity, Reference.bounded(entity, ctx.loc, radius))
@@ -84,9 +92,9 @@ public class SensorMethods {
 
     private record SensorMethodContext(IContext<IModuleContainer> context, IWorldLocation loc, RangeInfo range) {}
     private static SensorMethodContext getContext(@Nonnull IUnbakedContext<IModuleContainer> unbaked) throws LuaException {
-        IContext<IModuleContainer> context = unbaked.bake();
-        IWorldLocation location = context.getContext(ContextKeys.ORIGIN, IWorldLocation.class);
-        RangeInfo range = context.getContext(SensorModuleItem.MODULE_ID, RangeInfo.class);
-        return new SensorMethodContext(context, location, range);
+        IContext<IModuleContainer> ctx = unbaked.bake();
+        IWorldLocation location = fromContext(ctx, IWorldLocation.class, ORIGIN);
+        RangeInfo range = fromContext(ctx, RangeInfo.class, MODULE_ID);
+        return new SensorMethodContext(ctx, location, range);
     }
 }
