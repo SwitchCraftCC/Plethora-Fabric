@@ -28,6 +28,8 @@ public final class PlayerEntityMeta extends BasicMetaProvider<PlayerEntity> {
         out.put("walkSpeed", abilities.getWalkSpeed());
         out.put("flySpeed", abilities.getFlySpeed());
 
+        out.put("heldItemSlot", player.getInventory().selectedSlot);
+
         return out;
     }
 }

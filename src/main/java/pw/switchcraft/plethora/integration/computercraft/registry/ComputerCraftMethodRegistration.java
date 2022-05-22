@@ -1,9 +1,11 @@
 package pw.switchcraft.plethora.integration.computercraft.registry;
 
 import dan200.computercraft.api.ComputerCraftAPI;
+import net.minecraft.inventory.Inventory;
 import pw.switchcraft.plethora.api.method.IMethod;
 import pw.switchcraft.plethora.api.method.IMethodRegistry;
 import pw.switchcraft.plethora.api.module.IModuleContainer;
+import pw.switchcraft.plethora.integration.computercraft.InventoryMethodsWrapper;
 import pw.switchcraft.plethora.integration.computercraft.method.TurtleKineticMethods;
 
 public final class ComputerCraftMethodRegistration {
@@ -11,6 +13,14 @@ public final class ComputerCraftMethodRegistration {
         // Modules
         moduleMethod(r, "kinetic:use", TurtleKineticMethods.USE);
         moduleMethod(r, "kinetic:swing", TurtleKineticMethods.SWING);
+
+        // Inventory wrapper
+        inventoryMethod(r, "getSize", InventoryMethodsWrapper.GET_SIZE);
+        inventoryMethod(r, "list", InventoryMethodsWrapper.LIST);
+        inventoryMethod(r, "getItemDetail", InventoryMethodsWrapper.GET_ITEM_DETAIL);
+        inventoryMethod(r, "getItemLimit", InventoryMethodsWrapper.GET_ITEM_LIMIT);
+        inventoryMethod(r, "pushItems", InventoryMethodsWrapper.PUSH_ITEMS);
+        inventoryMethod(r, "pullItems", InventoryMethodsWrapper.PULL_ITEMS);
     }
 
     private static <T> void method(IMethodRegistry r, String name, Class<T> target, IMethod<T> method) {
@@ -23,5 +33,9 @@ public final class ComputerCraftMethodRegistration {
 
     private static void moduleMethod(IMethodRegistry r, String name, IMethod<IModuleContainer> method) {
         method(r, name, IModuleContainer.class, method);
+    }
+
+    private static void inventoryMethod(IMethodRegistry r, String name, IMethod<Inventory> method) {
+        method(r, "inventory:" + name, Inventory.class, method);
     }
 }
