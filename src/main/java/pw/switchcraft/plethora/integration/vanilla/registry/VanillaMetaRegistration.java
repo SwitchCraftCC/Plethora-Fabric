@@ -43,6 +43,6 @@ public class VanillaMetaRegistration {
     }
 
     private static <T> void provider(IMetaRegistry r, String name, Class<T> target, IMetaProvider<T> provider) {
-        r.registerMetaProvider(name, Identifier.DEFAULT_NAMESPACE, target, provider);
+        r.registerMetaProvider(Identifier.DEFAULT_NAMESPACE + ":" + name, Identifier.DEFAULT_NAMESPACE, target, provider);
     }
 }

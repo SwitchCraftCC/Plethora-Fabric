@@ -16,6 +16,6 @@ public class PlethoraMetaRegistration {
     }
 
     private static <T> void provider(IMetaRegistry r, String name, Class<T> target, IMetaProvider<T> provider) {
-        r.registerMetaProvider(name, MOD_ID, target, provider);
+        r.registerMetaProvider(MOD_ID + ":" + name, MOD_ID, target, provider);
     }
 }

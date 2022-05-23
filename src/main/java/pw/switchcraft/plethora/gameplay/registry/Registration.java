@@ -44,6 +44,7 @@ import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler;
 import pw.switchcraft.plethora.gameplay.redstone.RedstoneIntegratorBlock;
 import pw.switchcraft.plethora.gameplay.redstone.RedstoneIntegratorBlockEntity;
 import pw.switchcraft.plethora.gameplay.redstone.RedstoneIntegratorTicker;
+import pw.switchcraft.plethora.integration.computercraft.registry.ComputerCraftMetaRegistration;
 import pw.switchcraft.plethora.integration.computercraft.registry.ComputerCraftMethodRegistration;
 import pw.switchcraft.plethora.integration.vanilla.registry.VanillaConverterRegistration;
 import pw.switchcraft.plethora.integration.vanilla.registry.VanillaMetaRegistration;
@@ -92,6 +93,7 @@ public final class Registration {
             PlethoraMethodRegistration.registerMethods(api.methodRegistry());
 
             // ComputerCraft integration registration
+            ComputerCraftMetaRegistration.registerMetaProviders(api.metaRegistry());
             ComputerCraftMethodRegistration.registerMethods(api.methodRegistry());
 
             IModuleRegistry moduleRegistry = api.moduleRegistry();

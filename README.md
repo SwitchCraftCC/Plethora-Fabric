@@ -19,7 +19,7 @@ ongoing.
 - [ ] Chat recorder
 - [ ] Overlay glasses
 - [x] Introspection nodule
-  - [ ] Inventory methods
+  - [x] Inventory methods
 - [x] Kinetic augment
 - [x] Frickin' laser beam
 - [x] Block scanner

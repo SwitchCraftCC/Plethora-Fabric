@@ -1,5 +1,9 @@
 package pw.switchcraft.plethora.gameplay.neural;
 
+import dan200.computercraft.ComputerCraft;
+import dan200.computercraft.api.ComputerCraftAPI;
+import dan200.computercraft.api.filesystem.IMount;
+import dan200.computercraft.api.media.IMedia;
 import dan200.computercraft.shared.computer.core.ComputerFamily;
 import dan200.computercraft.shared.computer.items.IComputerItem;
 import dev.emi.trinkets.api.SlotReference;
@@ -16,10 +20,10 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 import pw.switchcraft.plethora.gameplay.BaseItem;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,7 +31,7 @@ import static pw.switchcraft.plethora.Plethora.MOD_ID;
 import static pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler.COMPUTER_ID;
 import static pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler.DIRTY;
 
-public class NeuralInterfaceItem extends TrinketItem implements IComputerItem {
+public class NeuralInterfaceItem extends TrinketItem implements IComputerItem, IMedia {
     public NeuralInterfaceItem(Settings settings) {
         super(settings);
     }
@@ -47,7 +51,7 @@ public class NeuralInterfaceItem extends TrinketItem implements IComputerItem {
         NbtCompound nbt = stack.getNbt();
         if (context.isAdvanced()) {
             if (nbt != null && nbt.contains(COMPUTER_ID)) {
-                tooltip.add(new TranslatableText("gui.plethora.tooltip.computer_id", nbt.getInt(COMPUTER_ID))
+                tooltip.add(new TranslatableText("gui.plethora.tooltip.computer_id", getComputerID(stack))
                     .formatted(Formatting.GRAY));
             }
         }
@@ -134,12 +138,32 @@ public class NeuralInterfaceItem extends TrinketItem implements IComputerItem {
 
     @Override
     public int getComputerID(@Nonnull ItemStack stack) {
-        return IComputerItem.super.getComputerID(stack);
+        NbtCompound nbt = stack.getNbt();
+        return nbt != null && nbt.contains(COMPUTER_ID) ? nbt.getInt(COMPUTER_ID) : -1;
     }
 
     @Override
     public String getLabel(@Nonnull ItemStack stack) {
         return stack.hasCustomName() ? stack.getName().getString() : null;
+    }
+
+    @Override
+    public boolean setLabel(@Nonnull ItemStack stack, @Nullable String label) {
+        if (label == null) {
+            stack.removeCustomName();
+        } else {
+            stack.setCustomName(new LiteralText(label));
+        }
+
+        return true;
+    }
+
+    @Nullable
+    @Override
+    public IMount createDataMount(@Nonnull ItemStack stack, @Nonnull World world) {
+        int id = getComputerID(stack);
+        if (id < 0) return null;
+        return ComputerCraftAPI.createSaveDirMount(world, "computer/" + id, ComputerCraft.computerSpaceLimit);
     }
 
     @Override
