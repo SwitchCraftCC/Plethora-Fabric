@@ -31,9 +31,9 @@
   ],
   "accessWidener": "plethora.accesswidener",
   "depends": {
-    "fabricloader": ">=0.14.4",
+    "fabricloader": ">=0.14.6",
     "fabric": "*",
-    "minecraft": "1.18.2",
+    "minecraft": "1.19-beta.3",
     "computercraft": ">=1.100.5"
   },
   "custom": {

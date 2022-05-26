@@ -62,7 +62,7 @@ public class PlethoraClient implements ClientModInitializer {
                 if (e == null)
                     throw new IllegalStateException("Failed to create instance of entity \"" + Registry.ENTITY_TYPE.getId(et) + "\"!");
 
-                e.updateTrackedPosition(pos);
+                e.updateTrackedPosition(pos.x, pos.y, pos.z);
                 e.setPos(pos.x, pos.y, pos.z);
                 e.setPitch(pitch);
                 e.setYaw(yaw);

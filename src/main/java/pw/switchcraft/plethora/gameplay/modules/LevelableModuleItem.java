@@ -4,7 +4,6 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import pw.switchcraft.plethora.api.method.IContextBuilder;
@@ -26,7 +25,7 @@ public abstract class LevelableModuleItem extends ModuleItem {
         if (level < 0) return;
 
         int range = getEffectiveRange(stack);
-        tooltip.add(new TranslatableText("item.plethora.module.level", level, range));
+        tooltip.add(Text.translatable("item.plethora.module.level", level, range));
     }
 
     @Override

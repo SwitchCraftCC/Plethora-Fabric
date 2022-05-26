@@ -6,11 +6,13 @@ import net.minecraft.block.entity.SignBlockEntity;
 import net.minecraft.command.argument.EntityAnchorArgumentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.passive.HorseBaseEntity;
+import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.MessageSender;
 import net.minecraft.network.MessageType;
 import net.minecraft.network.Packet;
+import net.minecraft.network.encryption.SignedChatMessage;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -22,12 +24,12 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.village.TradeOfferList;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.OptionalInt;
-import java.util.UUID;
 
 /**
  * A wrapper for {@link ServerPlayerEntity} which denotes a "fake" player.
@@ -37,7 +39,7 @@ import java.util.UUID;
  */
 public abstract class FakePlayer extends ServerPlayerEntity {
     public FakePlayer(ServerWorld world, GameProfile profile) {
-        super(world.getServer(), world, profile);
+        super(world.getServer(), world, profile, null);
         networkHandler = new FakeNetworkHandler(this);
     }
 
@@ -66,7 +68,7 @@ public abstract class FakePlayer extends ServerPlayerEntity {
     @Override
     public void sendTradeOffers(int syncId, TradeOfferList offers, int levelProgress, int experience, boolean leveled, boolean refreshable) {}
     @Override
-    public void openHorseInventory(HorseBaseEntity horse, Inventory inventory) {}
+    public void openHorseInventory(AbstractHorseEntity horse, Inventory inventory) {}
     @Override
     public void useBook(ItemStack book, Hand hand) {}
     @Override
@@ -96,7 +98,11 @@ public abstract class FakePlayer extends ServerPlayerEntity {
     @Override
     public void requestTeleport(double destX, double destY, double destZ) {}
     @Override
-    public void sendMessage(Text message, MessageType type, UUID sender) {}
+    public void sendMessage(Text message) {}
+    @Override
+    public void sendMessage(Text message, RegistryKey<MessageType> typeKey) {}
+    @Override
+    public void sendChatMessage(SignedChatMessage message, MessageSender sender, RegistryKey<MessageType> typeKey) {}
 
     @Override
     public String getIp() {

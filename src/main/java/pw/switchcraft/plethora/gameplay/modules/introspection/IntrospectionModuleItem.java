@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.stat.Stats;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
@@ -18,7 +18,7 @@ import javax.annotation.Nonnull;
 import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.INTROSPECTION_M;
 
 public class IntrospectionModuleItem extends BindableModuleItem {
-    public static final TranslatableText CONTAINER_TEXT = new TranslatableText("container.enderchest");
+    public static final Text CONTAINER_TEXT = Text.translatable("container.enderchest");
 
     public IntrospectionModuleItem(Settings settings) {
         super("introspection", settings);

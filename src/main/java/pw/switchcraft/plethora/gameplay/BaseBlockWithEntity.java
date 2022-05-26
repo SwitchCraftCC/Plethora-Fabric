@@ -10,7 +10,6 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
@@ -32,7 +31,7 @@ public abstract class BaseBlockWithEntity extends BlockWithEntity {
     @Environment(EnvType.CLIENT)
     public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext context) {
         super.appendTooltip(stack, world, tooltip, context);
-        tooltip.add(new TranslatableText(getTranslationKey() + ".desc")
+        tooltip.add(Text.translatable(getTranslationKey() + ".desc")
             .formatted(Formatting.GRAY));
     }
 

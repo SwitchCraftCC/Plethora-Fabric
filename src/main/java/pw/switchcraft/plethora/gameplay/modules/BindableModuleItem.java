@@ -6,7 +6,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
@@ -46,7 +45,7 @@ public abstract class BindableModuleItem extends ModuleItem {
                 // TODO: Is this still the case in 1.18 CC? Can we alter this behaviour?
                 if (nbt.isEmpty()) stack.setNbt(null);
 
-                player.sendMessage(new TranslatableText(getTranslationKey() + ".cleared", player.getName()), true);
+                player.sendMessage(Text.translatable(getTranslationKey() + ".cleared", player.getName()), true);
             } else {
                 // Otherwise, bind to the current player
                 UUID id = profile.getId();
@@ -54,7 +53,7 @@ public abstract class BindableModuleItem extends ModuleItem {
                 nbt.putLong("id_upper", id.getMostSignificantBits());
                 nbt.putString("bound_name", profile.getName());
 
-                player.sendMessage(new TranslatableText(getTranslationKey() + ".bound", player.getName()), true);
+                player.sendMessage(Text.translatable(getTranslationKey() + ".bound", player.getName()), true);
             }
         } else {
             return onBindableModuleUse(world, player, hand);
@@ -69,7 +68,7 @@ public abstract class BindableModuleItem extends ModuleItem {
 
         String boundName = ModuleContextHelpers.getEntityName(stack);
         if (boundName != null) {
-            tooltip.add(new TranslatableText(getTranslationKey() + ".binding", boundName));
+            tooltip.add(Text.translatable(getTranslationKey() + ".binding", boundName));
         }
     }
 

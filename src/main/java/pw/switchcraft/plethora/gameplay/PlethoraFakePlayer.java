@@ -10,7 +10,7 @@ import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.HoverEvent;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -60,8 +60,7 @@ public class PlethoraFakePlayer extends FakePlayer {
                 owner.getName()
             ));
         } else {
-            return new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                new LiteralText("PlethoraFakePlayer - No owner!"));
+            return new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.of("PlethoraFakePlayer - No owner!"));
         }
     }
 
@@ -130,7 +129,8 @@ public class PlethoraFakePlayer extends FakePlayer {
             ServerPlayerInteractionManagerAccessor spim = (ServerPlayerInteractionManagerAccessor) interactionManager;
             for (int i = 0; i < 10; i++) {
                 if (currentDamageState == -1) {
-                    interactionManager.processBlockBreakingAction(pos, START_DESTROY_BLOCK, side, topY);
+                    // TODO: block breaking is now sequenced. may need to increment the sequence each time
+                    interactionManager.processBlockBreakingAction(pos, START_DESTROY_BLOCK, side, topY, 0);
                     currentDamageState = spim.getBlockBreakingProgress();
                 } else {
                     currentDamage++;

@@ -11,7 +11,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler;
 import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler;
@@ -33,9 +32,9 @@ public class GuiNeuralInterface extends ComputerScreenBase<NeuralInterfaceScreen
     private static final int TEX_HEIGHT = 217;
 
     private static final List<Text> TOOLTIP_MODULES =
-        List.of(new TranslatableText("gui.plethora.neuralInterface.modules"));
+        List.of(Text.translatable("gui.plethora.neuralInterface.modules"));
     private static final List<Text> TOOLTIP_PERIPHERALS =
-        List.of(new TranslatableText("gui.plethora.neuralInterface.peripherals"));
+        List.of(Text.translatable("gui.plethora.neuralInterface.peripherals"));
 
     public static final int BORDER = 8;
 
@@ -45,7 +44,7 @@ public class GuiNeuralInterface extends ComputerScreenBase<NeuralInterfaceScreen
     private boolean peripherals = true;
 
     public GuiNeuralInterface(NeuralInterfaceScreenHandler container, PlayerInventory player, Text title) {
-        super(container, player, new TranslatableText("gui.plethora.neuralInterface.title"), BORDER);
+        super(container, player, Text.translatable("gui.plethora.neuralInterface.title"), BORDER);
 
         this.container = container;
         computer = NeuralComputerHandler.getClient(container.getStack());

@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.ShapedRecipe;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import pw.switchcraft.plethora.gameplay.BaseItem;
@@ -41,7 +41,7 @@ public class NeuralInterfaceRecipe extends ShapedRecipe {
 
         // Copy across key properties
         NbtCompound nbt = BaseItem.getNbt(output);
-        if (label != null && !label.isEmpty()) output.setCustomName(new LiteralText(label));
+        if (label != null && !label.isEmpty()) output.setCustomName(Text.of(label));
         if (id >= 0) nbt.putInt(COMPUTER_ID, id);
 
         // Forge/1.12.2 Plethora does not check if the source pocket computer has an upgrade, but I feel like it would

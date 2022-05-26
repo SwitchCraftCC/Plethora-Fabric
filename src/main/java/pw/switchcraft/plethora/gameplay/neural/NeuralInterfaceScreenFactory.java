@@ -9,7 +9,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import pw.switchcraft.plethora.Plethora;
@@ -31,7 +30,7 @@ public class NeuralInterfaceScreenFactory implements ExtendedScreenHandlerFactor
 
     @Override
     public Text getDisplayName() {
-        return new TranslatableText("gui.plethora.neuralInterface.title");
+        return Text.translatable("gui.plethora.neuralInterface.title");
     }
 
     @Nullable

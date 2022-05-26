@@ -15,9 +15,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 import pw.switchcraft.plethora.gameplay.BaseItem;
@@ -45,13 +43,13 @@ public class NeuralInterfaceItem extends TrinketItem implements IComputerItem, I
     @Environment(EnvType.CLIENT)
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         super.appendTooltip(stack, world, tooltip, context);
-        tooltip.add(new TranslatableText(getTranslationKey(stack) + ".desc")
+        tooltip.add(Text.translatable(getTranslationKey(stack) + ".desc")
             .formatted(Formatting.GRAY));
 
         NbtCompound nbt = stack.getNbt();
         if (context.isAdvanced()) {
             if (nbt != null && nbt.contains(COMPUTER_ID)) {
-                tooltip.add(new TranslatableText("gui.plethora.tooltip.computer_id", getComputerID(stack))
+                tooltip.add(Text.translatable("gui.plethora.tooltip.computer_id", getComputerID(stack))
                     .formatted(Formatting.GRAY));
             }
         }
@@ -90,7 +88,7 @@ public class NeuralInterfaceItem extends TrinketItem implements IComputerItem, I
                 if (newLabel == null || newLabel.isEmpty()) {
                     stack.removeCustomName();
                 } else {
-                    stack.setCustomName(new LiteralText(newLabel));
+                    stack.setCustomName(Text.of(newLabel));
                 }
                 dirty = true;
             }
@@ -152,7 +150,7 @@ public class NeuralInterfaceItem extends TrinketItem implements IComputerItem, I
         if (label == null) {
             stack.removeCustomName();
         } else {
-            stack.setCustomName(new LiteralText(label));
+            stack.setCustomName(Text.of(label));
         }
 
         return true;
