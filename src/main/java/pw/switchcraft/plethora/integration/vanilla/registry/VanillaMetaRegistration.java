@@ -17,10 +17,7 @@ import pw.switchcraft.plethora.integration.vanilla.meta.block.BlockStateMeta;
 import pw.switchcraft.plethora.integration.vanilla.meta.entity.EntityMetaProviders;
 import pw.switchcraft.plethora.integration.vanilla.meta.entity.LivingEntityMeta;
 import pw.switchcraft.plethora.integration.vanilla.meta.entity.PlayerEntityMeta;
-import pw.switchcraft.plethora.integration.vanilla.meta.item.ArmorItemMeta;
-import pw.switchcraft.plethora.integration.vanilla.meta.item.BannerItemMeta;
-import pw.switchcraft.plethora.integration.vanilla.meta.item.BasicItemMeta;
-import pw.switchcraft.plethora.integration.vanilla.meta.item.ItemMaterialMeta;
+import pw.switchcraft.plethora.integration.vanilla.meta.item.*;
 
 public class VanillaMetaRegistration {
     public static void registerMetaProviders(IMetaRegistry r) {
@@ -40,6 +37,7 @@ public class VanillaMetaRegistration {
         provider(r, "armorItem", ItemStack.class, new ArmorItemMeta());
         provider(r, "bannerItem", ItemStack.class, new BannerItemMeta());
         provider(r, "itemMaterial", ItemStack.class, new ItemMaterialMeta());
+        provider(r, "foodItem", ItemStack.class, ItemMetaProviders.ITEM_FOOD);
     }
 
     private static <T> void provider(IMetaRegistry r, String name, Class<T> target, IMetaProvider<T> provider) {

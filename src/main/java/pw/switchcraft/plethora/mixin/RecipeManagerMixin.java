@@ -30,6 +30,6 @@ public class RecipeManagerMixin {
         };
 
         // Forcibly generate the custom recipes at runtime
-        RecipeRegistry.generateRecipes(exporter);
+        RecipeRegistry.addDynamicRecipes(exporter);
     }
 }

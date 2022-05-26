@@ -15,11 +15,9 @@ import pw.switchcraft.plethora.gameplay.modules.BindableModuleItem;
 
 import javax.annotation.Nonnull;
 
-import static pw.switchcraft.plethora.Plethora.MOD_ID;
+import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.INTROSPECTION_M;
 
 public class IntrospectionModuleItem extends BindableModuleItem {
-    public static Identifier MODULE_ID = new Identifier(MOD_ID, "introspection");
-
     public static final TranslatableText CONTAINER_TEXT = new TranslatableText("container.enderchest");
 
     public IntrospectionModuleItem(Settings settings) {
@@ -43,6 +41,6 @@ public class IntrospectionModuleItem extends BindableModuleItem {
     @Nonnull
     @Override
     public Identifier getModule() {
-        return MODULE_ID;
+        return INTROSPECTION_M;
     }
 }

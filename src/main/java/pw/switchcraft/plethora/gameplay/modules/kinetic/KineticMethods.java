@@ -8,7 +8,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import pw.switchcraft.plethora.api.IPlayerOwnable;
 import pw.switchcraft.plethora.api.method.FutureMethodResult;
@@ -27,16 +26,15 @@ import static pw.switchcraft.plethora.api.method.ArgumentHelper.assertBetween;
 import static pw.switchcraft.plethora.api.method.ContextKeys.ORIGIN;
 import static pw.switchcraft.plethora.core.ContextHelpers.fromContext;
 import static pw.switchcraft.plethora.core.ContextHelpers.fromSubtarget;
+import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.KINETIC_M;
 import static pw.switchcraft.plethora.util.Helpers.normaliseAngle;
 import static pw.switchcraft.plethora.util.config.Config.Kinetic.*;
 
 public class KineticMethods {
-    private static final Identifier MODULE_ID = KineticModuleItem.MODULE_ID;
-
     private static final double TERMINAL_VELOCITY = -2;
 
     public static final SubtargetedModuleMethod<LivingEntity> LAUNCH = SubtargetedModuleMethod.of(
-        "launch", MODULE_ID, LivingEntity.class,
+        "launch", KINETIC_M, LivingEntity.class,
         "function(yaw:number, pitch:number, power:number) -- Launch the entity in a set direction",
         KineticMethods::launch
     );

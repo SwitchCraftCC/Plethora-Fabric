@@ -3,7 +3,6 @@ package pw.switchcraft.plethora.gameplay.modules.sensor;
 import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.LuaException;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import pw.switchcraft.plethora.api.IWorldLocation;
@@ -23,12 +22,11 @@ import java.util.UUID;
 import static pw.switchcraft.plethora.api.method.ContextKeys.ORIGIN;
 import static pw.switchcraft.plethora.core.ContextHelpers.fromContext;
 import static pw.switchcraft.plethora.gameplay.modules.sensor.SensorHelpers.*;
+import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.SENSOR_M;
 
 public class SensorMethods {
-    private static final Identifier MODULE_ID = SensorModuleItem.MODULE_ID;
-
     public static final SubtargetedModuleMethod<IWorldLocation> SENSE = SubtargetedModuleMethod.of(
-        "sense", MODULE_ID, IWorldLocation.class,
+        "sense", SENSOR_M, IWorldLocation.class,
         "function():table -- Scan for entities in the vicinity",
         SensorMethods::sense
     );
@@ -50,7 +48,7 @@ public class SensorMethods {
     }
 
     public static final SubtargetedModuleMethod<IWorldLocation> GET_META_BY_ID = SubtargetedModuleMethod.of(
-        "getMetaByID", MODULE_ID, IWorldLocation.class,
+        "getMetaByID", SENSOR_M, IWorldLocation.class,
         "function(id:string):table|nil -- Find a nearby entity by UUID",
         SensorMethods::getMetaById
     );
@@ -74,7 +72,7 @@ public class SensorMethods {
     }
 
     public static final SubtargetedModuleMethod<IWorldLocation> GET_META_BY_NAME = SubtargetedModuleMethod.of(
-        "getMetaByName", MODULE_ID, IWorldLocation.class,
+        "getMetaByName", SENSOR_M, IWorldLocation.class,
         "function(name:string):table|nil -- Find a nearby entity by name",
         SensorMethods::getMetaByName
     );
@@ -94,7 +92,7 @@ public class SensorMethods {
     private static SensorMethodContext getContext(@Nonnull IUnbakedContext<IModuleContainer> unbaked) throws LuaException {
         IContext<IModuleContainer> ctx = unbaked.bake();
         IWorldLocation location = fromContext(ctx, IWorldLocation.class, ORIGIN);
-        RangeInfo range = fromContext(ctx, RangeInfo.class, MODULE_ID);
+        RangeInfo range = fromContext(ctx, RangeInfo.class, SENSOR_M);
         return new SensorMethodContext(ctx, location, range);
     }
 }

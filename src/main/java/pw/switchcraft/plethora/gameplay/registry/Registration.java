@@ -96,12 +96,17 @@ public final class Registration {
             ComputerCraftMetaRegistration.registerMetaProviders(api.metaRegistry());
             ComputerCraftMethodRegistration.registerMethods(api.methodRegistry());
 
+            // Manipulator peripheral
+            ComputerCraftAPI.registerPeripheralProvider(new ManipulatorPeripheral());
+
+            // Turtle upgrades
             IModuleRegistry moduleRegistry = api.moduleRegistry();
             moduleRegistry.registerTurtleUpgrade(new ItemStack(ModItems.LASER_MODULE));
             moduleRegistry.registerTurtleUpgrade(new ItemStack(ModItems.SCANNER_MODULE));
             moduleRegistry.registerTurtleUpgrade(new ItemStack(ModItems.SENSOR_MODULE));
+            moduleRegistry.registerTurtleUpgrade(new ItemStack(ModItems.INTROSPECTION_MODULE));
 
-            // Kinetic augment gets a special upgrade.
+            // Kinetic augment gets a special turtle upgrade.
             {
                 ItemStack kineticStack = new ItemStack(ModItems.KINETIC_MODULE);
                 ComputerCraftAPI.registerTurtleUpgrade(new KineticTurtleUpgrade(
@@ -111,10 +116,13 @@ public final class Registration {
                 ));
             }
 
-            ComputerCraftAPI.registerPeripheralProvider(new ManipulatorPeripheral());
-
-            // TODO: Pocket upgrades
-            // TODO: Introspection, creative chat
+            // Pocket upgrades
+            moduleRegistry.registerPocketUpgrade(new ItemStack(ModItems.LASER_MODULE));
+            moduleRegistry.registerPocketUpgrade(new ItemStack(ModItems.SCANNER_MODULE));
+            moduleRegistry.registerPocketUpgrade(new ItemStack(ModItems.SENSOR_MODULE));
+            moduleRegistry.registerPocketUpgrade(new ItemStack(ModItems.INTROSPECTION_MODULE));
+            moduleRegistry.registerPocketUpgrade(new ItemStack(ModItems.KINETIC_MODULE));
+            moduleRegistry.registerPocketUpgrade(new ItemStack(ModItems.KEYBOARD_MODULE));
         });
 
         ServerBlockEntityEvents.BLOCK_ENTITY_LOAD.register((blockEntity, world) -> {

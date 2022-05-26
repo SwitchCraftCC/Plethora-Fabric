@@ -1,9 +1,12 @@
 package pw.switchcraft.plethora.api.module;
 
+import dan200.computercraft.api.pocket.IPocketUpgrade;
+import dan200.computercraft.api.turtle.ITurtleUpgrade;
 import net.minecraft.item.ItemStack;
 import pw.switchcraft.plethora.api.vehicle.IVehicleUpgradeHandler;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 /**
  * Various helper methods for modules.
@@ -38,7 +41,7 @@ public interface IModuleRegistry {
 	void registerTurtleUpgrade(@Nonnull ItemStack stack, @Nonnull IModuleHandler handler, @Nonnull String adjective);
 
 	/**
-	 * Register a pocket upgrade. This only works if CCTweaks is installed.
+	 * Register a pocket upgrade.
 	 *
 	 * This will use the stack's module handler and the item name + ".adjective" for its adjective.
 	 *
@@ -47,7 +50,7 @@ public interface IModuleRegistry {
 	void registerPocketUpgrade(@Nonnull ItemStack stack);
 
 	/**
-	 * Register a pocket upgrade. This only works if CCTweaks is installed.
+	 * Register a pocket upgrade.
 	 *
 	 * This will use the stack's module handler.
 	 *
@@ -57,7 +60,7 @@ public interface IModuleRegistry {
 	void registerPocketUpgrade(@Nonnull ItemStack stack, @Nonnull String adjective);
 
 	/**
-	 * Register a pocket upgrade. This only works if CCTweaks is installed.
+	 * Register a pocket upgrade.
 	 *
 	 * @param stack     The stack containing the module.
 	 * @param handler   The module handler.
@@ -72,4 +75,8 @@ public interface IModuleRegistry {
 	 * @return The resulting vehicle upgrade handler.
 	 */
 	IVehicleUpgradeHandler toVehicleUpgrade(@Nonnull IModuleHandler handler);
+
+	List<IPocketUpgrade> getPocketUpgrades();
+
+	List<ITurtleUpgrade> getTurtleUpgrades();
 }

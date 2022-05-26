@@ -24,12 +24,12 @@ import java.util.Map;
 
 import static pw.switchcraft.plethora.api.method.ContextKeys.ORIGIN;
 import static pw.switchcraft.plethora.core.ContextHelpers.fromContext;
+import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.SCANNER_M;
+import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.SCANNER_S;
 
 public class ScannerMethods {
-    private static final Identifier MODULE_ID = ScannerModuleItem.MODULE_ID;
-
     public static final SubtargetedModuleMethod<IWorldLocation> SCAN = SubtargetedModuleMethod.of(
-        "scan", MODULE_ID, IWorldLocation.class,
+        "scan", SCANNER_M, IWorldLocation.class,
         "function():table -- Scan all blocks in the vicinity",
         ScannerMethods::scan
     );
@@ -71,7 +71,7 @@ public class ScannerMethods {
     }
 
     public static final SubtargetedModuleMethod<IWorldLocation> GET_BLOCK_META = SubtargetedModuleMethod.of(
-        "getBlockMeta", MODULE_ID, IWorldLocation.class,
+        "getBlockMeta", SCANNER_M, IWorldLocation.class,
         "function(x:integer, y:integer, z:integer):table|nil -- -- Get metadata about a nearby block",
         ScannerMethods::getBlockMeta
     );
@@ -96,7 +96,7 @@ public class ScannerMethods {
     private static ScannerMethodContext getContext(@Nonnull IUnbakedContext<IModuleContainer> unbaked) throws LuaException {
         IContext<IModuleContainer> ctx = unbaked.bake();
         IWorldLocation location = fromContext(ctx, IWorldLocation.class, ORIGIN);
-        RangeInfo range = fromContext(ctx, RangeInfo.class, MODULE_ID);
+        RangeInfo range = fromContext(ctx, RangeInfo.class, SCANNER_S);
         return new ScannerMethodContext(ctx, location, range);
     }
 }

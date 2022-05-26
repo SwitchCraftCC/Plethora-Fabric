@@ -1,12 +1,8 @@
 package pw.switchcraft.plethora.gameplay.data;
 
-import net.minecraft.advancement.criterion.InventoryChangedCriterion;
 import net.minecraft.data.server.recipe.ComplexRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
-import net.minecraft.item.Item;
-import net.minecraft.predicate.item.ItemPredicate;
 import net.minecraft.recipe.SpecialRecipeSerializer;
-import net.minecraft.tag.TagKey;
 import net.minecraft.util.registry.Registry;
 import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticRecipe;
 import pw.switchcraft.plethora.gameplay.modules.laser.LaserRecipe;
@@ -14,7 +10,7 @@ import pw.switchcraft.plethora.gameplay.modules.laser.LaserRecipe;
 import java.util.function.Consumer;
 
 public class RecipeRegistry {
-    public static void generateRecipes(Consumer<RecipeJsonProvider> exporter) {
+    public static void addDynamicRecipes(Consumer<RecipeJsonProvider> exporter) {
         // TODO: Dummy recipe hint for kinetic augment's potions
 //        ShapedRecipeJsonBuilder
 //            .create(Registration.ModItems.KINETIC_MODULE, 1)
@@ -51,10 +47,6 @@ public class RecipeRegistry {
 //                .criterion("has_diamond", inventoryChange(ConventionalItemTags.DIAMONDS)) // TODO
 //                .offerTo(exporter, new Identifier(MOD_ID, "laser_module_" + i));
 //        }
-    }
-
-    private static InventoryChangedCriterion.Conditions inventoryChange(TagKey<Item> tag) {
-        return InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().tag(tag).build());
     }
 
     private static void addSpecial(Consumer<RecipeJsonProvider> exporter, SpecialRecipeSerializer<?> special) {

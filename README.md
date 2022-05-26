@@ -29,7 +29,7 @@ ongoing.
 ### Other features
 - [ ] Minecart computer
 - [x] Turtle upgrades
-- [ ] Pocket upgrades
+- [x] Pocket upgrades
 - [ ] Vehicle upgrades
 - [x] Cost system
   - [ ] Config

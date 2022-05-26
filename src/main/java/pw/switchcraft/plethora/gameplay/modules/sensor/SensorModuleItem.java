@@ -6,11 +6,9 @@ import pw.switchcraft.plethora.util.config.Config.Sensor;
 
 import javax.annotation.Nonnull;
 
-import static pw.switchcraft.plethora.Plethora.MOD_ID;
+import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.SENSOR_M;
 
 public class SensorModuleItem extends LevelableModuleItem {
-    public static final Identifier MODULE_ID = new Identifier(MOD_ID, "sensor");
-
     public SensorModuleItem(Settings settings) {
         super("sensor", settings);
     }
@@ -33,6 +31,6 @@ public class SensorModuleItem extends LevelableModuleItem {
     @Nonnull
     @Override
     public Identifier getModule() {
-        return MODULE_ID;
+        return SENSOR_M;
     }
 }

@@ -93,28 +93,13 @@ final class ModuleRegistry implements IModuleRegistry {
 		return new VehicleUpgradeModule(handler);
 	}
 
-	// TODO: Module turtle+pocket upgrade recipes
-//	void addRecipes(IForgeRegistry<IRecipe> registry) {
-//		for (ITurtleUpgrade upgrade : turtleUpgrades) {
-//			registry.register(new ImpostorRecipe(
-//				PlethoraCore.ID + ":turtle_upgrade", 2, 1,
-//				new ItemStack[]{
-//					upgrade.getCraftingItem(),
-//					TurtleItemFactory.create(-1, null, -1, ComputerFamily.Normal, null, null, -1, null)
-//				},
-//				TurtleItemFactory.create(-1, null, -1, ComputerFamily.Normal, null, upgrade, -1, null)
-//			).setRegistryName(new ResourceLocation(PlethoraCore.ID, "turtle_" + upgrade.getUpgradeID().toString().replace(':', '_'))));
-//		}
-//
-//		for (IPocketUpgrade upgrade : pocketUpgrades) {
-//			registry.register(new ImpostorRecipe(
-//				PlethoraCore.ID + ":pocket_upgrade", 1, 2,
-//				new ItemStack[]{
-//					upgrade.getCraftingItem(),
-//					PocketComputerItemFactory.create(-1, null, -1, ComputerFamily.Normal, null)
-//				},
-//				PocketComputerItemFactory.create(-1, null, -1, ComputerFamily.Normal, upgrade)
-//			).setRegistryName(new ResourceLocation(PlethoraCore.ID, "pocket_" + upgrade.getUpgradeID().toString().replace(':', '_'))));
-//		}
-//	}
+	@Override
+	public List<IPocketUpgrade> getPocketUpgrades() {
+		return pocketUpgrades;
+	}
+
+	@Override
+	public List<ITurtleUpgrade> getTurtleUpgrades() {
+		return turtleUpgrades;
+	}
 }

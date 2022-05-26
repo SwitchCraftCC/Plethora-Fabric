@@ -3,18 +3,19 @@ package pw.switchcraft.plethora.gameplay.modules.kinetic;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.*;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 import pw.switchcraft.plethora.gameplay.modules.ModuleItem;
 
 import javax.annotation.Nonnull;
 
-import static pw.switchcraft.plethora.Plethora.MOD_ID;
+import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.KINETIC_M;
 import static pw.switchcraft.plethora.util.config.Config.Kinetic.launchMax;
 
 public class KineticModuleItem extends ModuleItem {
-    public static final Identifier MODULE_ID = new Identifier(MOD_ID, "kinetic");
-
     private static final int MAX_TICKS = 72000;
     private static final int USE_TICKS = 30;
 
@@ -57,6 +58,6 @@ public class KineticModuleItem extends ModuleItem {
     @Nonnull
     @Override
     public Identifier getModule() {
-        return MODULE_ID;
+        return KINETIC_M;
     }
 }

@@ -15,7 +15,6 @@ import pw.switchcraft.plethora.api.method.IUnbakedContext;
 import pw.switchcraft.plethora.api.module.IModuleContainer;
 import pw.switchcraft.plethora.api.module.SubtargetedModuleMethod;
 import pw.switchcraft.plethora.gameplay.PlethoraFakePlayer;
-import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticModuleItem;
 import pw.switchcraft.plethora.integration.PlayerInteractionHelpers;
 import pw.switchcraft.plethora.integration.computercraft.TurtleFakePlayerProvider;
 import pw.switchcraft.plethora.util.PlayerHelpers;
@@ -26,10 +25,11 @@ import javax.annotation.Nullable;
 import static pw.switchcraft.plethora.api.method.ContextKeys.ORIGIN;
 import static pw.switchcraft.plethora.core.ContextHelpers.fromContext;
 import static pw.switchcraft.plethora.core.ContextHelpers.fromSubtarget;
+import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.KINETIC_M;
 
 public class TurtleKineticMethods {
     public static final SubtargetedModuleMethod<ITurtleAccess> USE = SubtargetedModuleMethod.of(
-        "use", KineticModuleItem.MODULE_ID, ITurtleAccess.class,
+        "use", KINETIC_M, ITurtleAccess.class,
         "function([duration:integer]):boolean, string|nil -- Right click with this item. The duration is in ticks, " +
         "or 1/20th of a second.",
         TurtleKineticMethods::use
@@ -56,7 +56,7 @@ public class TurtleKineticMethods {
     }
 
     public static final SubtargetedModuleMethod<ITurtleAccess> SWING = SubtargetedModuleMethod.of(
-        "swing", KineticModuleItem.MODULE_ID, ITurtleAccess.class,
+        "swing", KINETIC_M, ITurtleAccess.class,
         "function():boolean, string|nil -- Left click with this item. Returns the action taken.",
         TurtleKineticMethods::swing
     );

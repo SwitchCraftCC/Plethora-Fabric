@@ -20,13 +20,13 @@ import pw.switchcraft.plethora.api.module.SubtargetedModuleMethod;
 import pw.switchcraft.plethora.gameplay.PlethoraFakePlayer;
 import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticMethods;
 import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticMethods.KineticMethodContext;
-import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticModuleItem;
 import pw.switchcraft.plethora.integration.PlayerInteractionHelpers;
 import pw.switchcraft.plethora.util.PlayerHelpers;
 
 import javax.annotation.Nonnull;
 import java.util.EnumSet;
 
+import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.KINETIC_M;
 import static pw.switchcraft.plethora.util.Helpers.normaliseAngle;
 
 public final class EntityKineticMethods {
@@ -37,7 +37,7 @@ public final class EntityKineticMethods {
     );
 
     public static final SubtargetedModuleMethod<LivingEntity> LOOK = SubtargetedModuleMethod.of(
-        "look", KineticModuleItem.MODULE_ID, LivingEntity.class,
+        "look", KINETIC_M, LivingEntity.class,
         "function(yaw:number, pitch:number) -- Look in a set direction",
         EntityKineticMethods::look
     );
@@ -62,7 +62,7 @@ public final class EntityKineticMethods {
     }
 
     public static final SubtargetedModuleMethod<LivingEntity> USE = SubtargetedModuleMethod.of(
-        "use", KineticModuleItem.MODULE_ID, LivingEntity.class,
+        "use", KINETIC_M, LivingEntity.class,
         "function([duration:integer], [hand:string]):boolean, string|nil -- Right click with this item using a " +
         "particular hand (\"main\" or \"off\"). The duration is in ticks, or 1/20th of a second.",
         EntityKineticMethods::use
@@ -87,7 +87,7 @@ public final class EntityKineticMethods {
     }
 
     public static final SubtargetedModuleMethod<LivingEntity> SWING = SubtargetedModuleMethod.of(
-        "swing", KineticModuleItem.MODULE_ID, LivingEntity.class,
+        "swing", KINETIC_M, LivingEntity.class,
         "function():boolean, string|nil -- Left click with the item in the main hand. Returns the action taken.",
         EntityKineticMethods::swing
     );

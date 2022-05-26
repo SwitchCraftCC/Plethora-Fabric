@@ -6,11 +6,13 @@ import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.turtle.ITurtleAccess;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import pw.switchcraft.plethora.api.IPlayerOwnable;
 import pw.switchcraft.plethora.api.IWorldLocation;
-import pw.switchcraft.plethora.api.method.*;
+import pw.switchcraft.plethora.api.method.ArgumentHelper;
+import pw.switchcraft.plethora.api.method.FutureMethodResult;
+import pw.switchcraft.plethora.api.method.IContext;
+import pw.switchcraft.plethora.api.method.IUnbakedContext;
 import pw.switchcraft.plethora.api.module.IModuleContainer;
 import pw.switchcraft.plethora.api.module.SubtargetedModuleMethod;
 import pw.switchcraft.plethora.util.PlayerHelpers;
@@ -19,15 +21,14 @@ import pw.switchcraft.plethora.util.config.Config;
 import javax.annotation.Nonnull;
 
 import static pw.switchcraft.plethora.api.method.ContextKeys.ORIGIN;
+import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.LASER_M;
 import static pw.switchcraft.plethora.util.Helpers.normaliseAngle;
 import static pw.switchcraft.plethora.util.config.Config.Laser.maximumPotency;
 import static pw.switchcraft.plethora.util.config.Config.Laser.minimumPotency;
 
 public class LaserMethods {
-    private static final Identifier MODULE_ID = LaserModuleItem.MODULE_ID;
-
     public static final SubtargetedModuleMethod<IWorldLocation> FIRE = SubtargetedModuleMethod.of(
-        "fire", MODULE_ID, IWorldLocation.class,
+        "fire", LASER_M, IWorldLocation.class,
         "function(yaw:number, pitch:number, potency:number) -- Fire a laser in a set direction",
         LaserMethods::fire
     );

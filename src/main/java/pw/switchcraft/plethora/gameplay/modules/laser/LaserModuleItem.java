@@ -15,15 +15,13 @@ import pw.switchcraft.plethora.gameplay.modules.ModuleItem;
 
 import javax.annotation.Nonnull;
 
-import static pw.switchcraft.plethora.Plethora.MOD_ID;
+import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.LASER_M;
 import static pw.switchcraft.plethora.util.config.Config.Laser.maximumPotency;
 import static pw.switchcraft.plethora.util.config.Config.Laser.minimumPotency;
 
 public class LaserModuleItem extends ModuleItem implements IModuleHandler {
     private static final int MAX_TICKS = 72000;
     private static final int USE_TICKS = 30;
-
-    public static final Identifier MODULE_ID = new Identifier(MOD_ID, "laser");
 
     /**
      * We multiply the gaussian by this number.
@@ -77,7 +75,7 @@ public class LaserModuleItem extends ModuleItem implements IModuleHandler {
     @Nonnull
     @Override
     public Identifier getModule() {
-        return MODULE_ID;
+        return LASER_M;
     }
 
     @Override

@@ -19,11 +19,11 @@ import javax.annotation.Nonnull;
 
 import static net.minecraft.entity.player.PlayerInventory.MAIN_SIZE;
 import static pw.switchcraft.plethora.gameplay.modules.introspection.IntrospectionContextHelpers.getPlayerContext;
-import static pw.switchcraft.plethora.gameplay.modules.introspection.IntrospectionModuleItem.MODULE_ID;
+import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.INTROSPECTION_M;
 
 public final class EntityIntrospectionMethods {
     public static final SubtargetedModuleMethod<EntityIdentifier.Player> GET_INVENTORY = SubtargetedModuleMethod.of(
-        "getInventory", MODULE_ID, EntityIdentifier.Player.class,
+        "getInventory", INTROSPECTION_M, EntityIdentifier.Player.class,
         "function():table -- Get this player's inventory",
         EntityIntrospectionMethods::getInventory
     );
@@ -36,7 +36,7 @@ public final class EntityIntrospectionMethods {
     }
 
     public static final SubtargetedModuleMethod<EntityIdentifier.Player> GET_EQUIPMENT = SubtargetedModuleMethod.of(
-        "getEquipment", MODULE_ID, EntityIdentifier.Player.class,
+        "getEquipment", INTROSPECTION_M, EntityIdentifier.Player.class,
         "function():table -- Get this player's held item and armor",
         EntityIntrospectionMethods::getEquipment
     );
@@ -49,7 +49,7 @@ public final class EntityIntrospectionMethods {
     }
 
     public static final SubtargetedModuleMethod<EntityIdentifier.Player> GET_ENDER_CHEST = SubtargetedModuleMethod.of(
-        "getEnder", MODULE_ID, EntityIdentifier.Player.class,
+        "getEnder", INTROSPECTION_M, EntityIdentifier.Player.class,
         "function():table -- Get this player's ender chest",
         EntityIntrospectionMethods::getEnder
     );
