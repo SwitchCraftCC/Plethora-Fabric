@@ -38,7 +38,7 @@ ongoing.
 
 ### Integration
 - [x] API
-- [ ] ComputerCraft integration
+- [x] ComputerCraft integration
 - [x] Vanilla integration
   - [ ] Vanilla modules (daylight sensor, clock, note block) 
 
