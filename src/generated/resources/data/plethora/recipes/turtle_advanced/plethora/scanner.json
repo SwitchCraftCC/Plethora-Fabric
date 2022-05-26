@@ -1,0 +1,19 @@
+{
+  "type": "computercraft:impostor_shaped",
+  "group": "plethora:turtle_advanced",
+  "pattern": [
+    "#T"
+  ],
+  "key": {
+    "T": {
+      "item": "computercraft:turtle_advanced"
+    },
+    "#": {
+      "item": "plethora:module_scanner"
+    }
+  },
+  "result": {
+    "item": "computercraft:turtle_advanced",
+    "nbt": "{RightUpgrade:\"plethora:scanner\"}"
+  }
+}
