@@ -1,6 +1,9 @@
 package pw.switchcraft.plethora.gameplay.neural;
 
+import dan200.computercraft.api.peripheral.IPeripheral;
+import dan200.computercraft.api.pocket.IPocketUpgrade;
 import dan200.computercraft.core.computer.ComputerSide;
+import dan200.computercraft.shared.PocketUpgrades;
 import dan200.computercraft.shared.computer.core.ComputerFamily;
 import dan200.computercraft.shared.computer.core.ServerComputer;
 import net.minecraft.entity.LivingEntity;
@@ -31,9 +34,11 @@ public class NeuralComputer extends ServerComputer {
     private boolean moduleDataDirty = false;
 
     private final TaskRunner runner = new TaskRunner();
+    private final NeuralPocketAccess access;
 
     public NeuralComputer(World world, int computerId, String label, int instanceId) {
         super(world, computerId, label, instanceId, ComputerFamily.ADVANCED, WIDTH, HEIGHT);
+        access = new NeuralPocketAccess(this);
     }
 
     public TaskRunner getExecutor() {
@@ -82,14 +87,27 @@ public class NeuralComputer extends ServerComputer {
             moduleHash = Helpers.hashStacks(stacks.subList(PERIPHERAL_SIZE, INV_SIZE));
         }
 
-        // TODO: Update peripherals
+        // Update peripherals
+        for (int slot = 0; slot < PERIPHERAL_SIZE; slot++) {
+            ItemStack stack = stacks.get(slot);
+            if (stack.isEmpty()) continue;
+
+            IPocketUpgrade upgrade = PocketUpgrades.get(stack);
+            if (upgrade == null) continue;
+
+            ComputerSide side = ComputerSide.valueOf(slot < BACK ? slot : slot + 1);
+            IPeripheral peripheral = getPeripheral(side);
+            if (peripheral == null) continue;
+
+            upgrade.update(access, peripheral);
+        }
 
         if (dirtyStatus != 0) {
             for (int slot = 0; slot < PERIPHERAL_SIZE; slot++) {
                 if ((dirtyStatus & (1 << slot)) == 1 << slot) {
                     // We skip the "back" slot
-                    // TODO: Peripherals
-                    // setPeripheral(ComputerSide.valueOf(slot < BACK ? slot : slot + 1), buildPeripheral(stacks.get(slot)));
+                    setPeripheral(ComputerSide.valueOf(slot < BACK ? slot : slot + 1),
+                        buildPeripheral(access, stacks.get(slot)));
                 }
             }
 
@@ -113,5 +131,9 @@ public class NeuralComputer extends ServerComputer {
         }
 
         return false;
+    }
+
+    WeakReference<LivingEntity> getEntity() {
+        return entity;
     }
 }

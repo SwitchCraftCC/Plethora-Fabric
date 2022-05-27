@@ -11,7 +11,7 @@ ongoing.
 - [x] Entity sensor
 - [ ] Keyboard
 - [x] Neural interface
-  - [ ] Peripheral API
+  - [x] Peripheral API
   - [x] Module API
 
 ### Peripheral modules

@@ -2,6 +2,7 @@ package pw.switchcraft.plethora.gameplay.neural;
 
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IDynamicPeripheral;
+import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.pocket.IPocketUpgrade;
 import dan200.computercraft.shared.PocketUpgrades;
 import dev.emi.trinkets.api.SlotReference;
@@ -71,7 +72,14 @@ public class NeuralHelpers {
         }
     }
 
-    // TODO: buildPeripheral
+    public static IPeripheral buildPeripheral(@Nonnull NeuralPocketAccess access, @Nonnull ItemStack stack) {
+        if (stack.isEmpty()) return null;
+
+        IPocketUpgrade upgrade = PocketUpgrades.get(stack);
+        if (upgrade == null) return null;
+
+        return upgrade.createPeripheral(access);
+    }
 
     public static IDynamicPeripheral buildModules(final NeuralComputer computer,
                                                   final DefaultedList<ItemStack> inventory, Entity owner) {
@@ -155,7 +163,7 @@ public class NeuralHelpers {
     }
 
     private static final class NeuralAccess implements IModuleAccess {
-        private AttachableWrapperPeripheral wrapper; // TODO: Implement NeuralHelpers.buildModules
+        private AttachableWrapperPeripheral wrapper;
 
         private final Entity owner;
         private final NeuralComputer computer;
