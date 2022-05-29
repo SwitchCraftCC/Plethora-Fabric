@@ -39,6 +39,9 @@
   "item.plethora.module.module_laser.adjective": "Laser",
   "item.plethora.module.module_laser.desc": "It fires lasers. 'nough said",
 
+  "item.plethora.module.module_glasses": "Overlay glasses",
+  "item.plethora.module.module_glasses.desc": "Renders an overlay over the world.",
+
   "item.plethora.module.module_scanner": "Block scanner",
   "item.plethora.module.module_scanner.adjective": "Scanning",
   "item.plethora.module.module_scanner.desc": "Allows scanning blocks in the vicinity",

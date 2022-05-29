@@ -12,7 +12,7 @@ public interface IUnbakedContext<T> {
 	/**
 	 * Bake a context, ensuring all references are valid
 	 *
-	 * Note, this method is NOT thread safe and MUST be called from the server thread. Use {@link #safeBake()} if
+	 * Note, this method is NOT thread safe and MUST be called from the canvas thread. Use {@link #safeBake()} if
 	 * you need a safe version.
 	 *
 	 * @return The baked context

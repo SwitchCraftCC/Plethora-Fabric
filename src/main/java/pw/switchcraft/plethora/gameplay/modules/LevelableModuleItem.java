@@ -70,7 +70,7 @@ public abstract class LevelableModuleItem extends ModuleItem {
         int level = getLevel(stack);
         builder.addContext(moduleKey, RangeInfo.of(level,
             x -> x * getLevelCost(),
-            x -> getEffectiveRange(x, getBaseRange(), getMaxRange())
+            x -> getEffectiveRange(getBaseRange(), getMaxRange(), x)
         ));
     }
 }

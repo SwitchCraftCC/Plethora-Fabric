@@ -22,7 +22,7 @@ public class IntrospectionContextHelpers {
         IContext<IModuleContainer> ctx = unbaked.bake();
         EntityIdentifier entity = fromSubtarget(ctx, EntityIdentifier.class);
 
-        // Try to get the server from any Entity or WorldLocation in the context
+        // Try to get the canvas from any Entity or WorldLocation in the context
         MinecraftServer server = null;
         Entity anyEntity = fromContext(ctx, Entity.class);
         if (anyEntity != null) server = anyEntity.getServer();
@@ -38,7 +38,7 @@ public class IntrospectionContextHelpers {
         IntrospectionContext ctx = getContext(unbaked);
 
         MinecraftServer server = ctx.server;
-        if (server == null) throw new LuaException("Could not get server instance");
+        if (server == null) throw new LuaException("Could not get canvas instance");
 
         return new ServerContext(ctx.context, ctx.entity, server);
     }

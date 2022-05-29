@@ -41,7 +41,7 @@ public class NeuralInterfaceScreenFactory implements ExtendedScreenHandlerFactor
         if (parent == null) return null;
 
         Optional<ItemStack> optStack = NeuralHelpers.getStack(parent);
-        if (optStack.isEmpty() || optStack.get().isEmpty()) return null;
+        if (optStack.isEmpty()) return null;
 
         return new NeuralInterfaceScreenHandler(syncId, inv, parent, optStack.get());
     }

@@ -41,6 +41,16 @@ public abstract class BasicMethod<T> implements IMethod<T> {
 		return of(name, docs, delegate, true);
 	}
 
+	public static <T> BasicMethod<T> alias(BasicMethod<T> method, String name) {
+		return new BasicMethod<>(name, method.getPriority(), method.getDocString()) {
+			@Nonnull
+			@Override
+			public FutureMethodResult apply(@Nonnull IUnbakedContext<T> context, @Nonnull IArguments args) throws LuaException {
+				return method.apply(context, args);
+			}
+		};
+	}
+
 	@Nonnull
 	@Override
 	public final String getName() {

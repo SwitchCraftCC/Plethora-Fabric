@@ -55,7 +55,7 @@ public class NeuralHelpers {
 
     public static Optional<ItemStack> getStack(LivingEntity entity) {
         var slotPair = getSlot(entity);
-        return slotPair.map(Pair::getRight);
+        return slotPair.map(Pair::getRight).filter(stack -> !stack.isEmpty());
     }
 
     public static boolean isItemValid(int slot, @Nonnull ItemStack stack) {

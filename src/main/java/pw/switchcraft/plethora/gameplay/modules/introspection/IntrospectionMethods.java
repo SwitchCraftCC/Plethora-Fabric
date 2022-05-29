@@ -17,7 +17,7 @@ import static pw.switchcraft.plethora.gameplay.modules.introspection.Introspecti
 import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.INTROSPECTION_M;
 import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.SENSOR_M;
 
-public class IntrospectionMethods {
+public final class IntrospectionMethods {
     public static final SubtargetedModuleMethod<EntityIdentifier> GET_ID = SubtargetedModuleMethod.of(
         "getID", INTROSPECTION_M, EntityIdentifier.class,
         "function():string -- Get this entity's UUID.",
