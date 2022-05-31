@@ -86,8 +86,7 @@ public class Rectangle extends ColourableObject implements Positionable2d {
 		float maxX = minX + width, maxY = minY + height;
 		int red = getRed(), green = getGreen(), blue = getBlue(), alpha = getAlpha();
 
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder buffer = tessellator.getBuffer();
+		BufferBuilder buffer = Tessellator.getInstance().getBuffer();
 		Matrix4f matrix = matrices.peek().getPositionMatrix();
 
 		buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);

@@ -91,9 +91,7 @@ public class RedstoneIntegratorPeripheral implements IPeripheral {
     @LuaFunction({ "setAnalogOutput", "setAnalogueOutput" })
     public final void setAnalogOutput(IArguments args) throws LuaException {
         int side = getFacing(args, 0).ordinal();
-        int power = args.getInt(1);
-
-        assertBetween(power, 0, 15, "Power out of range (%s)");
+        int power = assertBetween(args.getInt(1), 0, 15, "Power out of range (%s)");
 
         be.outputs[side] = (byte) power;
         be.enqueueOutputTick();

@@ -9,7 +9,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 import pw.switchcraft.plethora.api.IPlayerOwnable;
 import pw.switchcraft.plethora.api.IWorldLocation;
-import pw.switchcraft.plethora.api.method.ArgumentHelper;
 import pw.switchcraft.plethora.api.method.FutureMethodResult;
 import pw.switchcraft.plethora.api.method.IContext;
 import pw.switchcraft.plethora.api.method.IUnbakedContext;
@@ -20,6 +19,7 @@ import pw.switchcraft.plethora.util.config.Config;
 
 import javax.annotation.Nonnull;
 
+import static pw.switchcraft.plethora.api.method.ArgumentHelper.assertBetween;
 import static pw.switchcraft.plethora.api.method.ContextKeys.ORIGIN;
 import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.LASER_M;
 import static pw.switchcraft.plethora.util.Helpers.normaliseAngle;
@@ -36,9 +36,7 @@ public class LaserMethods {
                                            @Nonnull IArguments args) throws LuaException {
         double yaw = normaliseAngle(args.getFiniteDouble(0));
         double pitch = normaliseAngle(args.getFiniteDouble(1));
-        final float potency = (float) args.getFiniteDouble(2);
-
-        ArgumentHelper.assertBetween(potency, minimumPotency, maximumPotency, "Potency out of range (%s).");
+        final float potency = (float) assertBetween(args.getFiniteDouble(2), minimumPotency, maximumPotency, "Potency out of range (%s).");
 
         final double motionX = -Math.sin(yaw / 180.0f * (float) Math.PI) * Math.cos(pitch / 180.0f * (float) Math.PI);
         final double motionZ = Math.cos(yaw / 180.0f * (float) Math.PI) * Math.cos(pitch / 180.0f * (float) Math.PI);

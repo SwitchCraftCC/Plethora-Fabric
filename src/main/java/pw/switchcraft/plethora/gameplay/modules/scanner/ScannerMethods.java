@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static pw.switchcraft.plethora.api.method.ArgumentHelper.assertBetween;
 import static pw.switchcraft.plethora.api.method.ContextKeys.ORIGIN;
 import static pw.switchcraft.plethora.core.ContextHelpers.fromContext;
 import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.SCANNER_M;
@@ -80,12 +81,9 @@ public class ScannerMethods {
         ScannerMethodContext ctx = getContext(unbaked);
         int radius = ctx.range.getRange();
 
-        int x = args.getInt(0);
-        int y = args.getInt(1);
-        int z = args.getInt(2);
-        ArgumentHelper.assertBetween(x, -radius, radius, "X coordinate out of bounds (%s)");
-        ArgumentHelper.assertBetween(y, -radius, radius, "Y coordinate out of bounds (%s)");
-        ArgumentHelper.assertBetween(z, -radius, radius, "Z coordinate out of bounds (%s)");
+        int x = assertBetween(args.getInt(0), -radius, radius, "X coordinate out of bounds (%s)");
+        int y = assertBetween(args.getInt(1), -radius, radius, "Y coordinate out of bounds (%s)");
+        int z = assertBetween(args.getInt(2), -radius, radius, "Z coordinate out of bounds (%s)");
 
         return FutureMethodResult.result(ctx.context
             .makeChild(new BlockReference(new WorldLocation(ctx.loc.getWorld(), ctx.loc.getPos().add(x, y, z))))

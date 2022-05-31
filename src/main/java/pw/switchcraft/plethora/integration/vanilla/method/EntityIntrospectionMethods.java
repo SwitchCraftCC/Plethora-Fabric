@@ -31,7 +31,7 @@ public final class EntityIntrospectionMethods {
                                                    @Nonnull IArguments args) throws LuaException {
         PlayerContext ctx = getPlayerContext(unbaked);
         ServerPlayerEntity player = ctx.player().getPlayer(ctx.server());
-        RangedInventoryWrapper wrapped = new RangedInventoryWrapper(player.getInventory(), MAIN_SIZE, 5);
+        RangedInventoryWrapper wrapped = new RangedInventoryWrapper(player.getInventory(), 0, MAIN_SIZE);
         return wrapInventory(ctx.context(), wrapped);
     }
 

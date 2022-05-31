@@ -6,9 +6,9 @@ import pw.switchcraft.plethora.api.method.IMethodRegistry;
 import pw.switchcraft.plethora.api.module.IModuleContainer;
 import pw.switchcraft.plethora.gameplay.modules.glasses.GlassesMethods;
 import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.Canvas2dMethods;
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.BaseObject;
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.Colourable;
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectGroup;
+import pw.switchcraft.plethora.gameplay.modules.glasses.objects.*;
+import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.MultiPoint2d;
+import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.MultiPointResizable2d;
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.Positionable2d;
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.Rectangle;
 import pw.switchcraft.plethora.gameplay.modules.introspection.IntrospectionMethods;
@@ -56,8 +56,18 @@ final class PlethoraMethodRegistration {
         methods(r, Colourable.class, Colourable.GET_COLOUR, Colourable.GET_COLOR, Colourable.SET_COLOUR,
             Colourable.SET_COLOR, Colourable.GET_ALPHA, Colourable.SET_ALPHA);
         methods(r, Rectangle.class, Rectangle.GET_SIZE, Rectangle.SET_SIZE);
+        methods(r, MultiPoint2d.class, MultiPoint2d.GET_POINT, MultiPoint2d.SET_POINT);
+        methods(r, MultiPointResizable2d.class, MultiPointResizable2d.GET_POINT_COUNT,
+            MultiPointResizable2d.REMOVE_POINT, MultiPointResizable2d.INSERT_POINT);
+        methods(r, Scalable.class, Scalable.GET_SCALE, Scalable.SET_SCALE);
+        methods(r, TextObject.class, TextObject.GET_TEXT, TextObject.SET_TEXT, TextObject.SET_SHADOW,
+            TextObject.HAS_SHADOW, TextObject.GET_LINE_HEIGHT, TextObject.SET_LINE_HEIGHT);
+        methods(r, ItemObject.class, ItemObject.GET_ITEM, ItemObject.SET_ITEM);
 
-        methods(r, ObjectGroup.Group2d.class, Canvas2dMethods.ADD_RECTANGLE, Canvas2dMethods.ADD_GROUP);
+        methods(r, ObjectGroup.Group2d.class, Canvas2dMethods.ADD_RECTANGLE, Canvas2dMethods.ADD_LINE,
+            Canvas2dMethods.ADD_DOT, Canvas2dMethods.ADD_TEXT, Canvas2dMethods.ADD_TRIANGLE,
+            Canvas2dMethods.ADD_POLYGON, Canvas2dMethods.ADD_LINES, Canvas2dMethods.ADD_ITEM,
+            Canvas2dMethods.ADD_GROUP);
         methods(r, ObjectGroup.Frame2d.class, Canvas2dMethods.GET_SIZE);
     }
 

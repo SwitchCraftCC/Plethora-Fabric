@@ -1,18 +1,17 @@
 package pw.switchcraft.plethora.gameplay.modules.glasses.objects;
 
 import net.minecraft.network.PacketByteBuf;
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.ObjectGroup2d;
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.Rectangle;
+import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.*;
 
 public final class ObjectRegistry {
 	public static final byte RECTANGLE_2D = 0;
-	// public static final byte LINE_2D = 1;
-	// public static final byte DOT_2D = 2;
-	// public static final byte TEXT_2D = 3;
-	// public static final byte TRIANGLE_2D = 4;
-	// public static final byte POLYGON_2D = 5;
-	// public static final byte LINE_LOOP_2D = 6;
-	// public static final byte ITEM_2D = 7;
+	public static final byte LINE_2D = 1;
+	public static final byte DOT_2D = 2;
+	public static final byte TEXT_2D = 3;
+	public static final byte TRIANGLE_2D = 4;
+	public static final byte POLYGON_2D = 5;
+	public static final byte LINE_LOOP_2D = 6;
+	public static final byte ITEM_2D = 7;
 	public static final byte GROUP_2D = 8;
 
 	// public static final byte ORIGIN_3D = 9;
@@ -23,13 +22,13 @@ public final class ObjectRegistry {
 
 	private static final BaseObject.Factory[] FACTORIES = new BaseObject.Factory[]{
 		Rectangle::new,
-		null, // Line::new,
-		null, // Dot::new,
-		null, // Text::new,
-		null, // Triangle::new,
-		null, // Polygon::new,
-		null, // LineLoop::new,
-		null, // Item2D::new,
+		Line::new,
+		Dot::new,
+		Text::new,
+		Triangle::new,
+		Polygon::new,
+		LineLoop::new,
+		Item2d::new,
 		ObjectGroup2d::new,
 
 		null, // ObjectRoot3D::new,
