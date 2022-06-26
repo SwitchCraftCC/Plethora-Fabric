@@ -11,8 +11,8 @@ public class PlethoraModules {
     public static final String SENSOR        = "sensor";
     public static final String KINETIC       = "kinetic";
     public static final String KEYBOARD      = "keyboard";
+    public static final String GLASSES       = "glasses";
     // public static final String CHAT          = "chat";
-    // public static final String GLASSES       = "glasses";
     // public static final String CHAT_CREATIVE = "chat_creative";
 
     public static final String INTROSPECTION_S = MOD_ID + ":" + INTROSPECTION;
@@ -21,8 +21,8 @@ public class PlethoraModules {
     public static final String SCANNER_S       = MOD_ID + ":" + SCANNER;
     public static final String SENSOR_S        = MOD_ID + ":" + SENSOR;
     public static final String KEYBOARD_S      = MOD_ID + ":" + KEYBOARD;
+    public static final String GLASSES_S       = MOD_ID + ":" + GLASSES;
     // public static final String CHAT_S          = MOD_ID + ":" + CHAT;
-    // public static final String GLASSES_S       = MOD_ID + ":" + GLASSES;
     // public static final String CHAT_CREATIVE_S = MOD_ID + ":" + CHAT_CREATIVE;
 
     public static final Identifier INTROSPECTION_M = new Identifier(MOD_ID, INTROSPECTION);
@@ -31,12 +31,12 @@ public class PlethoraModules {
     public static final Identifier SCANNER_M       = new Identifier(MOD_ID, SCANNER);
     public static final Identifier SENSOR_M        = new Identifier(MOD_ID, SENSOR);
     public static final Identifier KEYBOARD_M      = new Identifier(MOD_ID, KEYBOARD);
+    public static final Identifier GLASSES_M       = new Identifier(MOD_ID, GLASSES);
     // public static final Identifier CHAT_M          = new Identifier(MOD_ID, CHAT);
-    // public static final Identifier GLASSES_M       = new Identifier(MOD_ID, GLASSES);
     // public static final Identifier CHAT_CREATIVE_M = new Identifier(MOD_ID, CHAT_CREATIVE);
 
     private static final String[] NAMES = new String[]{
-        INTROSPECTION, LASER, SCANNER, SENSOR, KINETIC, KEYBOARD, /*, CHAT, GLASSES, CHAT_CREATIVE*/
+        INTROSPECTION, LASER, SCANNER, SENSOR, KINETIC, KEYBOARD, GLASSES/*, CHAT, CHAT_CREATIVE*/
     };
 
     public static final Identifier[] TURTLE_MODULES = new Identifier[]{

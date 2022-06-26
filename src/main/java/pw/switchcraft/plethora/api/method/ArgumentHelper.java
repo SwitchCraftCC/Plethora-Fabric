@@ -11,16 +11,20 @@ import java.util.Locale;
  * dan200.computercraft.shared.peripheral.generic.methods.ArgumentHelpers but are not exported in the public API yet.
  */
 public final class ArgumentHelper {
-    public static void assertBetween(double value, double min, double max, String message) throws LuaException {
+    public static double assertBetween(double value, double min, double max, String message) throws LuaException {
         if (value < min || value > max || Double.isNaN(value)) {
             throw new LuaException(String.format(message, "between " + min + " and " + max));
         }
+
+        return value;
     }
 
-    public static void assertBetween(int value, int min, int max, String message) throws LuaException {
+    public static int assertBetween(int value, int min, int max, String message) throws LuaException {
         if (value < min || value > max) {
             throw new LuaException(String.format(message, "between " + min + " and " + max));
         }
+
+        return value;
     }
 
     public static Hand optHand(IArguments args, int index) throws LuaException {

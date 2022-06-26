@@ -1,15 +1,31 @@
 package pw.switchcraft.plethora.core;
 
+import dan200.computercraft.api.lua.LuaException;
 import joptsimple.internal.Strings;
 import net.minecraft.util.Identifier;
 import pw.switchcraft.plethora.api.method.ContextKeys;
 import pw.switchcraft.plethora.api.method.IMethod;
 import pw.switchcraft.plethora.api.method.IPartialContext;
+import pw.switchcraft.plethora.api.method.IUnbakedContext;
 
 import java.util.Arrays;
 
 /** Replacement helpers for the old @FromTarget, @FromSubtarget, and @FromContext annotations. */
 public final class ContextHelpers {
+    /**
+     * Extract this value from an unbaked context's target.
+     *
+     * This method is thread safe, though the result object may not be safe to use on any thread.
+     *
+     * @see #fromTarget(IPartialContext)
+     *
+     * @param <T> The type of the value to extract.
+     * @param ctx The unbaked context to extract the value from.
+     */
+    public static <T> T safeFromTarget(IUnbakedContext<T> ctx) throws LuaException {
+        return ctx.safeBake().getTarget();
+    }
+
     /**
      * Extract this value from the context's target.
      *

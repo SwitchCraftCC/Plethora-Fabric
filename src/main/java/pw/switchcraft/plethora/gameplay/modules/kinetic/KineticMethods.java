@@ -42,9 +42,7 @@ public class KineticMethods {
                                              @Nonnull IArguments args) throws LuaException {
         final float yaw = (float) normaliseAngle(args.getFiniteDouble(0));
         final float pitch = (float) normaliseAngle(args.getFiniteDouble(1));
-        final float power = (float) args.getFiniteDouble(2);
-
-        assertBetween(power, 0, Kinetic.launchMax, "Power out of range (%s).");
+        final float power = (float) assertBetween(args.getFiniteDouble(2), 0, launchMax, "Power out of range (%s).");
 
         return unbaked.getCostHandler().await(power * Kinetic.launchCost, FutureMethodResult.nextTick(() -> {
             LivingEntity entity = unbaked.bake().getContext(ORIGIN, LivingEntity.class);

@@ -11,7 +11,7 @@ ongoing.
 - [x] Entity sensor
 - [ ] Keyboard
 - [x] Neural interface
-  - [ ] Peripheral API
+  - [x] Peripheral API
   - [x] Module API
 
 ### Peripheral modules
@@ -38,7 +38,7 @@ ongoing.
 
 ### Integration
 - [x] API
-- [ ] ComputerCraft integration
+- [x] ComputerCraft integration
 - [x] Vanilla integration
   - [ ] Vanilla modules (daylight sensor, clock, note block) 
 

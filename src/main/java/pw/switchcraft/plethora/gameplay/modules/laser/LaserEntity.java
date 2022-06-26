@@ -39,10 +39,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+import static pw.switchcraft.plethora.gameplay.registry.Packets.SPAWN_PACKET_ID;
 import static pw.switchcraft.plethora.gameplay.registry.Registration.LASER_ENTITY;
 import static pw.switchcraft.plethora.util.config.Config.Laser.damage;
 import static pw.switchcraft.plethora.util.config.Config.Laser.lifetime;
-import static pw.switchcraft.plethora.util.EntitySpawnPacket.SPAWN_PACKET_ID;
 
 public class LaserEntity extends Entity implements IPlayerOwnable {
     private static final Random rand = new Random();

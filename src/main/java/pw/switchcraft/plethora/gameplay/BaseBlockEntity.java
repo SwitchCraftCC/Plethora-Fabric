@@ -55,7 +55,7 @@ public abstract class BaseBlockEntity extends BlockEntity {
     protected void writeDescription(NbtCompound nbt) {}
 
     /**
-     * Read data from the server
+     * Read data from the canvas
      *
      * @param nbt The data to read
      */

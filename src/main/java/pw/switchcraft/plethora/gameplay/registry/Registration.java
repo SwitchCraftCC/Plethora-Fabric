@@ -27,6 +27,8 @@ import pw.switchcraft.plethora.gameplay.manipulator.ManipulatorBlock;
 import pw.switchcraft.plethora.gameplay.manipulator.ManipulatorBlockEntity;
 import pw.switchcraft.plethora.gameplay.manipulator.ManipulatorPeripheral;
 import pw.switchcraft.plethora.gameplay.manipulator.ManipulatorType;
+import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasHandler;
+import pw.switchcraft.plethora.gameplay.modules.glasses.GlassesModuleItem;
 import pw.switchcraft.plethora.gameplay.modules.introspection.IntrospectionModuleItem;
 import pw.switchcraft.plethora.gameplay.modules.keyboard.KeyboardModuleItem;
 import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticModuleItem;
@@ -134,6 +136,7 @@ public final class Registration {
         });
 
         RedstoneIntegratorTicker.registerEvents();
+        CanvasHandler.registerServerEvents();
     }
 
     public static final class ModItems {
@@ -147,6 +150,7 @@ public final class Registration {
         public static final NeuralInterfaceItem NEURAL_INTERFACE =
             register("neural_interface", new NeuralInterfaceItem(properties().maxCount(1)));
 
+        public static final GlassesModuleItem GLASSES_MODULE = registerModule("glasses", GlassesModuleItem::new);
         public static final IntrospectionModuleItem INTROSPECTION_MODULE = registerModule("introspection", IntrospectionModuleItem::new);
         public static final KeyboardModuleItem KEYBOARD_MODULE = registerModule("keyboard", KeyboardModuleItem::new);
         public static final KineticModuleItem KINETIC_MODULE = registerModule("kinetic", KineticModuleItem::new);

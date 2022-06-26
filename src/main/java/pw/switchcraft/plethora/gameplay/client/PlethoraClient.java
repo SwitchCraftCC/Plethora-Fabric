@@ -21,6 +21,10 @@ import pw.switchcraft.plethora.gameplay.client.block.ManipulatorRenderer;
 import pw.switchcraft.plethora.gameplay.client.entity.LaserRenderer;
 import pw.switchcraft.plethora.gameplay.client.gui.GuiNeuralInterface;
 import pw.switchcraft.plethora.gameplay.client.neural.NeuralInterfaceTrinketRenderer;
+import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasHandler;
+import pw.switchcraft.plethora.gameplay.modules.glasses.networking.CanvasAddPacket;
+import pw.switchcraft.plethora.gameplay.modules.glasses.networking.CanvasRemovePacket;
+import pw.switchcraft.plethora.gameplay.modules.glasses.networking.CanvasUpdatePacket;
 import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler;
 import pw.switchcraft.plethora.gameplay.registry.Registration;
 import pw.switchcraft.plethora.gameplay.registry.Registration.ModBlockEntities;
@@ -28,7 +32,7 @@ import pw.switchcraft.plethora.util.EntitySpawnPacket;
 
 import java.util.UUID;
 
-import static pw.switchcraft.plethora.util.EntitySpawnPacket.SPAWN_PACKET_ID;
+import static pw.switchcraft.plethora.gameplay.registry.Packets.*;
 
 @Environment(EnvType.CLIENT)
 public class PlethoraClient implements ClientModInitializer {
@@ -73,6 +77,11 @@ public class PlethoraClient implements ClientModInitializer {
             });
         });
 
+        // Custom packets
+        ClientPlayNetworking.registerGlobalReceiver(CANVAS_ADD_PACKET_ID, CanvasAddPacket::onReceive);
+        ClientPlayNetworking.registerGlobalReceiver(CANVAS_REMOVE_PACKET_ID, CanvasRemovePacket::onReceive);
+        ClientPlayNetworking.registerGlobalReceiver(CANVAS_UPDATE_PACKET_ID, CanvasUpdatePacket::onReceive);
+
         // CC:R's ComputerScreenBase makes Screen.init() and other methods final (?!), so we have to call our own init
         // function using this event instead
         // TODO: PR a fix to CC:T and CC:R
@@ -84,5 +93,7 @@ public class PlethoraClient implements ClientModInitializer {
 
         // Custom outline renderer for the manipulator
         WorldRenderEvents.BLOCK_OUTLINE.register(ManipulatorOutlineRenderer::onBlockOutline);
+
+        CanvasHandler.registerClientEvents();
     }
 }

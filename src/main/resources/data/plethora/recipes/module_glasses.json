@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"MIM",
+		"GGG",
+		"IAI"
+	],
+	"key": {
+		"M": { "item": "computercraft:wireless_modem_normal" },
+		"I": { "tag": "c:iron_ingots" },
+		"G": { "item": "computercraft:monitor_advanced" },
+		"A": { "item": "minecraft:iron_helmet" }
+	},
+	"result": {
+		"item": "plethora:module_glasses"
+	}
+}

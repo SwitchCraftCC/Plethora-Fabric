@@ -51,9 +51,9 @@ public interface IModuleAccess {
     NbtCompound getData();
 
     /**
-     * Get the Minecraft server instance
+     * Get the Minecraft canvas instance
      *
-     * @return The server instance
+     * @return The canvas instance
      */
     @Nonnull
     MinecraftServer getServer();

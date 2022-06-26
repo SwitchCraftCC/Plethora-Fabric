@@ -16,8 +16,8 @@ import java.util.Collections;
  * A Lua side method targeting a class.
  *
  * There are several ways of using {@link IMethod}:
- * - Extend {@link BasicMethod}, one of its subclasses or write your own. Then register using {@link Injects}.
- * - Create a static method on a class and register using {@link PlethoraMethod} or similar.
+ * - Extend {@link BasicMethod}, one of its subclasses or write your own. Then register using
+ *   {@link IMethodRegistry#registerMethod(String, String, Class, IMethod)}.
  */
 public interface IMethod<T> {
 	/**
