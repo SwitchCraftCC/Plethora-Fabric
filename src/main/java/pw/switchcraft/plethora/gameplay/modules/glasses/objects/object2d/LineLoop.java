@@ -70,9 +70,7 @@ public class LineLoop extends Polygon implements Scalable {
 		Vec2d first = points.get(0);
 		buffer.vertex(matrix, (float) first.x(), (float) first.y(), 0).color(red, green, blue, alpha).normal(normal, 0, 1, 0).next();
 
-		buffer.end();
-
-		BufferRenderer.draw(buffer);
+		BufferRenderer.drawWithShader(buffer.end());
 		RenderSystem.lineWidth(1);
 	}
 }

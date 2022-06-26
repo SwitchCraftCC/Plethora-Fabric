@@ -33,7 +33,7 @@
   "depends": {
     "fabricloader": ">=0.14.6",
     "fabric": "*",
-    "minecraft": "1.19-beta.3",
+    "minecraft": "1.19.x",
     "computercraft": ">=1.100.5"
   },
   "custom": {

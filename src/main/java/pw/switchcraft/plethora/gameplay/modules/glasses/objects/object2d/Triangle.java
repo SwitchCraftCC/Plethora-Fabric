@@ -69,8 +69,7 @@ public class Triangle extends ColourableObject implements MultiPoint2d {
 		buffer.vertex(matrix, (float) points[0].x(), (float) points[0].y(), 0).color(red, green, blue, alpha).next();
 		buffer.vertex(matrix, (float) points[1].x(), (float) points[1].y(), 0).color(red, green, blue, alpha).next();
 		buffer.vertex(matrix, (float) points[2].x(), (float) points[2].y(), 0).color(red, green, blue, alpha).next();
-		buffer.end();
 
-		BufferRenderer.draw(buffer);
+		BufferRenderer.drawWithShader(buffer.end());
 	}
 }

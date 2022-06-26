@@ -98,9 +98,8 @@ public class Line extends ColourableObject implements Scalable, MultiPoint2d {
 		buffer.begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
 		buffer.vertex(matrix, (float) start.x(), (float) start.y(), 0).color(red, green, blue, alpha).normal(normal, 0, 1, 0).next();
 		buffer.vertex(matrix, (float) end.x(), (float) end.y(), 0).color(red, green, blue, alpha).normal(normal, 0, 1, 0).next();
-		buffer.end();
 
-		BufferRenderer.draw(buffer);
+		BufferRenderer.drawWithShader(buffer.end());
 		RenderSystem.lineWidth(1);
 	}
 }

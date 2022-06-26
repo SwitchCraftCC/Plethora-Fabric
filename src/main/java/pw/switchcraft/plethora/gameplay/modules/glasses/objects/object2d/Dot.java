@@ -86,8 +86,6 @@ public class Dot extends ColourableObject implements Positionable2d, Scalable {
 		buffer.vertex(matrix, x + delta, y + delta, 0).color(red, green, blue, alpha).next();
 		buffer.vertex(matrix, x + delta, y - delta, 0).color(red, green, blue, alpha).next();
 
-		buffer.end();
-
-		BufferRenderer.draw(buffer);
+		BufferRenderer.drawWithShader(buffer.end());
 	}
 }

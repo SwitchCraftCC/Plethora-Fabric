@@ -9,10 +9,10 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.MessageSender;
-import net.minecraft.network.MessageType;
 import net.minecraft.network.Packet;
-import net.minecraft.network.encryption.SignedChatMessage;
+import net.minecraft.network.message.MessageSender;
+import net.minecraft.network.message.MessageType;
+import net.minecraft.network.message.SignedMessage;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -102,7 +102,7 @@ public abstract class FakePlayer extends ServerPlayerEntity {
     @Override
     public void sendMessage(Text message, RegistryKey<MessageType> typeKey) {}
     @Override
-    public void sendChatMessage(SignedChatMessage message, MessageSender sender, RegistryKey<MessageType> typeKey) {}
+    public void sendChatMessage(SignedMessage message, MessageSender sender, RegistryKey<MessageType> typeKey) {}
 
     @Override
     public String getIp() {

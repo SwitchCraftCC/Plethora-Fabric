@@ -113,7 +113,6 @@ public class Polygon extends ColourableObject implements MultiPointResizable2d {
 			buffer.vertex(matrix, (float) c.x(), (float) c.y(), 0).color(red, green, blue, alpha).next();
 		}
 
-		buffer.end();
-		BufferRenderer.draw(buffer);
+		BufferRenderer.drawWithShader(buffer.end());
 	}
 }
