@@ -94,8 +94,6 @@ public class Rectangle extends ColourableObject implements Positionable2d {
 		buffer.vertex(matrix, minX, maxY, 0.0f).color(red, green, blue, alpha).next();
 		buffer.vertex(matrix, maxX, maxY, 0.0f).color(red, green, blue, alpha).next();
 		buffer.vertex(matrix, maxX, minY, 0.0f).color(red, green, blue, alpha).next();
-		buffer.end();
-
 		BufferRenderer.drawWithShader(buffer.end());
 	}
 

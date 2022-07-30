@@ -1,10 +1,7 @@
 package pw.switchcraft.plethora.gameplay.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
@@ -80,14 +77,13 @@ public class FlareOverlayRenderer {
 
     private static void renderQuad(Tessellator tessellator, Matrix4f matrix4f, float size) {
         BufferBuilder buffer = tessellator.getBuffer();
-        buffer.begin(QUADS, POSITION_TEXTURE);
 
+        buffer.begin(QUADS, POSITION_TEXTURE);
         buffer.vertex(matrix4f, -size, -size, 0).texture(0, 1).next();
         buffer.vertex(matrix4f, -size, +size, 0).texture(1, 1).next();
         buffer.vertex(matrix4f, +size, +size, 0).texture(1, 0).next();
         buffer.vertex(matrix4f, +size, -size, 0).texture(0, 0).next();
-
-        tessellator.draw();
+        BufferRenderer.drawWithShader(buffer.end());
     }
 
     public static float getOffsetFromId(int id) {
