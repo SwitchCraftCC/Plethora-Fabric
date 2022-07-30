@@ -10,9 +10,10 @@ import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.Packet;
-import net.minecraft.network.message.MessageSender;
+import net.minecraft.network.message.MessageHeader;
+import net.minecraft.network.message.MessageSignatureData;
 import net.minecraft.network.message.MessageType;
-import net.minecraft.network.message.SignedMessage;
+import net.minecraft.network.message.SentMessage;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -24,7 +25,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.village.TradeOfferList;
 import org.jetbrains.annotations.Nullable;
 
@@ -98,11 +98,11 @@ public abstract class FakePlayer extends ServerPlayerEntity {
     @Override
     public void requestTeleport(double destX, double destY, double destZ) {}
     @Override
-    public void sendMessage(Text message) {}
+    public void sendMessageToClient(Text message, boolean overlay) {}
     @Override
-    public void sendMessage(Text message, RegistryKey<MessageType> typeKey) {}
+    public void sendChatMessage(SentMessage message, boolean overlay, MessageType.Parameters parameters) {}
     @Override
-    public void sendChatMessage(SignedMessage message, MessageSender sender, RegistryKey<MessageType> typeKey) {}
+    public void sendMessageHeader(MessageHeader header, MessageSignatureData headerSignature, byte[] bodyDigest) {}
 
     @Override
     public String getIp() {
@@ -114,7 +114,7 @@ public abstract class FakePlayer extends ServerPlayerEntity {
     @Override
     public void teleport(ServerWorld targetWorld, double x, double y, double z, float yaw, float pitch) {}
     @Override
-    public void sendInitialChunkPackets(ChunkPos chunkPos, Packet<?> chunkDataPacket) {}
+    public void sendChunkPacket(ChunkPos chunkPos, Packet<?> chunkDataPacket) {}
     @Override
     public void sendUnloadChunkPacket(ChunkPos chunkPos) {}
     @Override

@@ -75,7 +75,7 @@ public class PlayerHelpers {
         Box box = player.getBoundingBox().stretch(rotationVec.multiply(range)).expand(1.0);
 
         EntityHitResult entityHit = ProjectileUtil.raycast(player, cam, end, box, e ->
-            !e.isSpectator() && e.collides() && e.isLiving(), range * range);
+            !e.isSpectator() && e.isCollidable() && e.isLiving(), range * range);
 
         if (entityHit != null) {
             // Figure out which is closer
