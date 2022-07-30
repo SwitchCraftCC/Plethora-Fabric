@@ -3,6 +3,7 @@ package pw.switchcraft.plethora.gameplay.client.entity;
 import ladysnake.satin.api.managed.ManagedCoreShader;
 import ladysnake.satin.api.managed.ShaderEffectManager;
 import ladysnake.satin.api.util.RenderLayerHelper;
+import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderPhase;
 import net.minecraft.client.render.VertexConsumer;
@@ -85,7 +86,8 @@ public class LaserRenderer extends EntityRenderer<LaserEntity> {
             .vertex(matrix4f, x, y, z)
             .color(1, 0, 0, alpha)
             .texture(u, v)
-            .light(1)
+            .overlay(OverlayTexture.DEFAULT_UV)
+	    .light(1)
             .normal(0.0f, 0.0f, 1.0f)
             .next();
     }

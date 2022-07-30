@@ -3,6 +3,7 @@ package pw.switchcraft.plethora.gameplay.client.block;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.WorldRenderer;
@@ -79,7 +80,7 @@ public class ManipulatorOutlineRenderer {
             .vertex(matrix4f, (float) x, (float) y, (float) z)
             .color(1, 1, 1, alpha)
             .texture(u, v)
-            // .overlay(OverlayTexture.DEFAULT_UV)
+            .overlay(OverlayTexture.DEFAULT_UV)
             .light(1)
             .normal(0.0f, 0.0f, 1.0f)
             .next();
