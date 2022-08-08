@@ -51,7 +51,7 @@ public class FlareOverlayRenderer {
                                    float ticks, double x, double y, double z, FlareColor color, float size) {
         matrices.push();
 
-        // Setup the view
+        // Set up the view
         matrices.translate(x, y, z);
         matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-camera.getYaw()));
         matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(camera.getPitch()));

@@ -67,18 +67,18 @@ public abstract class BaseObject {
     }
 
     /**
-     * Write the initial buffer for this object.
-     *
-     * @param buf The buffer to write to.
-     */
-    public abstract void writeInitial(PacketByteBuf buf);
-
-    /**
      * Read the initial data for this object.
      *
      * @param buf The buffer to read from.
      */
-    public abstract void readInitial(PacketByteBuf buf);
+    public abstract void readInitial(@Nonnull PacketByteBuf buf);
+
+    /**
+     * Write the initial buffer for this object.
+     *
+     * @param buf The buffer to write to.
+     */
+    public abstract void writeInitial(@Nonnull PacketByteBuf buf);
 
     /**
      * Draw this object
@@ -87,7 +87,7 @@ public abstract class BaseObject {
      * @param matrices
      */
     @Environment(EnvType.CLIENT)
-    public abstract void draw(CanvasClient canvas, MatrixStack matrices);
+    public abstract void draw(@Nonnull CanvasClient canvas, @Nonnull MatrixStack matrices);
 
     /**
      * Prepare to draw a flat object

@@ -1,18 +1,18 @@
 {
   "type": "computercraft:impostor_shaped",
   "group": "plethora:pocket_normal",
+  "key": {
+    "#": {
+      "item": "plethora:module_introspection"
+    },
+    "P": {
+      "item": "computercraft:pocket_computer_normal"
+    }
+  },
   "pattern": [
     "#",
     "P"
   ],
-  "key": {
-    "P": {
-      "item": "computercraft:pocket_computer_normal"
-    },
-    "#": {
-      "item": "plethora:module_introspection"
-    }
-  },
   "result": {
     "item": "computercraft:pocket_computer_normal",
     "nbt": "{Upgrade:\"plethora:introspection\"}"

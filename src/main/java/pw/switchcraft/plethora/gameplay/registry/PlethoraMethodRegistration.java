@@ -6,11 +6,13 @@ import pw.switchcraft.plethora.api.method.IMethodRegistry;
 import pw.switchcraft.plethora.api.module.IModuleContainer;
 import pw.switchcraft.plethora.gameplay.modules.glasses.GlassesMethods;
 import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.Canvas2dMethods;
+import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.Canvas3dMethods;
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.*;
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.MultiPoint2d;
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.MultiPointResizable2d;
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.Positionable2d;
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.Rectangle;
+import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.*;
 import pw.switchcraft.plethora.gameplay.modules.introspection.IntrospectionMethods;
 import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticMethods;
 import pw.switchcraft.plethora.gameplay.modules.laser.LaserMethods;
@@ -69,6 +71,14 @@ final class PlethoraMethodRegistration {
             Canvas2dMethods.ADD_POLYGON, Canvas2dMethods.ADD_LINES, Canvas2dMethods.ADD_ITEM,
             Canvas2dMethods.ADD_GROUP);
         methods(r, ObjectGroup.Frame2d.class, Canvas2dMethods.GET_SIZE);
+
+        methods(r, Positionable3d.class, Positionable3d.GET_POSITION, Positionable3d.SET_POSITION);
+        methods(r, Rotatable3d.class, Rotatable3d.GET_ROTATION, Rotatable3d.SET_ROTATION);
+        methods(r, DepthTestable.class, DepthTestable.IS_DEPTH_TESTED, DepthTestable.SET_DEPTH_TESTED);
+        methods(r, Box.class, Box.GET_SIZE, Box.SET_SIZE);
+        methods(r, ObjectRoot3d.class, ObjectRoot3d.RECENTER);
+        methods(r, ObjectGroup.Origin3d.class, Canvas3dMethods.CREATE);
+        methods(r, ObjectGroup.Group3d.class, Canvas3dMethods.ADD_BOX);
     }
 
     private static <T> void method(IMethodRegistry r, String name, Class<T> target, IMethod<T> method) {

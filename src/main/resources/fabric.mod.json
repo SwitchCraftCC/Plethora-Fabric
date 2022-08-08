@@ -31,10 +31,12 @@
   ],
   "accessWidener": "plethora.accesswidener",
   "depends": {
-    "fabricloader": ">=0.14.6",
+    "fabricloader": ">=${loader_version}",
     "fabric": "*",
-    "minecraft": "1.19.x",
-    "computercraft": ">=1.100.5"
+    "minecraft": "${minecraft_target_version}",
+    "java": ">=17",
+    "fabric-language-kotlin": ">=${fabric_kotlin_version}",
+    "computercraft": "${cc_target_version}"
   },
   "custom": {
     "cardinal-components": [

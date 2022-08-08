@@ -2,6 +2,8 @@ package pw.switchcraft.plethora.gameplay.modules.glasses.objects;
 
 import net.minecraft.network.PacketByteBuf;
 
+import javax.annotation.Nonnull;
+
 public abstract class ColourableObject extends BaseObject implements Colourable {
 	private int colour = DEFAULT_COLOUR;
 
@@ -39,12 +41,12 @@ public abstract class ColourableObject extends BaseObject implements Colourable 
 	}
 
 	@Override
-	public void writeInitial(PacketByteBuf buf) {
+	public void writeInitial(@Nonnull PacketByteBuf buf) {
 		buf.writeInt(colour);
 	}
 
 	@Override
-	public void readInitial(PacketByteBuf buf) {
+	public void readInitial(@Nonnull PacketByteBuf buf) {
 		colour = buf.readInt();
 	}
 }

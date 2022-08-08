@@ -122,7 +122,7 @@ public class Text extends ColourableObject implements Positionable2d, Scalable, 
 	}
 
 	@Override
-	public void writeInitial(PacketByteBuf buf) {
+	public void writeInitial(@Nonnull PacketByteBuf buf) {
 		super.writeInitial(buf);
 		ByteBufUtils.writeVec2d(buf, position);
 		buf.writeFloat(size);
@@ -132,7 +132,7 @@ public class Text extends ColourableObject implements Positionable2d, Scalable, 
 	}
 
 	@Override
-	public void readInitial(PacketByteBuf buf) {
+	public void readInitial(@Nonnull PacketByteBuf buf) {
 		super.readInitial(buf);
 		position = ByteBufUtils.readVec2d(buf);
 		size = buf.readFloat();
@@ -144,7 +144,7 @@ public class Text extends ColourableObject implements Positionable2d, Scalable, 
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public void draw(CanvasClient canvas, MatrixStack matrices) {
+	public void draw(@Nonnull CanvasClient canvas, @Nonnull MatrixStack matrices) {
 		int colour = getColour();
 
 		// If the alpha channel doesn't match a 0xFC, then the font renderer

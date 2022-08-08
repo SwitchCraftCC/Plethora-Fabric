@@ -2,6 +2,8 @@ package pw.switchcraft.plethora.gameplay.modules.glasses.objects;
 
 import net.minecraft.network.PacketByteBuf;
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.*;
+import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.Box;
+import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.ObjectRoot3d;
 
 public final class ObjectRegistry {
 	public static final byte RECTANGLE_2D = 0;
@@ -14,9 +16,9 @@ public final class ObjectRegistry {
 	public static final byte ITEM_2D = 7;
 	public static final byte GROUP_2D = 8;
 
-	// public static final byte ORIGIN_3D = 9;
+	public static final byte ORIGIN_3D = 9;
 	// public static final byte FRAME_3D = 10;
-	// public static final byte BOX_3D = 11;
+	public static final byte BOX_3D = 11;
 	// public static final byte ITEM_3D = 12;
 	// public static final byte LINE_3D = 13;
 
@@ -31,11 +33,11 @@ public final class ObjectRegistry {
 		Item2d::new,
 		ObjectGroup2d::new,
 
-		null, // ObjectRoot3D::new,
+		ObjectRoot3d::new,
 		null, // ObjectFrame::new,
-		null, // Box::new,
-		null, // Item3D::new,
-		null, // Line3D::new
+		Box::new,
+		null, // Item3d::new,
+		null, // Line3d::new
 	};
 
 	private ObjectRegistry() {

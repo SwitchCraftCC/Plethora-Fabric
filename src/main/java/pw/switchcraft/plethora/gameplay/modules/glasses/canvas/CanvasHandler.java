@@ -159,6 +159,6 @@ public class CanvasHandler {
 
     @Environment(EnvType.CLIENT)
     public static void registerClientEvents() {
-        WorldRenderEvents.LAST.register(CanvasHandler::onWorldRender);
+        WorldRenderEvents.AFTER_TRANSLUCENT.register(CanvasHandler::onWorldRender);
     }
 }

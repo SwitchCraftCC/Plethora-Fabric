@@ -8,6 +8,8 @@ import pw.switchcraft.plethora.api.method.IMethod;
 import pw.switchcraft.plethora.api.method.IPartialContext;
 import pw.switchcraft.plethora.api.method.IUnbakedContext;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Arrays;
 
 /** Replacement helpers for the old @FromTarget, @FromSubtarget, and @FromContext annotations. */
@@ -22,6 +24,7 @@ public final class ContextHelpers {
      * @param <T> The type of the value to extract.
      * @param ctx The unbaked context to extract the value from.
      */
+    @Nonnull
     public static <T> T safeFromTarget(IUnbakedContext<T> ctx) throws LuaException {
         return ctx.safeBake().getTarget();
     }
@@ -35,6 +38,7 @@ public final class ContextHelpers {
      * @param <T> The type of the value to extract.
      * @param ctx The context to extract the value from.
      */
+    @Nonnull
     public static <T> T fromTarget(IPartialContext<T> ctx) {
         // TODO: Check this returns the correct type
         return ctx.getTarget();
@@ -52,6 +56,7 @@ public final class ContextHelpers {
      * @param keys The context key to extract from. When blank, this will be equivalent to {@link ContextKeys#ORIGIN}
      *             and then all modules you may be attached to.
      */
+    @Nonnull
     public static <T, U> U fromSubtarget(IPartialContext<T> ctx, Class<U> cls, String... keys) {
         if (keys.length == 0) {
             // No keys given, start with the origin and then check all modules. Return the first matching value.
@@ -84,6 +89,7 @@ public final class ContextHelpers {
      * @param ctx The context to extract the value from.
      * @param cls The class of the value to extract.
      */
+    @Nonnull
     public static <T, U> U fromSubtarget(IPartialContext<T> ctx, Class<U> cls) {
         return fromSubtarget(ctx, cls, new String[0]);
     }
@@ -96,6 +102,7 @@ public final class ContextHelpers {
      * @param cls The class of the value to extract.
      * @param keys The context key to extract from. When blank, the whole context will be searched.
      */
+    @Nullable
     public static <T, U> U fromContext(IPartialContext<T> ctx, Class<U> cls, String... keys) {
         if (keys.length == 0 || (keys.length == 1 && Strings.isNullOrEmpty(keys[0]))) {
             return ctx.getContext(cls);
@@ -119,6 +126,7 @@ public final class ContextHelpers {
      * @param cls The class of the value to extract.
      * @param keys The context key to extract from. When blank, the whole context will be searched.
      */
+    @Nullable
     public static <T, U> U fromContext(IPartialContext<T> ctx, Class<U> cls, Identifier... keys) {
         return fromContext(ctx, cls, Arrays.stream(keys).map(Identifier::toString).toArray(String[]::new));
     }
@@ -130,6 +138,7 @@ public final class ContextHelpers {
      * @param ctx The context to extract the value from.
      * @param cls The class of the value to extract.
      */
+    @Nullable
     public static <T, U> U fromContext(IPartialContext<T> ctx, Class<U> cls) {
         return fromContext(ctx, cls, new String[0]);
     }

@@ -64,7 +64,7 @@ public class Polygon extends ColourableObject implements MultiPointResizable2d {
 	}
 
 	@Override
-	public void writeInitial(PacketByteBuf buf) {
+	public void writeInitial(@Nonnull PacketByteBuf buf) {
 		super.writeInitial(buf);
 		buf.writeByte(points.size());
 
@@ -72,7 +72,7 @@ public class Polygon extends ColourableObject implements MultiPointResizable2d {
 	}
 
 	@Override
-	public void readInitial(PacketByteBuf buf) {
+	public void readInitial(@Nonnull PacketByteBuf buf) {
 		super.readInitial(buf);
 		int count = buf.readUnsignedByte();
 		points.ensureCapacity(count);
@@ -91,7 +91,7 @@ public class Polygon extends ColourableObject implements MultiPointResizable2d {
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public void draw(CanvasClient canvas, MatrixStack matrices) {
+	public void draw(@Nonnull CanvasClient canvas, @Nonnull MatrixStack matrices) {
 		if (points.size() < 3) return;
 
 		setupFlat();

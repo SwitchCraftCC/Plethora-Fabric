@@ -78,7 +78,7 @@ public class Item2d extends BaseObject implements Scalable, ItemObject, Position
 	}
 
 	@Override
-	public void writeInitial(PacketByteBuf buf) {
+	public void writeInitial(@Nonnull PacketByteBuf buf) {
 		ByteBufUtils.writeVec2d(buf, position);
 		buf.writeFloat(scale);
 		buf.writeString(Registry.ITEM.getId(item).toString());
@@ -86,7 +86,7 @@ public class Item2d extends BaseObject implements Scalable, ItemObject, Position
 	}
 
 	@Override
-	public void readInitial(PacketByteBuf buf) {
+	public void readInitial(@Nonnull PacketByteBuf buf) {
 		position = ByteBufUtils.readVec2d(buf);
 		scale = buf.readFloat();
 
@@ -98,7 +98,7 @@ public class Item2d extends BaseObject implements Scalable, ItemObject, Position
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public void draw(CanvasClient canvas, MatrixStack matrices) {
+	public void draw(@Nonnull CanvasClient canvas, @Nonnull MatrixStack matrices) {
 		MinecraftClient client = MinecraftClient.getInstance();
 		ItemRenderer itemRenderer = client.getItemRenderer();
 		ClientPlayerEntity player = client.player;

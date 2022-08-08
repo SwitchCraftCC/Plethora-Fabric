@@ -2,11 +2,7 @@ package pw.switchcraft.plethora.util;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.embedded.EmbeddedChannel;
-import net.minecraft.class_7648;
-import net.minecraft.network.ClientConnection;
-import net.minecraft.network.NetworkSide;
-import net.minecraft.network.NetworkState;
-import net.minecraft.network.Packet;
+import net.minecraft.network.*;
 import net.minecraft.network.listener.PacketListener;
 import net.minecraft.network.packet.c2s.play.*;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
@@ -85,7 +81,7 @@ public class FakeNetworkHandler extends ServerPlayNetworkHandler {
     @Override
     public void sendPacket(Packet<?> packet) {}
     @Override
-    public void sendPacket(Packet<?> packet, @Nullable class_7648 listener) {}
+    public void sendPacket(Packet<?> packet, @Nullable PacketCallbacks listener) {}
     @Override
     public void onUpdateSelectedSlot(UpdateSelectedSlotC2SPacket packet) {}
     @Override
@@ -151,7 +147,7 @@ public class FakeNetworkHandler extends ServerPlayNetworkHandler {
         @Override
         public void send(Packet<?> packet) {}
         @Override
-        public void send(Packet<?> packet, @Nullable class_7648 callback) {}
+        public void send(Packet<?> packet, @Nullable PacketCallbacks callback) {}
         @Override
         public void tick() {}
 

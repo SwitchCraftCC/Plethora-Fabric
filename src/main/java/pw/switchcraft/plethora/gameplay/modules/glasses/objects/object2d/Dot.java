@@ -52,14 +52,14 @@ public class Dot extends ColourableObject implements Positionable2d, Scalable {
 	}
 
 	@Override
-	public void writeInitial(PacketByteBuf buf) {
+	public void writeInitial(@Nonnull PacketByteBuf buf) {
 		super.writeInitial(buf);
 		ByteBufUtils.writeVec2d(buf, position);
 		buf.writeFloat(scale);
 	}
 
 	@Override
-	public void readInitial(PacketByteBuf buf) {
+	public void readInitial(@Nonnull PacketByteBuf buf) {
 		super.readInitial(buf);
 		position = ByteBufUtils.readVec2d(buf);
 		scale = buf.readFloat();
@@ -67,7 +67,7 @@ public class Dot extends ColourableObject implements Positionable2d, Scalable {
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public void draw(CanvasClient canvas, MatrixStack matrices) {
+	public void draw(@Nonnull CanvasClient canvas, @Nonnull MatrixStack matrices) {
 		setupFlat();
 
 		float x = (float) position.x(), y = (float) position.y(), delta = scale / 2;

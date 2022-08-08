@@ -24,6 +24,7 @@ public abstract class BasicMethod<T> implements IMethod<T> {
 		this.docs = Strings.isNullOrEmpty(docs) ? null : docs;
 	}
 
+  @Nonnull
 	public static <T> BasicMethod<T> of(String name, String docs, Delegate<T> delegate, boolean worldThread) {
 		return new BasicMethod<>(name, docs) {
 			@Nonnull

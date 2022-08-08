@@ -44,20 +44,20 @@ public class Triangle extends ColourableObject implements MultiPoint2d {
 	}
 
 	@Override
-	public void writeInitial(PacketByteBuf buf) {
+	public void writeInitial(@Nonnull PacketByteBuf buf) {
 		super.writeInitial(buf);
 		for (Vec2d point : points) ByteBufUtils.writeVec2d(buf, point);
 	}
 
 	@Override
-	public void readInitial(PacketByteBuf buf) {
+	public void readInitial(@Nonnull PacketByteBuf buf) {
 		super.readInitial(buf);
 		for (int i = 0; i < points.length; i++) points[i] = ByteBufUtils.readVec2d(buf);
 	}
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public void draw(CanvasClient canvas, MatrixStack matrices) {
+	public void draw(@Nonnull CanvasClient canvas, @Nonnull MatrixStack matrices) {
 		setupFlat();
 
 		int red = getRed(), green = getGreen(), blue = getBlue(), alpha = getAlpha();

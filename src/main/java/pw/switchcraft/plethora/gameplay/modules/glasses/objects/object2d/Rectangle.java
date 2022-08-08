@@ -62,7 +62,7 @@ public class Rectangle extends ColourableObject implements Positionable2d {
 	}
 
 	@Override
-	public void writeInitial(PacketByteBuf buf) {
+	public void writeInitial(@Nonnull PacketByteBuf buf) {
 		super.writeInitial(buf);
 		ByteBufUtils.writeVec2d(buf, position);
 		buf.writeFloat(width);
@@ -70,7 +70,7 @@ public class Rectangle extends ColourableObject implements Positionable2d {
 	}
 
 	@Override
-	public void readInitial(PacketByteBuf buf) {
+	public void readInitial(@Nonnull PacketByteBuf buf) {
 		super.readInitial(buf);
 		position = ByteBufUtils.readVec2d(buf);
 		width = buf.readFloat();
@@ -79,7 +79,7 @@ public class Rectangle extends ColourableObject implements Positionable2d {
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public void draw(CanvasClient canvas, MatrixStack matrices) {
+	public void draw(@Nonnull CanvasClient canvas, @Nonnull MatrixStack matrices) {
 		setupFlat();
 
 		float minX = (float) position.x(), minY = (float) position.y();

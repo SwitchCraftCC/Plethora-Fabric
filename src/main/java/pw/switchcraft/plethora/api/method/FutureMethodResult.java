@@ -2,6 +2,7 @@ package pw.switchcraft.plethora.api.method;
 
 import dan200.computercraft.api.lua.MethodResult;
 
+import javax.annotation.Nonnull;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 
@@ -96,6 +97,7 @@ public final class FutureMethodResult {
 	 * @param args The arguments to return
 	 * @return The built MethodResult
 	 */
+  @Nonnull
 	public static FutureMethodResult result(Object... args) {
 		return new FutureMethodResult(MethodResult.of(args));
 	}
@@ -106,6 +108,7 @@ public final class FutureMethodResult {
 	 * @param arg The argument to return
 	 * @return The built MethodResult
 	 */
+  @Nonnull
 	public static FutureMethodResult result(Object arg) {
 		return new FutureMethodResult(MethodResult.of(arg));
 	}
@@ -116,6 +119,7 @@ public final class FutureMethodResult {
 	 * @param message The failure message
 	 * @return The built MethodResult
 	 */
+  @Nonnull
 	public static FutureMethodResult failure(String message) {
 		return new FutureMethodResult(MethodResult.of(false, message));
 	}
@@ -125,6 +129,7 @@ public final class FutureMethodResult {
 	 *
 	 * @return An empty MethodResult
 	 */
+  @Nonnull
 	public static FutureMethodResult empty() {
 		return empty;
 	}

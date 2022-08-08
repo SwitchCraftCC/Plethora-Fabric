@@ -13,6 +13,8 @@ import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectRegistry;
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.Scalable;
 import pw.switchcraft.plethora.util.Vec2d;
 
+import javax.annotation.Nonnull;
+
 public class LineLoop extends Polygon implements Scalable {
 	private float scale = 1;
 
@@ -34,20 +36,20 @@ public class LineLoop extends Polygon implements Scalable {
 	}
 
 	@Override
-	public void writeInitial(PacketByteBuf buf) {
+	public void writeInitial(@Nonnull PacketByteBuf buf) {
 		super.writeInitial(buf);
 		buf.writeFloat(scale);
 	}
 
 	@Override
-	public void readInitial(PacketByteBuf buf) {
+	public void readInitial(@Nonnull PacketByteBuf buf) {
 		super.readInitial(buf);
 		scale = buf.readFloat();
 	}
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public void draw(CanvasClient canvas, MatrixStack matrices) {
+	public void draw(@Nonnull CanvasClient canvas, @Nonnull MatrixStack matrices) {
 		if (points.size() < 2) return;
 
 		setupFlat();

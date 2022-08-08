@@ -37,18 +37,18 @@ public class ObjectGroup2d extends BaseObject implements ObjectGroup.Group2d, Po
 	}
 
 	@Override
-	public void writeInitial(PacketByteBuf buf) {
+	public void writeInitial(@Nonnull PacketByteBuf buf) {
 		ByteBufUtils.writeVec2d(buf, position);
 	}
 
 	@Override
-	public void readInitial(PacketByteBuf buf) {
+	public void readInitial(@Nonnull PacketByteBuf buf) {
 		position = ByteBufUtils.readVec2d(buf);
 	}
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public void draw(CanvasClient canvas, MatrixStack matrices) {
+	public void draw(@Nonnull CanvasClient canvas, @Nonnull MatrixStack matrices) {
 		IntSet children = canvas.getChildren(id());
 		if (children == null) return;
 
