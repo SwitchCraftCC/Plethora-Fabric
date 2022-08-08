@@ -5,17 +5,12 @@ import dan200.computercraft.api.client.TransformedModel;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.turtle.*;
-import dan200.computercraft.fabric.mixininterface.IMatrix4f;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
-import net.minecraft.util.math.AffineTransformation;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Vec3f;
 import pw.switchcraft.plethora.api.IPlayerOwnable;
 import pw.switchcraft.plethora.api.IWorldLocation;
 import pw.switchcraft.plethora.api.TurtleWorldLocation;
@@ -88,20 +83,20 @@ public class TurtleUpgradeModule implements ITurtleUpgrade {
 		final TurtleModuleAccess access = new TurtleModuleAccess(turtle, side, handler);
 
 		final IModuleContainer container = access.getContainer();
-		IReference<IModuleContainer> containerRef = new ConstantReference<IModuleContainer>() {
-			@Nonnull
-			@Override
-			public IModuleContainer get() throws LuaException {
-				if (turtle.getUpgrade(side) != TurtleUpgradeModule.this) throw new LuaException("The upgrade is gone");
-				return container;
-			}
+		IReference<IModuleContainer> containerRef = new ConstantReference<>() {
+      @Nonnull
+      @Override
+      public IModuleContainer get() throws LuaException {
+        if (turtle.getUpgrade(side) != TurtleUpgradeModule.this) throw new LuaException("The upgrade is gone");
+        return container;
+      }
 
-			@Nonnull
-			@Override
-			public IModuleContainer safeGet() throws LuaException {
-				return get();
-			}
-		};
+      @Nonnull
+      @Override
+      public IModuleContainer safeGet() throws LuaException {
+        return get();
+      }
+    };
 
 		ContextFactory<IModuleContainer> factory = ContextFactory.of(container, containerRef)
 			.withCostHandler(DefaultCostHandler.get(turtle))
@@ -129,17 +124,7 @@ public class TurtleUpgradeModule implements ITurtleUpgrade {
 	@Nonnull
 	@Override
 	public TransformedModel getModel(@Nullable ITurtleAccess turtle, @Nonnull TurtleSide side) {
-		MatrixStack matrices = new MatrixStack();
-		matrices.push();
-
-		matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(90));
-
-		// TODO: Scale, rotate lasers 180 degrees
-
-		matrices.translate(-1.0f, 0.0f, side == TurtleSide.LEFT ? -0.40625f : 0.40625f);
-
-		TransformedModel model = handler.getModel(0);
-		return new TransformedModel(model.getModel(), new AffineTransformation(matrices.peek().getPositionMatrix()));
+		return TurtleUpgradeModuleRenderer.getModel(handler, side);
 	}
 
 	@Override
@@ -229,28 +214,6 @@ public class TurtleUpgradeModule implements ITurtleUpgrade {
 		@Override
 		public TurtlePlayerOwnable safeGet() {
 			return this;
-		}
-	}
-
-	/** @see dan200.computercraft.shared.turtle.upgrades.TurtleTool */
-	private static class Transforms {
-		static final AffineTransformation leftTransform = getMatrixFor(-0.40625f);
-		static final AffineTransformation rightTransform = getMatrixFor(0.40625f);
-
-		private static AffineTransformation getMatrixFor(float offset) {
-			Matrix4f matrix = new Matrix4f();
-			((IMatrix4f) (Object) matrix).setFloatArray(new float[]{
-//				0.0f, 0.0f, -1.0f, 1.0f + offset,
-//				1.0f, 0.0f, 0.0f, 0.0f,
-//				0.0f, -1.0f, 0.0f, 1.0f,
-//				0.0f, 0.0f, 0.0f, 1.0f,
-				0.0f, 0.0f, -1.0f, 1.0f + offset,
-				1.0f, 0.0f, 0.0f, 0.0f,
-				0.0f, -1.0f, 0.0f, 1.0f,
-				0.0f, 0.0f, 0.0f, 1.0f,
-			});
-			matrix.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(90));
-			return new AffineTransformation(matrix);
 		}
 	}
 }

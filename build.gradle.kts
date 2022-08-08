@@ -147,5 +147,5 @@ tasks {
 }
 
 tasks.getByName("processGeneratedResources") {
-  dependsOn("runDatagen")
+  // dependsOn("runDatagen")
 }
