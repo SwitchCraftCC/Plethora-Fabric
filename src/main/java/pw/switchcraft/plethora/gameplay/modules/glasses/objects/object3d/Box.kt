@@ -2,10 +2,7 @@ package pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d
 
 import com.mojang.blaze3d.systems.RenderSystem
 import dan200.computercraft.api.lua.IArguments
-import net.minecraft.client.render.BufferRenderer
-import net.minecraft.client.render.Tessellator
-import net.minecraft.client.render.VertexFormat
-import net.minecraft.client.render.VertexFormats
+import net.minecraft.client.render.*
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.math.Vec3d
@@ -63,7 +60,7 @@ class Box(
     buf.writeBoolean(hasDepthTest)
   }
 
-  override fun draw(canvas: CanvasClient, matrices: MatrixStack) {
+  override fun draw(canvas: CanvasClient, matrices: MatrixStack, consumers: VertexConsumerProvider?) {
     setupFlat()
 
     if (hasDepthTest) {

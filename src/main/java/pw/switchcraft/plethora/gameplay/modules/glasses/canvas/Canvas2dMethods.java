@@ -15,7 +15,7 @@ import pw.switchcraft.plethora.util.Vec2d;
 
 import javax.annotation.Nonnull;
 
-import static pw.switchcraft.plethora.gameplay.modules.glasses.GlassesArgumentHelper.getVec2d;
+import static pw.switchcraft.plethora.gameplay.modules.glasses.GlassesArgumentHelper.getVec2dTable;
 import static pw.switchcraft.plethora.gameplay.modules.glasses.GlassesMethodsHelpers.getContext;
 import static pw.switchcraft.plethora.gameplay.modules.glasses.objects.Colourable.DEFAULT_COLOUR;
 
@@ -56,7 +56,7 @@ public final class Canvas2dMethods {
         Group2d group = ctx.target();
         CanvasServer canvas = ctx.canvas();
 
-        Vec2d start = getVec2d(args, 0), end = getVec2d(args, 1);
+        Vec2d start = getVec2dTable(args, 0), end = getVec2dTable(args, 1);
         int colour = args.optInt(2, DEFAULT_COLOUR);
         float thickness = (float) args.optDouble(3, 1);
 
@@ -82,7 +82,7 @@ public final class Canvas2dMethods {
         Group2d group = ctx.target();
         CanvasServer canvas = ctx.canvas();
 
-        Vec2d position = getVec2d(args, 0);
+        Vec2d position = getVec2dTable(args, 0);
         int colour = args.optInt(1, DEFAULT_COLOUR);
         float size = (float) args.optDouble(2, 1);
 
@@ -106,7 +106,7 @@ public final class Canvas2dMethods {
         Group2d group = ctx.target();
         CanvasServer canvas = ctx.canvas();
 
-        Vec2d position = getVec2d(args, 0);
+        Vec2d position = getVec2dTable(args, 0);
         String contents = args.getString(1);
         int colour = args.optInt(2, DEFAULT_COLOUR);
         float size = (float) args.optDouble(3, 1);
@@ -133,7 +133,7 @@ public final class Canvas2dMethods {
         Group2d group = ctx.target();
         CanvasServer canvas = ctx.canvas();
 
-        Vec2d p1 = getVec2d(args, 0), p2 = getVec2d(args, 1), p3 = getVec2d(args, 2);
+        Vec2d p1 = getVec2dTable(args, 0), p2 = getVec2dTable(args, 1), p3 = getVec2dTable(args, 2);
         int colour = args.optInt(3, DEFAULT_COLOUR);
 
         Triangle triangle = new Triangle(canvas.newObjectId(), group.id());
@@ -165,7 +165,7 @@ public final class Canvas2dMethods {
             if (i >= args.count() - 1 && arg instanceof Number) {
                 break;
             } else {
-                polygon.addPoint(i, getVec2d(args, i));
+                polygon.addPoint(i, getVec2dTable(args, i));
             }
         }
 
@@ -193,7 +193,7 @@ public final class Canvas2dMethods {
             if (i >= args.count() - 1 && arg instanceof Number) {
                 break;
             } else {
-                lines.addPoint(i, getVec2d(args, i));
+                lines.addPoint(i, getVec2dTable(args, i));
             }
         }
 
@@ -215,13 +215,13 @@ public final class Canvas2dMethods {
         Group2d group = ctx.target();
         CanvasServer canvas = ctx.canvas();
 
-        Vec2d position = getVec2d(args, 0);
+        Vec2d position = getVec2dTable(args, 0);
         Item item = GlassesArgumentHelper.getItem(args, 1);
-        float size = (float) args.optDouble(2, 1);
+        float scale = (float) args.optDouble(2, 1);
 
         Item2d model = new Item2d(canvas.newObjectId(), group.id());
         model.setPosition(position);
-        model.setScale(size);
+        model.setScale(scale);
         model.setItem(item);
 
         canvas.add(model);
@@ -240,7 +240,7 @@ public final class Canvas2dMethods {
         Group2d group = ctx.target();
         CanvasServer canvas = ctx.canvas();
 
-        Vec2d position = getVec2d(args, 0);
+        Vec2d position = getVec2dTable(args, 0);
 
         ObjectGroup2d newGroup = new ObjectGroup2d(canvas.newObjectId(), group.id());
         newGroup.setPosition(position);

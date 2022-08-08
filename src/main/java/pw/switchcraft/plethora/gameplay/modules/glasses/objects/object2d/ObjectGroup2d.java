@@ -4,6 +4,7 @@ import com.google.common.base.Objects;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.network.PacketByteBuf;
 import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasClient;
@@ -14,6 +15,7 @@ import pw.switchcraft.plethora.util.ByteBufUtils;
 import pw.switchcraft.plethora.util.Vec2d;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class ObjectGroup2d extends BaseObject implements ObjectGroup.Group2d, Positionable2d {
 	private Vec2d position = Vec2d.ZERO;
@@ -48,14 +50,15 @@ public class ObjectGroup2d extends BaseObject implements ObjectGroup.Group2d, Po
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public void draw(@Nonnull CanvasClient canvas, @Nonnull MatrixStack matrices) {
+	public void draw(@Nonnull CanvasClient canvas, @Nonnull MatrixStack matrices,
+                   @Nullable VertexConsumerProvider consumers) {
 		IntSet children = canvas.getChildren(id());
 		if (children == null) return;
 
 		matrices.push();
 		matrices.translate(position.x(), position.y(), 0);
 
-		canvas.drawChildren(children.iterator(), matrices);
+		canvas.drawChildren(children.iterator(), matrices, consumers);
 
 		matrices.pop();
 	}

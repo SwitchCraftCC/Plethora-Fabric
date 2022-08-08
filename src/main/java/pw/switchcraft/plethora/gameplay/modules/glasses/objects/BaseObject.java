@@ -5,6 +5,7 @@ import dan200.computercraft.api.lua.LuaException;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.network.PacketByteBuf;
 import pw.switchcraft.plethora.api.reference.ConstantReference;
@@ -12,6 +13,7 @@ import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasClient;
 import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasServer;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Comparator;
 
 public abstract class BaseObject {
@@ -83,11 +85,13 @@ public abstract class BaseObject {
     /**
      * Draw this object
      *
-     * @param canvas   The canvas context we are drawing within
+     * @param canvas    The canvas context we are drawing within
      * @param matrices
+     * @param consumers
      */
     @Environment(EnvType.CLIENT)
-    public abstract void draw(@Nonnull CanvasClient canvas, @Nonnull MatrixStack matrices);
+    public abstract void draw(@Nonnull CanvasClient canvas, @Nonnull MatrixStack matrices,
+                              @Nullable VertexConsumerProvider consumers);
 
     /**
      * Prepare to draw a flat object

@@ -15,6 +15,7 @@ import pw.switchcraft.plethora.util.ByteBufUtils;
 import pw.switchcraft.plethora.util.Vec2d;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class Dot extends ColourableObject implements Positionable2d, Scalable {
 	private Vec2d position = Vec2d.ZERO;
@@ -67,7 +68,8 @@ public class Dot extends ColourableObject implements Positionable2d, Scalable {
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public void draw(@Nonnull CanvasClient canvas, @Nonnull MatrixStack matrices) {
+	public void draw(@Nonnull CanvasClient canvas, @Nonnull MatrixStack matrices,
+                   @Nullable VertexConsumerProvider consumers) {
 		setupFlat();
 
 		float x = (float) position.x(), y = (float) position.y(), delta = scale / 2;

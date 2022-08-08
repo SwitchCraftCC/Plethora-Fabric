@@ -17,6 +17,7 @@ import pw.switchcraft.plethora.util.ByteBufUtils;
 import pw.switchcraft.plethora.util.Vec2d;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class Line extends ColourableObject implements Scalable, MultiPoint2d {
 	private Vec2d start = Vec2d.ZERO;
@@ -84,7 +85,8 @@ public class Line extends ColourableObject implements Scalable, MultiPoint2d {
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public void draw(@Nonnull CanvasClient canvas, @Nonnull MatrixStack matrices) {
+	public void draw(@Nonnull CanvasClient canvas, @Nonnull MatrixStack matrices,
+                   @Nullable VertexConsumerProvider consumers) {
 		setupFlat();
 		RenderSystem.lineWidth(thickness);
 

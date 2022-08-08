@@ -3,6 +3,7 @@ package pw.switchcraft.plethora.gameplay.modules.glasses.objects;
 import net.minecraft.network.PacketByteBuf;
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.*;
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.Box;
+import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.Item3d;
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.ObjectRoot3d;
 
 public final class ObjectRegistry {
@@ -19,7 +20,7 @@ public final class ObjectRegistry {
 	public static final byte ORIGIN_3D = 9;
 	// public static final byte FRAME_3D = 10;
 	public static final byte BOX_3D = 11;
-	// public static final byte ITEM_3D = 12;
+	public static final byte ITEM_3D = 12;
 	// public static final byte LINE_3D = 13;
 
 	private static final BaseObject.Factory[] FACTORIES = new BaseObject.Factory[]{
@@ -36,7 +37,7 @@ public final class ObjectRegistry {
 		ObjectRoot3d::new,
 		null, // ObjectFrame::new,
 		Box::new,
-		null, // Item3d::new,
+		Item3d::new,
 		null, // Line3d::new
 	};
 

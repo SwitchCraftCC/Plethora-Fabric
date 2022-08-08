@@ -14,6 +14,7 @@ import pw.switchcraft.plethora.util.ByteBufUtils;
 import pw.switchcraft.plethora.util.Vec2d;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 
 public class Polygon extends ColourableObject implements MultiPointResizable2d {
@@ -91,7 +92,8 @@ public class Polygon extends ColourableObject implements MultiPointResizable2d {
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public void draw(@Nonnull CanvasClient canvas, @Nonnull MatrixStack matrices) {
+	public void draw(@Nonnull CanvasClient canvas, @Nonnull MatrixStack matrices,
+                   @Nullable VertexConsumerProvider consumers) {
 		if (points.size() < 3) return;
 
 		setupFlat();

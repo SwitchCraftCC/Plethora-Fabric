@@ -6,6 +6,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.Item;
@@ -22,6 +23,7 @@ import pw.switchcraft.plethora.util.ByteBufUtils;
 import pw.switchcraft.plethora.util.Vec2d;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class Item2d extends BaseObject implements Scalable, ItemObject, Positionable2d {
 	private float scale;
@@ -98,10 +100,11 @@ public class Item2d extends BaseObject implements Scalable, ItemObject, Position
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public void draw(@Nonnull CanvasClient canvas, @Nonnull MatrixStack matrices) {
-		MinecraftClient client = MinecraftClient.getInstance();
-		ItemRenderer itemRenderer = client.getItemRenderer();
-		ClientPlayerEntity player = client.player;
+	public void draw(@Nonnull CanvasClient canvas, @Nonnull MatrixStack matrices,
+                   @Nullable VertexConsumerProvider consumers) {
+		MinecraftClient mc = MinecraftClient.getInstance();
+		ItemRenderer itemRenderer = mc.getItemRenderer();
+		ClientPlayerEntity player = mc.player;
 		if (player == null) return;
 
 		matrices.push();

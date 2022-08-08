@@ -22,6 +22,7 @@ import pw.switchcraft.plethora.util.ByteBufUtils;
 import pw.switchcraft.plethora.util.Vec2d;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.regex.Pattern;
 
 public class Text extends ColourableObject implements Positionable2d, Scalable, TextObject {
@@ -144,7 +145,8 @@ public class Text extends ColourableObject implements Positionable2d, Scalable, 
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public void draw(@Nonnull CanvasClient canvas, @Nonnull MatrixStack matrices) {
+	public void draw(@Nonnull CanvasClient canvas, @Nonnull MatrixStack matrices,
+                   @Nullable VertexConsumerProvider consumers) {
 		int colour = getColour();
 
 		// If the alpha channel doesn't match a 0xFC, then the font renderer

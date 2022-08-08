@@ -3,11 +3,13 @@ package pw.switchcraft.plethora.gameplay.modules.glasses.canvas
 import dan200.computercraft.api.lua.IArguments
 import net.minecraft.util.math.Vec3d
 import pw.switchcraft.plethora.api.method.*
+import pw.switchcraft.plethora.gameplay.modules.glasses.GlassesArgumentHelper
 import pw.switchcraft.plethora.gameplay.modules.glasses.GlassesMethodsHelpers.getContext
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.Colourable.DEFAULT_COLOUR
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectGroup.Group3d
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectGroup.Origin3d
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.Box
+import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.Item3d
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.ObjectRoot3d
 
 object Canvas3dMethods {
@@ -59,5 +61,28 @@ object Canvas3dMethods {
   }
 
   // TODO: addLine
-  // TODO: addItem
+
+  @JvmField
+  val ADD_ITEM = BasicMethod.of(
+    "addItem", "function(position:table, contents:string[, scale:number]):table -- Create an item model.",
+    { unbaked, args -> addItem(unbaked, args) }, false
+  )
+  private fun addItem(unbaked: IUnbakedContext<Group3d>, args: IArguments): FutureMethodResult {
+    val ctx = getContext(unbaked, Group3d::class.java)
+    val group = ctx.target
+    val canvas = ctx.canvas
+
+    val pos = args.getVec3dTable(0)
+    val item = GlassesArgumentHelper.getItem(args, 1)
+    val scale = args.optDouble(2, 1.0).toFloat()
+
+    val model = Item3d(canvas.newObjectId(), group.id())
+    model.position = pos
+    model.scale = scale
+    model.item = item
+
+    canvas.add(model)
+
+    return FutureMethodResult.result(ctx.context.makeChild(model, canvas.reference(model)).`object`)
+  }
 }

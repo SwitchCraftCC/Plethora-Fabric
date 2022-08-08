@@ -21,11 +21,11 @@ public class GlassesArgumentHelper {
         return Registry.ITEM.get(id);
     }
 
-    public static Vec2d getVec2d(@Nonnull IArguments args, int index) throws LuaException {
-        return getVec2d(args.getTable(index));
+    public static Vec2d getVec2dTable(@Nonnull IArguments args, int index) throws LuaException {
+        return getVec2dTable(args.getTable(index));
     }
 
-    private static Vec2d getVec2d(Map<?, ?> point) throws LuaException {
+    private static Vec2d getVec2dTable(Map<?, ?> point) throws LuaException {
         Object xObj, yObj;
         if (point.containsKey("x")) {
             xObj = point.get("x");
@@ -44,7 +44,7 @@ public class GlassesArgumentHelper {
         return new Vec2d(((Number) xObj).doubleValue(), ((Number) yObj).doubleValue());
     }
 
-    private static Vec3d getVec3d(Map<?, ?> point) throws LuaException {
+    public static Vec3d getVec3dTable(Map<?, ?> point) throws LuaException {
         Object xObj, yObj, zObj;
         if (point.containsKey("x")) {
             xObj = point.get("x");

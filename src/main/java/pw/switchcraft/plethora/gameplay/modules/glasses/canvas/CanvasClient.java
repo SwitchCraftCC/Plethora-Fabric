@@ -3,10 +3,13 @@ package pw.switchcraft.plethora.gameplay.modules.glasses.canvas;
 import it.unimi.dsi.fastutil.ints.*;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import pw.switchcraft.plethora.Plethora;
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.BaseObject;
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectGroup;
+
+import javax.annotation.Nullable;
 
 import static pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasHandler.ID_2D;
 import static pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasHandler.ID_3D;
@@ -57,11 +60,11 @@ public class CanvasClient {
     }
 
     @Environment(EnvType.CLIENT)
-    public void drawChildren(IntIterator children, MatrixStack matrices) {
+    public void drawChildren(IntIterator children, MatrixStack matrices, @Nullable VertexConsumerProvider consumers) {
         while (children.hasNext()) {
             int id = children.nextInt();
             BaseObject object = getObject(id);
-            if (object != null) object.draw(this, matrices);
+            if (object != null) object.draw(this, matrices, consumers);
         }
     }
 }

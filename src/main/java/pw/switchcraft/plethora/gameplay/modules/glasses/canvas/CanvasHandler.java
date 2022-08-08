@@ -133,7 +133,7 @@ public class CanvasHandler {
         matrices.scale((float) client.getWindow().getScaledWidth() / WIDTH, (float) client.getWindow().getScaledHeight() / HEIGHT, 2);
 
         synchronized (canvas) {
-            canvas.drawChildren(canvas.getChildren(ID_2D).iterator(), matrices);
+            canvas.drawChildren(canvas.getChildren(ID_2D).iterator(), matrices, null);
         }
 
         RenderSystem.enableTexture();
@@ -142,12 +142,12 @@ public class CanvasHandler {
         matrices.pop();
     }
 
-    private static void onWorldRender(WorldRenderContext worldRenderContext) {
+    private static void onWorldRender(WorldRenderContext ctx) {
         CanvasClient canvas = getCanvas(MinecraftClient.getInstance());
         if (canvas == null) return;
 
         synchronized (canvas) {
-            canvas.drawChildren(canvas.getChildren(ID_3D).iterator(), worldRenderContext.matrixStack());
+            canvas.drawChildren(canvas.getChildren(ID_3D).iterator(), ctx.matrixStack(), ctx.consumers());
         }
 
         // TODO: GL state

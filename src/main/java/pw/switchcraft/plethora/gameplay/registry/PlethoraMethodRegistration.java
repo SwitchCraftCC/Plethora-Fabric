@@ -78,7 +78,7 @@ final class PlethoraMethodRegistration {
         methods(r, Box.class, Box.GET_SIZE, Box.SET_SIZE);
         methods(r, ObjectRoot3d.class, ObjectRoot3d.RECENTER);
         methods(r, ObjectGroup.Origin3d.class, Canvas3dMethods.CREATE);
-        methods(r, ObjectGroup.Group3d.class, Canvas3dMethods.ADD_BOX);
+        methods(r, ObjectGroup.Group3d.class, Canvas3dMethods.ADD_BOX, Canvas3dMethods.ADD_ITEM);
     }
 
     private static <T> void method(IMethodRegistry r, String name, Class<T> target, IMethod<T> method) {

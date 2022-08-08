@@ -2,6 +2,7 @@ package pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d
 
 import dan200.computercraft.api.lua.IArguments
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
@@ -47,7 +48,7 @@ class ObjectRoot3d(
     buf.writeIdentifier(worldKey)
   }
 
-  override fun draw(canvas: CanvasClient, matrices: MatrixStack) {
+  override fun draw(canvas: CanvasClient, matrices: MatrixStack, consumers: VertexConsumerProvider?) {
     val children = canvas.getChildren(id()) ?: return
 
     val mc = MinecraftClient.getInstance()
@@ -61,9 +62,10 @@ class ObjectRoot3d(
 
     matrices.push()
 
+    // TODO: View bobbing
     matrices.translate(-view.x + origin.x, -view.y + origin.y, -view.z + origin.z)
 
-    canvas.drawChildren(children.iterator(), matrices)
+    canvas.drawChildren(children.iterator(), matrices, consumers)
 
     matrices.pop()
   }

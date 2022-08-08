@@ -14,6 +14,7 @@ import pw.switchcraft.plethora.gameplay.modules.glasses.objects.Scalable;
 import pw.switchcraft.plethora.util.Vec2d;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class LineLoop extends Polygon implements Scalable {
 	private float scale = 1;
@@ -49,7 +50,8 @@ public class LineLoop extends Polygon implements Scalable {
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public void draw(@Nonnull CanvasClient canvas, @Nonnull MatrixStack matrices) {
+	public void draw(@Nonnull CanvasClient canvas, @Nonnull MatrixStack matrices,
+                   @Nullable VertexConsumerProvider consumers) {
 		if (points.size() < 2) return;
 
 		setupFlat();
