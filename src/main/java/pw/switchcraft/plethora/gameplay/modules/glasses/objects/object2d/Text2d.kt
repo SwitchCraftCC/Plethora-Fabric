@@ -18,7 +18,7 @@ import pw.switchcraft.plethora.util.ByteBufUtils
 import pw.switchcraft.plethora.util.DirtyingProperty
 import pw.switchcraft.plethora.util.Vec2d
 
-class Text(
+class Text2d(
   id: Int,
   parent: Int
 ) : ColourableObject(id, parent, TEXT_2D), Positionable2d, Scalable, TextObject {

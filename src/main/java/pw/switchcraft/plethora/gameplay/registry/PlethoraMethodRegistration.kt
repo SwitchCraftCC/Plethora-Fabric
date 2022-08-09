@@ -13,7 +13,7 @@ import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectGroup.*
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.MultiPoint2d
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.MultiPointResizable2d
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.Positionable2d
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.Rectangle
+import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.Rectangle2d
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.*
 import pw.switchcraft.plethora.gameplay.modules.introspection.IntrospectionMethods
 import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticMethods
@@ -54,7 +54,7 @@ internal object PlethoraMethodRegistration {
       methods(Positionable2d::class.java, Positionable2d.GET_POSITION, Positionable2d.SET_POSITION)
       methods(Colourable::class.java, Colourable.GET_COLOUR, Colourable.GET_COLOR, Colourable.SET_COLOUR,
         Colourable.SET_COLOR, Colourable.GET_ALPHA, Colourable.SET_ALPHA)
-      methods(Rectangle::class.java, Rectangle.GET_SIZE, Rectangle.SET_SIZE)
+      methods(Rectangle2d::class.java, Rectangle2d.GET_SIZE, Rectangle2d.SET_SIZE)
       methods(MultiPoint2d::class.java, MultiPoint2d.GET_POINT, MultiPoint2d.SET_POINT)
       methods(MultiPointResizable2d::class.java, MultiPointResizable2d.GET_POINT_COUNT,
         MultiPointResizable2d.REMOVE_POINT, MultiPointResizable2d.INSERT_POINT)
@@ -70,10 +70,10 @@ internal object PlethoraMethodRegistration {
       methods(Positionable3d::class.java, Positionable3d.GET_POSITION, Positionable3d.SET_POSITION)
       methods(Rotatable3d::class.java, Rotatable3d.GET_ROTATION, Rotatable3d.SET_ROTATION)
       methods(DepthTestable::class.java, DepthTestable.IS_DEPTH_TESTED, DepthTestable.SET_DEPTH_TESTED)
-      methods(Box::class.java, Box.GET_SIZE, Box.SET_SIZE)
+      methods(Box3d::class.java, Box3d.GET_SIZE, Box3d.SET_SIZE)
       methods(ObjectRoot3d::class.java, ObjectRoot3d.RECENTER)
       methods(Origin3d::class.java, Canvas3dMethods.CREATE)
-      methods(Group3d::class.java, Canvas3dMethods.ADD_BOX, Canvas3dMethods.ADD_ITEM)
+      methods(Group3d::class.java, Canvas3dMethods.ADD_FRAME, Canvas3dMethods.ADD_BOX, Canvas3dMethods.ADD_ITEM)
     }
   }
 

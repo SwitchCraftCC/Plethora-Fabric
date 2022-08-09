@@ -14,7 +14,7 @@ import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectRegistry.B
 import pw.switchcraft.plethora.util.ByteBufUtils
 import pw.switchcraft.plethora.util.DirtyingProperty
 
-class Box(
+class Box3d(
   id: Int,
   parent: Int
 ) : ColourableObject(id, parent, BOX_3D), Positionable3d, DepthTestable {
@@ -115,14 +115,14 @@ class Box(
       "getSize", "function():number, number, number -- Get the size of this box.",
       { unbaked, _ -> getSize(unbaked) }, false
     )
-    private fun getSize(unbaked: IUnbakedContext<Box>): FutureMethodResult =
+    private fun getSize(unbaked: IUnbakedContext<Box3d>): FutureMethodResult =
       safeFromTarget(unbaked).size.toResult()
 
     val SET_SIZE = BasicMethod.of(
       "setSize", "function(number, number, number) -- Set the size of this box.",
       { unbaked, args -> setSize(unbaked, args) }, false
     )
-    private fun setSize(unbaked: IUnbakedContext<Box>, args: IArguments): FutureMethodResult {
+    private fun setSize(unbaked: IUnbakedContext<Box3d>, args: IArguments): FutureMethodResult {
       val vec = args.getVec3d(0)
       safeFromTarget(unbaked).size = vec
       return FutureMethodResult.empty()

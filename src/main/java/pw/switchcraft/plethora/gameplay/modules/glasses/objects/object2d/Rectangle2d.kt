@@ -18,7 +18,7 @@ import pw.switchcraft.plethora.util.ByteBufUtils
 import pw.switchcraft.plethora.util.DirtyingProperty
 import pw.switchcraft.plethora.util.Vec2d
 
-class Rectangle(
+class Rectangle2d(
   id: Int,
   parent: Int
 ) : ColourableObject(id, parent, RECTANGLE_2D), Positionable2d {
@@ -74,7 +74,7 @@ class Rectangle(
       "getSize", "function():number, number -- Get the size of this rectangle.",
       { unbaked, _ -> getSize(unbaked) }, false
     )
-    private fun getSize(unbaked: IUnbakedContext<Rectangle>): FutureMethodResult {
+    private fun getSize(unbaked: IUnbakedContext<Rectangle2d>): FutureMethodResult {
       val rect = safeFromTarget(unbaked)
       return FutureMethodResult.result(rect.width, rect.height)
     }
@@ -83,7 +83,7 @@ class Rectangle(
       "setSize", "function(number, number) -- Set the size of this rectangle.",
       { unbaked, args -> setSize(unbaked, args) }, false
     )
-    private fun setSize(unbaked: IUnbakedContext<Rectangle>, args: IArguments): FutureMethodResult {
+    private fun setSize(unbaked: IUnbakedContext<Rectangle2d>, args: IArguments): FutureMethodResult {
       safeFromTarget(unbaked).size = args.getVec2d(0)
       return FutureMethodResult.empty()
     }

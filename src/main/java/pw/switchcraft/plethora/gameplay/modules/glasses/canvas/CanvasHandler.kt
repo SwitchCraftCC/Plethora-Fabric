@@ -26,6 +26,7 @@ object CanvasHandler {
   const val ID_2D = 0
   const val ID_3D = 1
 
+  // TODO: Configurable framebuffer scale
   const val WIDTH = 512
   const val HEIGHT = 512 / 16 * 9
 
@@ -61,7 +62,7 @@ object CanvasHandler {
   }
 
   @JvmStatic
-  fun getClient(id: Int): CanvasClient {
+  fun getClient(id: Int): CanvasClient? {
     synchronized(client) { return client[id] }
   }
 
@@ -116,7 +117,9 @@ object CanvasHandler {
     matrices.scale(client.window.scaledWidth.toFloat() / WIDTH, client.window.scaledHeight.toFloat() / HEIGHT, 2f)
 
     synchronized(canvas) {
-      canvas.drawChildren(canvas.getChildren(ID_2D).iterator(), matrices, null)
+      canvas.getChildren(ID_2D)?.let {
+        canvas.drawChildren(it.iterator(), matrices, null)
+      }
     }
 
     RenderSystem.enableTexture()
@@ -128,7 +131,9 @@ object CanvasHandler {
   private fun onWorldRender(ctx: WorldRenderContext) {
     val canvas = getCanvas(MinecraftClient.getInstance()) ?: return
     synchronized(canvas) {
-      canvas.drawChildren(canvas.getChildren(ID_3D).iterator(), ctx.matrixStack(), ctx.consumers())
+      canvas.getChildren(ID_3D)?.let {
+        canvas.drawChildren(it.iterator(), ctx.matrixStack(), ctx.consumers())
+      }
     }
 
     // TODO: GL state

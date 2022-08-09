@@ -46,7 +46,10 @@ class CanvasClient(val id: Int) {
 
   fun getObject(id: Int) = objects[id]
 
-  fun getChildren(id: Int): IntSet = childrenOf[id]
+  fun getChildren(id: Int): IntSet? {
+    val children = childrenOf[id]
+    return if (children.isEmpty()) null else children
+  }
 
   @Environment(EnvType.CLIENT)
   fun drawChildren(children: IntIterator, matrices: MatrixStack?, consumers: VertexConsumerProvider?) {

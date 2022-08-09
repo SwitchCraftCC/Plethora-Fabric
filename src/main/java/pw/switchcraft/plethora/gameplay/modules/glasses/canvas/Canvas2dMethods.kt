@@ -23,7 +23,7 @@ object Canvas2dMethods {
     val size = args.getVec2d(2)
     val colour = args.optInt(4, DEFAULT_COLOUR.toInt())
 
-    val rectangle = Rectangle(canvas.newObjectId(), group.id)
+    val rectangle = Rectangle2d(canvas.newObjectId(), group.id)
     rectangle.position = pos
     rectangle.size = size
     rectangle.colour = colour
@@ -46,7 +46,7 @@ object Canvas2dMethods {
     val colour = args.optInt(2, DEFAULT_COLOUR.toInt())
     val thickness = args.optDouble(3, 1.0).toFloat()
     
-    val line = Line(canvas.newObjectId(), group.id)
+    val line = Line2d(canvas.newObjectId(), group.id)
     line.setVertex(0, start)
     line.setVertex(1, end)
     line.colour = colour
@@ -69,7 +69,7 @@ object Canvas2dMethods {
     val colour = args.optInt(1, DEFAULT_COLOUR.toInt())
     val size = args.optDouble(2, 1.0).toFloat()
 
-    val dot = Dot(canvas.newObjectId(), group.id)
+    val dot = Dot2d(canvas.newObjectId(), group.id)
     dot.position = position
     dot.colour = colour
     dot.scale = size
@@ -92,7 +92,7 @@ object Canvas2dMethods {
     val colour = args.optInt(2, DEFAULT_COLOUR.toInt())
     val size = args.optDouble(3, 1.0).toFloat()
 
-    val text = Text(canvas.newObjectId(), group.id)
+    val text = Text2d(canvas.newObjectId(), group.id)
     text.position = position
     text.text = contents
     text.colour = colour
@@ -116,7 +116,7 @@ object Canvas2dMethods {
     val p3 = args.getVec2dTable(2)
     val colour = args.optInt(3, DEFAULT_COLOUR.toInt())
 
-    val triangle = Triangle(canvas.newObjectId(), group.id)
+    val triangle = Triangle2d(canvas.newObjectId(), group.id)
     triangle.setVertex(0, p1)
     triangle.setVertex(1, p2)
     triangle.setVertex(2, p3)
@@ -136,7 +136,7 @@ object Canvas2dMethods {
     val canvas = ctx.canvas
 
     // TODO: Unlike the other add methods, this one will allocate an object ID even if argument validation fails
-    val polygon = Polygon(canvas.newObjectId(), group.id)
+    val polygon = Polygon2d(canvas.newObjectId(), group.id)
     val i = polygon.addPointsFromArgs(args)
     polygon.colour = args.optInt(i, DEFAULT_COLOUR.toInt())
 
@@ -154,7 +154,7 @@ object Canvas2dMethods {
     val canvas = ctx.canvas
 
     // TODO: Unlike the other add methods, this one will allocate an object ID even if argument validation fails
-    val lines = LineLoop(canvas.newObjectId(), group.id)
+    val lines = LineLoop2d(canvas.newObjectId(), group.id)
     val i = lines.addPointsFromArgs(args)
     lines.colour = args.optInt(i, DEFAULT_COLOUR.toInt())
     lines.scale = args.optDouble(i + 1, 1.0).toFloat()

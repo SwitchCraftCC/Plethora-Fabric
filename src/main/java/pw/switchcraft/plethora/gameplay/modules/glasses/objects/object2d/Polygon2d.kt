@@ -14,7 +14,7 @@ import pw.switchcraft.plethora.util.ByteBufUtils
 import pw.switchcraft.plethora.util.Vec2d
 import javax.annotation.Nonnull
 
-open class Polygon(
+open class Polygon2d(
   id: Int,
   parent: Int,
   type: Byte = POLYGON_2D

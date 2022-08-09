@@ -14,7 +14,7 @@ import pw.switchcraft.plethora.util.Vec2d
 import pw.switchcraft.plethora.util.Vec2d.ZERO
 import java.util.*
 
-class Triangle(
+class Triangle2d(
   id: Int,
   parent: Int
 ) : ColourableObject(id, parent, TRIANGLE_2D), MultiPoint2d {

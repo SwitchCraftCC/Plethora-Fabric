@@ -12,7 +12,6 @@ import net.minecraft.item.Items
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3d
-import net.minecraft.util.math.Vec3f
 import net.minecraft.util.registry.Registry
 import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasClient
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.BaseObject
@@ -54,11 +53,7 @@ class Item3d(
     buf.writeBoolean(hasDepthTest)
   }
 
-  override fun draw(
-    canvas: CanvasClient,
-    matrices: MatrixStack,
-    consumers: VertexConsumerProvider?
-  ) {
+  override fun draw(canvas: CanvasClient, matrices: MatrixStack, consumers: VertexConsumerProvider?) {
     val mc = MinecraftClient.getInstance()
     val itemRenderer = mc.itemRenderer
 
@@ -66,17 +61,7 @@ class Item3d(
 
     matrices.translate(position.x, position.y, position.z)
     matrices.scale(scale, scale, scale)
-
-    val rot = rotation
-    if (rot == null) {
-      val cam = mc.gameRenderer.camera
-      matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180 - cam.yaw))
-      matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-cam.pitch))
-    } else {
-      matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(rot.x.toFloat()))
-      matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(rot.y.toFloat()))
-      matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(rot.z.toFloat()))
-    }
+    applyRotation(matrices)
 
     RenderSystem.enableTexture()
 

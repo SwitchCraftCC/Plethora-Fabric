@@ -8,8 +8,9 @@ import pw.switchcraft.plethora.gameplay.modules.glasses.GlassesMethodsHelpers.ge
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.DEFAULT_COLOUR
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectGroup.Group3d
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectGroup.Origin3d
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.Box
+import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.Box3d
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.Item3d
+import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.ObjectFrame3d
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.ObjectRoot3d
 
 object Canvas3dMethods {
@@ -29,11 +30,26 @@ object Canvas3dMethods {
     root.recenter(location.world, location.loc.add(offset))
 
     canvas.add(root)
-
     return FutureMethodResult.result(ctx.context.makeChild(root, canvas.reference(root)).`object`)
   }
 
-  // TODO: addFrame
+  val ADD_FRAME = BasicMethod.of(
+    "addFrame", "function(function(position:table):table -- Create a new frame to put 2D objects in.",
+    { unbaked, args -> addFrame(unbaked, args) }, false
+  )
+  private fun addFrame(unbaked: IUnbakedContext<Group3d>, args: IArguments): FutureMethodResult {
+    val ctx = getContext(unbaked, Group3d::class.java)
+    val group = ctx.target
+    val canvas = ctx.canvas
+
+    val pos = args.getVec3dTable(0)
+
+    val frame = ObjectFrame3d(canvas.newObjectId(), group.id)
+    frame.position = pos
+
+    canvas.add(frame)
+    return FutureMethodResult.result(ctx.context.makeChild(frame, canvas.reference(frame)).`object`)
+  }
 
   val ADD_BOX = BasicMethod.of(
     "addBox", "function(function(x:number, y:number, z:number[, width:number, height:number, depth:number][, color:number]):table -- Create a new box.",
@@ -48,13 +64,12 @@ object Canvas3dMethods {
     val colour = args.optInt(if (args.count() <= 4) 3 else 6, DEFAULT_COLOUR.toInt())
     val size = if (args.count() <= 4) Vec3d(1.0, 1.0, 1.0) else args.getVec3d(3)
 
-    val box = Box(canvas.newObjectId(), group.id)
+    val box = Box3d(canvas.newObjectId(), group.id)
     box.position = pos
     box.size = size
     box.colour = colour
 
     canvas.add(box)
-
     return FutureMethodResult.result(ctx.context.makeChild(box, canvas.reference(box)).`object`)
   }
 
@@ -79,7 +94,6 @@ object Canvas3dMethods {
     model.item = item
 
     canvas.add(model)
-
     return FutureMethodResult.result(ctx.context.makeChild(model, canvas.reference(model)).`object`)
   }
 }
