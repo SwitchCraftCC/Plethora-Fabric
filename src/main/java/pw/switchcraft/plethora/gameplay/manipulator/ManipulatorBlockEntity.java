@@ -241,7 +241,7 @@ public class ManipulatorBlockEntity extends BaseBlockEntity implements IPlayerOw
     }
 
     public float incrementRotation(float tickDelta) {
-        if (offset < 0) offset = (float) (Helpers.RANDOM.nextDouble() * (2 * Math.PI));
+        if (offset < 0) offset = (float) (Helpers.RANDOM.nextDouble() * 360);
         rotation += tickDelta;
         return rotation + offset;
     }

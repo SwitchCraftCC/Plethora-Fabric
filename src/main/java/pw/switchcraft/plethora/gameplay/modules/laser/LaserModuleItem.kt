@@ -62,7 +62,7 @@ class LaserModuleItem(settings: Settings) : ModuleItem("laser", settings), IModu
     // TODO: this is very important!
   }
 
-  override fun getModel(delta: Float): TransformedModel {
+  override fun getModel(): TransformedModel {
     // Flip the laser so it points forwards on turtles
     return TransformedModel.of(defaultStack, transform)
   }

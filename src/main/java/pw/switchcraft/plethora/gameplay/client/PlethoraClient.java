@@ -42,8 +42,8 @@ public class PlethoraClient implements ClientModInitializer {
 
         // Renderers
         EntityRendererRegistry.register(Registration.LASER_ENTITY, LaserRenderer::new);
-        BlockEntityRendererRegistry.register(ModBlockEntities.MANIPULATOR_MARK_1, ManipulatorRenderer::new);
-        BlockEntityRendererRegistry.register(ModBlockEntities.MANIPULATOR_MARK_2, ManipulatorRenderer::new);
+        BlockEntityRendererRegistry.register(ModBlockEntities.MANIPULATOR_MARK_1, ctx -> new ManipulatorRenderer());
+        BlockEntityRendererRegistry.register(ModBlockEntities.MANIPULATOR_MARK_2, ctx -> new ManipulatorRenderer());
         TrinketRendererRegistry.registerRenderer(Registration.ModItems.NEURAL_INTERFACE, new NeuralInterfaceTrinketRenderer());
 
         // These generics are required even if IDEA says they're not

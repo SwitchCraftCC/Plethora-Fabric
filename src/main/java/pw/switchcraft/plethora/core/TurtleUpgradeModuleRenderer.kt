@@ -26,7 +26,7 @@ object TurtleUpgradeModuleRenderer {
 
   @JvmStatic
   fun getModel(handler: IModuleHandler, side: TurtleSide): TransformedModel {
-    val model = handler.getModel(0f)
+    val model = handler.model
 
     val baseTransform = if (side == TurtleSide.LEFT) leftTransform else rightTransform
     val transform = baseTransform.multiply(model.matrix)

@@ -18,11 +18,8 @@ abstract class ModuleItem(
   override fun getTranslationKey() = "item." + Plethora.MOD_ID + ".module.module_" + itemName
 
   // TODO: isBlacklisted
-  override fun getModel(delta: Float): TransformedModel {
-    return TransformedModel.of(
-      this.defaultStack,
-      AffineTransformation(null, null, null, null)
-    )
+  override fun getModel(): TransformedModel {
+    return TransformedModel.of(defaultStack, transform)
   }
 
   override fun getAdditionalContext(stack: ItemStack, access: IModuleAccess, builder: IContextBuilder) {
@@ -34,5 +31,9 @@ abstract class ModuleItem(
 
     val profile = ModuleContextHelpers.getProfile(stack)
     if (profile != null) builder.addContext(moduleKey, Player(profile))
+  }
+
+  companion object {
+    private val transform = AffineTransformation(null, null, null, null)
   }
 }

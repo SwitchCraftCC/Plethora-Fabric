@@ -33,11 +33,10 @@ public interface IModuleHandler {
     /**
      * Get a model from this stack
      *
-     * @param delta A tick based offset. Can used to animate the model.
      * @return A baked model and its transformation
      * @see TransformedModel
      */
     @Nonnull
     @Environment(EnvType.CLIENT)
-    TransformedModel getModel(float delta);
+    TransformedModel getModel();
 }

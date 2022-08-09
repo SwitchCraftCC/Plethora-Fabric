@@ -39,7 +39,7 @@ public class VehicleUpgradeModule implements IVehicleUpgradeHandler {
 	@Nonnull
 	@Override
 	public TransformedModel getModel(@Nonnull IVehicleAccess access) {
-		return handler.getModel(0); // TODO
+		return handler.getModel(); // TODO
 	}
 
 	@Override
