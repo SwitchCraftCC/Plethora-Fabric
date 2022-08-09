@@ -27,6 +27,7 @@ public abstract class SubtargetedModuleMethod<T> extends ModuleContainerMethod {
 		this.klass = klass;
 	}
 
+  @Nonnull
 	public static <T> SubtargetedModuleMethod<T> of(String name, Set<Identifier> modules, Class<T> klass, String docs, Delegate<IModuleContainer> delegate, boolean worldThread) {
 		return new SubtargetedModuleMethod<T>(name, modules, klass, docs) {
 			@Nonnull
@@ -39,14 +40,17 @@ public abstract class SubtargetedModuleMethod<T> extends ModuleContainerMethod {
 		};
 	}
 
+  @Nonnull
 	public static <T> SubtargetedModuleMethod<T> of(String name, Identifier module, Class<T> klass, String docs, Delegate<IModuleContainer> delegate, boolean worldThread) {
 		return of(name, Collections.singleton(module), klass, docs, delegate, worldThread);
 	}
 
+  @Nonnull
 	public static <T> SubtargetedModuleMethod<T> of(String name, Set<Identifier> modules, Class<T> klass, String docs, Delegate<IModuleContainer> delegate) {
 		return of(name, modules, klass, docs, delegate, true);
 	}
 
+  @Nonnull
 	public static <T> SubtargetedModuleMethod<T> of(String name, Identifier module, Class<T> klass, String docs, Delegate<IModuleContainer> delegate) {
 		return of(name, module, klass, docs, delegate, true);
 	}

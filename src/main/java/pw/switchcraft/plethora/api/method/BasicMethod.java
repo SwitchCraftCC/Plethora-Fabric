@@ -42,6 +42,7 @@ public abstract class BasicMethod<T> implements IMethod<T> {
 		return of(name, docs, delegate, true);
 	}
 
+  @Nonnull
 	public static <T> BasicMethod<T> alias(BasicMethod<T> method, String name) {
 		return new BasicMethod<>(name, method.getPriority(), method.getDocString()) {
 			@Nonnull

@@ -49,7 +49,7 @@ class ObjectRoot3d(
   }
 
   override fun draw(canvas: CanvasClient, matrices: MatrixStack, consumers: VertexConsumerProvider?) {
-    val children = canvas.getChildren(id()) ?: return
+    val children = canvas.getChildren(id) ?: return
 
     val mc = MinecraftClient.getInstance()
     val entity = mc.cameraEntity ?: return
@@ -71,7 +71,6 @@ class ObjectRoot3d(
   }
 
   companion object {
-    @JvmField
     val RECENTER = BasicMethod.of(
       "recenter", "function([offsetX: number, offsetY: number, offsetZ: number]) -- Recenter this canvas relative to the current position.",
       { unbaked, args -> recenter(unbaked, args) }, false

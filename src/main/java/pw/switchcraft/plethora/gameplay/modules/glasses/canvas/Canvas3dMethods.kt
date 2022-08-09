@@ -5,7 +5,7 @@ import net.minecraft.util.math.Vec3d
 import pw.switchcraft.plethora.api.method.*
 import pw.switchcraft.plethora.gameplay.modules.glasses.GlassesArgumentHelper
 import pw.switchcraft.plethora.gameplay.modules.glasses.GlassesMethodsHelpers.getContext
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.Colourable.DEFAULT_COLOUR
+import pw.switchcraft.plethora.gameplay.modules.glasses.objects.DEFAULT_COLOUR
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectGroup.Group3d
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectGroup.Origin3d
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.Box
@@ -13,7 +13,6 @@ import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.Item3d
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.ObjectRoot3d
 
 object Canvas3dMethods {
-  @JvmField
   val CREATE = BasicMethod.of(
     "create", "function([offsetX: number, offsetY: number, offsetZ: number]) -- Create a new 3D canvas centred relative to the current position.",
     { unbaked, args -> create(unbaked, args) }, false
@@ -26,7 +25,7 @@ object Canvas3dMethods {
 
     val offset = args.getVec3dNullable(0) ?: Vec3d.ZERO
 
-    val root = ObjectRoot3d(canvas.newObjectId(), group.id())
+    val root = ObjectRoot3d(canvas.newObjectId(), group.id)
     root.recenter(location.world, location.loc.add(offset))
 
     canvas.add(root)
@@ -36,7 +35,6 @@ object Canvas3dMethods {
 
   // TODO: addFrame
 
-  @JvmField
   val ADD_BOX = BasicMethod.of(
     "addBox", "function(function(x:number, y:number, z:number[, width:number, height:number, depth:number][, color:number]):table -- Create a new box.",
     { unbaked, args -> addBox(unbaked, args) }, false
@@ -47,10 +45,10 @@ object Canvas3dMethods {
     val canvas = ctx.canvas
 
     val pos = args.getVec3d(0)
-    val colour = args.optInt(if (args.count() <= 4) 3 else 6, DEFAULT_COLOUR)
+    val colour = args.optInt(if (args.count() <= 4) 3 else 6, DEFAULT_COLOUR.toInt())
     val size = if (args.count() <= 4) Vec3d(1.0, 1.0, 1.0) else args.getVec3d(3)
 
-    val box = Box(canvas.newObjectId(), group.id())
+    val box = Box(canvas.newObjectId(), group.id)
     box.position = pos
     box.size = size
     box.colour = colour
@@ -62,7 +60,6 @@ object Canvas3dMethods {
 
   // TODO: addLine
 
-  @JvmField
   val ADD_ITEM = BasicMethod.of(
     "addItem", "function(position:table, contents:string[, scale:number]):table -- Create an item model.",
     { unbaked, args -> addItem(unbaked, args) }, false
@@ -76,7 +73,7 @@ object Canvas3dMethods {
     val item = GlassesArgumentHelper.getItem(args, 1)
     val scale = args.optDouble(2, 1.0).toFloat()
 
-    val model = Item3d(canvas.newObjectId(), group.id())
+    val model = Item3d(canvas.newObjectId(), group.id)
     model.position = pos
     model.scale = scale
     model.item = item

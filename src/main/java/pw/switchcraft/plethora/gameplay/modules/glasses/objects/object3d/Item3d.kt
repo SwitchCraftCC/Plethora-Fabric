@@ -7,7 +7,6 @@ import net.minecraft.client.render.OverlayTexture.DEFAULT_UV
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.model.json.ModelTransformation.Mode
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.network.PacketByteBuf
@@ -21,39 +20,20 @@ import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ItemObject
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectRegistry.ITEM_3D
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.Scalable
 import pw.switchcraft.plethora.util.ByteBufUtils
+import pw.switchcraft.plethora.util.DirtyingProperty
 
 class Item3d(
   id: Int,
   parent: Int
 ) : BaseObject(id, parent, ITEM_3D), Scalable, Positionable3d, DepthTestable, ItemObject, Rotatable3d {
-  override var position: Vec3d = Vec3d.ZERO
-    set(value) { if (field != value) field = value.also { setDirty() } }
-  override var rotation: Vec3d? = Vec3d.ZERO
-    set(value) { if (field != value) field = value.also { setDirty() } }
-
-  // TODO: Turn these into property overrides when the superclasses are converted to Kotlin
-  private var scale: Float = 1f
-  override fun getScale(): Float = scale
-  override fun setScale(scale: Float) {
-    if (this.scale != scale) this.scale = scale.also { setDirty() }
-  }
+  override var position by DirtyingProperty(Vec3d.ZERO!!)
+  override var rotation: Vec3d? by DirtyingProperty(Vec3d.ZERO)
+  override var hasDepthTest by DirtyingProperty(true)
+  override var scale by DirtyingProperty(1f)
 
   private var stack: ItemStack? = null
-  private var item: Item = Items.STONE
-
-  override fun getItem(): Item = item
-  override fun setItem(item: Item) {
-    if (this.item != item) {
-      this.item = item
-      stack = null
-      setDirty()
-    }
-  }
-
+  override var item by DirtyingProperty(Items.STONE!!) { _, _, _ -> stack = null }
   // TODO: Damage?
-
-  override var hasDepthTest = true
-    set(value) { if (field != value) field = value.also { setDirty() } }
 
   override fun readInitial(buf: PacketByteBuf) {
     position = ByteBufUtils.readVec3d(buf)

@@ -7,29 +7,23 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.math.Vec3d
 import pw.switchcraft.plethora.api.method.*
-import pw.switchcraft.plethora.core.ContextHelpers
+import pw.switchcraft.plethora.core.ContextHelpers.safeFromTarget
 import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasClient
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ColourableObject
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectRegistry.BOX_3D
 import pw.switchcraft.plethora.util.ByteBufUtils
+import pw.switchcraft.plethora.util.DirtyingProperty
 
 class Box(
   id: Int,
   parent: Int
 ) : ColourableObject(id, parent, BOX_3D), Positionable3d, DepthTestable {
-  override var position: Vec3d = Vec3d.ZERO
-    set(value) {
-      if (field != value) field = value.also { setDirty() }
-    }
+  override var position by DirtyingProperty(Vec3d.ZERO!!)
+  override var hasDepthTest by DirtyingProperty(true)
 
   private var width: Double = 0.0
   private var height: Double = 0.0
   private var depth: Double = 0.0
-
-  override var hasDepthTest = true
-    set(value) {
-      if (field != value) field = value.also { setDirty() }
-    }
 
   var size
     get() = Vec3d(width, height, depth)
@@ -117,22 +111,20 @@ class Box(
   }
 
   companion object {
-    @JvmField
     val GET_SIZE = BasicMethod.of(
       "getSize", "function():number, number, number -- Get the size of this box.",
       { unbaked, _ -> getSize(unbaked) }, false
     )
     private fun getSize(unbaked: IUnbakedContext<Box>): FutureMethodResult =
-      ContextHelpers.safeFromTarget(unbaked).size.toResult()
+      safeFromTarget(unbaked).size.toResult()
 
-    @JvmField
     val SET_SIZE = BasicMethod.of(
       "setSize", "function(number, number, number) -- Set the size of this box.",
       { unbaked, args -> setSize(unbaked, args) }, false
     )
     private fun setSize(unbaked: IUnbakedContext<Box>, args: IArguments): FutureMethodResult {
       val vec = args.getVec3d(0)
-      ContextHelpers.safeFromTarget(unbaked).size = vec
+      safeFromTarget(unbaked).size = vec
       return FutureMethodResult.empty()
     }
   }

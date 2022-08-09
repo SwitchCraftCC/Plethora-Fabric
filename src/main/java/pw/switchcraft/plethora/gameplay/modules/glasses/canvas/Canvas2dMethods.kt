@@ -1,263 +1,215 @@
-package pw.switchcraft.plethora.gameplay.modules.glasses.canvas;
+package pw.switchcraft.plethora.gameplay.modules.glasses.canvas
 
-import dan200.computercraft.api.lua.IArguments;
-import dan200.computercraft.api.lua.LuaException;
-import net.minecraft.item.Item;
-import pw.switchcraft.plethora.api.method.BasicMethod;
-import pw.switchcraft.plethora.api.method.FutureMethodResult;
-import pw.switchcraft.plethora.api.method.IUnbakedContext;
-import pw.switchcraft.plethora.gameplay.modules.glasses.GlassesArgumentHelper;
-import pw.switchcraft.plethora.gameplay.modules.glasses.GlassesMethodsHelpers.TargetedGlassesContext;
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectGroup.Frame2d;
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectGroup.Group2d;
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.*;
-import pw.switchcraft.plethora.util.Vec2d;
+import dan200.computercraft.api.lua.IArguments
+import pw.switchcraft.plethora.api.method.*
+import pw.switchcraft.plethora.gameplay.modules.glasses.GlassesArgumentHelper
+import pw.switchcraft.plethora.gameplay.modules.glasses.GlassesMethodsHelpers.getContext
+import pw.switchcraft.plethora.gameplay.modules.glasses.objects.DEFAULT_COLOUR
+import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectGroup.Frame2d
+import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectGroup.Group2d
+import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.*
 
-import javax.annotation.Nonnull;
+object Canvas2dMethods {
+  val ADD_RECTANGLE = BasicMethod.of(
+    "addRectangle", "function(x:number, y:number, width:number, height:number[, colour:number]):table -- Create a new rectangle.",
+    { unbaked, args -> addRectangle(unbaked, args) }, false
+  )
+  private fun addRectangle(unbaked: IUnbakedContext<Group2d>, args: IArguments): FutureMethodResult {
+    val ctx = getContext(unbaked, Group2d::class.java)
+    val group = ctx.target
+    val canvas = ctx.canvas
 
-import static pw.switchcraft.plethora.gameplay.modules.glasses.GlassesArgumentHelper.getVec2dTable;
-import static pw.switchcraft.plethora.gameplay.modules.glasses.GlassesMethodsHelpers.getContext;
-import static pw.switchcraft.plethora.gameplay.modules.glasses.objects.Colourable.DEFAULT_COLOUR;
+    val pos = args.getVec2d(0)
+    val size = args.getVec2d(2)
+    val colour = args.optInt(4, DEFAULT_COLOUR.toInt())
 
-public final class Canvas2dMethods {
-    public static final BasicMethod<Group2d> ADD_RECTANGLE = BasicMethod.of(
-        "addRectangle",
-        "function(x:number, y:number, width:number, height:number[, colour:number]):table -- Create a new rectangle.",
-        Canvas2dMethods::addRectangle, false
-    );
-    public static FutureMethodResult addRectangle(@Nonnull IUnbakedContext<Group2d> unbaked,
-                                                  @Nonnull IArguments args) throws LuaException {
-        TargetedGlassesContext<Group2d> ctx = getContext(unbaked, Group2d.class);
-        Group2d group = ctx.target();
-        CanvasServer canvas = ctx.canvas();
+    val rectangle = Rectangle(canvas.newObjectId(), group.id)
+    rectangle.position = pos
+    rectangle.size = size
+    rectangle.colour = colour
 
-        float x = (float) args.getDouble(0), y = (float) args.getDouble(1),
-              width = (float) args.getDouble(2), height = (float) args.getDouble(3);
-        int colour = args.optInt(4, DEFAULT_COLOUR);
+    canvas.add(rectangle)
+    return FutureMethodResult.result(ctx.context.makeChild(rectangle, canvas.reference(rectangle)).`object`)
+  }
 
-        Rectangle rectangle = new Rectangle(canvas.newObjectId(), group.id());
-        rectangle.setPosition(new Vec2d(x, y));
-        rectangle.setSize(width, height);
-        rectangle.setColour(colour);
-
-        canvas.add(rectangle);
-
-        return FutureMethodResult.result(ctx.context().makeChild(rectangle, canvas.reference(rectangle)).getObject());
-    }
-
-    public static final BasicMethod<Group2d> ADD_LINE = BasicMethod.of(
-        "addLine",
-        "function(start:table, end:table[, color:number][, thickness:number]):table -- Create a new line.",
-        Canvas2dMethods::addLine, false
-    );
-    public static FutureMethodResult addLine(@Nonnull IUnbakedContext<Group2d> unbaked,
-                                            @Nonnull IArguments args) throws LuaException {
-        TargetedGlassesContext<Group2d> ctx = getContext(unbaked, Group2d.class);
-        Group2d group = ctx.target();
-        CanvasServer canvas = ctx.canvas();
-
-        Vec2d start = getVec2dTable(args, 0), end = getVec2dTable(args, 1);
-        int colour = args.optInt(2, DEFAULT_COLOUR);
-        float thickness = (float) args.optDouble(3, 1);
-
-        Line line = new Line(canvas.newObjectId(), group.id());
-        line.setVertex(0, start);
-        line.setVertex(1, end);
-        line.setColour(colour);
-        line.setScale(thickness);
-
-        canvas.add(line);
-
-        return FutureMethodResult.result(ctx.context().makeChild(line, canvas.reference(line)).getObject());
-    }
+  val ADD_LINE = BasicMethod.of(
+    "addLine", "function(start:table, end:table[, color:number][, thickness:number]):table -- Create a new line.",
+    { unbaked, args -> addLine(unbaked, args) }, false
+  )
+  private fun addLine(unbaked: IUnbakedContext<Group2d>, args: IArguments): FutureMethodResult {
+    val ctx = getContext(unbaked, Group2d::class.java)
+    val group = ctx.target
+    val canvas = ctx.canvas
     
-    public static final BasicMethod<Group2d> ADD_DOT = BasicMethod.of(
-        "addDot",
-        "function(position:table[, color:number][, size:number]):table -- Create a new dot.",
-        Canvas2dMethods::addDot, false
-    );
-    public static FutureMethodResult addDot(@Nonnull IUnbakedContext<Group2d> unbaked,
-                                            @Nonnull IArguments args) throws LuaException {
-        TargetedGlassesContext<Group2d> ctx = getContext(unbaked, Group2d.class);
-        Group2d group = ctx.target();
-        CanvasServer canvas = ctx.canvas();
-
-        Vec2d position = getVec2dTable(args, 0);
-        int colour = args.optInt(1, DEFAULT_COLOUR);
-        float size = (float) args.optDouble(2, 1);
-
-        Dot dot = new Dot(canvas.newObjectId(), group.id());
-        dot.setPosition(position);
-        dot.setColour(colour);
-        dot.setScale(size);
-
-        canvas.add(dot);
-        return FutureMethodResult.result(ctx.context().makeChild(dot, canvas.reference(dot)).getObject());
-    }
-
-    public static final BasicMethod<Group2d> ADD_TEXT = BasicMethod.of(
-        "addText",
-        "function(position:table, contents:string[, colour:number[, size:number]]):table -- Create a new text object.",
-        Canvas2dMethods::addText, false
-    );
-    public static FutureMethodResult addText(@Nonnull IUnbakedContext<Group2d> unbaked,
-                                             @Nonnull IArguments args) throws LuaException {
-        TargetedGlassesContext<Group2d> ctx = getContext(unbaked, Group2d.class);
-        Group2d group = ctx.target();
-        CanvasServer canvas = ctx.canvas();
-
-        Vec2d position = getVec2dTable(args, 0);
-        String contents = args.getString(1);
-        int colour = args.optInt(2, DEFAULT_COLOUR);
-        float size = (float) args.optDouble(3, 1);
-
-        Text text = new Text(canvas.newObjectId(), group.id());
-        text.setPosition(position);
-        text.setText(contents);
-        text.setColour(colour);
-        text.setScale(size);
-
-        canvas.add(text);
-
-        return FutureMethodResult.result(ctx.context().makeChild(text, canvas.reference(text)).getObject());
-    }
+    val start = args.getVec2dTable(0)
+    val end = args.getVec2dTable(1)
+    val colour = args.optInt(2, DEFAULT_COLOUR.toInt())
+    val thickness = args.optDouble(3, 1.0).toFloat()
     
-    public static final BasicMethod<Group2d> ADD_TRIANGLE = BasicMethod.of(
-        "addTriangle",
-        "function(p1:table, p2:table, p3:table[, colour:number]):table -- Create a new triangle, composed of three points.",
-        Canvas2dMethods::addTriangle, false
-    );
-    public static FutureMethodResult addTriangle(@Nonnull IUnbakedContext<Group2d> unbaked,
-                                                 @Nonnull IArguments args) throws LuaException {
-        TargetedGlassesContext<Group2d> ctx = getContext(unbaked, Group2d.class);
-        Group2d group = ctx.target();
-        CanvasServer canvas = ctx.canvas();
-
-        Vec2d p1 = getVec2dTable(args, 0), p2 = getVec2dTable(args, 1), p3 = getVec2dTable(args, 2);
-        int colour = args.optInt(3, DEFAULT_COLOUR);
-
-        Triangle triangle = new Triangle(canvas.newObjectId(), group.id());
-        triangle.setVertex(0, p1);
-        triangle.setVertex(1, p2);
-        triangle.setVertex(2, p3);
-        triangle.setColour(colour);
-
-        canvas.add(triangle);
-
-        return FutureMethodResult.result(ctx.context().makeChild(triangle, canvas.reference(triangle)).getObject());
-    }
+    val line = Line(canvas.newObjectId(), group.id)
+    line.setVertex(0, start)
+    line.setVertex(1, end)
+    line.colour = colour
+    line.scale = thickness
     
-    public static final BasicMethod<Group2d> ADD_POLYGON = BasicMethod.of(
-        "addPolygon",
-        "function(points...:table[, color:number]):table -- Create a new polygon, composed of many points.",
-        Canvas2dMethods::addPolygon, false
-    );
-    public static FutureMethodResult addPolygon(@Nonnull IUnbakedContext<Group2d> unbaked,
-                                                @Nonnull IArguments args) throws LuaException {
-        TargetedGlassesContext<Group2d> ctx = getContext(unbaked, Group2d.class);
-        Group2d group = ctx.target();
-        CanvasServer canvas = ctx.canvas();
+    canvas.add(line)
+    return FutureMethodResult.result(ctx.context.makeChild(line, canvas.reference(line)).`object`)
+  }
 
-        Polygon polygon = new Polygon(canvas.newObjectId(), group.id());
-        int i;
-        for (i = 0; i < args.count(); i++) {
-            Object arg = args.get(i);
-            if (i >= args.count() - 1 && arg instanceof Number) {
-                break;
-            } else {
-                polygon.addPoint(i, getVec2dTable(args, i));
-            }
-        }
+  val ADD_DOT = BasicMethod.of(
+    "addDot", "function(position:table[, color:number][, size:number]):table -- Create a new dot.",
+    { unbaked, args -> addDot(unbaked, args) }, false
+  )
+  private fun addDot(unbaked: IUnbakedContext<Group2d>, args: IArguments): FutureMethodResult {
+    val ctx = getContext(unbaked, Group2d::class.java)
+    val group = ctx.target
+    val canvas = ctx.canvas
 
-        polygon.setColour(args.optInt(i, DEFAULT_COLOUR));
+    val position = args.getVec2dTable(0)
+    val colour = args.optInt(1, DEFAULT_COLOUR.toInt())
+    val size = args.optDouble(2, 1.0).toFloat()
 
-        canvas.add(polygon);
-        return FutureMethodResult.result(ctx.context().makeChild(polygon, canvas.reference(polygon)).getObject());
-    }
-    
-    public static final BasicMethod<Group2d> ADD_LINES = BasicMethod.of(
-        "addLines",
-        "function(points...:table[, color:number[, thickness:number]]):table -- Create a new line loop, composed of many points.",
-        Canvas2dMethods::addLines, false
-    );
-    public static FutureMethodResult addLines(@Nonnull IUnbakedContext<Group2d> unbaked,
-                                              @Nonnull IArguments args) throws LuaException {
-        TargetedGlassesContext<Group2d> ctx = getContext(unbaked, Group2d.class);
-        Group2d group = ctx.target();
-        CanvasServer canvas = ctx.canvas();
+    val dot = Dot(canvas.newObjectId(), group.id)
+    dot.position = position
+    dot.colour = colour
+    dot.scale = size
 
-        LineLoop lines = new LineLoop(canvas.newObjectId(), group.id());
-        int i;
-        for (i = 0; i < args.count(); i++) {
-            Object arg = args.get(i);
-            if (i >= args.count() - 1 && arg instanceof Number) {
-                break;
-            } else {
-                lines.addPoint(i, getVec2dTable(args, i));
-            }
-        }
+    canvas.add(dot)
+    return FutureMethodResult.result(ctx.context.makeChild(dot, canvas.reference(dot)).`object`)
+  }
 
-        lines.setColour(args.optInt(i, DEFAULT_COLOUR));
-        lines.setScale((float) args.optDouble(i + 1, 1.0));
+  val ADD_TEXT = BasicMethod.of(
+    "addText", "function(position:table, contents:string[, colour:number[, size:number]]):table -- Create a new text object.",
+    { unbaked, args -> addText(unbaked, args) }, false
+  )
+  private fun addText(unbaked: IUnbakedContext<Group2d>, args: IArguments): FutureMethodResult {
+    val ctx = getContext(unbaked, Group2d::class.java)
+    val group = ctx.target
+    val canvas = ctx.canvas
 
-        canvas.add(lines);
-        return FutureMethodResult.result(ctx.context().makeChild(lines, canvas.reference(lines)).getObject());
-    }
+    val position = args.getVec2dTable(0)
+    val contents = args.getString(1)
+    val colour = args.optInt(2, DEFAULT_COLOUR.toInt())
+    val size = args.optDouble(3, 1.0).toFloat()
 
-    public static final BasicMethod<Group2d> ADD_ITEM = BasicMethod.of(
-        "addItem",
-        "function(position:table, contents:string[, scale:number]):table -- Create an item icon.",
-        Canvas2dMethods::addItem, false
-    );
-    public static FutureMethodResult addItem(@Nonnull IUnbakedContext<Group2d> unbaked,
-                                             @Nonnull IArguments args) throws LuaException {
-        TargetedGlassesContext<Group2d> ctx = getContext(unbaked, Group2d.class);
-        Group2d group = ctx.target();
-        CanvasServer canvas = ctx.canvas();
+    val text = Text(canvas.newObjectId(), group.id)
+    text.position = position
+    text.text = contents
+    text.colour = colour
+    text.scale = size
 
-        Vec2d position = getVec2dTable(args, 0);
-        Item item = GlassesArgumentHelper.getItem(args, 1);
-        float scale = (float) args.optDouble(2, 1);
+    canvas.add(text)
+    return FutureMethodResult.result(ctx.context.makeChild(text, canvas.reference(text)).`object`)
+  }
 
-        Item2d model = new Item2d(canvas.newObjectId(), group.id());
-        model.setPosition(position);
-        model.setScale(scale);
-        model.setItem(item);
+  val ADD_TRIANGLE = BasicMethod.of(
+    "addTriangle", "function(p1:table, p2:table, p3:table[, colour:number]):table -- Create a new triangle, composed of three points.",
+    { unbaked, args -> addTriangle(unbaked, args) }, false
+  )
+  private fun addTriangle(unbaked: IUnbakedContext<Group2d>, args: IArguments): FutureMethodResult {
+    val ctx = getContext(unbaked, Group2d::class.java)
+    val group = ctx.target
+    val canvas = ctx.canvas
 
-        canvas.add(model);
+    val p1 = args.getVec2dTable(0)
+    val p2 = args.getVec2dTable(1)
+    val p3 = args.getVec2dTable(2)
+    val colour = args.optInt(3, DEFAULT_COLOUR.toInt())
 
-        return FutureMethodResult.result(ctx.context().makeChild(model, canvas.reference(model)).getObject());
-    }
+    val triangle = Triangle(canvas.newObjectId(), group.id)
+    triangle.setVertex(0, p1)
+    triangle.setVertex(1, p2)
+    triangle.setVertex(2, p3)
+    triangle.colour = colour
 
-    public static final BasicMethod<Group2d> ADD_GROUP = BasicMethod.of(
-        "addGroup",
-        "function(position:table):table -- Create a new object group.",
-        Canvas2dMethods::addGroup, false
-    );
-    public static FutureMethodResult addGroup(@Nonnull IUnbakedContext<Group2d> unbaked,
-                                              @Nonnull IArguments args) throws LuaException {
-        TargetedGlassesContext<Group2d> ctx = getContext(unbaked, Group2d.class);
-        Group2d group = ctx.target();
-        CanvasServer canvas = ctx.canvas();
+    canvas.add(triangle)
+    return FutureMethodResult.result(ctx.context.makeChild(triangle, canvas.reference(triangle)).`object`)
+  }
 
-        Vec2d position = getVec2dTable(args, 0);
+  val ADD_POLYGON = BasicMethod.of(
+    "addPolygon", "function(points...:table[, color:number]):table -- Create a new polygon, composed of many points.",
+    { unbaked, args -> addPolygon(unbaked, args) }, false
+  )
+  private fun addPolygon(unbaked: IUnbakedContext<Group2d>, args: IArguments): FutureMethodResult {
+    val ctx = getContext(unbaked, Group2d::class.java)
+    val group = ctx.target
+    val canvas = ctx.canvas
 
-        ObjectGroup2d newGroup = new ObjectGroup2d(canvas.newObjectId(), group.id());
-        newGroup.setPosition(position);
+    // TODO: Unlike the other add methods, this one will allocate an object ID even if argument validation fails
+    val polygon = Polygon(canvas.newObjectId(), group.id)
+    val i = polygon.addPointsFromArgs(args)
+    polygon.colour = args.optInt(i, DEFAULT_COLOUR.toInt())
 
-        canvas.add(newGroup);
+    canvas.add(polygon)
+    return FutureMethodResult.result(ctx.context.makeChild(polygon, canvas.reference(polygon)).`object`)
+  }
 
-        return FutureMethodResult.result(ctx.context().makeChild(newGroup, canvas.reference(newGroup)).getObject());
-    }
-    
-    public static final BasicMethod<Frame2d> GET_SIZE = BasicMethod.of(
-        "getSize", "function():number, number -- Get the size of this canvas.",
-        Canvas2dMethods::getSize, false
-    );
-    public static FutureMethodResult getSize(@Nonnull IUnbakedContext<Frame2d> unbaked,
-                                             @Nonnull IArguments args) throws LuaException {
-        TargetedGlassesContext<Frame2d> ctx = getContext(unbaked, Frame2d.class);
-        Frame2d target = ctx.target();
-        return FutureMethodResult.result(target.getWidth(), target.getHeight());
-    }
+  val ADD_LINES = BasicMethod.of(
+    "addLines", "function(points...:table[, color:number[, thickness:number]]):table -- Create a new line loop, composed of many points.",
+    { unbaked, args -> addLines(unbaked, args) }, false
+  )
+  private fun addLines(unbaked: IUnbakedContext<Group2d>, args: IArguments): FutureMethodResult {
+    val ctx = getContext(unbaked, Group2d::class.java)
+    val group = ctx.target
+    val canvas = ctx.canvas
+
+    // TODO: Unlike the other add methods, this one will allocate an object ID even if argument validation fails
+    val lines = LineLoop(canvas.newObjectId(), group.id)
+    val i = lines.addPointsFromArgs(args)
+    lines.colour = args.optInt(i, DEFAULT_COLOUR.toInt())
+    lines.scale = args.optDouble(i + 1, 1.0).toFloat()
+
+    canvas.add(lines)
+    return FutureMethodResult.result(ctx.context.makeChild(lines, canvas.reference(lines)).`object`)
+  }
+
+  val ADD_ITEM = BasicMethod.of(
+    "addItem", "function(position:table, contents:string[, scale:number]):table -- Create an item icon.",
+    { unbaked, args -> addItem(unbaked, args) }, false
+  )
+  private fun addItem(unbaked: IUnbakedContext<Group2d>, args: IArguments): FutureMethodResult {
+    val ctx = getContext(unbaked, Group2d::class.java)
+    val group = ctx.target
+    val canvas = ctx.canvas
+
+    val position = args.getVec2dTable(0)
+    val item = GlassesArgumentHelper.getItem(args, 1)
+    val scale = args.optDouble(2, 1.0).toFloat()
+
+    val model = Item2d(canvas.newObjectId(), group.id)
+    model.position = position
+    model.scale = scale
+    model.item = item
+
+    canvas.add(model)
+    return FutureMethodResult.result(ctx.context.makeChild(model, canvas.reference(model)).`object`)
+  }
+
+  val ADD_GROUP = BasicMethod.of(
+    "addGroup", "function(position:table):table -- Create a new object group.",
+    { unbaked, args -> addGroup(unbaked, args) }, false
+  )
+  private fun addGroup(unbaked: IUnbakedContext<Group2d>, args: IArguments): FutureMethodResult {
+    val ctx = getContext(unbaked, Group2d::class.java)
+    val group = ctx.target
+    val canvas = ctx.canvas
+
+    val position = args.getVec2dTable(0)
+
+    val newGroup = ObjectGroup2d(canvas.newObjectId(), group.id)
+    newGroup.position = position
+
+    canvas.add(newGroup)
+    return FutureMethodResult.result(ctx.context.makeChild(newGroup, canvas.reference(newGroup)).`object`)
+  }
+
+  val GET_SIZE = BasicMethod.of(
+    "getSize", "function():number, number -- Get the size of this canvas.",
+    { unbaked, _ -> getSize(unbaked) }, false
+  )
+  private fun getSize(unbaked: IUnbakedContext<Frame2d>): FutureMethodResult {
+    val ctx = getContext(unbaked, Frame2d::class.java)
+    val target = ctx.target
+    return FutureMethodResult.result(target.width, target.height)
+  }
 }

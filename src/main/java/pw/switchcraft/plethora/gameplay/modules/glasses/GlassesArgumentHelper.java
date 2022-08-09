@@ -25,7 +25,7 @@ public class GlassesArgumentHelper {
         return getVec2dTable(args.getTable(index));
     }
 
-    private static Vec2d getVec2dTable(Map<?, ?> point) throws LuaException {
+    public static Vec2d getVec2dTable(Map<?, ?> point) throws LuaException {
         Object xObj, yObj;
         if (point.containsKey("x")) {
             xObj = point.get("x");
