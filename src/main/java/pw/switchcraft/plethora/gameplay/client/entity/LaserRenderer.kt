@@ -36,14 +36,17 @@ class LaserRenderer(ctx: EntityRendererFactory.Context?) : EntityRenderer<LaserE
       vertex(consumer, matrix4f, +9f, -2f, 0f, 1f, 1f, 0.0f)
       vertex(consumer, matrix4f, +9f, -1.5f, 0f, 1f, 0f, 0.25f)
       vertex(consumer, matrix4f, -9f, -1.5f, 0f, 0f, 0f, 0.25f)
+
       vertex(consumer, matrix4f, -9f, -1.5f, 0f, 0f, 1f, 0.25f)
       vertex(consumer, matrix4f, +9f, -1.5f, 0f, 1f, 1f, 0.25f)
       vertex(consumer, matrix4f, +9f, +0f, 0f, 1f, 0f, 0.8f)
       vertex(consumer, matrix4f, -9f, +0f, 0f, 0f, 1f, 0.8f)
+
       vertex(consumer, matrix4f, -9f, +0f, 0f, 0f, 1f, 0.8f)
       vertex(consumer, matrix4f, +9f, +0f, 0f, 1f, 1f, 0.8f)
       vertex(consumer, matrix4f, +9f, +1.5f, 0f, 1f, 0f, 0.25f)
       vertex(consumer, matrix4f, -9f, +1.5f, 0f, 0f, 0f, 0.25f)
+
       vertex(consumer, matrix4f, -9f, +1.5f, 0f, 0f, 1f, 0.25f)
       vertex(consumer, matrix4f, +9f, +1.5f, 0f, 1f, 1f, 0.25f)
       vertex(consumer, matrix4f, +9f, +2f, 0f, 1f, 0f, 0.0f)

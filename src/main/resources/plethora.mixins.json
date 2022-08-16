@@ -18,8 +18,9 @@
     "computercraft.ItemDataMixin"
   ],
   "client": [
-    "client.WorldRendererMixin",
-    "client.InGameHudMixin"
+    "client.InGameHudMixin",
+    "client.PlayerEntityRendererMixin",
+    "client.WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
