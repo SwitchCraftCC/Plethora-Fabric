@@ -1,88 +1,82 @@
-package pw.switchcraft.plethora.gameplay.client.block;
+package pw.switchcraft.plethora.gameplay.client.block
 
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.WorldRenderer;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.*;
-import net.minecraft.world.World;
-import pw.switchcraft.plethora.gameplay.client.entity.LaserRenderer;
-import pw.switchcraft.plethora.gameplay.manipulator.ManipulatorBlock;
-import pw.switchcraft.plethora.gameplay.manipulator.ManipulatorType;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext.BlockOutlineContext
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.render.*
+import net.minecraft.util.Identifier
+import net.minecraft.util.hit.HitResult
+import net.minecraft.util.math.Direction
+import net.minecraft.util.math.Matrix4f
+import pw.switchcraft.plethora.Plethora
+import pw.switchcraft.plethora.gameplay.manipulator.ManipulatorBlock
+import kotlin.math.sin
 
-import static pw.switchcraft.plethora.gameplay.manipulator.ManipulatorBlock.BOX_EXPAND;
-import static pw.switchcraft.plethora.gameplay.manipulator.ManipulatorBlock.FACING;
+private const val GLOW_OFFSET = 0.005f
+private const val GLOW_PERIOD = 20.0
 
-public class ManipulatorOutlineRenderer {
-    private static final RenderLayer GLOW_LAYER = LaserRenderer.LAYER;
+object ManipulatorOutlineRenderer {
+  private val layer = RenderLayer.getEntityTranslucent(Identifier(Plethora.MOD_ID, "textures/misc/white.png"))
+  private var ticks = 0f
 
-    private static float ticks;
-    private static final float GLOW_OFFSET = 0.005f;
-    private static final double GLOW_PERIOD = 20.0;
+  @JvmStatic
+  fun onBlockOutline(worldCtx: WorldRenderContext, ctx: BlockOutlineContext): Boolean {
+    ticks += worldCtx.tickDelta()
 
-    public static boolean onBlockOutline(WorldRenderContext worldCtx, WorldRenderContext.BlockOutlineContext ctx) {
-        ticks += worldCtx.tickDelta();
+    val world = ctx.entity().world
+    val pos = ctx.blockPos()
 
-        World world = ctx.entity().world;
-        BlockPos pos = ctx.blockPos();
+    val state = world.getBlockState(pos)
+    val manipulator = state.block as? ManipulatorBlock ?: return true
 
-        BlockState state = world.getBlockState(pos);
-        if (!(state.getBlock() instanceof ManipulatorBlock manipulator)) return true;
+    val result = MinecraftClient.getInstance().crosshairTarget
+    if (result == null || result.type != HitResult.Type.BLOCK) return true
 
-        HitResult result = MinecraftClient.getInstance().crosshairTarget;
-        if (result == null || result.getType() != HitResult.Type.BLOCK) return true;
+    val facing = state.get(ManipulatorBlock.FACING)
+    val down = facing == Direction.DOWN
 
-        Direction facing = state.get(FACING);
-        boolean down = facing == Direction.DOWN;
+    val hit = result.pos.subtract(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble())
+    val type = manipulator.type
 
-        Vec3d hit = result.getPos().subtract(pos.getX(), pos.getY(), pos.getZ());
-        ManipulatorType type = manipulator.getType();
+    for (box in type.boxesFor(facing)) {
+      val expandBox = box.expand(ManipulatorBlock.BOX_EXPAND)
+      if (expandBox.contains(hit)) {
+        val rb = expandBox.offset(pos).offset(worldCtx.camera().pos.negate())
+        val matrixStack = worldCtx.matrixStack()
 
-        for (Box box : type.boxesFor(facing)) {
-            Box expandBox = box.expand(BOX_EXPAND);
-            if (expandBox.contains(hit)) {
-                Box rb = expandBox.offset(pos).offset(worldCtx.camera().getPos().negate());
-                MatrixStack matrixStack = worldCtx.matrixStack();
+        // Glowing square
+        if (down) {
+          // TODO: Because Boxes, this doesn't work for any direction except DOWN. Fix later
+          val glow = worldCtx.consumers()!!.getBuffer(layer)
+          val matrix4f = matrixStack.peek().positionMatrix
 
-                // Glowing square
-                if (down) {
-                    // TODO: Because Boxes, this doesn't work for any direction except DOWN. Fix later
-                    VertexConsumer glow = worldCtx.consumers().getBuffer(GLOW_LAYER);
-                    Matrix4f matrix4f = matrixStack.peek().getPositionMatrix();
-
-                    float alpha = 0.4f + ((float) Math.sin(ticks / GLOW_PERIOD) * 0.1f);
-                    vertex(glow, matrix4f, rb.minX, rb.minY + GLOW_OFFSET, rb.minZ, 0, 1, alpha);
-                    vertex(glow, matrix4f, rb.maxX, rb.minY + GLOW_OFFSET, rb.minZ, 1, 1, alpha);
-                    vertex(glow, matrix4f, rb.maxX, rb.minY + GLOW_OFFSET, rb.maxZ, 1, 0, alpha);
-                    vertex(glow, matrix4f, rb.minX, rb.minY + GLOW_OFFSET, rb.maxZ, 0, 0, alpha);
-                }
-
-                // Box outline
-                VertexConsumer outline = worldCtx.consumers().getBuffer(RenderLayer.getLines());
-
-                WorldRenderer.drawBox(matrixStack, outline, rb, 0.0f, 0.0f, 0.0f, 0.4f);
-
-                return false;
-            }
+          val alpha = 0.4f + sin(ticks / GLOW_PERIOD).toFloat() * 0.1f
+          vertex(glow, matrix4f, rb.minX, rb.minY + GLOW_OFFSET, rb.minZ, 0f, 1f, alpha)
+          vertex(glow, matrix4f, rb.maxX, rb.minY + GLOW_OFFSET, rb.minZ, 1f, 1f, alpha)
+          vertex(glow, matrix4f, rb.maxX, rb.minY + GLOW_OFFSET, rb.maxZ, 1f, 0f, alpha)
+          vertex(glow, matrix4f, rb.minX, rb.minY + GLOW_OFFSET, rb.maxZ, 0f, 0f, alpha)
         }
 
-        return true;
-    }
+        // Box outline
+        val outline = worldCtx.consumers()!!.getBuffer(RenderLayer.getLines())
 
-    private static void vertex(VertexConsumer consumer, Matrix4f matrix4f, double x, double y, double z, float u, float v,
-                               float alpha) {
-        consumer // POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL
-            .vertex(matrix4f, (float) x, (float) y, (float) z)
-            .color(1, 1, 1, alpha)
-            .texture(u, v)
-            .overlay(OverlayTexture.DEFAULT_UV)
-            .light(1)
-            .normal(0.0f, 0.0f, 1.0f)
-            .next();
+        WorldRenderer.drawBox(matrixStack, outline, rb, 0.0f, 0.0f, 0.0f, 0.4f)
+
+        return false
+      }
     }
+    return true
+  }
+
+  private fun vertex(consumer: VertexConsumer, matrix4f: Matrix4f, x: Double, y: Double, z: Double,
+                     u: Float, v: Float, alpha: Float) {
+    consumer // POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL
+      .vertex(matrix4f, x.toFloat(), y.toFloat(), z.toFloat())
+      .color(1f, 1f, 1f, alpha)
+      .texture(u, v)
+      .overlay(OverlayTexture.DEFAULT_UV)
+      .light(LightmapTextureManager.MAX_LIGHT_COORDINATE)
+      .normal(0.0f, 0.0f, 1.0f)
+      .next()
+  }
 }
