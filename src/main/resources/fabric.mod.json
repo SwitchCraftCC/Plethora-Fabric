@@ -36,7 +36,9 @@
     "minecraft": "${minecraft_target_version}",
     "java": ">=17",
     "fabric-language-kotlin": ">=${fabric_kotlin_version}",
-    "computercraft": "${cc_target_version}"
+    "computercraft": "${cc_target_version}",
+    "sc-library": "1.x",
+    "trinkets": ">=3.4.0"
   },
   "custom": {
     "cardinal-components": [
