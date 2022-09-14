@@ -12,8 +12,8 @@ import net.minecraft.recipe.SpecialCraftingRecipe;
 import net.minecraft.recipe.SpecialRecipeSerializer;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
+import pw.switchcraft.library.recipe.IngredientBrew;
 import pw.switchcraft.plethora.gameplay.registry.Registration;
-import pw.switchcraft.plethora.util.IngredientBrew;
 
 public class KineticRecipe extends SpecialCraftingRecipe {
     private final Ingredient piston = Ingredient.ofItems(Items.PISTON);

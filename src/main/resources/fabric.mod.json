@@ -3,7 +3,7 @@
   "id": "plethora",
   "version": "${version}",
   "name": "Plethora",
-  "description": "Peripheral provider for ComputerCraft, ported to Fabric",
+  "description": "Peripheral provider for ComputerCraft, ported to Fabric.",
   "authors": [
     "SquidDev",
     "Lemmmy"

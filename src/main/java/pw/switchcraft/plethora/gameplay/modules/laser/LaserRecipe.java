@@ -10,8 +10,8 @@ import net.minecraft.recipe.SpecialCraftingRecipe;
 import net.minecraft.recipe.SpecialRecipeSerializer;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
+import pw.switchcraft.library.recipe.IngredientEnchanted;
 import pw.switchcraft.plethora.gameplay.registry.Registration;
-import pw.switchcraft.plethora.util.IngredientEnchanted;
 
 import java.util.Map;
 

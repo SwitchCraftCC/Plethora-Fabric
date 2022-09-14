@@ -28,6 +28,8 @@ val clothApiVersion: String by project
 
 val trinketsVersion: String by project
 
+val scLibraryVersion: String by project
+
 val archivesBaseName = "plethora"
 version = modVersion
 group = mavenGroup
@@ -41,6 +43,12 @@ tasks.withType<KotlinCompile>().configureEach {
 }
 
 repositories {
+  mavenLocal {
+    content {
+      includeGroup("pw.switchcraft")
+    }
+  }
+
   maven("https://squiddev.cc/maven")
   maven("https://jitpack.io") // CC:Restitched
   maven("https://maven.shedaniel.me") // cloth-config
@@ -58,11 +66,17 @@ dependencies {
   }
   modImplementation("net.fabricmc", "fabric-language-kotlin", fabricKotlinVersion)
 
+  modImplementation(include("pw.switchcraft", "sc-library", scLibraryVersion))
+
   // CC: Restitched
-  modApi("com.github.cc-tweaked:cc-restitched:${ccVersion}")
+  modApi("com.github.cc-tweaked:cc-restitched:${ccVersion}") {
+    exclude("net.fabricmc.fabric-api", "fabric-gametest-api-v1")
+  }
 
   implementation(include("org.spongepowered", "configurate-core", configurateVersion))
   implementation(include("org.spongepowered", "configurate-hocon", configurateVersion))
+  implementation(include("io.leangen.geantyref", "geantyref", "1.3.13"))
+  implementation(include("com.typesafe", "config", "1.4.2"))
 
   modImplementation("dev.emi:trinkets:${trinketsVersion}")
 
