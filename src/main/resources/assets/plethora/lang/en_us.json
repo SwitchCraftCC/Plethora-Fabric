@@ -4,13 +4,13 @@
   "block.plethora.manipulator_mark_1": "Manipulator Mk I",
   "block.plethora.manipulator_mark_2": "Manipulator Mk II",
   "block.plethora.manipulator_mark_1.desc": "Used to interface with a module from a computer",
-  "block.plethora.manipulator_mark_2.desc": "Used to interface with multiple modules from a computer",
+  "block.plethora.manipulator_mark_2.desc": "Used to interface with multiple modules from a computer.",
 
   "block.plethora.redstone_integrator": "Redstone integrator",
-  "block.plethora.redstone_integrator.desc": "Get and set redstone levels for this block",
+  "block.plethora.redstone_integrator.desc": "Get and set redstone levels for this block.",
 
   "item.plethora.neuralConnector": "Neural connector",
-  "item.plethora.neuralConnector.desc": "Used to connect to Neural Interfaces",
+  "item.plethora.neuralConnector.desc": "Used to connect to Neural Interfaces.",
 
   "item.plethora.neuralInterface": "Neural interface",
   "item.plethora.neuralInterface.desc": "Goes in your face slot inside the helmet slot. Connect with the neural connector.",
@@ -29,11 +29,11 @@
   "item.plethora.module.module_introspection.binding": "Bound to %s",
 
   "item.plethora.module.module_keyboard": "Keyboard",
-  "item.plethora.module.module_keyboard.desc": "Allows typing into a neural interface while in-game",
+  "item.plethora.module.module_keyboard.desc": "Allows typing into a neural interface while in-game.",
 
   "item.plethora.module.module_kinetic": "Kinetic augment",
   "item.plethora.module.module_kinetic.adjective": "Kinetic",
-  "item.plethora.module.module_kinetic.desc": "Allows controlling your body via the neural interface",
+  "item.plethora.module.module_kinetic.desc": "Allows controlling your body via the neural interface.",
 
   "item.plethora.module.module_laser": "Frickin' laser beam",
   "item.plethora.module.module_laser.adjective": "Laser",
@@ -44,11 +44,11 @@
 
   "item.plethora.module.module_scanner": "Block scanner",
   "item.plethora.module.module_scanner.adjective": "Scanning",
-  "item.plethora.module.module_scanner.desc": "Allows scanning blocks in the vicinity",
+  "item.plethora.module.module_scanner.desc": "Allows scanning blocks in the vicinity.",
 
   "item.plethora.module.module_sensor": "Entity sensor",
   "item.plethora.module.module_sensor.adjective": "Sensing",
-  "item.plethora.module.module_sensor.desc": "Detects nearby entities, gathering data about them",
+  "item.plethora.module.module_sensor.desc": "Detects nearby entities, gathering data about them.",
 
   "death.attack.plethora.laser": "%1$s was vapourised by %2$s",
   "death.attack.plethora.laser.item": "%1$s was vapourised by %2$s using %3$s",

@@ -23,20 +23,19 @@ import pw.switchcraft.plethora.Plethora;
 import pw.switchcraft.plethora.api.PlethoraEvents;
 import pw.switchcraft.plethora.api.module.IModuleRegistry;
 import pw.switchcraft.plethora.gameplay.BaseBlockEntity;
+import pw.switchcraft.plethora.gameplay.data.recipes.handlers.RecipeHandlers;
 import pw.switchcraft.plethora.gameplay.manipulator.ManipulatorBlock;
 import pw.switchcraft.plethora.gameplay.manipulator.ManipulatorBlockEntity;
 import pw.switchcraft.plethora.gameplay.manipulator.ManipulatorPeripheral;
 import pw.switchcraft.plethora.gameplay.manipulator.ManipulatorType;
-import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasHandler;
 import pw.switchcraft.plethora.gameplay.modules.glasses.GlassesModuleItem;
+import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasHandler;
 import pw.switchcraft.plethora.gameplay.modules.introspection.IntrospectionModuleItem;
 import pw.switchcraft.plethora.gameplay.modules.keyboard.KeyboardModuleItem;
 import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticModuleItem;
-import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticRecipe;
 import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticTurtleUpgrade;
 import pw.switchcraft.plethora.gameplay.modules.laser.LaserEntity;
 import pw.switchcraft.plethora.gameplay.modules.laser.LaserModuleItem;
-import pw.switchcraft.plethora.gameplay.modules.laser.LaserRecipe;
 import pw.switchcraft.plethora.gameplay.modules.scanner.ScannerModuleItem;
 import pw.switchcraft.plethora.gameplay.modules.sensor.SensorModuleItem;
 import pw.switchcraft.plethora.gameplay.neural.NeuralConnectorItem;
@@ -77,9 +76,6 @@ public final class Registration {
             ModScreens.NEURAL_INTERFACE_HANDLER_TYPE
         };
         Plethora.LOG.trace("oh no:" + (o[0] != null ? "yes" : "NullPointerException")); // lig was here
-
-        Registry.register(Registry.RECIPE_SERIALIZER, new Identifier(MOD_ID, "kinetic"), KineticRecipe.SERIALIZER);
-        Registry.register(Registry.RECIPE_SERIALIZER, new Identifier(MOD_ID, "laser"), LaserRecipe.SERIALIZER);
 
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(MOD_ID, "neural_interface"),
             ModScreens.NEURAL_INTERFACE_HANDLER_TYPE);
@@ -137,6 +133,8 @@ public final class Registration {
 
         RedstoneIntegratorTicker.registerEvents();
         CanvasHandler.registerServerEvents();
+
+        RecipeHandlers.registerSerializers();
     }
 
     public static final class ModItems {

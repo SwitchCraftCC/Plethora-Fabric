@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.data;
+package pw.switchcraft.plethora.gameplay.data.recipes;
 
 import com.google.gson.JsonObject;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
@@ -25,18 +25,8 @@ public class RecipeWrapper implements RecipeJsonProvider {
         this.serializer = serializer;
     }
 
-    public static Consumer<RecipeJsonProvider> wrap(RecipeSerializer<?> serializer, Consumer<RecipeJsonProvider> original) {
-        return x -> original.accept(new RecipeWrapper(x, null, serializer));
-    }
-
     public static Consumer<RecipeJsonProvider> wrap(RecipeSerializer<?> serializer, Consumer<RecipeJsonProvider> original, NbtCompound resultData) {
         return x -> original.accept(new RecipeWrapper(x, resultData, serializer));
-    }
-
-    public static Consumer<RecipeJsonProvider> wrap(RecipeSerializer<?> serializer, Consumer<RecipeJsonProvider> original, Consumer<NbtCompound> resultData) {
-        NbtCompound tag = new NbtCompound();
-        resultData.accept(tag);
-        return x -> original.accept(new RecipeWrapper(x, tag, serializer));
     }
 
     @Override

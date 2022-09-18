@@ -23,7 +23,10 @@
       "pw.switchcraft.plethora.Plethora"
     ],
     "fabric-datagen": [
-      "pw.switchcraft.plethora.gameplay.data.Generators"
+      {
+        "adapter": "kotlin",
+        "value": "pw.switchcraft.plethora.gameplay.data.PlethoraDatagen"
+      }
     ]
   },
   "mixins": [

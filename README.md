@@ -1,6 +1,6 @@
 # Plethora-Fabric
 
-Plethora-Fabric is a port of [Plethora](https://github.com/SquidDev-CC/plethora) for Fabric 1.18+. The port is still
+Plethora-Fabric is a port of [Plethora](https://github.com/SquidDev-CC/plethora) for Fabric 1.19+. The port is still
 ongoing.
 
 ## Port status
@@ -16,8 +16,7 @@ ongoing.
 
 ### Peripheral modules
 - [x] Manipulator
-- [ ] Chat recorder
-- [ ] Overlay glasses
+- [x] Overlay glasses
 - [x] Introspection nodule
   - [x] Inventory methods
 - [x] Kinetic augment
@@ -34,7 +33,6 @@ ongoing.
 - [x] Cost system
   - [ ] Config
 - [ ] Module blacklist & method configuration
-- [ ] Recipe book advancements
 
 ### Integration
 - [x] API

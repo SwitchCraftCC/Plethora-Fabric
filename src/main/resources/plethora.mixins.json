@@ -8,11 +8,8 @@
     "EntityAccessor",
     "LivingEntityMixin",
     "MeleeAttackGoalMixin",
-    "RecipeManagerMixin",
     "ServerPlayerInteractionManagerAccessor",
     "ServerPlayNetworkHandlerAdapter",
-    "ShapedRecipeSerializerMixin",
-    "ShapelessRecipeSerializerMixin",
     "SimpleInventoryAccessor",
     "TntBlockInvoker",
     "computercraft.ItemDataMixin"

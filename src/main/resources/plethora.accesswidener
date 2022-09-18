@@ -3,10 +3,6 @@ accessWidener	v1  named
 extendable class net/minecraft/recipe/Ingredient
 accessible method net/minecraft/recipe/Ingredient <init> (Ljava/util/stream/Stream;)V
 
-accessible field net/minecraft/recipe/ShapelessRecipe group Ljava/lang/String;
-accessible field net/minecraft/recipe/ShapelessRecipe output Lnet/minecraft/item/ItemStack;
-accessible field net/minecraft/recipe/ShapelessRecipe input Lnet/minecraft/util/collection/DefaultedList;
-
 mutable field net/minecraft/screen/slot/Slot x I
 mutable field net/minecraft/screen/slot/Slot y I
 
