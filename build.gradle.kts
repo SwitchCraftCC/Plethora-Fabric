@@ -27,6 +27,7 @@ val clothConfigVersion: String by project
 val clothApiVersion: String by project
 
 val trinketsVersion: String by project
+val cardinalComponentsVersion: String by project
 
 val scLibraryVersion: String by project
 
@@ -89,6 +90,9 @@ dependencies {
   }
   include("me.shedaniel.cloth", "cloth-config-fabric", clothConfigVersion)
   modImplementation(include("me.shedaniel.cloth.api", "cloth-utils-v1", clothApiVersion))
+
+  modImplementation(include("dev.onyxstudios.cardinal-components-api", "cardinal-components-base", cardinalComponentsVersion))
+  modImplementation(include("dev.onyxstudios.cardinal-components-api", "cardinal-components-entity", cardinalComponentsVersion))
 }
 
 tasks {

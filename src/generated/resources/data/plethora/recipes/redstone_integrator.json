@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "computercraft:cable"
+    },
+    "R": {
+      "tag": "c:redstone_dusts"
+    },
+    "S": {
+      "item": "minecraft:stone"
+    }
+  },
+  "pattern": [
+    "SRS",
+    "RCR",
+    "SRS"
+  ],
+  "result": {
+    "item": "plethora:redstone_integrator"
+  }
+}

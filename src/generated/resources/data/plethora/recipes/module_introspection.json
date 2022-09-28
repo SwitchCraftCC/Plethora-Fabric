@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "minecraft:ender_chest"
+    },
+    "G": {
+      "tag": "c:gold_ingots"
+    },
+    "H": {
+      "item": "minecraft:diamond_helmet"
+    }
+  },
+  "pattern": [
+    "GCG",
+    "CHC",
+    "GCG"
+  ],
+  "result": {
+    "item": "plethora:module_introspection"
+  }
+}

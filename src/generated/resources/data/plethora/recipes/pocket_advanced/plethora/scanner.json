@@ -1,0 +1,19 @@
+{
+  "type": "computercraft:impostor_shaped",
+  "group": "plethora:pocket_advanced",
+  "key": {
+    "#": {
+      "item": "plethora:module_scanner"
+    },
+    "P": {
+      "item": "computercraft:pocket_computer_advanced"
+    }
+  },
+  "pattern": [
+    "#P"
+  ],
+  "result": {
+    "item": "computercraft:pocket_computer_advanced",
+    "nbt": "{Upgrade:\"plethora:scanner\"}"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "plethora:block/manipulator_mark_2"
+    },
+    "facing=east": {
+      "model": "plethora:block/manipulator_mark_2",
+      "x": 90,
+      "y": 270
+    },
+    "facing=north": {
+      "model": "plethora:block/manipulator_mark_2",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south": {
+      "model": "plethora:block/manipulator_mark_2",
+      "x": 90
+    },
+    "facing=up": {
+      "model": "plethora:block/manipulator_mark_2",
+      "x": 180
+    },
+    "facing=west": {
+      "model": "plethora:block/manipulator_mark_2",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

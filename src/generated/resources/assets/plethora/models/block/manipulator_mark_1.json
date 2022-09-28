@@ -1,0 +1,9 @@
+{
+  "parent": "plethora:block/manipulator_base",
+  "textures": {
+    "bottom": "plethora:block/manipulator_bottom",
+    "particle": "plethora:block/manipulator_side",
+    "side": "plethora:block/manipulator_side",
+    "top": "plethora:block/manipulator_top1"
+  }
+}

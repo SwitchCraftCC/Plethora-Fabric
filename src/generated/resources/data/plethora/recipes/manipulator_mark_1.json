@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "tag": "c:gold_ingots"
+    },
+    "G": {
+      "tag": "c:glass_blocks"
+    },
+    "I": {
+      "tag": "c:iron_ingots"
+    },
+    "M": {
+      "item": "computercraft:cable"
+    },
+    "R": {
+      "tag": "c:redstone_dusts"
+    }
+  },
+  "pattern": [
+    "GCG",
+    "RMR",
+    "III"
+  ],
+  "result": {
+    "item": "plethora:manipulator_mark_1"
+  }
+}

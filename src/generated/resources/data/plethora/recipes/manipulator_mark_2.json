@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "tag": "c:gold_ingots"
+    },
+    "I": {
+      "tag": "c:iron_ingots"
+    },
+    "M": {
+      "item": "plethora:manipulator_mark_1"
+    },
+    "R": {
+      "tag": "c:redstone_dusts"
+    }
+  },
+  "pattern": [
+    "CCC",
+    "RMR",
+    "III"
+  ],
+  "result": {
+    "item": "plethora:manipulator_mark_2"
+  }
+}
