@@ -45,7 +45,8 @@ tasks.withType<KotlinCompile>().configureEach {
 }
 
 repositories {
-  mavenLocal {
+  maven {
+    url = uri("https://repo.lem.sh/releases")
     content {
       includeGroup("pw.switchcraft")
     }
