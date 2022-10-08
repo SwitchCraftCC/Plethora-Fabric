@@ -7,6 +7,7 @@ plugins {
   id("fabric-loom") version "1.0-SNAPSHOT"
   id("io.github.juuxel.loom-quiltflower") version "1.7.3"
   id("maven-publish")
+  id("signing")
 }
 
 val modVersion: String by project
@@ -149,3 +150,26 @@ tasks {
     }
   }
 }
+
+publishing {
+  publications {
+    register("mavenJava", MavenPublication::class) {
+      from(components["java"])
+    }
+  }
+
+  repositories {
+    maven {
+      name = "lemmmyRepo"
+      url = uri("https://repo.lem.sh/releases")
+      credentials {
+        username = System.getenv("MAVEN_USERNAME")
+        password = System.getenv("MAVEN_PASSWORD")
+      }
+      authentication {
+        create<BasicAuthentication>("basic")
+      }
+    }
+  }
+}
+
