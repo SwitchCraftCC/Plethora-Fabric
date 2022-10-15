@@ -2,6 +2,7 @@ package pw.switchcraft.plethora.integration.vanilla.registry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.SheepEntity;
@@ -14,6 +15,7 @@ import pw.switchcraft.plethora.api.reference.BlockReference;
 import pw.switchcraft.plethora.integration.vanilla.meta.block.BlockMeta;
 import pw.switchcraft.plethora.integration.vanilla.meta.block.BlockReferenceMeta;
 import pw.switchcraft.plethora.integration.vanilla.meta.block.BlockStateMeta;
+import pw.switchcraft.plethora.integration.vanilla.meta.entity.EntityMeta;
 import pw.switchcraft.plethora.integration.vanilla.meta.entity.EntityMetaProviders;
 import pw.switchcraft.plethora.integration.vanilla.meta.entity.LivingEntityMeta;
 import pw.switchcraft.plethora.integration.vanilla.meta.entity.PlayerEntityMeta;
@@ -27,6 +29,7 @@ public class VanillaMetaRegistration {
         provider(r, "blockState", BlockState.class, new BlockStateMeta());
 
         // integration.vanilla.entity
+        provider(r, "entity", Entity.class, new EntityMeta());
         provider(r, "itemEntity", ItemEntity.class, EntityMetaProviders.ITEM_ENTITY);
         provider(r, "livingEntity", LivingEntity.class, new LivingEntityMeta());
         provider(r, "playerEntity", PlayerEntity.class, new PlayerEntityMeta());
