@@ -137,7 +137,7 @@ object Canvas2dMethods {
 
     // TODO: Unlike the other add methods, this one will allocate an object ID even if argument validation fails
     val polygon = Polygon2d(canvas.newObjectId(), group.id)
-    val i = polygon.addPointsFromArgs(args)
+    val i = polygon.addPointsFromArgs(args, 1)
     polygon.colour = args.optInt(i, DEFAULT_COLOUR.toInt())
 
     canvas.add(polygon)
@@ -155,7 +155,7 @@ object Canvas2dMethods {
 
     // TODO: Unlike the other add methods, this one will allocate an object ID even if argument validation fails
     val lines = LineLoop2d(canvas.newObjectId(), group.id)
-    val i = lines.addPointsFromArgs(args)
+    val i = lines.addPointsFromArgs(args, 2)
     lines.colour = args.optInt(i, DEFAULT_COLOUR.toInt())
     lines.scale = args.optDouble(i + 1, 1.0).toFloat()
 

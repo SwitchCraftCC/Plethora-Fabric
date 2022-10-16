@@ -13,11 +13,11 @@ interface MultiPointResizable2d : MultiPoint2d {
   fun removePoint(idx: Int)
   fun addPoint(idx: Int, point: Vec2d)
 
-  fun addPointsFromArgs(args: IArguments): Int {
+  fun addPointsFromArgs(args: IArguments, optArgCount: Int = 0): Int {
     var i = 0
     while (i < args.count()) {
       val arg = args[i]
-      if (i >= args.count() - 1 && arg is Number) {
+      if (i >= args.count() - optArgCount && arg is Number) {
         break
       } else {
         addPoint(i, args.getVec2dTable(i))
