@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.LightmapTextureManager.MAX_LIGHT_COORDINATE
 import net.minecraft.client.render.OverlayTexture.DEFAULT_UV
+import net.minecraft.client.render.Tessellator
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.model.json.ModelTransformation.Mode
 import net.minecraft.client.util.math.MatrixStack
@@ -63,6 +64,9 @@ class Item3d(
     matrices.scale(scale, scale, scale)
     applyRotation(matrices)
 
+    val buffer = Tessellator.getInstance().buffer
+    val immediate = VertexConsumerProvider.immediate(buffer)
+
     RenderSystem.enableTexture()
 
     if (hasDepthTest) {
@@ -72,7 +76,9 @@ class Item3d(
     }
 
     val stack = stack ?: ItemStack(item).also { stack = it }
-    itemRenderer.renderItem(stack, Mode.NONE, MAX_LIGHT_COORDINATE, DEFAULT_UV, matrices, consumers, 0)
+    itemRenderer.renderItem(stack, Mode.NONE, MAX_LIGHT_COORDINATE, DEFAULT_UV, matrices, immediate, 0)
+
+    immediate.draw()
 
     matrices.pop()
   }

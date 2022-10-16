@@ -114,7 +114,7 @@ class ObjectFrame3d(
 
   companion object {
     val framebuffer by lazy {
-      Plethora.LOG.info("Creating ObjectFrame3d framebuffer with size $WIDTH x $HEIGHT")
+      Plethora.LOG.debug("Creating ObjectFrame3d framebuffer with size $WIDTH x $HEIGHT")
       SimpleFramebuffer(WIDTH, HEIGHT, true, true)
     }
   }
