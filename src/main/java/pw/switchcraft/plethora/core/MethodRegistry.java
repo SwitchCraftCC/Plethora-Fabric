@@ -9,10 +9,13 @@ import pw.switchcraft.plethora.Plethora;
 import pw.switchcraft.plethora.api.converter.IConverterExcludeMethod;
 import pw.switchcraft.plethora.api.method.*;
 import pw.switchcraft.plethora.core.collections.ClassIteratorIterable;
+import pw.switchcraft.plethora.util.config.ConfigLoader;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
+
+import static pw.switchcraft.plethora.Plethora.log;
 
 public final class MethodRegistry implements IMethodRegistry {
 	public static final MethodRegistry instance = new MethodRegistry();
@@ -23,10 +26,10 @@ public final class MethodRegistry implements IMethodRegistry {
 	private void registerMethod(@Nonnull RegisteredMethod<?> entry) {
 		Objects.requireNonNull(entry, "entry cannot be null");
 
-		if (entry.target() == Object.class && entry.method().has(IConverterExcludeMethod.class)) {
-			Plethora.LOG.warn(
-				"You're registering a method (" + entry.name() + ") targeting the base class (Object). Converters will " +
-					"probably mask the original object: it is recommended that you implement IConverterExcludeMethod to avoid this."
+		if (entry.getTarget() == Object.class && entry.getMethod().has(IConverterExcludeMethod.class)) {
+			log.warn(
+				"You're registering a method (" + entry.getRegName() + ") targeting the base class (Object). Converters will " +
+        "probably mask the original object: it is recommended that you implement IConverterExcludeMethod to avoid this."
 			);
 		}
 
@@ -40,19 +43,24 @@ public final class MethodRegistry implements IMethodRegistry {
 		Objects.requireNonNull(target, "target cannot be null");
 		Objects.requireNonNull(method, "method cannot be null");
 
-		Plethora.LOG.debug("Registering method {} for {}", mod + ":" + name, target);
-		registerMethod(new RegisteredMethod.Impl<>(mod, name, target, method));
+		log.debug("Registering method {} for {}", mod + ":" + name, target);
+		registerMethod(new RegisteredMethod.Impl<>(name, mod, target, method));
 	}
 
 	public void build() {
-		Plethora.LOG.debug("Building method registry");
+		log.debug("Building method registry");
 		providers.clear();
 		for (RegisteredMethod<?> entry : all) {
 			if (entry.enabled()) {
 				entry.build();
-				providers.put(entry.target(), entry);
+				providers.put(entry.getTarget(), entry);
 			}
 		}
+
+    // At this stage, RegisteredMethod.build() should have called computeIfAbsent for every method's base cost.
+    // Re-save the configuration to ensure that the base cost is saved.
+    log.info("Updating base costs in configuration file");
+    ConfigLoader.INSTANCE.saveConfig(Plethora.config);
 	}
 
 	@Nonnull
@@ -65,7 +73,7 @@ public final class MethodRegistry implements IMethodRegistry {
 		// TODO: Would be nice to be able to do all of this with no reflection at all.
 		for (Class<?> klass : new ClassIteratorIterable(context.getTarget().getClass())) {
 			for (RegisteredMethod entry : providers.get(klass)) {
-				if (entry.method().canApply(context)) methods.add(entry);
+				if (entry.getMethod().canApply(context)) methods.add(entry);
 			}
 		}
 
@@ -92,7 +100,7 @@ public final class MethodRegistry implements IMethodRegistry {
 
 			UnbakedContext<?> unbaked = null;
 			for (RegisteredMethod<?> entry : getMethods(builder.withIndex(i))) {
-				IMethod<?> method = entry.method();
+				IMethod<?> method = entry.getMethod();
 				// Skip IConverterExclude methods
 				if (i != builder.target && method.has(IConverterExcludeMethod.class)) continue;
 
@@ -101,7 +109,7 @@ public final class MethodRegistry implements IMethodRegistry {
 				Integer existing = methodLookup.get(method.getName());
 				if (existing != null) {
 					int index = existing;
-					if (method.getPriority() > methods.get(index).method().getPriority()) {
+					if (method.getPriority() > methods.get(index).getMethod().getPriority()) {
 						methods.set(index, entry);
 						contexts.set(index, unbaked);
 					}
@@ -118,11 +126,11 @@ public final class MethodRegistry implements IMethodRegistry {
 
 			Context<IMethodCollection> baked = builder.makeChildId(collection);
 			for (RegisteredMethod<?> entry : getMethods(baked)) {
-				IMethod<?> method = entry.method();
+				IMethod<?> method = entry.getMethod();
 				Integer existing = methodLookup.get(method.getName());
 				if (existing != null) {
 					int index = existing;
-					if (method.getPriority() > methods.get(index).method().getPriority()) {
+					if (method.getPriority() > methods.get(index).getMethod().getPriority()) {
 						methods.set(index, entry);
 						contexts.set(index, baked.unbake());
 					}

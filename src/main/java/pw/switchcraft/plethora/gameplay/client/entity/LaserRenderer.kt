@@ -7,13 +7,13 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Matrix4f
 import net.minecraft.util.math.Vec3f
-import pw.switchcraft.plethora.Plethora.MOD_ID
+import pw.switchcraft.plethora.Plethora.ModId
 import pw.switchcraft.plethora.gameplay.modules.laser.LaserEntity
 
 private const val SCALE = 0.05625f
 
 class LaserRenderer(ctx: EntityRendererFactory.Context?) : EntityRenderer<LaserEntity>(ctx) {
-  private val layer = RenderLayer.getEntityTranslucent(Identifier(MOD_ID, "textures/misc/white.png"))
+  private val layer = RenderLayer.getEntityTranslucent(ModId("textures/misc/white.png"))
 
   override fun render(entity: LaserEntity, yaw: Float, tickDelta: Float, matrices: MatrixStack,
                       vertexConsumers: VertexConsumerProvider, light: Int) {

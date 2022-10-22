@@ -1,112 +1,114 @@
-package pw.switchcraft.plethora.core;
+package pw.switchcraft.plethora.core
 
-import com.google.common.collect.MapMaker;
-import dan200.computercraft.api.lua.LuaException;
-import pw.switchcraft.plethora.Plethora;
-import pw.switchcraft.plethora.api.method.FutureMethodResult;
-import pw.switchcraft.plethora.api.method.ICostHandler;
-import pw.switchcraft.plethora.util.config.Config.CostSystem;
-
-import java.util.Map;
-import java.util.concurrent.Callable;
+import com.google.common.collect.MapMaker
+import dan200.computercraft.api.lua.LuaException
+import pw.switchcraft.plethora.Plethora
+import pw.switchcraft.plethora.api.method.FutureMethodResult
+import pw.switchcraft.plethora.api.method.ICostHandler
+import java.util.concurrent.Callable
 
 /**
- * A basic {@link ICostHandler} implementation. Every object registered with it is updated every tick.
+ * A basic [ICostHandler] implementation. Every object registered with it is updated every tick.
  *
- * @see PlethoraCore#initializeCore()
+ * @see PlethoraCore.initializeCore
  */
-public final class DefaultCostHandler implements ICostHandler {
-	/**
-	 * Used to store all handlers.
-	 *
-	 * This uses a custom map in order to ensure the keys are compared by identity, rather than equality.
-	 */
-	private static final Map<Object, DefaultCostHandler> handlers = new MapMaker()
-		.weakKeys().concurrencyLevel(1).makeMap();
+class DefaultCostHandler : ICostHandler {
+  private val cfg by Plethora.config::costSystem
 
-	private double value = CostSystem.initial;
+  private var value: Double = cfg.initial
+  @Synchronized
+  override fun get() = value
 
-	@Override
-	public synchronized double get() {
-		return value;
-	}
+  @Synchronized
+  override fun consume(amount: Double): Boolean {
+    require(amount >= 0) { "amount must be >= 0" }
 
-	@Override
-	public synchronized boolean consume(double amount) {
-		if (amount < 0) throw new IllegalArgumentException("amount must be >= 0");
+    if (cfg.allowNegative) {
+      if (value <= 0) return false
+    } else {
+      if (amount > value) return false
+    }
 
-		if (CostSystem.allowNegative) {
-			if (value <= 0) return false;
-		} else {
-			if (amount > value) return false;
-		}
+    value -= amount
+    return true
+  }
 
-		value -= amount;
-		return true;
-	}
+  @Throws(LuaException::class)
+  override fun await(amount: Double, next: FutureMethodResult): FutureMethodResult {
+    // First try to consume as normal, unwrapping if not possible.
+    if (consume(amount)) return next
 
-	@Override
-	public FutureMethodResult await(double amount, FutureMethodResult next) throws LuaException {
-		// First try to consume as normal, unwrapping if not possible.
-		if (consume(amount)) return next;
+    // Otherwise if we'll never be able to consume then give up.
+    if (!cfg.allowNegative && amount > cfg.limit || !cfg.awaitRegen) {
+      throw LuaException("Insufficient energy (requires $amount, has $value.")
+    }
 
-		// Otherwise if we'll never be able to consume then give up.
-		if ((!CostSystem.allowNegative && amount > CostSystem.limit) || !CostSystem.awaitRegen) {
-			throw new LuaException("Insufficient energy (requires " + amount + ", has " + value + ".");
-		}
+    return FutureMethodResult.awaiting({ consume(amount) }) { next }
+  }
 
-		return FutureMethodResult.awaiting(() -> consume(amount), () -> next);
-	}
+  @Throws(LuaException::class)
+  override fun await(amount: Double, next: Callable<FutureMethodResult>): FutureMethodResult {
+    // First try to consume as normal, unwrapping if not possible.
+    if (consume(amount)) {
+      return try {
+        next.call()
+      } catch (e: Exception) {
+        when (e) {
+          is LuaException -> throw e
+          else -> {
+            Plethora.log.error("Unexpected error", e)
+            throw LuaException("Java Exception Thrown: $e")
+          }
+        }
+      }
+    }
 
-	@Override
-	public FutureMethodResult await(double amount, Callable<FutureMethodResult> next) throws LuaException {
-		// First try to consume as normal, unwrapping if not possible.
-		if (consume(amount)) {
-			try {
-				return next.call();
-			} catch (LuaException e) {
-				throw e;
-			} catch (Exception | LinkageError | VirtualMachineError e) {
-				Plethora.LOG.error("Unexpected error", e);
-				throw new LuaException("Java Exception Thrown: " + e);
-			}
-		}
+    // Otherwise if we'll never be able to consume then give up.
+    if (!cfg.allowNegative && amount > cfg.limit || !cfg.awaitRegen) {
+      throw LuaException("Insufficient energy (requires $amount, has $value).")
+    }
 
-		// Otherwise if we'll never be able to consume then give up.
-		if ((!CostSystem.allowNegative && amount > CostSystem.limit) || !CostSystem.awaitRegen) {
-			throw new LuaException("Insufficient energy (requires " + amount + ", has " + value + ").");
-		}
+    return FutureMethodResult.awaiting({ consume(amount) }, next)
+  }
 
-		return FutureMethodResult.awaiting(() -> consume(amount), next);
-	}
+  @Synchronized
+  private fun regen() {
+    if (value < cfg.limit) value = cfg.limit.coerceAtMost(value + cfg.regen)
+  }
 
-	private synchronized void regen() {
-		if (value < CostSystem.limit) value = Math.min(CostSystem.limit, value + CostSystem.regen);
-	}
+  companion object {
+    /**
+     * Used to store all handlers.
+     *
+     * This uses a custom map in order to ensure the keys are compared by identity, rather than equality.
+     */
+    private val handlers: MutableMap<Any, DefaultCostHandler> = MapMaker()
+      .weakKeys().concurrencyLevel(1).makeMap()
 
-	public static ICostHandler get(Object owner) {
-		synchronized (handlers) {
-			DefaultCostHandler handler = handlers.get(owner);
-			if (handler == null) {
-				handler = new DefaultCostHandler();
-				handlers.put(owner, handler);
-			}
+    @JvmStatic
+    operator fun get(owner: Any): ICostHandler {
+      synchronized(handlers) {
+        var handler = handlers[owner]
+        if (handler == null) {
+          handler = DefaultCostHandler()
+          handlers[owner] = handler
+        }
+        return handler
+      }
+    }
 
-			return handler;
-		}
-	}
+    @JvmStatic
+    fun update() {
+      synchronized(handlers) {
+        for (handler in handlers.values) {
+          handler.regen()
+        }
+      }
+    }
 
-	public static void update() {
-		synchronized (handlers) {
-			for (DefaultCostHandler handler : handlers.values()) {
-				handler.regen();
-			}
-		}
-	}
-
-	public static void reset() {
-		synchronized (handlers) {
-			handlers.clear();
-		}
-	}
+    @JvmStatic
+    fun reset() {
+      synchronized(handlers) { handlers.clear() }
+    }
+  }
 }

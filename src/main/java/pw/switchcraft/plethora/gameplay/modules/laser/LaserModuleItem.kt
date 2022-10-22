@@ -9,13 +9,12 @@ import net.minecraft.util.*
 import net.minecraft.util.math.AffineTransformation
 import net.minecraft.util.math.Vec3f
 import net.minecraft.world.World
+import pw.switchcraft.plethora.Plethora
 import pw.switchcraft.plethora.api.method.IContextBuilder
 import pw.switchcraft.plethora.api.module.IModuleAccess
 import pw.switchcraft.plethora.api.module.IModuleHandler
 import pw.switchcraft.plethora.gameplay.modules.ModuleItem
 import pw.switchcraft.plethora.gameplay.registry.PlethoraModules
-import pw.switchcraft.plethora.util.config.Config.Laser.maximumPotency
-import pw.switchcraft.plethora.util.config.Config.Laser.minimumPotency
 
 private const val MAX_TICKS = 72000
 private const val USE_TICKS = 30
@@ -29,6 +28,10 @@ private const val USE_TICKS = 30
 private const val LASER_MAX_SPREAD = (0.1 / 0.0075).toFloat()
 
 class LaserModuleItem(settings: Settings) : ModuleItem("laser", settings), IModuleHandler {
+  private val cfg by Plethora.config::laser
+
+  override fun getModule(): Identifier = PlethoraModules.LASER_M
+
   override fun getUseAction(stack: ItemStack): UseAction = UseAction.BOW
   override fun getMaxUseTime(stack: ItemStack) = MAX_TICKS
 
@@ -51,12 +54,10 @@ class LaserModuleItem(settings: Settings) : ModuleItem("laser", settings), IModu
     if (ticks < 0) ticks = 0f
 
     val inaccuracy = ((USE_TICKS - ticks) / USE_TICKS * LASER_MAX_SPREAD).toDouble()
-    val potency = ticks / USE_TICKS * (maximumPotency - minimumPotency) + minimumPotency
+    val potency = ticks / USE_TICKS * (cfg.maximumPotency - cfg.minimumPotency) + cfg.minimumPotency
 
     world.spawnEntity(LaserEntity(world, player, inaccuracy.toFloat(), potency.toFloat()))
   }
-
-  override fun getModule(): Identifier = PlethoraModules.LASER_M
 
   override fun getAdditionalContext(stack: ItemStack, access: IModuleAccess, builder: IContextBuilder) {
     // TODO: this is very important!

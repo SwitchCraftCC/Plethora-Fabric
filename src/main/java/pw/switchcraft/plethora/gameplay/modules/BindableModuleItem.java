@@ -33,7 +33,7 @@ public abstract class BindableModuleItem extends ModuleItem {
 
         GameProfile profile = player.getGameProfile();
         if (player.isSneaking() && !profile.getName().startsWith("[") && profile.getId() != null) {
-            NbtCompound nbt = getNbt(stack);
+            NbtCompound nbt = stack.getOrCreateNbt();
 
             if (profile.equals(ModuleContextHelpers.getProfile(stack))) {
                 // Remove the binding if we're already bound

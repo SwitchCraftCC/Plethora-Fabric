@@ -11,9 +11,10 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import pw.switchcraft.plethora.Plethora;
 
 import java.util.Optional;
+
+import static pw.switchcraft.plethora.Plethora.log;
 
 public class NeuralInterfaceScreenFactory implements ExtendedScreenHandlerFactory {
     public enum TargetType {
@@ -59,7 +60,7 @@ public class NeuralInterfaceScreenFactory implements ExtendedScreenHandlerFactor
                 Entity entity = world.getEntityById(entityId);
                 return entity instanceof LivingEntity ? (LivingEntity) entity : null;
             default:
-                Plethora.LOG.error("Unknown neural gui target type: " + targetType);
+                log.error("Unknown neural gui target type: " + targetType);
                 return null;
         }
     }

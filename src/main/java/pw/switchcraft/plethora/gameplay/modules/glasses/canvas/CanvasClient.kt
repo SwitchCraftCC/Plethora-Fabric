@@ -22,7 +22,7 @@ class CanvasClient(val id: Int) {
   fun updateObject(obj: BaseObject) {
     val parent: IntSet? = childrenOf[obj.parent]
     if (parent == null) {
-      Plethora.LOG.error("Trying to add ${obj.id} to group ${obj.parent} ($obj)")
+      Plethora.log.error("Trying to add ${obj.id} to group ${obj.parent} ($obj)")
       return  // Should never happen but...
     }
 

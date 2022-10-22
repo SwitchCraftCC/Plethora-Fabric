@@ -1,36 +1,37 @@
-package pw.switchcraft.plethora.util.config;
+package pw.switchcraft.plethora.util.config
 
-import org.spongepowered.configurate.CommentedConfigurationNode;
-import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
+import org.spongepowered.configurate.CommentedConfigurationNode
+import org.spongepowered.configurate.hocon.HoconConfigurationLoader
+import java.nio.file.Files
+import java.nio.file.Path
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+object ConfigLoader {
+  private lateinit var loader: HoconConfigurationLoader
+  private lateinit var rootNode: CommentedConfigurationNode
 
-public class ConfigLoader {
-    public static <T> T loadConfig(
-        Class<T> configClass,
-        Path path
-    ) throws IOException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        T config;
-        CommentedConfigurationNode rootNode;
+  @JvmStatic
+  fun <T> loadConfig(configClass: Class<T>, path: Path): T {
+    val config: T
 
-        final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
-            .path(path)
-            .build();
+    loader = HoconConfigurationLoader.builder()
+      .path(path)
+      .build()
 
-        rootNode = loader.load();
+    rootNode = loader.load()
 
-        if (!Files.exists(path)) {
-            config = configClass.getDeclaredConstructor().newInstance();
-            rootNode.set(config);
-        } else {
-            config = rootNode.get(configClass);
-        }
-
-        loader.save(rootNode);
-
-        return config;
+    if (!Files.exists(path)) {
+      config = configClass.getDeclaredConstructor().newInstance()
+      rootNode.set(config)
+      loader.save(rootNode)
+    } else {
+      config = rootNode.get(configClass)!!
     }
+
+    return config
+  }
+
+  fun <T> saveConfig(config: T) {
+    rootNode.set(config)
+    loader.save(rootNode)
+  }
 }

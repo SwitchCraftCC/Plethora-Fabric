@@ -1,155 +1,88 @@
-package pw.switchcraft.plethora.core.wrapper;
+package pw.switchcraft.plethora.core.wrapper
 
-import dan200.computercraft.api.lua.IArguments;
-import dan200.computercraft.api.lua.LuaException;
-import net.minecraft.util.Identifier;
-import pw.switchcraft.plethora.api.method.FutureMethodResult;
-import pw.switchcraft.plethora.api.method.IMethod;
-import pw.switchcraft.plethora.api.method.IPartialContext;
-import pw.switchcraft.plethora.api.method.IUnbakedContext;
-import pw.switchcraft.plethora.api.module.IModuleContainer;
-import pw.switchcraft.plethora.core.RegisteredMethod;
+import dan200.computercraft.api.lua.IArguments
+import dan200.computercraft.api.lua.LuaException
+import net.minecraft.util.Identifier
+import pw.switchcraft.plethora.api.method.FutureMethodResult
+import pw.switchcraft.plethora.api.method.IMethod
+import pw.switchcraft.plethora.api.method.IPartialContext
+import pw.switchcraft.plethora.api.method.IUnbakedContext
+import pw.switchcraft.plethora.api.module.IModuleContainer
+import pw.switchcraft.plethora.core.RegisteredMethod
+import java.lang.reflect.Method
+import javax.annotation.Nonnull
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
+internal class MethodInstance<T>(
+  refMethod: Method,
+  target: Class<T>,
+  modId: String,
+  override val regName: String,
+  private val documentation: String,
+  val worldThread: Boolean,
+  private val requiredContext: Array<ContextInfo>,
+  val totalContext: Int,
+  val modules: Array<Identifier>?,
+  private val markerIfaces: Array<Class<*>>?,
+  private val subtarget: Class<*>
+) : RegisteredMethod<T>(
+  "${refMethod.declaringClass.name}#${refMethod.name}(${target.simpleName})",
+  modId, target
+), IMethod<T> {
+  override val method: IMethod<T>
+    get() = this
 
-final class MethodInstance<T> extends RegisteredMethod<T> implements IMethod<T> {
-	final Method method;
+  override fun canApply(@Nonnull context: IPartialContext<T>): Boolean {
+    // Ensure we have all required modules.
+    if (modules != null) {
+      val moduleContainer = if (IModuleContainer::class.java.isAssignableFrom(target)) {
+        context.target as IModuleContainer
+      } else {
+        context.modules
+      }
 
-	private final String name;
-	private final String documentation;
-	final boolean worldThread;
-	private final ContextInfo[] requiredContext;
-	final int totalContext;
-	final Identifier[] modules;
-	private final Class<?>[] markerIfaces;
-	private final Class<?> subtarget;
+      for (module in modules) {
+        if (!moduleContainer.hasModule(module)) return false
+      }
+    }
 
-	private volatile Delegate<T> delegate;
+    // Ensure we have all required context info
+    for (info in requiredContext) {
+      if (info.key == null) {
+        if (!context.hasContext(info.klass)) return false
+      } else {
+        var any = false
+        for (key in info.key) {
+          if (context.hasContext(key, info.klass)) {
+            any = true
+            break
+          }
+        }
 
-	MethodInstance(
-		Method method, Class<T> target, String modId, String name, String documentation, boolean worldThread,
-		ContextInfo[] requiredContext, int totalContext,
-		Identifier[] modules, Class<?>[] markerIfaces, Class<?> subtarget
-	) {
-		super(
-			method.getDeclaringClass().getName() + "#" + method.getName() + "(" + target.getSimpleName() + ")",
-			modId, target
-		);
+        if (!any) return false
+      }
+    }
 
-		this.method = method;
-		this.name = name;
-		this.documentation = documentation;
-		this.worldThread = worldThread;
-		this.requiredContext = requiredContext;
-		this.totalContext = totalContext;
-		this.modules = modules;
-		this.markerIfaces = markerIfaces;
-		this.subtarget = subtarget;
+    return true
+  }
 
-		// If strict
-		// TODO
-		// if (ConfigCore.Testing.strict) delegate = MethodClassLoader.INSTANCE.build(this);
-	}
+  @Nonnull
+  @Throws(LuaException::class)
+  override fun apply(@Nonnull context: IUnbakedContext<T>, @Nonnull args: IArguments): FutureMethodResult {
+    // TODO
+    return FutureMethodResult.empty()
+  }
 
-	@Override
-	public boolean canApply(@Nonnull IPartialContext<T> context) {
-		// Ensure we have all required modules.
-		if (modules != null) {
-			IModuleContainer moduleContainer = IModuleContainer.class.isAssignableFrom(target())
-				? (IModuleContainer) context.getTarget()
-				: context.getModules();
+  override fun getName() = regName
+  override fun getDocString() = documentation
 
-			for (Identifier module : modules) {
-				if (!moduleContainer.hasModule(module)) return false;
-			}
-		}
+  override fun has(@Nonnull iface: Class<*>): Boolean {
+    if (markerIfaces == null) return false
+    return markerIfaces.any { iface.isAssignableFrom(it) }
+  }
 
-		// Ensure we have all required context info
-		for (ContextInfo info : requiredContext) {
-			if (info.key == null) {
-				if (!context.hasContext(info.klass)) return false;
-			} else {
-				boolean any = false;
-				for (String key : info.key) {
-					if (context.hasContext(key, info.klass)) {
-						any = true;
-						break;
-					}
-				}
+  @Nonnull
+  override fun getModules(): Collection<Identifier> =
+    if (modules == null) emptyList() else listOf(*modules)
 
-				if (!any) return false;
-			}
-		}
-
-		return true;
-	}
-
-	@Nonnull
-	@Override
-	public FutureMethodResult apply(@Nonnull IUnbakedContext<T> context, @Nonnull IArguments args) throws LuaException {
-		Delegate<T> delegate = this.delegate;
-		if (delegate == null) {
-			synchronized (this) {
-				if ((delegate = this.delegate) == null) {
-					// TODO
-					// this.delegate = delegate = MethodClassLoader.INSTANCE.build(this);
-				}
-			}
-		}
-
-		return delegate.apply(context, args);
-	}
-
-	@Nonnull
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Nonnull
-	@Override
-	public String getDocString() {
-		return documentation;
-	}
-
-	@Override
-	public boolean has(@Nonnull Class<?> iface) {
-		if (markerIfaces == null) return false;
-		for (Class<?> klass : markerIfaces) {
-			if (iface.isAssignableFrom(klass)) return true;
-		}
-		return false;
-	}
-
-	@Nonnull
-	@Override
-	public Collection<Identifier> getModules() {
-		return modules == null ? Collections.emptyList() : Arrays.asList(modules);
-	}
-
-	@Nullable
-	@Override
-	public Class<?> getSubTarget() {
-		return subtarget;
-	}
-
-	@Override
-	public IMethod<T> method() {
-		return this;
-	}
-
-	static class ContextInfo {
-		private final String[] key;
-		private final Class<?> klass;
-
-		ContextInfo(@Nullable String[] key, @Nonnull Class<?> klass) {
-			this.key = key;
-			this.klass = klass;
-		}
-	}
+  internal class ContextInfo(val key: Array<String>?, @param:Nonnull val klass: Class<*>)
 }

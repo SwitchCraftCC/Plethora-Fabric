@@ -1,36 +1,16 @@
-package pw.switchcraft.plethora.gameplay.modules.sensor;
+package pw.switchcraft.plethora.gameplay.modules.sensor
 
-import net.minecraft.util.Identifier;
-import pw.switchcraft.plethora.gameplay.modules.LevelableModuleItem;
-import pw.switchcraft.plethora.util.config.Config.Sensor;
+import net.minecraft.util.Identifier
+import pw.switchcraft.plethora.Plethora
+import pw.switchcraft.plethora.gameplay.modules.LevelableModuleItem
+import pw.switchcraft.plethora.gameplay.registry.PlethoraModules
 
-import javax.annotation.Nonnull;
+class SensorModuleItem(settings: Settings) : LevelableModuleItem("sensor", settings) {
+  private val cfg by Plethora.config::sensor
 
-import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.SENSOR_M;
+  override fun getModule(): Identifier = PlethoraModules.SENSOR_M
 
-public class SensorModuleItem extends LevelableModuleItem {
-    public SensorModuleItem(Settings settings) {
-        super("sensor", settings);
-    }
-
-    @Override
-    public int getBaseRange() {
-        return Sensor.radius;
-    }
-
-    @Override
-    public int getMaxRange() {
-        return Sensor.maxRadius;
-    }
-
-    @Override
-    public int getLevelCost() {
-        return Sensor.senseLevelCost;
-    }
-
-    @Nonnull
-    @Override
-    public Identifier getModule() {
-        return SENSOR_M;
-    }
+  override fun getBaseRange() = cfg.radius
+  override fun getMaxRange() = cfg.maxRadius
+  override fun getLevelCost() = cfg.senseLevelCost
 }

@@ -9,11 +9,10 @@ import net.minecraft.client.render.entity.feature.FeatureRenderer
 import net.minecraft.client.render.entity.feature.FeatureRendererContext
 import net.minecraft.client.render.entity.model.PlayerEntityModel
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.util.Identifier
 import net.minecraft.util.math.Matrix4f
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.math.Vec3f
-import pw.switchcraft.plethora.Plethora.MOD_ID
+import pw.switchcraft.plethora.Plethora.ModId
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.cos
@@ -37,7 +36,7 @@ private val SQUID_UUID = UUID.fromString("d3156e4b-c712-4fd3-87b0-b24b8ca94209")
 class SquidFeatureRenderer(
   ctx: FeatureRendererContext<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>>
 ) : FeatureRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>>(ctx) {
-  private val layer = RenderLayer.getEntitySolid(Identifier(MOD_ID, "textures/misc/white.png"))
+  private val layer = RenderLayer.getEntitySolid(ModId("textures/misc/white.png"))
 
   private val lastAngles = DoubleArray(TENTACLES * SEGMENTS)
   private val offsets = DoubleArray(TENTACLES * SEGMENTS)

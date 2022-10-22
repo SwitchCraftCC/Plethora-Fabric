@@ -1,47 +1,51 @@
-package pw.switchcraft.plethora.gameplay.overlay;
+package pw.switchcraft.plethora.gameplay.overlay
 
-import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
-import pw.switchcraft.plethora.gameplay.registry.Registration;
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.render.Camera
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.item.ItemStack
+import net.minecraft.util.Hand
+import pw.switchcraft.plethora.gameplay.overlay.ScannerOverlayRenderer.render
+import pw.switchcraft.plethora.gameplay.overlay.SensorOverlayRenderer.render
+import pw.switchcraft.plethora.gameplay.registry.Registration
+import java.lang.Math.PI
 
-import static net.fabricmc.api.EnvType.CLIENT;
+object OverlayRenderer {
+  private var ticks = 0f
 
-public class OverlayRenderer {
-    private static float ticks = 0;
+  @JvmStatic
+  @Environment(EnvType.CLIENT)
+  fun renderOverlay(
+    client: MinecraftClient,
+    matrices: MatrixStack,
+    tickDelta: Float,
+    camera: Camera
+  ) {
+    ticks += tickDelta
+    if (ticks > PI * 2 * 1000) ticks = 0f
 
-    @Environment(CLIENT)
-    public static void renderOverlay(
-        MinecraftClient client,
-        MatrixStack matrices,
-        float tickDelta,
-        Camera camera
-    ) {
-        ticks += tickDelta;
-        if (ticks > Math.PI * 2 * 1000) ticks = 0;
+    val player = client.player ?: return
 
-        ClientPlayerEntity player = client.player;
-        if (player == null) return;
+    // Prevent rendering an overlay twice if it is in both hands
+    var renderScanner: ItemStack? = null
+    var renderSensor: ItemStack? = null
 
-        // Prevent rendering an overlay twice if it is in both hands
-        ItemStack renderScanner = null, renderSensor = null;
+    for (hand in Hand.values()) {
+      val stack = player.getStackInHand(hand)
+      if (stack.isEmpty) continue
 
-        for (Hand hand : Hand.values()) {
-            ItemStack stack = player.getStackInHand(hand);
-            if (stack.isEmpty()) continue;
-
-            Item item = stack.getItem();
-            if (renderScanner == null && item == Registration.ModItems.SCANNER_MODULE) renderScanner = stack;
-            else if (renderSensor == null && item == Registration.ModItems.SENSOR_MODULE) renderSensor = stack;
-            // TODO: Chat recorder?
-        }
-
-        if (renderScanner != null) ScannerOverlayRenderer.render(player, renderScanner, matrices, ticks, tickDelta, camera);
-        if (renderSensor != null) SensorOverlayRenderer.render(player, renderSensor, matrices, ticks, camera);
+      val item = stack.item
+      if (renderScanner == null && item === Registration.ModItems.SCANNER_MODULE) {
+        renderScanner = stack
+      } else if (renderSensor == null && item === Registration.ModItems.SENSOR_MODULE) {
+        renderSensor = stack
+      }
+      // TODO: Chat recorder?
     }
+
+    if (renderScanner != null) render(player, renderScanner, matrices, ticks, tickDelta, camera)
+    if (renderSensor != null) render(player, renderSensor, matrices, ticks, camera)
+  }
 }

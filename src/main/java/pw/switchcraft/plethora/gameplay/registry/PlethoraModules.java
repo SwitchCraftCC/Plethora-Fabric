@@ -1,10 +1,11 @@
 package pw.switchcraft.plethora.gameplay.registry;
 
 import net.minecraft.util.Identifier;
-
-import static pw.switchcraft.plethora.Plethora.MOD_ID;
+import pw.switchcraft.plethora.Plethora;
 
 public class PlethoraModules {
+    private static final String MOD_ID = Plethora.modId;
+
     public static final String INTROSPECTION = "introspection";
     public static final String LASER         = "laser";
     public static final String SCANNER       = "scanner";

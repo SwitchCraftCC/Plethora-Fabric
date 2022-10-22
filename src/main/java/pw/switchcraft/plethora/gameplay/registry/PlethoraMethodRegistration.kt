@@ -1,6 +1,6 @@
 package pw.switchcraft.plethora.gameplay.registry
 
-import pw.switchcraft.plethora.Plethora
+import pw.switchcraft.plethora.Plethora.modId
 import pw.switchcraft.plethora.api.method.IMethod
 import pw.switchcraft.plethora.api.method.IMethodCollection
 import pw.switchcraft.plethora.api.method.IMethodRegistry
@@ -78,13 +78,13 @@ internal object PlethoraMethodRegistration {
   }
 
   private fun <T> IMethodRegistry.method(name: String, target: Class<T>, method: IMethod<T>) {
-    registerMethod(Plethora.MOD_ID, name, target, method)
+    registerMethod(modId, name, target, method)
   }
 
   @SafeVarargs
   private fun <T> IMethodRegistry.methods(target: Class<T>, vararg methods: IMethod<T>) {
     for (method in methods) {
-      registerMethod(Plethora.MOD_ID, method.name, target, method)
+      registerMethod(modId, method.name, target, method)
     }
   }
 

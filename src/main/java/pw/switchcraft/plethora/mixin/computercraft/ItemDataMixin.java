@@ -6,13 +6,14 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import pw.switchcraft.plethora.Plethora;
 import pw.switchcraft.plethora.core.ContextFactory;
 import pw.switchcraft.plethora.core.executor.BasicExecutor;
 import pw.switchcraft.plethora.integration.MetaWrapper;
 
 import java.util.Map;
 import java.util.Set;
+
+import static pw.switchcraft.plethora.Plethora.log;
 
 @Mixin(ItemData.class)
 public class ItemDataMixin {
@@ -45,7 +46,7 @@ public class ItemDataMixin {
                 data.put(entry.getKey(), entry.getValue());
             }
         } catch (Exception e) {
-            Plethora.LOG.error("Could not supply item meta to CC", e);
+            log.error("Could not supply item meta to CC", e);
         }
     }
 }

@@ -1,7 +1,6 @@
 package pw.switchcraft.plethora.core;
 
 import com.google.common.collect.Lists;
-import pw.switchcraft.plethora.Plethora;
 import pw.switchcraft.plethora.api.meta.IMetaProvider;
 import pw.switchcraft.plethora.api.meta.IMetaRegistry;
 import pw.switchcraft.plethora.api.meta.TypedMeta;
@@ -13,6 +12,8 @@ import pw.switchcraft.plethora.core.collections.SortedMultimap;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
+
+import static pw.switchcraft.plethora.Plethora.log;
 
 public final class MetaRegistry implements IMetaRegistry {
     public static final MetaRegistry instance = new MetaRegistry();
@@ -38,7 +39,7 @@ public final class MetaRegistry implements IMetaRegistry {
 
     public String getName(@Nonnull IMetaProvider<?> provider) {
         TargetedRegisteredValue<? extends IMetaProvider<?>> item = all.get(provider);
-        return item == null ? provider.getClass().getName() : item.name();
+        return item == null ? provider.getClass().getName() : item.getRegName();
     }
 
     @Nonnull
@@ -62,7 +63,7 @@ public final class MetaRegistry implements IMetaRegistry {
             for (IMetaProvider provider : getMetaProviders(child.getClass())) {
                 Map<String, ?> res = provider.getMeta(childContext);
                 if (res == null) {
-                    Plethora.LOG.error("Meta provider {} returned null", getName(provider));
+                    log.error("Meta provider {} returned null", getName(provider));
                     continue;
                 }
 

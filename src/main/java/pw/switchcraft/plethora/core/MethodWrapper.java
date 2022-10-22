@@ -24,7 +24,7 @@ public class MethodWrapper {
 
         String[] names = this.names = new String[methods.size()];
         for (int i = 0; i < names.length; i++) {
-            names[i] = methods.get(i).method().getName();
+            names[i] = methods.get(i).getMethod().getName();
         }
     }
 

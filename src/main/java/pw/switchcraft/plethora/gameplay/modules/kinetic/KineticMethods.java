@@ -17,18 +17,17 @@ import pw.switchcraft.plethora.api.module.IModuleContainer;
 import pw.switchcraft.plethora.api.module.SubtargetedModuleMethod;
 import pw.switchcraft.plethora.gameplay.PlethoraFakePlayer;
 import pw.switchcraft.plethora.mixin.ServerPlayNetworkHandlerAdapter;
-import pw.switchcraft.plethora.util.config.Config.Kinetic;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import static pw.switchcraft.plethora.Plethora.config;
 import static pw.switchcraft.plethora.api.method.ArgumentHelper.assertBetween;
 import static pw.switchcraft.plethora.api.method.ContextKeys.ORIGIN;
 import static pw.switchcraft.plethora.core.ContextHelpers.fromContext;
 import static pw.switchcraft.plethora.core.ContextHelpers.fromSubtarget;
 import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.KINETIC_M;
 import static pw.switchcraft.plethora.util.Helpers.normaliseAngle;
-import static pw.switchcraft.plethora.util.config.Config.Kinetic.*;
 
 public class KineticMethods {
     private static final double TERMINAL_VELOCITY = -2;
@@ -42,9 +41,9 @@ public class KineticMethods {
                                              @Nonnull IArguments args) throws LuaException {
         final float yaw = (float) normaliseAngle(args.getFiniteDouble(0));
         final float pitch = (float) normaliseAngle(args.getFiniteDouble(1));
-        final float power = (float) assertBetween(args.getFiniteDouble(2), 0, launchMax, "Power out of range (%s).");
+        final float power = (float) assertBetween(args.getFiniteDouble(2), 0, config.kinetic.launchMax, "Power out of range (%s).");
 
-        return unbaked.getCostHandler().await(power * Kinetic.launchCost, FutureMethodResult.nextTick(() -> {
+        return unbaked.getCostHandler().await(power * config.kinetic.launchCost, FutureMethodResult.nextTick(() -> {
             LivingEntity entity = unbaked.bake().getContext(ORIGIN, LivingEntity.class);
             launch(entity, yaw, pitch, power);
             return FutureMethodResult.empty();
@@ -58,13 +57,13 @@ public class KineticMethods {
 
         power /= MathHelper.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ);
         if (entity instanceof LivingEntity living && living.isFallFlying()) {
-            power *= launchElytraScale;
+            power *= config.kinetic.launchElytraScale;
         }
 
-        entity.addVelocity(motionX * power, motionY * power * launchYScale, motionZ * power);
+        entity.addVelocity(motionX * power, motionY * power * config.kinetic.launchYScale, motionZ * power);
         entity.velocityModified = true; // Equivalent to velocityChanged, sends an EntityVelocityUpdateS2CPacket
 
-        if (launchFallReset && motionY > 0) {
+        if (config.kinetic.launchFallReset && motionY > 0) {
             double entityVelY = entity.getVelocity().y;
             if (entityVelY > 0) {
                 entity.fallDistance = 0;
@@ -73,7 +72,7 @@ public class KineticMethods {
             }
         }
 
-        if (launchFloatReset && entity instanceof ServerPlayerEntity spe) {
+        if (config.kinetic.launchFloatReset && entity instanceof ServerPlayerEntity spe) {
             ((ServerPlayNetworkHandlerAdapter) spe.networkHandler).setFloatingTicks(0);
         }
     }

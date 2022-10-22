@@ -1,121 +1,116 @@
-package pw.switchcraft.plethora.gameplay.overlay;
+package pw.switchcraft.plethora.gameplay.overlay
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.render.*;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Vec3f;
+import com.mojang.blaze3d.platform.GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA
+import com.mojang.blaze3d.platform.GlStateManager.DstFactor.ZERO
+import com.mojang.blaze3d.platform.GlStateManager.SrcFactor.ONE
+import com.mojang.blaze3d.platform.GlStateManager.SrcFactor.SRC_ALPHA
+import com.mojang.blaze3d.systems.RenderSystem
+import net.minecraft.client.render.BufferRenderer
+import net.minecraft.client.render.Camera
+import net.minecraft.client.render.GameRenderer
+import net.minecraft.client.render.Tessellator
+import net.minecraft.client.render.VertexFormat.DrawMode.QUADS
+import net.minecraft.client.render.VertexFormats.POSITION_TEXTURE
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.util.Identifier
+import net.minecraft.util.math.MathHelper
+import net.minecraft.util.math.Matrix4f
+import net.minecraft.util.math.Vec3f
+import pw.switchcraft.plethora.Plethora.ModId
+import java.awt.Color
 
-import java.awt.*;
-import java.util.Map;
+open class FlareOverlayRenderer {
+  companion object {
+    private val tex = ModId("textures/misc/flare.png")
 
-import static com.mojang.blaze3d.platform.GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA;
-import static com.mojang.blaze3d.platform.GlStateManager.DstFactor.ZERO;
-import static com.mojang.blaze3d.platform.GlStateManager.SrcFactor.ONE;
-import static com.mojang.blaze3d.platform.GlStateManager.SrcFactor.SRC_ALPHA;
-import static net.minecraft.client.render.VertexFormat.DrawMode.QUADS;
-import static net.minecraft.client.render.VertexFormats.POSITION_TEXTURE;
-import static pw.switchcraft.plethora.Plethora.MOD_ID;
+    fun initFlareRenderer(matrices: MatrixStack, camera: Camera) {
+      RenderSystem.disableDepthTest()
+      RenderSystem.disableCull()
+      RenderSystem.enableBlend()
+      RenderSystem.blendFuncSeparate(SRC_ALPHA, ONE_MINUS_SRC_ALPHA, ONE, ZERO)
+      RenderSystem.enableTexture()
 
-public class FlareOverlayRenderer {
-    public static final Identifier TEXTURE = new Identifier(MOD_ID, "textures/misc/flare.png");
+      matrices.push()
 
-    public record FlareColor(float r, float g, float b, float offset) {}
+      matrices.translate(-camera.pos.x, -camera.pos.y, -camera.pos.z)
 
-    public static void initFlareRenderer(MatrixStack matrices, Camera camera) {
-        RenderSystem.disableDepthTest();
-        RenderSystem.disableCull();
-        RenderSystem.enableBlend();
-        RenderSystem.blendFuncSeparate(SRC_ALPHA, ONE_MINUS_SRC_ALPHA, ONE, ZERO);
-        RenderSystem.enableTexture();
-
-        matrices.push();
-
-        matrices.translate(-camera.getPos().x, -camera.getPos().y, -camera.getPos().z);
-
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, TEXTURE);
+      RenderSystem.setShader(GameRenderer::getPositionTexShader)
+      RenderSystem.setShaderTexture(0, tex)
     }
 
-    public static void uninitFlareRenderer(MatrixStack matrices) {
-        matrices.pop();
+    fun uninitFlareRenderer(matrices: MatrixStack) {
+      matrices.pop()
 
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.disableBlend();
-        RenderSystem.enableDepthTest();
+      RenderSystem.defaultBlendFunc()
+      RenderSystem.disableBlend()
+      RenderSystem.enableDepthTest()
     }
 
-    public static void renderFlare(MatrixStack matrices, Camera camera,
-                                   float ticks, double x, double y, double z, FlareColor color, float size) {
-        matrices.push();
+    fun renderFlare(matrices: MatrixStack, camera: Camera,
+                    ticks: Float, x: Double, y: Double, z: Double, color: FlareColor, size: Float) {
+      matrices.push()
 
-        // Set up the view
-        matrices.translate(x, y, z);
-        matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-camera.getYaw()));
-        matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(camera.getPitch()));
+      // Set up the view
+      matrices.translate(x, y, z)
+      matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-camera.yaw))
+      matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(camera.pitch))
 
-        // The size is function of ticks and the id: ensures slightly different sizes
-        size *= 0.2f + MathHelper.sin(ticks / 100.0f + color.offset) / 16.0f;
+      // The size is function of ticks and the id: ensures slightly different sizes
+      val renderSize = size * 0.2f + MathHelper.sin(ticks / 100.0f + color.offset) / 16.0f
 
-        // Prepare to render
-        Tessellator tessellator = Tessellator.getInstance();
+      // Prepare to render
+      val tessellator = Tessellator.getInstance()
+      val matrix4f = matrices.peek().positionMatrix
 
-        Matrix4f matrix4f = matrices.peek().getPositionMatrix();
+      // Inner highlight
+      RenderSystem.setShaderColor(color.r, color.g, color.b, 0.5f)
+      renderQuad(tessellator, matrix4f, renderSize)
 
-        // Inner highlight
-        RenderSystem.setShaderColor(color.r, color.g, color.b, 0.5f);
-        renderQuad(tessellator, matrix4f, size);
+      // Outer aura
+      RenderSystem.setShaderColor(color.r, color.g, color.b, 0.2f)
+      renderQuad(tessellator, matrix4f, renderSize * 2)
 
-        // Outer aura
-        RenderSystem.setShaderColor(color.r, color.g, color.b, 0.2f);
-        renderQuad(tessellator, matrix4f, size * 2);
-
-        matrices.pop();
+      matrices.pop()
     }
 
-    private static void renderQuad(Tessellator tessellator, Matrix4f matrix4f, float size) {
-        BufferBuilder buffer = tessellator.getBuffer();
+    private fun renderQuad(tessellator: Tessellator, matrix4f: Matrix4f, size: Float) {
+      val buffer = tessellator.buffer
 
-        buffer.begin(QUADS, POSITION_TEXTURE);
-        buffer.vertex(matrix4f, -size, -size, 0).texture(0, 1).next();
-        buffer.vertex(matrix4f, -size, +size, 0).texture(1, 1).next();
-        buffer.vertex(matrix4f, +size, +size, 0).texture(1, 0).next();
-        buffer.vertex(matrix4f, +size, -size, 0).texture(0, 0).next();
-        BufferRenderer.drawWithShader(buffer.end());
+      buffer.begin(QUADS, POSITION_TEXTURE)
+      buffer.vertex(matrix4f, -size, -size, 0f).texture(0f, 1f).next()
+      buffer.vertex(matrix4f, -size, +size, 0f).texture(1f, 1f).next()
+      buffer.vertex(matrix4f, +size, +size, 0f).texture(1f, 0f).next()
+      buffer.vertex(matrix4f, +size, -size, 0f).texture(0f, 0f).next()
+      BufferRenderer.drawWithShader(buffer.end())
     }
 
-    public static float getOffsetFromId(int id) {
-        // Generate an offset based off the hash code
-        return (float) (id % (Math.PI * 2));
+    private fun getOffsetFromId(id: Int) =
+      (id % (Math.PI * 2)).toFloat() // Generate an offset based off the hash code
+
+    fun getFlareColorById(colourConfig: Map<String, String>, id: Identifier): FlareColor {
+      val idString = id.toString()
+
+      // Generate an offset based off the hash code
+      val hashCode = id.hashCode()
+      val offset = getOffsetFromId(hashCode)
+
+      return if (colourConfig.containsKey(idString)) {
+        // Get the colour from the config
+        val raw = Color.decode(colourConfig[idString])
+        FlareColor(raw.red / 255.0f, raw.green / 255.0f, raw.blue / 255.0f, offset)
+      } else {
+        // Choose a colour from the hash code
+        // this isn't very fancy, but it generally works
+        val raw = Color(Color.HSBtoRGB(
+          MathHelper.sin(offset) / 2.0f + 0.5f,
+          MathHelper.cos(offset) / 2.0f + 0.5f,
+          1.0f
+        ))
+
+        FlareColor(raw.red / 255.0f, raw.green / 255.0f, raw.blue / 255.0f, offset)
+      }
     }
+  }
 
-    public static FlareColor getFlareColorById(Map<String, String> colourConfig, Identifier id) {
-        String idString = id.toString();
-
-        // Generate an offset based off the hash code
-        int hashCode = id.hashCode();
-        float offset = getOffsetFromId(hashCode);
-
-        FlareColor color;
-
-        if (colourConfig.containsKey(idString)) {
-            // Get the colour from the config
-            Color raw = Color.decode(colourConfig.get(idString));
-            color = new FlareColor(raw.getRed() / 255.0f, raw.getGreen() / 255.0f, raw.getBlue() / 255.0f, offset);
-        } else {
-            // Choose a colour from the hash code
-            // this isn't very fancy but it generally works
-            Color raw = new Color(Color.HSBtoRGB(
-                MathHelper.sin(offset) / 2.0f + 0.5f,
-                MathHelper.cos(offset) / 2.0f + 0.5f,
-                1.0f
-            ));
-
-            color = new FlareColor(raw.getRed() / 255.0f, raw.getGreen() / 255.0f, raw.getBlue() / 255.0f, offset);
-        }
-
-        return color;
-    }
+  data class FlareColor(val r: Float, val g: Float, val b: Float, val offset: Float)
 }

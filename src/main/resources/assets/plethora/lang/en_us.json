@@ -59,5 +59,9 @@
 
   "gui.plethora.neuralInterface.title": "Neural interface",
   "gui.plethora.neuralInterface.modules": "View modules",
-  "gui.plethora.neuralInterface.peripherals": "View peripherals"
+  "gui.plethora.neuralInterface.peripherals": "View peripherals",
+
+  "gui.plethora.config.title": "Plethora",
+  "gui.plethora.config.scanner.title": "Scanner",
+  "gui.plethora.config.scanner.ore_colours": "Ore Colors"
 }

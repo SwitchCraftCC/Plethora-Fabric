@@ -9,7 +9,6 @@ import dan200.computercraft.api.peripheral.IDynamicPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import net.minecraft.util.Pair;
 import org.apache.commons.lang3.ObjectUtils;
-import pw.switchcraft.plethora.Plethora;
 import pw.switchcraft.plethora.api.method.ContextKeys;
 import pw.switchcraft.plethora.api.method.FutureMethodResult;
 import pw.switchcraft.plethora.api.method.IResultExecutor;
@@ -21,6 +20,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static pw.switchcraft.plethora.Plethora.log;
 
 /**
  * Handles integration with a {@link IPeripheral}
@@ -110,7 +111,7 @@ public class MethodWrapperPeripheral extends MethodWrapper implements IDynamicPe
             try {
                 access.queueEvent(name, args);
             } catch (RuntimeException e) {
-                Plethora.LOG.error("Cannot queue event on " + access, e);
+                log.error("Cannot queue event on " + access, e);
             }
         }
     }

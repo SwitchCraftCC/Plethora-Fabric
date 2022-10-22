@@ -1,181 +1,129 @@
-package pw.switchcraft.plethora.gameplay.neural;
+package pw.switchcraft.plethora.gameplay.neural
 
-import dan200.computercraft.ComputerCraft;
-import dan200.computercraft.api.ComputerCraftAPI;
-import dan200.computercraft.api.filesystem.IMount;
-import dan200.computercraft.api.media.IMedia;
-import dan200.computercraft.shared.computer.core.ComputerFamily;
-import dan200.computercraft.shared.computer.items.IComputerItem;
-import dev.emi.trinkets.api.SlotReference;
-import dev.emi.trinkets.api.TrinketItem;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.world.World;
-import pw.switchcraft.plethora.gameplay.BaseItem;
+import dan200.computercraft.ComputerCraft.computerSpaceLimit
+import dan200.computercraft.api.ComputerCraftAPI
+import dan200.computercraft.api.filesystem.IMount
+import dan200.computercraft.api.media.IMedia
+import dan200.computercraft.shared.computer.core.ComputerFamily
+import dan200.computercraft.shared.computer.core.ComputerFamily.ADVANCED
+import dan200.computercraft.shared.computer.items.IComputerItem
+import dev.emi.trinkets.api.SlotReference
+import dev.emi.trinkets.api.TrinketItem
+import net.minecraft.client.item.TooltipContext
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
+import net.minecraft.text.Text
+import net.minecraft.text.Text.translatable
+import net.minecraft.util.Formatting.GRAY
+import net.minecraft.world.World
+import pw.switchcraft.library.Tooltips.addDescLines
+import pw.switchcraft.plethora.Plethora.modId
+import pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler.COMPUTER_ID
+import pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler.DIRTY
+import javax.annotation.Nonnull
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Objects;
+class NeuralInterfaceItem(settings: Settings?) : TrinketItem(settings), IComputerItem, IMedia {
+  override fun getTranslationKey() = "item.$modId.neuralInterface"
 
-import static pw.switchcraft.plethora.Plethora.MOD_ID;
-import static pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler.COMPUTER_ID;
-import static pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler.DIRTY;
+  override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
+    super.appendTooltip(stack, world, tooltip, context)
+    addDescLines(tooltip, getTranslationKey(stack))
 
-public class NeuralInterfaceItem extends TrinketItem implements IComputerItem, IMedia {
-    public NeuralInterfaceItem(Settings settings) {
-        super(settings);
+    if (context.isAdvanced) {
+      val nbt = stack.nbt
+      if (nbt != null && nbt.contains(COMPUTER_ID)) {
+        tooltip.add(translatable("gui.plethora.tooltip.computer_id", getComputerID(stack))
+          .formatted(GRAY))
+      }
     }
+  }
 
-    @Override
-    public String getTranslationKey() {
-        return "item." + MOD_ID + ".neuralInterface";
+  override fun getComputerID(@Nonnull stack: ItemStack): Int {
+    val nbt = stack.nbt
+    return if (nbt != null && nbt.contains(COMPUTER_ID)) nbt.getInt(COMPUTER_ID) else -1
+  }
+
+  override fun getLabel(@Nonnull stack: ItemStack): String? =
+    if (stack.hasCustomName()) stack.name.string else null
+
+  override fun setLabel(@Nonnull stack: ItemStack, label: String?): Boolean {
+    if (label == null) {
+      stack.removeCustomName()
+    } else {
+      stack.setCustomName(Text.of(label))
     }
+    return true
+  }
 
-    @Override
-    @Environment(EnvType.CLIENT)
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        super.appendTooltip(stack, world, tooltip, context);
-        tooltip.add(Text.translatable(getTranslationKey(stack) + ".desc")
-            .formatted(Formatting.GRAY));
-
-        NbtCompound nbt = stack.getNbt();
-        if (context.isAdvanced()) {
-            if (nbt != null && nbt.contains(COMPUTER_ID)) {
-                tooltip.add(Text.translatable("gui.plethora.tooltip.computer_id", getComputerID(stack))
-                    .formatted(Formatting.GRAY));
-            }
-        }
+  override fun createDataMount(@Nonnull stack: ItemStack, @Nonnull world: World): IMount? {
+    val id = getComputerID(stack)
+    return if (id < 0) {
+      null
+    } else {
+      ComputerCraftAPI.createSaveDirMount(world, "computer/$id", computerSpaceLimit.toLong())
     }
+  }
 
-    private static void onUpdate(ItemStack stack, SlotReference slot, LivingEntity player, boolean forceActive) {
-        if (player.getEntityWorld().isClient) {
-            // Ensure the ClientComputer is available
-            if (forceActive && player instanceof PlayerEntity) NeuralComputerHandler.getClient(stack);
+  override fun getFamily() = ADVANCED
+
+  override fun withFamily(stack: ItemStack, @Nonnull family: ComputerFamily) = stack
+
+  override fun tick(stack: ItemStack, slot: SlotReference, entity: LivingEntity) {
+    onUpdate(stack, slot, entity, true)
+  }
+
+  companion object {
+    private fun onUpdate(stack: ItemStack, slot: SlotReference?, player: LivingEntity, forceActive: Boolean) {
+      if (player.entityWorld.isClient) {
+        // Ensure the ClientComputer is available
+        if (forceActive && player is PlayerEntity) NeuralComputerHandler.getClient(stack)
+      } else {
+        val nbt = stack.orCreateNbt
+
+        // Fetch computer
+        val neural = if (forceActive) {
+          NeuralComputerHandler.getServer(stack, player, slot!!).also { it.keepAlive() }
         } else {
-            NbtCompound nbt = BaseItem.getNbt(stack);
-            NeuralComputer neural;
-
-            // Fetch computer
-            if (forceActive) {
-                neural = NeuralComputerHandler.getServer(stack, player, slot);
-                neural.keepAlive();
-            } else {
-                neural = NeuralComputerHandler.tryGetServer(stack);
-                if (neural == null) return;
-            }
-
-            boolean dirty = false;
-
-            // Sync computer ID
-            int newId = neural.getID();
-            if (!nbt.contains(COMPUTER_ID) || nbt.getInt(COMPUTER_ID) != newId) {
-                nbt.putInt(COMPUTER_ID, newId);
-                dirty = true;
-            }
-
-            // Sync Label
-            String newLabel = neural.getLabel();
-            String label = stack.hasCustomName() ? stack.getName().getString() : null;
-            if (!Objects.equals(newLabel, label)) {
-                if (newLabel == null || newLabel.isEmpty()) {
-                    stack.removeCustomName();
-                } else {
-                    stack.setCustomName(Text.of(newLabel));
-                }
-                dirty = true;
-            }
-
-            // Sync and update peripherals
-            short dirtyStatus = nbt.getShort(DIRTY);
-            if (dirtyStatus != 0) {
-                nbt.putShort(DIRTY, (short) 0);
-                dirty = true;
-            }
-
-            if (neural.update(player, stack, dirtyStatus)) {
-                dirty = true;
-            }
-
-            if (dirty && slot != null) {
-                slot.inventory().markDirty();
-            }
-        }
-    }
-
-//    @Override
-//    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-//        super.inventoryTick(stack, world, entity, slot, selected);
-//
-//        if (entity instanceof LivingEntity living) {
-//            // 1.18: onArmorTick and onUpdate were merged into one combined inventoryTick. We need to force the tick if
-//            // the neural interface is in the helmet slot, but I don't want to hardcode the helmet slot ID, so here we
-//            // check if the ItemStack in the helmet slot is the same as the ItemStack being ticked, and if it is, we
-//            // force the computer to become active.
-//            TinySlot tinySlot;
-//            boolean forceActive = false;
-//
-//            if (entity instanceof PlayerEntity player) {
-//                ItemStack headItem = living.getEquippedStack(EquipmentSlot.HEAD);
-//                tinySlot = new TinySlot.InventorySlot(stack, player.getInventory());
-//                forceActive = headItem == stack;
-//            } else {
-//                tinySlot = new TinySlot(stack);
-//            }
-//
-//            onUpdate(stack, tinySlot, living, forceActive);
-//        }
-//    }
-
-    @Override
-    public int getComputerID(@Nonnull ItemStack stack) {
-        NbtCompound nbt = stack.getNbt();
-        return nbt != null && nbt.contains(COMPUTER_ID) ? nbt.getInt(COMPUTER_ID) : -1;
-    }
-
-    @Override
-    public String getLabel(@Nonnull ItemStack stack) {
-        return stack.hasCustomName() ? stack.getName().getString() : null;
-    }
-
-    @Override
-    public boolean setLabel(@Nonnull ItemStack stack, @Nullable String label) {
-        if (label == null) {
-            stack.removeCustomName();
-        } else {
-            stack.setCustomName(Text.of(label));
+          NeuralComputerHandler.tryGetServer(stack) ?: return
         }
 
-        return true;
-    }
+        var dirty = false
 
-    @Nullable
-    @Override
-    public IMount createDataMount(@Nonnull ItemStack stack, @Nonnull World world) {
-        int id = getComputerID(stack);
-        if (id < 0) return null;
-        return ComputerCraftAPI.createSaveDirMount(world, "computer/" + id, ComputerCraft.computerSpaceLimit);
-    }
+        // Sync computer ID
+        val newId = neural.id
+        if (!nbt.contains(COMPUTER_ID) || nbt.getInt(COMPUTER_ID) != newId) {
+          nbt.putInt(COMPUTER_ID, newId)
+          dirty = true
+        }
 
-    @Override
-    public ComputerFamily getFamily() {
-        return ComputerFamily.ADVANCED;
-    }
+        // Sync Label
+        val newLabel = neural.label
+        val label = if (stack.hasCustomName()) stack.name.string else null
+        if (newLabel != label) {
+          if (newLabel == null || newLabel.isEmpty()) {
+            stack.removeCustomName()
+          } else {
+            stack.setCustomName(Text.of(newLabel))
+          }
+          dirty = true
+        }
 
-    @Override
-    public ItemStack withFamily(@Nonnull ItemStack stack, @Nonnull ComputerFamily family) {
-        return stack;
-    }
+        // Sync and update peripherals
+        val dirtyStatus = nbt.getShort(DIRTY)
+        if (dirtyStatus.toInt() != 0) {
+          nbt.putShort(DIRTY, 0.toShort())
+          dirty = true
+        }
 
-    @Override
-    public void tick(ItemStack stack, SlotReference slot, LivingEntity entity) {
-        onUpdate(stack, slot, entity, true);
+        if (neural.update(player, stack, dirtyStatus.toInt())) {
+          dirty = true
+        }
+
+        if (dirty && slot != null) {
+          slot.inventory().markDirty()
+        }
+      }
     }
+  }
 }

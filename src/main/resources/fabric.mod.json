@@ -20,12 +20,21 @@
       "pw.switchcraft.plethora.gameplay.client.PlethoraClient"
     ],
     "main": [
-      "pw.switchcraft.plethora.Plethora"
+      {
+        "adapter": "kotlin",
+        "value": "pw.switchcraft.plethora.Plethora"
+      }
     ],
     "fabric-datagen": [
       {
         "adapter": "kotlin",
         "value": "pw.switchcraft.plethora.gameplay.data.PlethoraDatagen"
+      }
+    ],
+    "modmenu": [
+      {
+        "adapter": "kotlin",
+        "value": "pw.switchcraft.plethora.util.config.ModMenuIntegration"
       }
     ]
   },

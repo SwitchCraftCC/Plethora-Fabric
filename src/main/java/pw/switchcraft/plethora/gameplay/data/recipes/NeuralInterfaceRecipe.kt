@@ -12,7 +12,6 @@ import net.minecraft.recipe.SpecialRecipeSerializer
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import pw.switchcraft.library.recipe.BetterSpecialRecipe
-import pw.switchcraft.plethora.gameplay.BaseItem
 import pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler
 import pw.switchcraft.plethora.gameplay.neural.NeuralHelpers
 import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceInventory
@@ -36,8 +35,8 @@ class NeuralInterfaceRecipe(id: Identifier) : BetterSpecialRecipe(id) {
     val label = POCKET_COMPUTER_ADVANCED.getLabel(old)
 
     // Copy across key properties
-    val nbt = BaseItem.getNbt(output)
-    if (label != null && label.isNotEmpty()) output.setCustomName(Text.of(label))
+    val nbt = output.orCreateNbt
+    if (!label.isNullOrEmpty()) output.setCustomName(Text.of(label))
     if (id >= 0) nbt.putInt(NeuralComputerHandler.COMPUTER_ID, id)
 
     // Forge/1.12.2 Plethora does not check if the source pocket computer has an upgrade, but I feel like it would kinda

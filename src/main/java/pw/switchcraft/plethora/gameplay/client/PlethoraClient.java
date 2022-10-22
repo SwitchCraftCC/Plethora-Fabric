@@ -15,11 +15,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
-import pw.switchcraft.plethora.Plethora;
 import pw.switchcraft.plethora.gameplay.client.block.ManipulatorOutlineRenderer;
 import pw.switchcraft.plethora.gameplay.client.block.ManipulatorRenderer;
 import pw.switchcraft.plethora.gameplay.client.entity.LaserRenderer;
-import pw.switchcraft.plethora.gameplay.client.gui.GuiNeuralInterface;
+import pw.switchcraft.plethora.gameplay.client.gui.NeuralInterfaceScreen;
 import pw.switchcraft.plethora.gameplay.client.neural.NeuralInterfaceTrinketRenderer;
 import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasHandler;
 import pw.switchcraft.plethora.gameplay.modules.glasses.networking.CanvasAddPacket;
@@ -32,13 +31,14 @@ import pw.switchcraft.plethora.util.EntitySpawnPacket;
 
 import java.util.UUID;
 
+import static pw.switchcraft.plethora.Plethora.log;
 import static pw.switchcraft.plethora.gameplay.registry.Packets.*;
 
 @Environment(EnvType.CLIENT)
 public class PlethoraClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        Plethora.LOG.info("Initializing client...");
+        log.info("Initializing client...");
 
         // Renderers
         EntityRendererRegistry.register(Registration.LASER_ENTITY, LaserRenderer::new);
@@ -47,7 +47,7 @@ public class PlethoraClient implements ClientModInitializer {
         TrinketRendererRegistry.registerRenderer(Registration.ModItems.NEURAL_INTERFACE, new NeuralInterfaceTrinketRenderer());
 
         // These generics are required even if IDEA says they're not
-        HandledScreens.<NeuralInterfaceScreenHandler, GuiNeuralInterface>register(Registration.ModScreens.NEURAL_INTERFACE_HANDLER_TYPE, GuiNeuralInterface::new);
+        HandledScreens.<NeuralInterfaceScreenHandler, NeuralInterfaceScreen>register(Registration.ModScreens.NEURAL_INTERFACE_HANDLER_TYPE, NeuralInterfaceScreen::new);
 
         // Must register a packet to spawn custom entities, because Fabric API
         ClientPlayNetworking.registerGlobalReceiver(SPAWN_PACKET_ID, (client, handler, buf, responseSender) -> {
@@ -86,7 +86,7 @@ public class PlethoraClient implements ClientModInitializer {
         // function using this event instead
         // TODO: PR a fix to CC:T and CC:R
         ScreenEvents.AFTER_INIT.register((client, screen, __, ___) -> {
-           if (screen instanceof GuiNeuralInterface neuralScreen) {
+           if (screen instanceof NeuralInterfaceScreen neuralScreen) {
                neuralScreen.initNeural();
            }
         });

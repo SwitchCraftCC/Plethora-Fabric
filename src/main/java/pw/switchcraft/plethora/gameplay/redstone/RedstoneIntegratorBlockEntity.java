@@ -12,7 +12,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
-import pw.switchcraft.plethora.Plethora;
 import pw.switchcraft.plethora.gameplay.BaseBlockEntity;
 
 import javax.annotation.Nonnull;
@@ -21,6 +20,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static pw.switchcraft.plethora.Plethora.log;
 
 public class RedstoneIntegratorBlockEntity extends BaseBlockEntity implements IPeripheralTile {
     final byte[] inputs = new byte[6];
@@ -81,7 +82,7 @@ public class RedstoneIntegratorBlockEntity extends BaseBlockEntity implements IP
                 try {
                     computer.queueEvent("redstone", computer.getAttachmentName());
                 } catch (RuntimeException e) {
-                    Plethora.LOG.error("Could not queue redstone event", e);
+                    log.error("Could not queue redstone event", e);
                     computers.remove();
                 }
             }

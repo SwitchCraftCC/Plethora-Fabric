@@ -1,63 +1,46 @@
-package pw.switchcraft.plethora.gameplay.modules.kinetic;
+package pw.switchcraft.plethora.gameplay.modules.kinetic
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.UseAction;
-import net.minecraft.world.World;
-import pw.switchcraft.plethora.gameplay.modules.ModuleItem;
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
+import net.minecraft.util.Hand
+import net.minecraft.util.Identifier
+import net.minecraft.util.TypedActionResult
+import net.minecraft.util.UseAction
+import net.minecraft.world.World
+import pw.switchcraft.plethora.Plethora.config
+import pw.switchcraft.plethora.gameplay.modules.ModuleItem
+import pw.switchcraft.plethora.gameplay.registry.PlethoraModules
 
-import javax.annotation.Nonnull;
+private const val MAX_TICKS = 72000
+private const val USE_TICKS = 30
 
-import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.KINETIC_M;
-import static pw.switchcraft.plethora.util.config.Config.Kinetic.launchMax;
+class KineticModuleItem(settings: Settings) : ModuleItem("kinetic", settings) {
+  override fun getModule(): Identifier = PlethoraModules.KINETIC_M
 
-public class KineticModuleItem extends ModuleItem {
-    private static final int MAX_TICKS = 72000;
-    private static final int USE_TICKS = 30;
+  override fun getUseAction(stack: ItemStack) = UseAction.BOW
+  override fun getMaxUseTime(stack: ItemStack) = MAX_TICKS
 
-    public KineticModuleItem(Settings settings) {
-        super("kinetic", settings);
-    }
+  override fun use(world: World, player: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
+    val stack = player.getStackInHand(hand)
 
-    @Override
-    public UseAction getUseAction(ItemStack stack) {
-        return UseAction.BOW;
-    }
+    // TODO: Check module blacklist here
 
-    @Override
-    public int getMaxUseTime(ItemStack stack) {
-        return MAX_TICKS;
-    }
+    player.setCurrentHand(hand)
+    return TypedActionResult.success(stack)
+  }
 
-    @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-        ItemStack stack = player.getStackInHand(hand);
+  override fun onStoppedUsing(stack: ItemStack, world: World, player: LivingEntity, remainingUseTicks: Int) {
+    if (world.isClient) return
+    // TODO: Check module blacklist here
 
-        // TODO: Check module blacklist here
+    var ticks = (MAX_TICKS - remainingUseTicks).toFloat()
+    if (ticks > USE_TICKS) ticks = USE_TICKS.toFloat()
+    if (ticks < 0) ticks = 0f
 
-        player.setCurrentHand(hand);
-        return TypedActionResult.success(stack);
-    }
-
-    @Override
-    public void onStoppedUsing(ItemStack stack, World world, LivingEntity player, int remainingUseTicks) {
-        if (world.isClient) return;
-        // TODO: Check module blacklist here
-
-        float ticks = MAX_TICKS - remainingUseTicks;
-        if (ticks > USE_TICKS) ticks = USE_TICKS;
-        if (ticks < 0) ticks = 0;
-
-        KineticMethods.launch(player, player.getYaw(), player.getPitch(), (ticks / USE_TICKS) * launchMax);
-    }
-
-    @Nonnull
-    @Override
-    public Identifier getModule() {
-        return KINETIC_M;
-    }
+    KineticMethods.launch(
+      player, player.yaw, player.pitch,
+      ticks / USE_TICKS * config.kinetic.launchMax
+    )
+  }
 }

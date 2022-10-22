@@ -15,6 +15,7 @@ import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import pw.switchcraft.plethora.Plethora;
 import pw.switchcraft.plethora.mixin.EntityAccessor;
 import pw.switchcraft.plethora.mixin.ServerPlayerInteractionManagerAccessor;
 import pw.switchcraft.plethora.util.FakePlayer;
@@ -23,11 +24,10 @@ import javax.annotation.Nonnull;
 import java.lang.ref.WeakReference;
 
 import static net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket.Action.START_DESTROY_BLOCK;
-import static pw.switchcraft.plethora.Plethora.MOD_ID;
 import static pw.switchcraft.plethora.api.Constants.FAKEPLAYER_UUID;
 
 public class PlethoraFakePlayer extends FakePlayer {
-    public static final GameProfile PROFILE = new GameProfile(FAKEPLAYER_UUID, "[" + MOD_ID + "]");
+    public static final GameProfile PROFILE = new GameProfile(FAKEPLAYER_UUID, "[" + Plethora.modId + "]");
 
     private final WeakReference<Entity> owner;
 

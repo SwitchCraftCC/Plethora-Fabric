@@ -7,7 +7,7 @@ import net.minecraft.data.client.*
 import net.minecraft.data.client.TextureKey.*
 import net.minecraft.state.property.Properties.FACING
 import net.minecraft.util.math.Direction
-import pw.switchcraft.plethora.PlethoraKt.ModId
+import pw.switchcraft.plethora.Plethora.ModId
 import pw.switchcraft.plethora.gameplay.registry.Registration.ModBlocks.*
 import java.util.*
 

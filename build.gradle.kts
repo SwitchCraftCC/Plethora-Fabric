@@ -23,9 +23,9 @@ val fabricVersion: String by project
 val ccVersion: String by project
 val ccTargetVersion: String by project
 
-val configurateVersion: String by project
 val clothConfigVersion: String by project
 val clothApiVersion: String by project
+val modMenuVersion: String by project
 
 val trinketsVersion: String by project
 val cardinalComponentsVersion: String by project
@@ -76,22 +76,18 @@ dependencies {
     exclude("net.fabricmc.fabric-api", "fabric-gametest-api-v1")
   }
 
-  implementation(include("org.spongepowered", "configurate-core", configurateVersion))
-  implementation(include("org.spongepowered", "configurate-hocon", configurateVersion))
-  implementation(include("io.leangen.geantyref", "geantyref", "1.3.13"))
-  implementation(include("com.typesafe", "config", "1.4.2"))
-
   modImplementation("dev.emi:trinkets:${trinketsVersion}")
 
   // Fixes @Nonnull and @Nullable annotations
   compileOnly("com.google.code.findbugs:jsr305:3.0.2")
 
-  // TODO: Use these instead of Configurate
   modApi("me.shedaniel.cloth:cloth-config-fabric:$clothConfigVersion") {
     exclude("net.fabricmc.fabric-api")
   }
   include("me.shedaniel.cloth", "cloth-config-fabric", clothConfigVersion)
   modImplementation(include("me.shedaniel.cloth.api", "cloth-utils-v1", clothApiVersion))
+
+  modImplementation(include("com.terraformersmc", "modmenu", modMenuVersion))
 
   modImplementation(include("dev.onyxstudios.cardinal-components-api", "cardinal-components-base", cardinalComponentsVersion))
   modImplementation(include("dev.onyxstudios.cardinal-components-api", "cardinal-components-entity", cardinalComponentsVersion))

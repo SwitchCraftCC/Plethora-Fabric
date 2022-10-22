@@ -1,30 +1,19 @@
-package pw.switchcraft.plethora.core;
+package pw.switchcraft.plethora.core
 
-import dan200.computercraft.api.lua.LuaException;
-import pw.switchcraft.plethora.api.method.FutureMethodResult;
-import pw.switchcraft.plethora.api.method.ICostHandler;
+import dan200.computercraft.api.lua.LuaException
+import pw.switchcraft.plethora.api.method.FutureMethodResult
+import pw.switchcraft.plethora.api.method.ICostHandler
+import java.util.concurrent.Callable
 
-import java.util.concurrent.Callable;
+object EmptyCostHandler : ICostHandler {
+  override fun get() = 0.0
 
-public class EmptyCostHandler implements ICostHandler {
-	public static final ICostHandler INSTANCE = new EmptyCostHandler();
+  override fun consume(amount: Double): Boolean {
+    require(amount >= 0) { "amount must be >= 0" }
+    return amount == 0.0
+  }
 
-	private EmptyCostHandler() {
-	}
-
-	@Override
-	public double get() {
-		return 0;
-	}
-
-	@Override
-	public boolean consume(double amount) {
-		if (amount < 0) throw new IllegalArgumentException("amount must be >= 0");
-		return amount == 0;
-	}
-
-	@Override
-	public FutureMethodResult await(double amount, Callable<FutureMethodResult> next) throws LuaException {
-		throw new LuaException("Insufficient energy (requires " + amount + ", has 0).");
-	}
+  @Throws(LuaException::class)
+  override fun await(amount: Double, next: Callable<FutureMethodResult>): FutureMethodResult =
+    throw LuaException("Insufficient energy (requires $amount, has 0).")
 }

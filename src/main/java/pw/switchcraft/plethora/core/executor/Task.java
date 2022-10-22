@@ -2,12 +2,13 @@ package pw.switchcraft.plethora.core.executor;
 
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.MethodResult;
-import pw.switchcraft.plethora.Plethora;
 import pw.switchcraft.plethora.api.method.FutureMethodResult;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.concurrent.Callable;
+
+import static pw.switchcraft.plethora.Plethora.log;
 
 /**
  * Represents an evaluation of a {@link FutureMethodResult} on the main thread.
@@ -60,11 +61,11 @@ public class Task {
                 return true;
             } catch (Exception | LinkageError | VirtualMachineError e) {
                 finish(new LuaException("Java Exception Thrown: " + e));
-                Plethora.LOG.error("Unexpected error", e);
+                log.error("Unexpected error", e);
                 return true;
             } catch (Error e) {
                 finish(new LuaException("Java Exception Thrown: " + e));
-                Plethora.LOG.error("Unexpected error", e);
+                log.error("Unexpected error", e);
                 throw e;
             } finally {
                 submitTiming(System.nanoTime() - start);

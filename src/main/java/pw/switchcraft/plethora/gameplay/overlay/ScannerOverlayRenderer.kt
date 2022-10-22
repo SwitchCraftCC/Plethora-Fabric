@@ -1,92 +1,87 @@
-package pw.switchcraft.plethora.gameplay.overlay;
+package pw.switchcraft.plethora.gameplay.overlay
 
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.OreBlock;
-import net.minecraft.block.RedstoneOreBlock;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
-import pw.switchcraft.plethora.gameplay.modules.LevelableModuleItem;
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags.ORES
+import net.minecraft.block.Block
+import net.minecraft.block.BlockState
+import net.minecraft.block.OreBlock
+import net.minecraft.block.RedstoneOreBlock
+import net.minecraft.client.network.ClientPlayerEntity
+import net.minecraft.client.render.Camera
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.item.ItemStack
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.registry.Registry
+import net.minecraft.world.World
+import pw.switchcraft.plethora.Plethora
+import pw.switchcraft.plethora.gameplay.modules.LevelableModuleItem
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+object ScannerOverlayRenderer : FlareOverlayRenderer() {
+  private val cfg by Plethora.config::scanner
 
-import static pw.switchcraft.plethora.util.config.Config.Scanner.oreColours;
+  private val blockColorCache = mutableMapOf<Block, FlareColor>()
 
-public class ScannerOverlayRenderer extends FlareOverlayRenderer {
-    record BlockResult(int x, int y, int z, FlareColor color) {}
+  private val scanResults = mutableListOf<BlockResult>()
+  private var scanTimer = 0f
 
-    private static final Map<Block, FlareColor> blockColorCache = new HashMap<>();
+  fun render(
+    player: ClientPlayerEntity,
+    stack: ItemStack,
+    matrices: MatrixStack,
+    tickDelta: Float,
+    ticks: Float,
+    camera: Camera
+  ) {
+    initFlareRenderer(matrices, camera)
 
-    private static final List<BlockResult> scanResults = new ArrayList<>();
-    private static float scanTimer = 0;
+    scanTimer += tickDelta
+    if (scanTimer >= 10) {
+      scanBlocks(player.getWorld(), player.blockPos, stack)
+      scanTimer = 0f
+    }
 
-    public static void render(
-        ClientPlayerEntity player,
-        ItemStack stack,
-        MatrixStack matrices,
-        float tickDelta,
-        float ticks,
-        Camera camera
-    ) {
-        initFlareRenderer(matrices, camera);
+    for (result in scanResults) {
+      renderFlare(matrices, camera, ticks, result.x + 0.5, result.y + 0.5, result.z + 0.5, result.color, 1.0f)
+    }
 
-        scanTimer += tickDelta;
-        if (scanTimer >= 10) {
-            scanBlocks(player.getWorld(), player.getBlockPos(), stack);
-            scanTimer = 0;
+    uninitFlareRenderer(matrices)
+  }
+
+  private fun scanBlocks(world: World, pos: BlockPos, stack: ItemStack) {
+    // TODO: Move this to a scanning module class
+    val x = pos.x; val y = pos.y; val z = pos.z
+    val range = LevelableModuleItem.getEffectiveRange(stack)
+
+    scanResults.clear()
+
+    for (oX in x - range..x + range) {
+      for (oY in y - range..y + range) {
+        for (oZ in z - range..z + range) {
+          val state = world.getBlockState(BlockPos(oX, oY, oZ))
+          val block = state.block
+
+          if (isBlockOre(state, block)) {
+            scanResults.add(BlockResult(oX, oY, oZ, getFlareColorByBlock(block)))
+          }
         }
-
-        for (BlockResult result : scanResults) {
-            renderFlare(matrices, camera, ticks, result.x + 0.5, result.y + 0.5, result.z + 0.5, result.color, 1.0f);
-        }
-
-        uninitFlareRenderer(matrices);
+      }
     }
+  }
 
-    private static void scanBlocks(World world, BlockPos pos, ItemStack stack) {
-        // TODO: Move this to a scanning module class
-        final int x = pos.getX(), y = pos.getY(), z = pos.getZ();
-        int range = LevelableModuleItem.getEffectiveRange(stack);
+  private fun isBlockOre(state: BlockState?, block: Block?): Boolean {
+    if (state == null || block == null || state.isAir) return false
+    return if (block is OreBlock || block is RedstoneOreBlock) true else state.isIn(ORES)
+  }
 
-        scanResults.clear();
+  private fun getFlareColorByBlock(block: Block) = blockColorCache.computeIfAbsent(block) {
+    val id = Registry.BLOCK.getId(block)
+    getFlareColorById(cfg.oreColours, id)
+  }
 
-        for (int oX = x - range; oX <= x + range; oX++) {
-            for (int oY = y - range; oY <= y + range; oY++) {
-                for (int oZ = z - range; oZ <= z + range; oZ++) {
-                    BlockState state = world.getBlockState(new BlockPos(oX, oY, oZ));
-                    Block block = state.getBlock();
+  fun clearCache() {
+    blockColorCache.clear()
+    scanResults.clear()
+    scanTimer = 0.0f
+  }
 
-                    if (isBlockOre(state, block)) {
-                        scanResults.add(new BlockResult(oX, oY, oZ, getFlareColorByBlock(block)));
-                    }
-                }
-            }
-        }
-    }
-
-    private static boolean isBlockOre(BlockState state, Block block) {
-        if (state == null || block == null || state.isAir()) return false;
-        if (block instanceof OreBlock || block instanceof RedstoneOreBlock) return true;
-        return state.isIn(ConventionalBlockTags.ORES);
-    }
-
-    private static FlareColor getFlareColorByBlock(Block block) {
-        if (blockColorCache.containsKey(block)) return blockColorCache.get(block);
-
-        Identifier id = Registry.BLOCK.getId(block);
-        FlareColor color = getFlareColorById(oreColours, id);
-
-        blockColorCache.put(block, color);
-        return color;
-    }
+  data class BlockResult(val x: Int, val y: Int, val z: Int, val color: FlareColor)
 }

@@ -1,45 +1,36 @@
-package pw.switchcraft.plethora.util.config;
+package pw.switchcraft.plethora.util.config
 
-import pw.switchcraft.plethora.util.config.Config.CostSystem;
-import pw.switchcraft.plethora.util.config.Config.Scanner;
-import pw.switchcraft.plethora.util.config.Config.Sensor;
+object ConfigValidator {
+  @Throws(ConfigValidationException::class)
+  fun PlethoraConfig.validate() {
+    min("laser.minimumPotency", laser.minimumPotency)
+    min("laser.maximumPotency", laser.maximumPotency)
+    min("laser.cost", laser.cost)
+    min("laser.damage", laser.damage)
+    min("laser.lifetime", laser.lifetime.toDouble())
 
-import static pw.switchcraft.plethora.util.config.Config.Kinetic.*;
-import static pw.switchcraft.plethora.util.config.Config.Laser.*;
+    min("kinetic.launchMax", kinetic.launchMax.toDouble())
+    min("kinetic.launchCost", kinetic.launchCost.toDouble())
+    min("kinetic.launchYScale", kinetic.launchYScale)
+    min("kinetic.launchElytraScale", kinetic.launchElytraScale)
 
-public class ConfigValidator {
-    public static void validate() throws ConfigValidationException {
-        min("laser.minimumPotency", minimumPotency);
-        min("laser.maximumPotency", maximumPotency);
-        min("laser.cost", cost);
-        min("laser.damage", damage);
-        min("laser.lifetime", lifetime);
+    min("scanner.radius", scanner.radius.toDouble())
+    min("scanner.maxRadius", scanner.maxRadius.toDouble())
+    min("scanner.scanLevelCost", scanner.scanLevelCost.toDouble())
 
-        min("kinetic.launchMax", launchMax);
-        min("kinetic.launchCost", launchCost);
-        min("kinetic.launchYScale", launchYScale);
-        min("kinetic.launchElytraScale", launchElytraScale);
+    min("sensor.radius", sensor.radius.toDouble())
+    min("sensor.maxRadius", sensor.maxRadius.toDouble())
+    min("sensor.senseLevelCost", sensor.senseLevelCost.toDouble())
 
-        min("scanner.radius", Scanner.radius);
-        min("scanner.maxRadius", Scanner.maxRadius);
-        min("scanner.scanLevelCost", Scanner.scanLevelCost);
+    min("costSystem.initial", costSystem.initial)
+    min("costSystem.regen", costSystem.regen)
+    min("costSystem.limit", costSystem.limit)
+  }
 
-        min("sensor.radius", Sensor.radius);
-        min("sensor.maxRadius", Sensor.maxRadius);
-        min("sensor.senseLevelCost", Sensor.senseLevelCost);
+  @Throws(ConfigValidationException::class)
+  fun min(name: String, value: Double) {
+    if (value < 0) throw ConfigValidationException(name)
+  }
 
-        min("costSystem.initial", CostSystem.initial);
-        min("costSystem.regen", CostSystem.regen);
-        min("costSystem.limit", CostSystem.limit);
-    }
-
-    public static class ConfigValidationException extends RuntimeException {
-        public ConfigValidationException(String option) {
-            super("Invalid value for " + option);
-        }
-    }
-
-    public static void min(String name, double value) throws ConfigValidationException {
-        if (value < 0) throw new ConfigValidationException(name);
-    }
+  class ConfigValidationException(option: String) : RuntimeException("Invalid value for $option")
 }

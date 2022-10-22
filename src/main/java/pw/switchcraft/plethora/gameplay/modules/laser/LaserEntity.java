@@ -39,10 +39,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+import static pw.switchcraft.plethora.Plethora.config;
 import static pw.switchcraft.plethora.gameplay.registry.Packets.SPAWN_PACKET_ID;
 import static pw.switchcraft.plethora.gameplay.registry.Registration.LASER_ENTITY;
-import static pw.switchcraft.plethora.util.config.Config.Laser.damage;
-import static pw.switchcraft.plethora.util.config.Config.Laser.lifetime;
 
 public class LaserEntity extends Entity implements IPlayerOwnable {
     private static final Random rand = new Random();
@@ -262,7 +261,7 @@ public class LaserEntity extends Entity implements IPlayerOwnable {
             setPosition(newPos);
         }
 
-        if (!worldObj.isClient && (potency <= 0 || age > lifetime)){
+        if (!worldObj.isClient && (potency <= 0 || age > config.laser.lifetime)){
             kill();
         }
     }
@@ -349,7 +348,7 @@ public class LaserEntity extends Entity implements IPlayerOwnable {
                     source.setProjectile();
 
                     entity.setFireTicks(5);
-                    entity.damage(source, (float) (potency * damage));
+                    entity.damage(source, (float) (potency * config.laser.damage));
                     potency = -1;
                 }
             }

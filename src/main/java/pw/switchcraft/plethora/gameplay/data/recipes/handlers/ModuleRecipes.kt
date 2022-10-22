@@ -11,7 +11,7 @@ import net.minecraft.util.registry.Registry.RECIPE_SERIALIZER
 import net.minecraft.util.registry.Registry.register
 import pw.switchcraft.library.recipe.BetterComplexRecipeJsonBuilder
 import pw.switchcraft.library.recipe.RecipeHandler
-import pw.switchcraft.plethora.PlethoraKt.ModId
+import pw.switchcraft.plethora.Plethora.ModId
 import pw.switchcraft.plethora.gameplay.data.recipes.*
 import pw.switchcraft.plethora.gameplay.registry.Registration.ModItems
 import java.util.function.Consumer

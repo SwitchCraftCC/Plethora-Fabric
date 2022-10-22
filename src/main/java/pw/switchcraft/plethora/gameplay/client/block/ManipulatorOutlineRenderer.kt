@@ -4,11 +4,10 @@ import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext.BlockOutlineContext
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.*
-import net.minecraft.util.Identifier
 import net.minecraft.util.hit.HitResult
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Matrix4f
-import pw.switchcraft.plethora.Plethora
+import pw.switchcraft.plethora.Plethora.ModId
 import pw.switchcraft.plethora.gameplay.manipulator.ManipulatorBlock
 import kotlin.math.sin
 
@@ -16,7 +15,7 @@ private const val GLOW_OFFSET = 0.005f
 private const val GLOW_PERIOD = 20.0
 
 object ManipulatorOutlineRenderer {
-  private val layer = RenderLayer.getEntityTranslucent(Identifier(Plethora.MOD_ID, "textures/misc/white.png"))
+  private val layer = RenderLayer.getEntityTranslucent(ModId("textures/misc/white.png"))
   private var ticks = 0f
 
   @JvmStatic

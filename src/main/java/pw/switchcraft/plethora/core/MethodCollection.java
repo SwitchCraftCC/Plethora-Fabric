@@ -11,7 +11,7 @@ public class MethodCollection implements IMethodCollection {
 	private final List<IMethod<?>> methods;
 
 	public MethodCollection(List<RegisteredMethod<?>> methods) {
-		this.methods = Lists.transform(methods, RegisteredMethod::method);
+		this.methods = Lists.transform(methods, RegisteredMethod::getMethod);
 	}
 
 	@Nonnull

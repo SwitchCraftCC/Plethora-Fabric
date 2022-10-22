@@ -1,63 +1,54 @@
-package pw.switchcraft.plethora.gameplay.overlay;
+package pw.switchcraft.plethora.gameplay.overlay
 
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.TypeFilter;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
-import pw.switchcraft.plethora.gameplay.modules.LevelableModuleItem;
+import net.minecraft.client.network.ClientPlayerEntity
+import net.minecraft.client.render.Camera
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.entity.EntityType
+import net.minecraft.entity.LivingEntity
+import net.minecraft.item.ItemStack
+import net.minecraft.util.TypeFilter
+import net.minecraft.util.math.Box
+import net.minecraft.util.registry.Registry
+import pw.switchcraft.plethora.Plethora
+import pw.switchcraft.plethora.gameplay.modules.LevelableModuleItem
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+object SensorOverlayRenderer : FlareOverlayRenderer() {
+  private val cfg by Plethora.config::sensor
 
-import static pw.switchcraft.plethora.util.config.Config.Sensor.entityColours;
+  private val entityColorCache: MutableMap<EntityType<*>, FlareColor> = HashMap()
 
-public class SensorOverlayRenderer extends FlareOverlayRenderer {
-    private static final Map<EntityType<?>, FlareColor> entityColorCache = new HashMap<>();
+  fun render(
+    player: ClientPlayerEntity,
+    stack: ItemStack,
+    matrices: MatrixStack,
+    ticks: Float,
+    camera: Camera
+  ) {
+    initFlareRenderer(matrices, camera)
 
-    public static void render(
-        ClientPlayerEntity player,
-        ItemStack stack,
-        MatrixStack matrices,
-        float ticks,
-        Camera camera
-    ) {
-        initFlareRenderer(matrices, camera);
+    val world = player.getWorld()
+    val position = player.eyePos
+    val range = LevelableModuleItem.getEffectiveRange(stack)
 
-        World world = player.getWorld();
-        Vec3d position = player.getEyePos();
-        int range = LevelableModuleItem.getEffectiveRange(stack);
+    // TODO: Rate limit scanning for these too?
+    val entities = world.getEntitiesByType(TypeFilter.instanceOf(LivingEntity::class.java), Box(
+      position.x - range, position.y - range, position.z - range,
+      position.x + range, position.y + range, position.z + range
+    )) { it !== player }
 
-        // TODO: Rate limit scanning for these too?
-        List<LivingEntity> entities = world.getEntitiesByType(TypeFilter.instanceOf(LivingEntity.class), new Box(
-            position.x - range, position.y - range, position.z - range,
-            position.x + range, position.y + range, position.z + range
-        ), e -> e != player);
-
-        for (LivingEntity entity : entities) {
-            Vec3d pos = entity.getPos();
-            FlareColor color = getFlareColorByEntity(entity.getType());
-            renderFlare(matrices, camera, ticks, pos.x, pos.y + entity.getHeight() / 2, pos.z, color, 1.0f);
-        }
-
-        uninitFlareRenderer(matrices);
+    for (entity in entities) {
+      val pos = entity.pos
+      val color = getFlareColorByEntity(entity.type)
+      renderFlare(matrices, camera, ticks, pos.x, pos.y + entity.height / 2, pos.z, color, 1.0f)
     }
 
-    private static FlareColor getFlareColorByEntity(EntityType<?> entityType) {
-        if (entityColorCache.containsKey(entityType)) return entityColorCache.get(entityType);
+    uninitFlareRenderer(matrices)
+  }
 
-        Identifier id = Registry.ENTITY_TYPE.getId(entityType);
-        FlareColor color = getFlareColorById(entityColours, id);
+  private fun getFlareColorByEntity(entity: EntityType<*>) = entityColorCache.computeIfAbsent(entity) {
+    val id = Registry.ENTITY_TYPE.getId(entity)
+    getFlareColorById(cfg.entityColours, id)
+  }
 
-        entityColorCache.put(entityType, color);
-        return color;
-    }
+  fun clearCache() { entityColorCache.clear() }
 }

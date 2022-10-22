@@ -55,12 +55,12 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import static net.minecraft.util.registry.Registry.*;
-import static pw.switchcraft.plethora.Plethora.MOD_ID;
+import static pw.switchcraft.plethora.Plethora.log;
 
 public final class Registration {
     public static final EntityType<LaserEntity> LASER_ENTITY = Registry.register(
         Registry.ENTITY_TYPE,
-        new Identifier(MOD_ID, "laser"),
+        new Identifier(Plethora.modId, "laser"),
         EntityType.Builder.<LaserEntity>create(LaserEntity::new, SpawnGroup.MISC)
             .setDimensions(0.25F, 0.25F)
             .maxTrackingRange(4).trackingTickInterval(10)
@@ -75,9 +75,9 @@ public final class Registration {
             ModItems.NEURAL_CONNECTOR,
             ModScreens.NEURAL_INTERFACE_HANDLER_TYPE
         };
-        Plethora.LOG.trace("oh no:" + (o[0] != null ? "yes" : "NullPointerException")); // lig was here
+        log.trace("oh no:" + (o[0] != null ? "yes" : "NullPointerException")); // lig was here
 
-        Registry.register(Registry.SCREEN_HANDLER, new Identifier(MOD_ID, "neural_interface"),
+        Registry.register(Registry.SCREEN_HANDLER, new Identifier(Plethora.modId, "neural_interface"),
             ModScreens.NEURAL_INTERFACE_HANDLER_TYPE);
 
         PlethoraEvents.REGISTER.register(api -> {
@@ -139,7 +139,7 @@ public final class Registration {
 
     public static final class ModItems {
         private static final ItemGroup itemGroup = FabricItemGroupBuilder.build(
-            new Identifier(MOD_ID, "main"),
+            new Identifier(Plethora.modId, "main"),
             () -> new ItemStack(ModItems.NEURAL_CONNECTOR) // TODO: Use the neural interface here
         );
 
@@ -169,7 +169,7 @@ public final class Registration {
         }
 
         private static <T extends Item> T register(String id, T item) {
-            return Registry.register(ITEM, new Identifier(MOD_ID, id), item);
+            return Registry.register(ITEM, new Identifier(Plethora.modId, id), item);
         }
 
         private static <T extends Item> T registerModule(String id, Function<Item.Settings, T> itemCtor) {
@@ -186,7 +186,7 @@ public final class Registration {
             new RedstoneIntegratorBlock(properties()));
 
         private static <T extends Block> T register(String id, T value) {
-            return Registry.register(BLOCK, new Identifier(MOD_ID, id), value);
+            return Registry.register(BLOCK, new Identifier(Plethora.modId, id), value);
         }
 
         private static Block.Settings properties() {
@@ -210,7 +210,7 @@ public final class Registration {
         private static <T extends BlockEntity> BlockEntityType<T> ofBlock(Block block, String id,
                                                                           BiFunction<BlockPos, BlockState, T> factory) {
             BlockEntityType<T> blockEntityType = FabricBlockEntityTypeBuilder.create(factory::apply, block).build();
-            return Registry.register(BLOCK_ENTITY_TYPE, new Identifier(MOD_ID, id), blockEntityType);
+            return Registry.register(BLOCK_ENTITY_TYPE, new Identifier(Plethora.modId, id), blockEntityType);
         }
     }
 

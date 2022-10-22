@@ -1,40 +1,41 @@
-package pw.switchcraft.plethora.gameplay.client.neural;
+package pw.switchcraft.plethora.gameplay.client.neural
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.model.*;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.model.Dilation
+import net.minecraft.client.model.ModelPartBuilder.create
+import net.minecraft.client.model.ModelTransform.pivot
+import net.minecraft.client.model.TexturedModelData
+import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.entity.model.BipedEntityModel
+import net.minecraft.client.render.entity.model.EntityModelPartNames.HEAD
+import net.minecraft.entity.LivingEntity
+import net.minecraft.util.Identifier
 
-import java.util.function.Function;
+class NeuralInterfaceModel(
+  renderLayerFactory: (Identifier) -> RenderLayer = RenderLayer::getEntityCutout,
+) : BipedEntityModel<LivingEntity>(createModelData().createModel(), renderLayerFactory) {
+  init {
+    setVisible(false)
+    head.visible = true
+  }
 
-@Environment(EnvType.CLIENT)
-public class NeuralInterfaceModel extends BipedEntityModel<LivingEntity> {
-    private static TexturedModelData createNormalModelData() {
-        ModelData modelData = BipedEntityModel.getModelData(Dilation.NONE, 0f);
-        ModelPartData modelPartData = modelData.getRoot();
+  companion object {
+    private fun createModelData(): TexturedModelData {
+      val modelData = getModelData(Dilation.NONE, 0.0f)
+      val root = modelData.root
 
-        ModelPartData main = modelPartData.addChild("head",
-            ModelPartBuilder.create().uv(0, 0).cuboid(-0.1f, -5.0f, -5.1f, 5.0f, 3.0f, 1.0f),
-            ModelTransform.pivot(0.0f, 0.0f, 0.0f));
+      val main = root.addChild(
+        HEAD,
+        create().uv(0, 0).cuboid(-0.1f, -5.0f, -5.1f, 5.0f, 3.0f, 1.0f),
+        pivot(0.0f, 0.0f, 0.0f)
+      )
 
-        main.addChild("neural_normal_side",
-            ModelPartBuilder.create().uv(5, 0).cuboid(3.9f, -5.0f, -4.1f, 1.0f, 2.0f, 7.0f),
-            ModelTransform.pivot(0.0f, 0.0f, 0.0f));
+      main.addChild(
+        "neural_normal_side",
+        create().uv(5, 0).cuboid(3.9f, -5.0f, -4.1f, 1.0f, 2.0f, 7.0f),
+        pivot(0.0f, 0.0f, 0.0f)
+      )
 
-        return TexturedModelData.of(modelData, 22, 9);
+      return TexturedModelData.of(modelData, 22, 9)
     }
-
-    public NeuralInterfaceModel() {
-        this(RenderLayer::getEntityCutoutNoCull);
-    }
-
-    public NeuralInterfaceModel(Function<Identifier, RenderLayer> renderLayerFactory) {
-        super(createNormalModelData().createModel(), renderLayerFactory);
-
-        this.setVisible(false);
-        this.head.visible = true;
-    }
+  }
 }

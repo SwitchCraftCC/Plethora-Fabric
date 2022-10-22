@@ -1,36 +1,16 @@
-package pw.switchcraft.plethora.gameplay.modules.scanner;
+package pw.switchcraft.plethora.gameplay.modules.scanner
 
-import net.minecraft.util.Identifier;
-import pw.switchcraft.plethora.gameplay.modules.LevelableModuleItem;
-import pw.switchcraft.plethora.util.config.Config.Scanner;
+import net.minecraft.util.Identifier
+import pw.switchcraft.plethora.Plethora
+import pw.switchcraft.plethora.gameplay.modules.LevelableModuleItem
+import pw.switchcraft.plethora.gameplay.registry.PlethoraModules.SCANNER_M
 
-import javax.annotation.Nonnull;
+class ScannerModuleItem(settings: Settings) : LevelableModuleItem("scanner", settings) {
+  private val cfg by Plethora.config::scanner
 
-import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.SCANNER_M;
+  override fun getModule(): Identifier = SCANNER_M
 
-public class ScannerModuleItem extends LevelableModuleItem {
-    public ScannerModuleItem(Settings settings) {
-        super("scanner", settings);
-    }
-
-    @Override
-    public int getBaseRange() {
-        return Scanner.radius;
-    }
-
-    @Override
-    public int getMaxRange() {
-        return Scanner.maxRadius;
-    }
-
-    @Override
-    public int getLevelCost() {
-        return Scanner.scanLevelCost;
-    }
-
-    @Nonnull
-    @Override
-    public Identifier getModule() {
-        return SCANNER_M;
-    }
+  override fun getBaseRange() = cfg.radius
+  override fun getMaxRange() = cfg.maxRadius
+  override fun getLevelCost() = cfg.scanLevelCost
 }

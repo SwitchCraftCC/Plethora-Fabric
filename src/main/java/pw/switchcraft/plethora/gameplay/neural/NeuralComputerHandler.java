@@ -10,10 +10,10 @@ import dev.emi.trinkets.api.SlotReference;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import pw.switchcraft.plethora.Plethora;
-import pw.switchcraft.plethora.gameplay.BaseItem;
 
 import javax.annotation.Nonnull;
+
+import static pw.switchcraft.plethora.Plethora.log;
 
 /**
  * Attempt to get computers from items
@@ -33,7 +33,7 @@ public class NeuralComputerHandler {
     }
 
     public static NeuralComputer getServer(@Nonnull ItemStack stack, LivingEntity owner, @Nonnull SlotReference slot) {
-        NbtCompound nbt = BaseItem.getNbt(stack);
+        NbtCompound nbt = stack.getOrCreateNbt();
 
         final ServerComputerRegistry manager = ComputerCraft.serverComputerRegistry;
         final int sessionId = manager.getSessionID();
@@ -45,7 +45,7 @@ public class NeuralComputerHandler {
             if (computer instanceof NeuralComputer neuralComputer) {
                 neural = neuralComputer;
             } else {
-                Plethora.LOG.error("Computer is not NeuralComputer but " + computer);
+                log.error("Computer is not NeuralComputer but " + computer);
             }
         }
 
@@ -74,7 +74,7 @@ public class NeuralComputerHandler {
     }
 
     public static NeuralComputer tryGetServer(@Nonnull ItemStack stack) {
-        NbtCompound nbt = BaseItem.getNbt(stack);
+        NbtCompound nbt = stack.getOrCreateNbt();
 
         final ServerComputerRegistry manager = ComputerCraft.serverComputerRegistry;
         final int sessionId = manager.getSessionID();
@@ -84,7 +84,7 @@ public class NeuralComputerHandler {
             if (computer instanceof NeuralComputer neuralComputer) {
                 return neuralComputer;
             } else {
-                Plethora.LOG.error("Computer is not NeuralComputer but " + computer);
+                log.error("Computer is not NeuralComputer but " + computer);
                 return null;
             }
         } else {
@@ -93,7 +93,7 @@ public class NeuralComputerHandler {
     }
 
     public static ClientComputer getClient(@Nonnull ItemStack stack) {
-        NbtCompound nbt = BaseItem.getNbt(stack);
+        NbtCompound nbt = stack.getOrCreateNbt();
 
         int instanceId = nbt.getInt(INSTANCE_ID);
         if (instanceId < 0) return null;

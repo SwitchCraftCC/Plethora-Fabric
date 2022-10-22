@@ -4,13 +4,14 @@ import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.ILuaTask;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.MethodResult;
-import pw.switchcraft.plethora.Plethora;
 import pw.switchcraft.plethora.api.method.FutureMethodResult;
 import pw.switchcraft.plethora.api.method.IResultExecutor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.concurrent.Callable;
+
+import static pw.switchcraft.plethora.Plethora.log;
 
 /**
  * A result executor which relies on {@link ILuaContext#executeMainThreadTask(ILuaTask)} in order to execute tasks.
@@ -77,7 +78,7 @@ public final class BasicExecutor implements IResultExecutor {
 				} catch (LuaException e) {
 					throw e;
 				} catch (Exception | LinkageError | VirtualMachineError e) {
-					Plethora.LOG.error("Unexpected error", e);
+					log.error("Unexpected error", e);
 					throw new LuaException("Java Exception Thrown: " + e);
 				}
 			}

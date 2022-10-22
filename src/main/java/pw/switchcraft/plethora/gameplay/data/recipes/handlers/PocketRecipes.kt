@@ -6,8 +6,8 @@ import dan200.computercraft.shared.util.ImpostorRecipe
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import pw.switchcraft.library.recipe.RecipeHandler
-import pw.switchcraft.plethora.PlethoraKt.ModId
-import pw.switchcraft.plethora.PlethoraKt.modId
+import pw.switchcraft.plethora.Plethora.ModId
+import pw.switchcraft.plethora.Plethora.modId
 import pw.switchcraft.plethora.api.PlethoraAPI
 import pw.switchcraft.plethora.gameplay.data.recipes.RecipeWrapper
 import pw.switchcraft.plethora.gameplay.data.recipes.inventoryChange

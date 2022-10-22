@@ -1,79 +1,53 @@
-package pw.switchcraft.plethora.core;
+package pw.switchcraft.plethora.core
 
-import dan200.computercraft.api.lua.IArguments;
-import dan200.computercraft.api.lua.LuaException;
-import pw.switchcraft.plethora.Plethora;
-import pw.switchcraft.plethora.api.method.FutureMethodResult;
-import pw.switchcraft.plethora.api.method.IMethod;
-import pw.switchcraft.plethora.api.method.IUnbakedContext;
+import dan200.computercraft.api.lua.IArguments
+import dan200.computercraft.api.lua.LuaException
+import pw.switchcraft.plethora.Plethora
+import pw.switchcraft.plethora.api.method.FutureMethodResult
+import pw.switchcraft.plethora.api.method.IMethod
+import pw.switchcraft.plethora.api.method.IUnbakedContext
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Objects;
+abstract class RegisteredMethod<T>(
+  regName: String,
+  mod: String,
+  val target: Class<T>
+) : RegisteredValue(regName, mod) {
+  private val cfg by Plethora.config::costSystem
+  private var cost = 0
 
-public abstract class RegisteredMethod<T> extends RegisteredValue {
-	private final Class<T> target;
-	private int cost;
+  abstract val method: IMethod<T>
 
-	public RegisteredMethod(@Nonnull String name, @Nullable String mod, @Nonnull Class<T> target) {
-		super(name, mod);
-		this.target = Objects.requireNonNull(target);
-	}
+  fun build() {
+    // val comment = method.name + ": " + method.docString
+    val name = "$mod:$regName"
+    cost = cfg.baseCosts.computeIfAbsent(name) { 0 }
 
-	public abstract IMethod<T> method();
+    if (cost < 0) {
+      Plethora.log.warn("Cost for method $name is negative! Setting to 0.")
+      cost = 0
+    }
+  }
 
-	@Nonnull
-	public final Class<T> target() {
-		return target;
-	}
+  @Throws(LuaException::class)
+  fun call(context: IUnbakedContext<T>, args: IArguments): FutureMethodResult = try {
+    if (cost <= 0) {
+      method.apply(context, args)
+    } else {
+      // This is a little suboptimal, as argument validation will be deferred until later.
+      // However, we don't have much of a way round this as the method could technically
+      // have side effects.
+      context.costHandler.await(cost.toDouble()) { method.apply(context, args) }
+    }
+  } catch (e: Exception) {
+    when (e) {
+      is LuaException -> throw e
+      else -> {
+        Plethora.log.error("Unexpected error calling $regName", e)
+        throw LuaException("Java Exception Thrown: $e")
+      }
+    }
+  }
 
-	public void build() {
-		IMethod<T> method = method();
-		String comment = method.getName() + ": " + method.getDocString();
-
-		String id = name();
-		if (id.indexOf('#') >= 0) {
-			String oldId = id.replace('#', '$');
-			int targetIdx = oldId.lastIndexOf('(');
-			if (targetIdx >= 0) oldId = oldId.substring(0, targetIdx);
-			// TODO: Cost system configuration
-			// ConfigCore.configuration.renameProperty("baseCosts", oldId, id);
-		}
-
-		// TODO: Cost system configuration
-//		cost = ConfigCore.configuration
-//			.get("baseCosts", id, 0, comment, 0, Integer.MAX_VALUE)
-//			.getInt();
-		cost = 0;
-	}
-
-	FutureMethodResult call(IUnbakedContext<T> context, IArguments args) throws LuaException {
-		try {
-			if (cost <= 0) return method().apply(context, args);
-
-			// This is a little sub-optimal, as argument validation will be deferred until later.
-			// However, we don't have much of a way round this as the method could technically
-			// have side effects.
-			return context.getCostHandler().await(cost, () -> method().apply(context, args));
-		} catch (LuaException e) {
-			throw e;
-		} catch (Exception | LinkageError | VirtualMachineError e) {
-			Plethora.LOG.error("Unexpected error calling " + name(), e);
-			throw new LuaException("Java Exception Thrown: " + e);
-		}
-	}
-
-	public static final class Impl<T> extends RegisteredMethod<T> {
-		private final IMethod<T> method;
-
-		public Impl(@Nonnull String name, @Nullable String mod, @Nonnull Class<T> target, @Nonnull IMethod<T> method) {
-			super(name, mod, target);
-			this.method = Objects.requireNonNull(method);
-		}
-
-		@Override
-		public IMethod<T> method() {
-			return method;
-		}
-	}
+  class Impl<T>(name: String, mod: String, target: Class<T>,
+                override val method: IMethod<T>) : RegisteredMethod<T>(name, mod, target)
 }

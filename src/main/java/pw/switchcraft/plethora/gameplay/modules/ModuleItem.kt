@@ -3,7 +3,7 @@ package pw.switchcraft.plethora.gameplay.modules
 import dan200.computercraft.api.client.TransformedModel
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.AffineTransformation
-import pw.switchcraft.plethora.Plethora
+import pw.switchcraft.plethora.Plethora.modId
 import pw.switchcraft.plethora.api.method.IContextBuilder
 import pw.switchcraft.plethora.api.module.IModuleAccess
 import pw.switchcraft.plethora.api.module.IModuleHandler
@@ -15,12 +15,11 @@ abstract class ModuleItem(
   itemName: String,
   settings: Settings
 ) : BaseItem(itemName, settings), IModuleHandler {
-  override fun getTranslationKey() = "item." + Plethora.MOD_ID + ".module.module_" + itemName
+  override fun getTranslationKey() = "item.$modId.module.module_$itemName"
 
   // TODO: isBlacklisted
-  override fun getModel(): TransformedModel {
-    return TransformedModel.of(defaultStack, transform)
-  }
+  override fun getModel(): TransformedModel =
+    TransformedModel.of(defaultStack, transform)
 
   override fun getAdditionalContext(stack: ItemStack, access: IModuleAccess, builder: IContextBuilder) {
     val moduleKey = module.toString()
