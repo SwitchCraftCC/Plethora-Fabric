@@ -51,16 +51,16 @@ object ModuleRecipes : RecipeHandler {
       .offerTo(exporter)
 
     // Keyboard
-    ShapedRecipeJsonBuilder
-      .create(ModItems.KEYBOARD_MODULE)
-      .pattern("  C")
-      .pattern("SSI")
-      .pattern("SSS")
-      .input('C', Registry.ModItems.CABLE)
-      .input('I', ConventionalItemTags.IRON_INGOTS)
-      .input('S', Items.STONE)
-      .hasModuleHandler()
-      .offerTo(exporter)
+//    ShapedRecipeJsonBuilder
+//      .create(ModItems.KEYBOARD_MODULE)
+//      .pattern("  C")
+//      .pattern("SSI")
+//      .pattern("SSS")
+//      .input('C', Registry.ModItems.CABLE)
+//      .input('I', ConventionalItemTags.IRON_INGOTS)
+//      .input('S', Items.STONE)
+//      .hasModuleHandler()
+//      .offerTo(exporter)
 
     // Block Scanner
     ShapedRecipeJsonBuilder

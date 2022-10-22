@@ -1,5 +1,4 @@
-// 1.19.2	2022-10-05T19:26:46.1520303	Recipes
-1e70d050a063a236b01754fcc18882672dc4b3ed data\plethora\recipes\module_keyboard.json
+// 1.19.2	2022-10-22T21:50:27.8906299	Recipes
 cf9d19efbd8869b9d7331cf1665d238946d2bb23 data\plethora\advancements\recipes\plethora.main\redstone_integrator.json
 7201c3356a58d28b89a4119d8db035a2bc49f04c data\plethora\recipes\turtle_normal\plethora\sensor.json
 a0c5a9f9a7de95cae097614d47b7341381e4fc2b data\plethora\recipes\turtle_advanced\plethora\sensor.json
@@ -52,7 +51,6 @@ c9b072e1a62e09a665f5467db377db57d12f9345 data\plethora\advancements\recipes\comp
 9e453fe62aced6398d03f27da8f6f7a171784dba data\plethora\recipes\pocket_advanced\plethora\laser.json
 fd2b40dba56775b01b093a411d69a5c693dedf4e data\plethora\advancements\recipes\plethora.main\manipulator_mark_2.json
 5e05a5b6de702551bff63754aa316ba603bc5d95 data\plethora\advancements\recipes\computercraft\pocket_advanced\plethora\keyboard.json
-5d2e144cb27bdee0e75c7ea2fe368f4f6a042e7a data\plethora\advancements\recipes\plethora.main\module_keyboard.json
 488549ceac58cb365092b9bd52971e227374e159 data\plethora\advancements\recipes\plethora.main\sensor_module_upgrade.json
 438b46092465b4ee00bdcde5f58ebb46cf124261 data\plethora\advancements\recipes\plethora.main\manipulator_mark_1.json
 a69fb663e5e9b5a060e37c550681dbebf209dd2a data\plethora\recipes\pocket_normal\plethora\introspection.json
