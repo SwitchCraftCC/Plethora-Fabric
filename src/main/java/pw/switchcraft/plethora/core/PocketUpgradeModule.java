@@ -80,6 +80,7 @@ class PocketUpgradeModule implements IPocketUpgrade {
 		MethodRegistry registry = MethodRegistry.instance;
 
 		final Entity entity = pocket.getEntity();
+    if (entity == null) return null;
 
 		final PocketModuleAccess access = new PocketModuleAccess(pocket, handler);
 		final IModuleContainer container = access.getContainer();

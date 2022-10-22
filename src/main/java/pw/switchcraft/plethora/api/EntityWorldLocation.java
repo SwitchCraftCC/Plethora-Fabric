@@ -16,7 +16,6 @@ public class EntityWorldLocation implements ConstantReference<IWorldLocation>, I
     private final Entity entity;
 
     public EntityWorldLocation(Entity entity) {
-        // TODO: Fix pocket computer module crash from 1.12 here
         Objects.requireNonNull(entity, "entity cannot be null");
         this.entity = entity;
     }
