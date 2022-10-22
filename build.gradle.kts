@@ -23,6 +23,7 @@ val fabricVersion: String by project
 val ccVersion: String by project
 val ccTargetVersion: String by project
 
+val configurateVersion: String by project
 val clothConfigVersion: String by project
 val clothApiVersion: String by project
 val modMenuVersion: String by project
@@ -80,6 +81,11 @@ dependencies {
 
   // Fixes @Nonnull and @Nullable annotations
   compileOnly("com.google.code.findbugs:jsr305:3.0.2")
+
+  implementation(include("org.spongepowered", "configurate-core", configurateVersion))
+  implementation(include("org.spongepowered", "configurate-hocon", configurateVersion))
+  implementation(include("io.leangen.geantyref", "geantyref", "1.3.13"))
+  implementation(include("com.typesafe", "config", "1.4.2"))
 
   modApi("me.shedaniel.cloth:cloth-config-fabric:$clothConfigVersion") {
     exclude("net.fabricmc.fabric-api")
