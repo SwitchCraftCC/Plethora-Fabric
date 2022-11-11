@@ -2,9 +2,9 @@ package pw.switchcraft.plethora.integration.computercraft;
 
 import com.mojang.authlib.GameProfile;
 import dan200.computercraft.api.turtle.ITurtleAccess;
+import dan200.computercraft.shared.turtle.TurtleUtil;
 import dan200.computercraft.shared.util.DirectionUtil;
 import dan200.computercraft.shared.util.InventoryUtil;
-import dan200.computercraft.shared.util.ItemStorage;
 import dan200.computercraft.shared.util.WorldUtil;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerInventory;
@@ -87,7 +87,6 @@ public class TurtleFakePlayerProvider {
 
         // Copy primary items into turtle playerInv and then insert/drop the rest
         Inventory turtleInv = turtle.getInventory();
-        ItemStorage itemHandler = turtle.getItemHandler();
         int size = turtleInv.size();
         int largerSize = playerInv.size();
         playerInv.selectedSlot = turtle.getSelectedSlot();
@@ -97,14 +96,7 @@ public class TurtleFakePlayerProvider {
         }
 
         for (int i = size; i < largerSize; i++) {
-            ItemStack remaining = playerInv.getStack(i);
-            if (!remaining.isEmpty()) {
-                remaining = InventoryUtil.storeItems(remaining, itemHandler, 0);
-                if (!remaining.isEmpty()) {
-                    BlockPos position = turtle.getPosition();
-                    WorldUtil.dropItemStack(remaining, turtle.getLevel(), position, turtle.getDirection().getOpposite());
-                }
-            }
+          TurtleUtil.storeItemOrDrop(turtle, playerInv.getStack(i));
 
             playerInv.setStack(i, ItemStack.EMPTY);
         }

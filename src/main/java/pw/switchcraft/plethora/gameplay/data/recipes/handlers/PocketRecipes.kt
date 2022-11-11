@@ -1,5 +1,7 @@
 package pw.switchcraft.plethora.gameplay.data.recipes.handlers
 
+import dan200.computercraft.api.pocket.PocketUpgradeDataProvider
+import dan200.computercraft.shared.ModRegistry
 import dan200.computercraft.shared.computer.core.ComputerFamily
 import dan200.computercraft.shared.pocket.items.PocketComputerItemFactory
 import dan200.computercraft.shared.util.ImpostorRecipe
@@ -13,7 +15,7 @@ import pw.switchcraft.plethora.gameplay.data.recipes.RecipeWrapper
 import pw.switchcraft.plethora.gameplay.data.recipes.inventoryChange
 import java.util.function.Consumer
 
-object PocketRecipes : RecipeHandler {
+class PocketRecipes(private val upgrades: PocketUpgradeDataProvider) : RecipeHandler {
   override fun generateRecipes(exporter: Consumer<RecipeJsonProvider>) {
     for (family in ComputerFamily.values()) {
       val base = PocketComputerItemFactory.create(-1, null, -1, family, null);
@@ -21,7 +23,7 @@ object PocketRecipes : RecipeHandler {
 
       val nameId = family.name.lowercase()
 
-      PlethoraAPI.instance().moduleRegistry().pocketUpgrades.forEach { upgrade ->
+      upgrades.generatedUpgrades.forEach { upgrade ->
         val result = PocketComputerItemFactory.create(-1, null, -1, family, upgrade);
         ShapedRecipeJsonBuilder
           .create(result.item)
@@ -31,7 +33,7 @@ object PocketRecipes : RecipeHandler {
           .input('#', upgrade.craftingItem.item)
           .criterion("has_items", inventoryChange(base.item, upgrade.craftingItem.item))
           .offerTo(
-            RecipeWrapper.wrap(ImpostorRecipe.SERIALIZER, exporter, result.nbt),
+            RecipeWrapper.wrap(ModRegistry.RecipeSerializers.IMPOSTOR_SHAPED.get(), exporter, result.nbt),
             ModId("pocket_$nameId/${upgrade.upgradeID.namespace}/${upgrade.upgradeID.path}")
           )
       }

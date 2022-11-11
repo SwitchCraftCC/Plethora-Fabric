@@ -1,5 +1,8 @@
 package pw.switchcraft.plethora.gameplay.client;
 
+import dan200.computercraft.api.ComputerCraftAPI;
+import dan200.computercraft.api.client.ComputerCraftAPIClient;
+import dan200.computercraft.api.client.turtle.TurtleUpgradeModeller;
 import dev.emi.trinkets.api.client.TrinketRendererRegistry;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -15,6 +18,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
+import pw.switchcraft.plethora.core.TurtleUpgradeModuleRenderer;
 import pw.switchcraft.plethora.gameplay.client.block.ManipulatorOutlineRenderer;
 import pw.switchcraft.plethora.gameplay.client.block.ManipulatorRenderer;
 import pw.switchcraft.plethora.gameplay.client.entity.LaserRenderer;
@@ -24,6 +28,7 @@ import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasHandler;
 import pw.switchcraft.plethora.gameplay.modules.glasses.networking.CanvasAddPacket;
 import pw.switchcraft.plethora.gameplay.modules.glasses.networking.CanvasRemovePacket;
 import pw.switchcraft.plethora.gameplay.modules.glasses.networking.CanvasUpdatePacket;
+import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticTurtleUpgrade;
 import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler;
 import pw.switchcraft.plethora.gameplay.registry.Registration;
 import pw.switchcraft.plethora.gameplay.registry.Registration.ModBlockEntities;
@@ -45,6 +50,8 @@ public class PlethoraClient implements ClientModInitializer {
         BlockEntityRendererRegistry.register(ModBlockEntities.MANIPULATOR_MARK_1, ctx -> new ManipulatorRenderer());
         BlockEntityRendererRegistry.register(ModBlockEntities.MANIPULATOR_MARK_2, ctx -> new ManipulatorRenderer());
         TrinketRendererRegistry.registerRenderer(Registration.ModItems.NEURAL_INTERFACE, new NeuralInterfaceTrinketRenderer());
+        ComputerCraftAPIClient.registerTurtleUpgradeModeller(Registration.ModTurtleUpgradeSerialisers.MODULE, TurtleUpgradeModuleRenderer.INSTANCE);
+        ComputerCraftAPIClient.registerTurtleUpgradeModeller(Registration.ModTurtleUpgradeSerialisers.KINETIC_AUGMENT, TurtleUpgradeModuleRenderer.INSTANCE::getModel);
 
         // These generics are required even if IDEA says they're not
         HandledScreens.<NeuralInterfaceScreenHandler, NeuralInterfaceScreen>register(Registration.ModScreens.NEURAL_INTERFACE_HANDLER_TYPE, NeuralInterfaceScreen::new);

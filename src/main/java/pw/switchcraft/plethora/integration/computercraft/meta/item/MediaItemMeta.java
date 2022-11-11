@@ -1,7 +1,7 @@
 package pw.switchcraft.plethora.integration.computercraft.meta.item;
 
 import dan200.computercraft.api.media.IMedia;
-import dan200.computercraft.shared.MediaProviders;
+import dan200.computercraft.impl.MediaProviders;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;

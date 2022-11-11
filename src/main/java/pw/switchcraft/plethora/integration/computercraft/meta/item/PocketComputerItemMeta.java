@@ -1,7 +1,7 @@
 package pw.switchcraft.plethora.integration.computercraft.meta.item;
 
 import dan200.computercraft.api.pocket.IPocketUpgrade;
-import dan200.computercraft.shared.pocket.items.ItemPocketComputer;
+import dan200.computercraft.shared.pocket.items.PocketComputerItem;
 import net.minecraft.item.ItemStack;
 import pw.switchcraft.plethora.api.meta.ItemStackMetaProvider;
 
@@ -9,14 +9,14 @@ import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class PocketComputerItemMeta extends ItemStackMetaProvider<ItemPocketComputer> {
+public final class PocketComputerItemMeta extends ItemStackMetaProvider<PocketComputerItem> {
     public PocketComputerItemMeta() {
-        super("pocket", ItemPocketComputer.class);
+        super("pocket", PocketComputerItem.class);
     }
 
     @Nonnull
     @Override
-    public Map<String, ?> getMeta(@Nonnull ItemStack stack, @Nonnull ItemPocketComputer pocket) {
+    public Map<String, ?> getMeta(@Nonnull ItemStack stack, @Nonnull PocketComputerItem pocket) {
         Map<String, Object> out = new HashMap<>(2);
 
         int colour = pocket.getColour(stack);
@@ -25,7 +25,7 @@ public final class PocketComputerItemMeta extends ItemStackMetaProvider<ItemPock
             out.put("colour", colour);
         }
 
-        out.put("back", getUpgrade(ItemPocketComputer.getUpgrade(stack)));
+        out.put("back", getUpgrade(PocketComputerItem.getUpgrade(stack)));
 
         return out;
     }

@@ -2,8 +2,7 @@ package pw.switchcraft.plethora.gameplay.redstone;
 
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import dan200.computercraft.api.peripheral.IPeripheralTile;
-import dan200.computercraft.shared.BundledRedstone;
+import dan200.computercraft.impl.BundledRedstone;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.RedstoneWireBlock;
@@ -23,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static pw.switchcraft.plethora.Plethora.log;
 
-public class RedstoneIntegratorBlockEntity extends BaseBlockEntity implements IPeripheralTile {
+public class RedstoneIntegratorBlockEntity extends BaseBlockEntity {
     final byte[] inputs = new byte[6];
     final byte[] outputs = new byte[6];
     final int[] bundledInputs = new int[6];
@@ -155,7 +154,6 @@ public class RedstoneIntegratorBlockEntity extends BaseBlockEntity implements IP
     }
 
     @Nullable
-    @Override
     public IPeripheral getPeripheral(@Nonnull Direction side) {
         return new RedstoneIntegratorPeripheral(this);
     }

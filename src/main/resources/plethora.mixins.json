@@ -11,8 +11,7 @@
     "ServerPlayerInteractionManagerAccessor",
     "ServerPlayNetworkHandlerAdapter",
     "SimpleInventoryAccessor",
-    "TntBlockInvoker",
-    "computercraft.ItemDataMixin"
+    "TntBlockInvoker"
   ],
   "client": [
     "client.InGameHudMixin",

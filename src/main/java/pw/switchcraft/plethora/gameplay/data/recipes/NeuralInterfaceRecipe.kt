@@ -1,8 +1,8 @@
 package pw.switchcraft.plethora.gameplay.data.recipes
 
-import dan200.computercraft.shared.Registry.ModItems.POCKET_COMPUTER_ADVANCED
-import dan200.computercraft.shared.Registry.ModItems.WIRED_MODEM
-import dan200.computercraft.shared.pocket.items.ItemPocketComputer
+import dan200.computercraft.shared.ModRegistry.Items.POCKET_COMPUTER_ADVANCED
+import dan200.computercraft.shared.ModRegistry.Items.WIRED_MODEM
+import dan200.computercraft.shared.pocket.items.PocketComputerItem
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags.*
 import net.minecraft.inventory.CraftingInventory
 import net.minecraft.inventory.Inventories
@@ -19,9 +19,9 @@ import pw.switchcraft.plethora.gameplay.registry.Registration.ModItems.NEURAL_IN
 
 class NeuralInterfaceRecipe(id: Identifier) : BetterSpecialRecipe(id) {
   override val ingredients = listOf(
-    EMPTY,                EMPTY,                             fromTag(GOLD_INGOTS),
-    fromTag(IRON_INGOTS), ofItems(POCKET_COMPUTER_ADVANCED), fromTag(REDSTONE_DUSTS),
-    EMPTY,                fromTag(GOLD_INGOTS),              ofItems(WIRED_MODEM)
+    EMPTY,                EMPTY,                                   fromTag(GOLD_INGOTS),
+    fromTag(IRON_INGOTS), ofItems(POCKET_COMPUTER_ADVANCED.get()), fromTag(REDSTONE_DUSTS),
+    EMPTY,                fromTag(GOLD_INGOTS),                    ofItems(WIRED_MODEM.get())
   )
 
   override val outputItem = ItemStack(NEURAL_INTERFACE)
@@ -31,8 +31,8 @@ class NeuralInterfaceRecipe(id: Identifier) : BetterSpecialRecipe(id) {
 
     // Get the old pocket computer
     val old = stackAtPos(inv, 1, 1)
-    val id = POCKET_COMPUTER_ADVANCED.getComputerID(old)
-    val label = POCKET_COMPUTER_ADVANCED.getLabel(old)
+    val id = POCKET_COMPUTER_ADVANCED.get().getComputerID(old)
+    val label = POCKET_COMPUTER_ADVANCED.get().getLabel(old)
 
     // Copy across key properties
     val nbt = output.orCreateNbt
@@ -41,7 +41,7 @@ class NeuralInterfaceRecipe(id: Identifier) : BetterSpecialRecipe(id) {
 
     // Forge/1.12.2 Plethora does not check if the source pocket computer has an upgrade, but I feel like it would kinda
     // suck to lose your pocket's ender modem when upgrading it to a neural interface, so let's grab that too.
-    val upgrade = ItemPocketComputer.getUpgrade(old)
+    val upgrade = PocketComputerItem.getUpgrade(old)
     if (upgrade != null) {
       // Check if the neural will actually accept the item before trying to add it. Add to the BACK slot (2)
       val upgradeStack = upgrade.craftingItem

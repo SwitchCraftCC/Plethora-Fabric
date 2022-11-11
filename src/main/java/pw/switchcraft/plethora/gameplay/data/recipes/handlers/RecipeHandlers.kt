@@ -6,8 +6,6 @@ object RecipeHandlers {
   val RECIPE_HANDLERS by lazy { listOf(
     ModuleRecipes,
     MiscRecipes,
-    PocketRecipes,
-    TurtleRecipes
   )}
 
   @JvmStatic

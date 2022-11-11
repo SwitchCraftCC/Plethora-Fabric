@@ -1,10 +1,11 @@
 package pw.switchcraft.plethora.gameplay.client.gui
 
 import com.mojang.blaze3d.systems.RenderSystem
-import dan200.computercraft.client.gui.ComputerScreenBase
+import dan200.computercraft.client.gui.AbstractComputerScreen
 import dan200.computercraft.client.gui.widgets.ComputerSidebar
-import dan200.computercraft.client.gui.widgets.WidgetTerminal
+import dan200.computercraft.client.gui.widgets.TerminalWidget
 import dan200.computercraft.client.render.ComputerBorderRenderer
+import dan200.computercraft.shared.computer.inventory.AbstractComputerMenu
 import net.minecraft.client.render.GameRenderer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.player.PlayerInventory
@@ -12,7 +13,6 @@ import net.minecraft.screen.slot.Slot
 import net.minecraft.text.Text
 import net.minecraft.text.Text.translatable
 import pw.switchcraft.plethora.Plethora.ModId
-import pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler
 import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler
 import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler.Companion.NEURAL_START_X
 import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler.Companion.S
@@ -23,15 +23,14 @@ import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler.Comp
 class NeuralInterfaceScreen(
   private val container: NeuralInterfaceScreenHandler,
   playerInv: PlayerInventory,
-  title: Text
-) : ComputerScreenBase<NeuralInterfaceScreenHandler>(
+  title: Text,
+) : AbstractComputerScreen<NeuralInterfaceScreenHandler>(
   container, playerInv, translatable("gui.plethora.neuralInterface.title"), BORDER
 ) {
-  private val comp = NeuralComputerHandler.getClient(container.stack)
   private var peripherals = true
 
   override fun init() {
-    backgroundWidth = TEX_WIDTH + ComputerSidebar.WIDTH
+    backgroundWidth = TEX_WIDTH + AbstractComputerMenu.SIDEBAR_WIDTH
     backgroundHeight = TEX_HEIGHT
     super.init()
   }
@@ -54,11 +53,10 @@ class NeuralInterfaceScreen(
     updateVisible() // Make one set of peripheral/module slots visible
   }
 
-  override fun createTerminal() = WidgetTerminal(
-    comp,
-    x + BORDER + ComputerSidebar.WIDTH,
-    y + BORDER,
-    NeuralComputerHandler.WIDTH, NeuralComputerHandler.HEIGHT
+  override fun createTerminal() = TerminalWidget(
+    terminalData, input,
+    x + BORDER + AbstractComputerMenu.SIDEBAR_WIDTH,
+    y + BORDER
   )
 
   override fun drawBackground(matrices: MatrixStack, delta: Float, mouseX: Int, mouseY: Int) {
@@ -66,7 +64,7 @@ class NeuralInterfaceScreen(
     RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f)
     RenderSystem.setShaderTexture(0, tex)
 
-    drawTexture(matrices, x + ComputerSidebar.WIDTH, y, 0, 0, TEX_WIDTH, TEX_HEIGHT)
+    drawTexture(matrices, x + AbstractComputerMenu.SIDEBAR_WIDTH, y, 0, 0, TEX_WIDTH, TEX_HEIGHT)
 
     // Peripheral direction overlay
     if (peripherals) {
