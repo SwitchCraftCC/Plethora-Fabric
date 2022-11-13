@@ -81,9 +81,6 @@ dependencies {
   modApi("cc.tweaked:cc-tweaked-$minecraftVersion-fabric:$ccVersion") {
     exclude("net.fabricmc.fabric-api", "fabric-gametest-api-v1")
   }
-  // FIXME: bundled jars don't get unpacked in dev, so CC:T needs to find another way to publish things
-  runtimeOnly("org.squiddev:Cobalt:0.5.8")
-  runtimeOnly("io.netty:netty-codec-http:4.1.77.Final")
 
   modImplementation("dev.emi:trinkets:${trinketsVersion}")
 

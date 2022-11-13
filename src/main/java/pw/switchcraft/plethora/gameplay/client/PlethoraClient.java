@@ -1,8 +1,6 @@
 package pw.switchcraft.plethora.gameplay.client;
 
-import dan200.computercraft.api.ComputerCraftAPI;
 import dan200.computercraft.api.client.ComputerCraftAPIClient;
-import dan200.computercraft.api.client.turtle.TurtleUpgradeModeller;
 import dev.emi.trinkets.api.client.TrinketRendererRegistry;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -28,7 +26,6 @@ import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasHandler;
 import pw.switchcraft.plethora.gameplay.modules.glasses.networking.CanvasAddPacket;
 import pw.switchcraft.plethora.gameplay.modules.glasses.networking.CanvasRemovePacket;
 import pw.switchcraft.plethora.gameplay.modules.glasses.networking.CanvasUpdatePacket;
-import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticTurtleUpgrade;
 import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler;
 import pw.switchcraft.plethora.gameplay.registry.Registration;
 import pw.switchcraft.plethora.gameplay.registry.Registration.ModBlockEntities;
