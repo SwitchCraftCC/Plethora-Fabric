@@ -1,6 +1,9 @@
 package pw.switchcraft.plethora.gameplay.registry;
 
-import dan200.computercraft.api.ComputerCraftAPI;
+import dan200.computercraft.api.detail.VanillaDetailRegistries;
+import dan200.computercraft.api.peripheral.PeripheralLookup;
+import dan200.computercraft.api.pocket.PocketUpgradeSerialiser;
+import dan200.computercraft.api.turtle.TurtleUpgradeSerialiser;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerBlockEntityEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
@@ -21,7 +24,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import pw.switchcraft.plethora.Plethora;
 import pw.switchcraft.plethora.api.PlethoraEvents;
+import pw.switchcraft.plethora.api.module.IModuleHandler;
 import pw.switchcraft.plethora.api.module.IModuleRegistry;
+import pw.switchcraft.plethora.core.PocketUpgradeModule;
+import pw.switchcraft.plethora.core.TurtleUpgradeModule;
 import pw.switchcraft.plethora.gameplay.BaseBlockEntity;
 import pw.switchcraft.plethora.gameplay.data.recipes.handlers.RecipeHandlers;
 import pw.switchcraft.plethora.gameplay.manipulator.ManipulatorBlock;
@@ -51,6 +57,7 @@ import pw.switchcraft.plethora.integration.vanilla.registry.VanillaConverterRegi
 import pw.switchcraft.plethora.integration.vanilla.registry.VanillaMetaRegistration;
 import pw.switchcraft.plethora.integration.vanilla.registry.VanillaMethodRegistration;
 
+import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -73,7 +80,9 @@ public final class Registration {
             ModBlockEntities.MANIPULATOR_MARK_1,
             ModBlocks.MANIPULATOR_MARK_1,
             ModItems.NEURAL_CONNECTOR,
-            ModScreens.NEURAL_INTERFACE_HANDLER_TYPE
+            ModScreens.NEURAL_INTERFACE_HANDLER_TYPE,
+            ModTurtleUpgradeSerialisers.MODULE,
+          ModPocketUpgradeSerialisers.MODULE,
         };
         log.trace("oh no:" + (o[0] != null ? "yes" : "NullPointerException")); // lig was here
 
@@ -94,33 +103,12 @@ public final class Registration {
             ComputerCraftMetaRegistration.registerMetaProviders(api.metaRegistry());
             ComputerCraftMethodRegistration.registerMethods(api.methodRegistry());
 
+            VanillaDetailRegistries.ITEM_STACK.addProvider(ItemDetailsProvider.INSTANCE);
+
             // Manipulator peripheral
-            ComputerCraftAPI.registerPeripheralProvider(new ManipulatorPeripheral());
-
-            // Turtle upgrades
-            IModuleRegistry moduleRegistry = api.moduleRegistry();
-            moduleRegistry.registerTurtleUpgrade(new ItemStack(ModItems.LASER_MODULE));
-            moduleRegistry.registerTurtleUpgrade(new ItemStack(ModItems.SCANNER_MODULE));
-            moduleRegistry.registerTurtleUpgrade(new ItemStack(ModItems.SENSOR_MODULE));
-            moduleRegistry.registerTurtleUpgrade(new ItemStack(ModItems.INTROSPECTION_MODULE));
-
-            // Kinetic augment gets a special turtle upgrade.
-            {
-                ItemStack kineticStack = new ItemStack(ModItems.KINETIC_MODULE);
-                ComputerCraftAPI.registerTurtleUpgrade(new KineticTurtleUpgrade(
-                    kineticStack,
-                    ModItems.KINETIC_MODULE,
-                    kineticStack.getTranslationKey() + ".adjective"
-                ));
-            }
-
-            // Pocket upgrades
-            moduleRegistry.registerPocketUpgrade(new ItemStack(ModItems.LASER_MODULE));
-            moduleRegistry.registerPocketUpgrade(new ItemStack(ModItems.SCANNER_MODULE));
-            moduleRegistry.registerPocketUpgrade(new ItemStack(ModItems.SENSOR_MODULE));
-            moduleRegistry.registerPocketUpgrade(new ItemStack(ModItems.INTROSPECTION_MODULE));
-            moduleRegistry.registerPocketUpgrade(new ItemStack(ModItems.KINETIC_MODULE));
-            moduleRegistry.registerPocketUpgrade(new ItemStack(ModItems.KEYBOARD_MODULE));
+            PeripheralLookup.get().registerForBlockEntity(ManipulatorPeripheral::getPeripheral, ModBlockEntities.MANIPULATOR_MARK_1);
+            PeripheralLookup.get().registerForBlockEntity(ManipulatorPeripheral::getPeripheral, ModBlockEntities.MANIPULATOR_MARK_2);
+            PeripheralLookup.get().registerForBlockEntity(RedstoneIntegratorBlockEntity::getPeripheral, ModBlockEntities.REDSTONE_INTEGRATOR);
         });
 
         ServerBlockEntityEvents.BLOCK_ENTITY_LOAD.register((blockEntity, world) -> {
@@ -218,4 +206,42 @@ public final class Registration {
         public static final ExtendedScreenHandlerType<NeuralInterfaceScreenHandler> NEURAL_INTERFACE_HANDLER_TYPE =
             new ExtendedScreenHandlerType<>(NeuralInterfaceScreenFactory::fromPacket);
     }
+
+    public static final class ModTurtleUpgradeSerialisers {
+      private static <T extends TurtleUpgradeSerialiser<?>> T register(Identifier name, T serialiser) {
+        @SuppressWarnings("unchecked")
+        var registry = (Registry<? super TurtleUpgradeSerialiser<?>>) REGISTRIES.get(TurtleUpgradeSerialiser.REGISTRY_ID.getValue());
+        if (registry == null) throw new IllegalStateException("ComputerCraft has not initialised yet?");
+        Registry.register(registry, name, serialiser);
+        return serialiser;
+      }
+
+      public static final TurtleUpgradeSerialiser<TurtleUpgradeModule> MODULE = register(
+        new Identifier(Plethora.modId, "module"),
+        TurtleUpgradeSerialiser.simpleWithCustomItem((id, item) ->
+          new TurtleUpgradeModule(item, (IModuleHandler) item.getItem(), item.getTranslationKey() + ".adjective"))
+      );
+
+      public static final TurtleUpgradeSerialiser<KineticTurtleUpgrade> KINETIC_AUGMENT = register(
+        ModItems.KINETIC_MODULE.getModule(),
+        TurtleUpgradeSerialiser.simpleWithCustomItem((id, item) ->
+          new KineticTurtleUpgrade(item, ModItems.KINETIC_MODULE, item.getTranslationKey() + ".adjective"))
+      );
+    }
+
+  public static final class ModPocketUpgradeSerialisers {
+    private static <T extends PocketUpgradeSerialiser<?>> T register(Identifier name, T serialiser) {
+      @SuppressWarnings("unchecked")
+      var registry = (Registry<? super PocketUpgradeSerialiser<?>>) REGISTRIES.get(PocketUpgradeSerialiser.REGISTRY_ID.getValue());
+      if (registry == null) throw new IllegalStateException("ComputerCraft has not initialised yet?");
+      Registry.register(registry, name, serialiser);
+      return serialiser;
+    }
+
+    public static final PocketUpgradeSerialiser<PocketUpgradeModule> MODULE = register(
+      new Identifier(Plethora.modId, "module"),
+      PocketUpgradeSerialiser.simpleWithCustomItem((id, item) ->
+        new PocketUpgradeModule(item, (IModuleHandler) item.getItem(), item.getTranslationKey() + ".adjective"))
+    );
+  }
 }

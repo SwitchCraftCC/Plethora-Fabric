@@ -37,13 +37,18 @@ public class TurtleUpgradeModule implements ITurtleUpgrade {
 	private final ItemStack stack;
 	private final String adjective;
 
-	protected TurtleUpgradeModule(@Nonnull ItemStack stack, @Nonnull IModuleHandler handler, @Nonnull String adjective) {
+	public TurtleUpgradeModule(@Nonnull ItemStack stack, @Nonnull IModuleHandler handler, @Nonnull String adjective) {
 		this.handler = handler;
 		this.stack = stack;
 		this.adjective = adjective;
 	}
 
-	@Nonnull
+  @Nonnull
+  public IModuleHandler getHandler() {
+    return handler;
+  }
+
+  @Nonnull
 	@Override
 	public Identifier getUpgradeID() {
 		return handler.getModule();
@@ -119,12 +124,6 @@ public class TurtleUpgradeModule implements ITurtleUpgrade {
 	@Override
 	public TurtleCommandResult useTool(@Nonnull ITurtleAccess turtle, @Nonnull TurtleSide side, @Nonnull TurtleVerb verb, @Nonnull Direction direction) {
 		return TurtleCommandResult.failure("Cannot use tool");
-	}
-
-	@Nonnull
-	@Override
-	public TransformedModel getModel(@Nullable ITurtleAccess turtle, @Nonnull TurtleSide side) {
-		return TurtleUpgradeModuleRenderer.getModel(handler, side);
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package pw.switchcraft.plethora.gameplay.data.recipes.handlers
 
-import dan200.computercraft.shared.Registry
+import dan200.computercraft.shared.ModRegistry
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
 import net.minecraft.data.server.RecipeProvider
 import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder
@@ -32,9 +32,9 @@ object ModuleRecipes : RecipeHandler {
       .pattern("GGG")
       .pattern("IAI")
       .input('A', Items.IRON_HELMET)
-      .input('G', Registry.ModItems.MONITOR_ADVANCED)
+      .input('G', ModRegistry.Items.MONITOR_ADVANCED.get())
       .input('I', ConventionalItemTags.IRON_INGOTS)
-      .input('M', Registry.ModItems.WIRELESS_MODEM_NORMAL)
+      .input('M', ModRegistry.Items.WIRELESS_MODEM_NORMAL.get())
       .hasModuleHandler()
       .offerTo(exporter)
 
@@ -56,7 +56,7 @@ object ModuleRecipes : RecipeHandler {
 //      .pattern("  C")
 //      .pattern("SSI")
 //      .pattern("SSS")
-//      .input('C', Registry.ModItems.CABLE)
+//      .input('C', ModRegistry.Items.CABLE)
 //      .input('I', ConventionalItemTags.IRON_INGOTS)
 //      .input('S', Items.STONE)
 //      .hasModuleHandler()

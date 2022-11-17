@@ -4,7 +4,7 @@ import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IDynamicPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.pocket.IPocketUpgrade;
-import dan200.computercraft.shared.PocketUpgrades;
+import dan200.computercraft.impl.PocketUpgrades;
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.TrinketsApi;
 import net.minecraft.entity.Entity;
@@ -65,7 +65,7 @@ public class NeuralHelpers {
             // Check if the item stack is a peripheral by checking if it is included in the allowed peripherals list and
             // is registered as a pocket computer upgrade. This may be made more extensible in the future.
             Identifier id = Registry.ITEM.getId(stack.getItem());
-            IPocketUpgrade upgrade = PocketUpgrades.get(stack);
+            IPocketUpgrade upgrade = PocketUpgrades.instance().get(stack);
             return upgrade != null && config.neuralInterface.peripheralItemIds.contains(id.toString());
         } else {
             return stack.getItem() instanceof ModuleItem;
@@ -75,7 +75,7 @@ public class NeuralHelpers {
     public static IPeripheral buildPeripheral(@Nonnull NeuralPocketAccess access, @Nonnull ItemStack stack) {
         if (stack.isEmpty()) return null;
 
-        IPocketUpgrade upgrade = PocketUpgrades.get(stack);
+        IPocketUpgrade upgrade = PocketUpgrades.instance().get(stack);
         if (upgrade == null) return null;
 
         return upgrade.createPeripheral(access);

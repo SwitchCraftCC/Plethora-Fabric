@@ -1,6 +1,6 @@
 package pw.switchcraft.plethora.integration.computercraft.registry;
 
-import dan200.computercraft.ComputerCraft;
+import dan200.computercraft.api.ComputerCraftAPI;
 import net.minecraft.item.ItemStack;
 import pw.switchcraft.plethora.api.meta.IMetaProvider;
 import pw.switchcraft.plethora.api.meta.IMetaRegistry;
@@ -16,6 +16,6 @@ public class ComputerCraftMetaRegistration {
     }
 
     private static <T> void provider(IMetaRegistry r, String name, Class<T> target, IMetaProvider<T> provider) {
-        r.registerMetaProvider(ComputerCraft.MOD_ID + ":" + name, ComputerCraft.MOD_ID, target, provider);
+        r.registerMetaProvider(ComputerCraftAPI.MOD_ID + ":" + name, ComputerCraftAPI.MOD_ID, target, provider);
     }
 }

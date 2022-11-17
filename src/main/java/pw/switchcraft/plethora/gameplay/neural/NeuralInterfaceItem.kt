@@ -1,6 +1,6 @@
 package pw.switchcraft.plethora.gameplay.neural
 
-import dan200.computercraft.ComputerCraft.computerSpaceLimit
+import dan200.computercraft.shared.config.Config.computerSpaceLimit
 import dan200.computercraft.api.ComputerCraftAPI
 import dan200.computercraft.api.filesystem.IMount
 import dan200.computercraft.api.media.IMedia
@@ -11,7 +11,6 @@ import dev.emi.trinkets.api.SlotReference
 import dev.emi.trinkets.api.TrinketItem
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
 import net.minecraft.text.Text.translatable
@@ -75,17 +74,14 @@ class NeuralInterfaceItem(settings: Settings?) : TrinketItem(settings), ICompute
 
   companion object {
     private fun onUpdate(stack: ItemStack, slot: SlotReference?, player: LivingEntity, forceActive: Boolean) {
-      if (player.entityWorld.isClient) {
-        // Ensure the ClientComputer is available
-        if (forceActive && player is PlayerEntity) NeuralComputerHandler.getClient(stack)
-      } else {
+      if (!player.entityWorld.isClient) {
         val nbt = stack.orCreateNbt
 
         // Fetch computer
         val neural = if (forceActive) {
           NeuralComputerHandler.getServer(stack, player, slot!!).also { it.keepAlive() }
         } else {
-          NeuralComputerHandler.tryGetServer(stack) ?: return
+          NeuralComputerHandler.tryGetServer(stack, player) ?: return
         }
 
         var dirty = false

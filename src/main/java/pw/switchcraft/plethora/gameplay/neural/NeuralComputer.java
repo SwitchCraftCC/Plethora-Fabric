@@ -3,16 +3,17 @@ package pw.switchcraft.plethora.gameplay.neural;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.pocket.IPocketUpgrade;
 import dan200.computercraft.core.computer.ComputerSide;
-import dan200.computercraft.shared.PocketUpgrades;
+import dan200.computercraft.impl.PocketUpgrades;
 import dan200.computercraft.shared.computer.core.ComputerFamily;
 import dan200.computercraft.shared.computer.core.ServerComputer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.world.World;
+import net.minecraft.util.math.BlockPos;
 import pw.switchcraft.plethora.core.executor.TaskRunner;
 import pw.switchcraft.plethora.util.Helpers;
 
@@ -36,8 +37,8 @@ public class NeuralComputer extends ServerComputer {
     private final TaskRunner runner = new TaskRunner();
     private final NeuralPocketAccess access;
 
-    public NeuralComputer(World world, int computerId, String label, int instanceId) {
-        super(world, computerId, label, instanceId, ComputerFamily.ADVANCED, WIDTH, HEIGHT);
+    public NeuralComputer(ServerWorld world, BlockPos pos, int computerId, String label) {
+        super(world, pos, computerId, label, ComputerFamily.ADVANCED, WIDTH, HEIGHT);
         access = new NeuralPocketAccess(this);
     }
 
@@ -77,7 +78,7 @@ public class NeuralComputer extends ServerComputer {
             entity = owner.isAlive() ? new WeakReference<>(owner) : null;
         }
 
-        setLevel(owner.getEntityWorld());
+        setLevel((ServerWorld)owner.getEntityWorld());
         setPosition(owner.getBlockPos());
 
         // Sync changed slots
@@ -92,7 +93,7 @@ public class NeuralComputer extends ServerComputer {
             ItemStack stack = stacks.get(slot);
             if (stack.isEmpty()) continue;
 
-            IPocketUpgrade upgrade = PocketUpgrades.get(stack);
+            IPocketUpgrade upgrade = PocketUpgrades.instance().get(stack);
             if (upgrade == null) continue;
 
             ComputerSide side = ComputerSide.valueOf(slot < BACK ? slot : slot + 1);

@@ -1,13 +1,14 @@
 package pw.switchcraft.plethora.core
 
 import dan200.computercraft.api.client.TransformedModel
+import dan200.computercraft.api.client.turtle.TurtleUpgradeModeller
+import dan200.computercraft.api.turtle.ITurtleAccess
 import dan200.computercraft.api.turtle.TurtleSide
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.AffineTransformation
 import net.minecraft.util.math.Vec3f
-import pw.switchcraft.plethora.api.module.IModuleHandler
 
-object TurtleUpgradeModuleRenderer {
+object TurtleUpgradeModuleRenderer : TurtleUpgradeModeller<TurtleUpgradeModule> {
   private val leftTransform = getMatrixFor(-0.40625)
   private val rightTransform = getMatrixFor(0.40625)
 
@@ -24,9 +25,8 @@ object TurtleUpgradeModuleRenderer {
     return AffineTransformation(matrices.peek().positionMatrix)
   }
 
-  @JvmStatic
-  fun getModel(handler: IModuleHandler, side: TurtleSide): TransformedModel {
-    val model = handler.model
+  override fun getModel(module: TurtleUpgradeModule, turtle: ITurtleAccess?, side: TurtleSide): TransformedModel {
+    val model = module.handler.model
 
     val baseTransform = if (side == TurtleSide.LEFT) leftTransform else rightTransform
     val transform = baseTransform.multiply(model.matrix)

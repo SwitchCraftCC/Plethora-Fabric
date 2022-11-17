@@ -1,6 +1,6 @@
 package pw.switchcraft.plethora.gameplay.data.recipes.handlers
 
-import dan200.computercraft.shared.Registry
+import dan200.computercraft.shared.ModRegistry
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
 import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder
 import net.minecraft.data.server.recipe.RecipeJsonProvider
@@ -31,7 +31,7 @@ object MiscRecipes : RecipeHandler {
       .input('C', ConventionalItemTags.GOLD_INGOTS)
       .input('G', ConventionalItemTags.GLASS_BLOCKS)
       .input('I', ConventionalItemTags.IRON_INGOTS)
-      .input('M', Registry.ModItems.CABLE)
+      .input('M', ModRegistry.Items.CABLE.get())
       .input('R', ConventionalItemTags.REDSTONE_DUSTS)
       .hasComputer()
       .offerTo(exporter)
@@ -73,26 +73,28 @@ object MiscRecipes : RecipeHandler {
       .pattern("RCR")
       .pattern("SRS")
       .input('S', Items.STONE)
-      .input('C', Registry.ModItems.CABLE)
+      .input('C', ModRegistry.Items.CABLE.get())
       .input('R', ConventionalItemTags.REDSTONE_DUSTS)
       .hasComputer()
       .offerTo(exporter)
   }
 
-  private val computerCriteria = mapOf(
-    "has_computer_normal"   to inventoryChange(Registry.ModItems.COMPUTER_NORMAL),
-    "has_computer_advanced" to inventoryChange(Registry.ModItems.COMPUTER_ADVANCED),
-    "has_turtle_normal"     to inventoryChange(Registry.ModItems.TURTLE_NORMAL),
-    "has_turtle_advanced"   to inventoryChange(Registry.ModItems.TURTLE_ADVANCED),
-    "has_pocket_normal"     to inventoryChange(Registry.ModItems.POCKET_COMPUTER_NORMAL),
-    "has_pocket_advanced"   to inventoryChange(Registry.ModItems.POCKET_COMPUTER_ADVANCED),
-  )
+  private val computerCriteria = lazy {
+    mapOf(
+      "has_computer_normal" to inventoryChange(ModRegistry.Items.COMPUTER_NORMAL.get()),
+      "has_computer_advanced" to inventoryChange(ModRegistry.Items.COMPUTER_ADVANCED.get()),
+      "has_turtle_normal" to inventoryChange(ModRegistry.Items.TURTLE_NORMAL.get()),
+      "has_turtle_advanced" to inventoryChange(ModRegistry.Items.TURTLE_ADVANCED.get()),
+      "has_pocket_normal" to inventoryChange(ModRegistry.Items.POCKET_COMPUTER_NORMAL.get()),
+      "has_pocket_advanced" to inventoryChange(ModRegistry.Items.POCKET_COMPUTER_ADVANCED.get()),
+    )
+  }
 
   private fun CraftingRecipeJsonBuilder.hasComputer() = apply {
-    computerCriteria.forEach { criterion(it.key, it.value) }
+    computerCriteria.value.forEach { criterion(it.key, it.value) }
   }
 
   private fun BetterComplexRecipeJsonBuilder<*, *>.hasComputer() = apply {
-    computerCriteria.forEach { criterion(it.key, it.value) }
+    computerCriteria.value.forEach { criterion(it.key, it.value) }
   }
 }

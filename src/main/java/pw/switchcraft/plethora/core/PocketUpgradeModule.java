@@ -38,12 +38,12 @@ import java.util.Objects;
 /**
  * Wraps a module item as a pocket upgrade.
  */
-class PocketUpgradeModule implements IPocketUpgrade {
+public class PocketUpgradeModule implements IPocketUpgrade {
 	private final IModuleHandler handler;
 	private final ItemStack stack;
 	private final String adjective;
 
-	PocketUpgradeModule(@Nonnull ItemStack stack, @Nonnull IModuleHandler handler, @Nonnull String adjective) {
+	public PocketUpgradeModule(@Nonnull ItemStack stack, @Nonnull IModuleHandler handler, @Nonnull String adjective) {
 		this.handler = handler;
 		this.stack = stack;
 		this.adjective = adjective;

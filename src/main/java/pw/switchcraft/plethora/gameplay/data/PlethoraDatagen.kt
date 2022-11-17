@@ -11,8 +11,10 @@ object PlethoraDatagen : DataGeneratorEntrypoint {
   override fun onInitializeDataGenerator(generator: FabricDataGenerator) {
     log.info("Plethora datagen initializing")
 
+    val turtleUpgrades = generator.addProvider(::TurtleUpgradeProvider)
+    val pocketUpgrades = generator.addProvider(::PocketUpgradeProvider)
     generator.addProvider(BlockModelProvider(generator))
     generator.addProvider(ItemModelProvider(generator))
-    generator.addProvider(RecipeGenerator(generator))
+    generator.addProvider(RecipeGenerator(generator, turtleUpgrades, pocketUpgrades))
   }
 }

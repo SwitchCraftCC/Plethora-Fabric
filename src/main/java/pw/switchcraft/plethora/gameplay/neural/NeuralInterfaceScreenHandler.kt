@@ -1,40 +1,38 @@
 package pw.switchcraft.plethora.gameplay.neural
 
-import dan200.computercraft.client.gui.widgets.ComputerSidebar
 import dan200.computercraft.shared.computer.core.ComputerFamily.ADVANCED
-import dan200.computercraft.shared.computer.core.IComputer
-import dan200.computercraft.shared.computer.core.IContainerComputer
-import dan200.computercraft.shared.computer.inventory.ContainerComputerBase
+import dan200.computercraft.shared.computer.core.ServerComputer
+import dan200.computercraft.shared.computer.inventory.AbstractComputerMenu
+import dan200.computercraft.shared.network.container.ComputerContainerData
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventory
+import net.minecraft.inventory.SimpleInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.screen.slot.Slot
 import pw.switchcraft.plethora.gameplay.client.gui.NeuralInterfaceScreen.Companion.BORDER
 import pw.switchcraft.plethora.gameplay.neural.NeuralHelpers.INV_SIZE
 import pw.switchcraft.plethora.gameplay.registry.Registration.ModScreens.NEURAL_INTERFACE_HANDLER_TYPE
 import pw.switchcraft.plethora.util.Vec2i
+import java.util.function.Predicate
 
-class NeuralInterfaceScreenHandler(
+class NeuralInterfaceScreenHandler private constructor(
   syncId: Int,
   playerInv: PlayerInventory,
-  private val parent: LivingEntity,
-  val stack: ItemStack
-) : ContainerComputerBase(
-  NEURAL_INTERFACE_HANDLER_TYPE, syncId, { true }, NeuralComputerHandler.tryGetSidedComputer(parent, stack), ADVANCED
-), IContainerComputer {
+  private val neuralInv: Inventory,
+  canUse: Predicate<PlayerEntity>,
+  computer: ServerComputer?,
+  data: ComputerContainerData?,
+) : AbstractComputerMenu(
+  NEURAL_INTERFACE_HANDLER_TYPE, syncId, canUse, ADVANCED, computer, data
+) {
   val peripheralSlots: List<Slot>
   val moduleSlots: List<Slot>
 
-  private val inv: Inventory
-
   init {
-    // TODO: NeuralItemHandler?
-    inv = NeuralInterfaceInventory(stack)
-
-    peripheralSlots = addSlots(inv, 0, NeuralHelpers.PERIPHERAL_SIZE)
-    moduleSlots = addSlots(inv, NeuralHelpers.PERIPHERAL_SIZE, NeuralHelpers.MODULE_SIZE)
+    peripheralSlots = addSlots(neuralInv, 0, NeuralHelpers.PERIPHERAL_SIZE)
+    moduleSlots = addSlots(neuralInv, NeuralHelpers.PERIPHERAL_SIZE, NeuralHelpers.MODULE_SIZE)
 
     for (y in 0 until 3) {
       for (x in 0 until 9) {
@@ -46,23 +44,17 @@ class NeuralInterfaceScreenHandler(
       addSlot(Slot(playerInv, x, MAIN_START_X + x * S, START_Y + 54 + 5))
     }
 
-    inv.onOpen(playerInv.player)
+    neuralInv.onOpen(playerInv.player)
   }
 
   private fun addSlots(inv: Inventory, offset: Int, length: Int): List<Slot> =
     (0 until length).map { NeuralSlot(inv, offset + it, 0, 0) }.onEach(::addSlot)
 
-  override fun canUse(player: PlayerEntity): Boolean =
-    player.isAlive && parent.isAlive && NeuralHelpers.getStack(parent).map { it == stack }.orElse(false)
-
   override fun close(player: PlayerEntity) {
     super.close(player)
     // Ensure the inventory is saved
-    inv.onClose(player)
+    neuralInv.onClose(player)
   }
-
-  override fun getComputer(): IComputer? =
-    NeuralComputerHandler.tryGetSidedComputer(parent, stack)
 
   override fun transferSlot(player: PlayerEntity, index: Int): ItemStack {
     val slot = slots[index]
@@ -94,8 +86,8 @@ class NeuralInterfaceScreenHandler(
   companion object {
     const val START_Y = 134
 
-    private const val MAIN_START_X = BORDER + ComputerSidebar.WIDTH
-    const val NEURAL_START_X = 185 + ComputerSidebar.WIDTH
+    private const val MAIN_START_X = BORDER + SIDEBAR_WIDTH
+    const val NEURAL_START_X = 185 + SIDEBAR_WIDTH
 
     // Slot size
     const val S = 18
@@ -113,5 +105,17 @@ class NeuralInterfaceScreenHandler(
     )
 
     val swapBtn = Vec2i(NEURAL_START_X + 1 + 2 * S, START_Y + 1 + 2 * S)
+
+    @JvmStatic
+    fun of(syncId: Int, playerInv: PlayerInventory, parent: LivingEntity, stack: ItemStack, computer: ServerComputer) =
+      NeuralInterfaceScreenHandler(
+        syncId, playerInv, NeuralInterfaceInventory(stack),
+        { it.isAlive && parent.isAlive && NeuralHelpers.getStack(parent).map { it == stack }.orElse(false) },
+        computer, null
+      )
+
+    @JvmStatic
+    fun of(syncId: Int, playerInv: PlayerInventory, data: ComputerContainerData) =
+      NeuralInterfaceScreenHandler(syncId, playerInv, SimpleInventory(NeuralHelpers.INV_SIZE), { true }, null, data)
   }
 }

@@ -31,13 +31,9 @@ import java.util.*;
 
 import static pw.switchcraft.plethora.api.reference.Reference.blockEntity;
 
-public class ManipulatorPeripheral implements IPeripheralProvider {
+public class ManipulatorPeripheral {
     @Nullable
-    @Override
-    public IPeripheral getPeripheral(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull Direction side) {
-        final BlockEntity be = world.getBlockEntity(pos);
-        if (!(be instanceof ManipulatorBlockEntity manipulator)) return null;
-
+    public static IPeripheral getPeripheral(@Nonnull ManipulatorBlockEntity manipulator, Direction direction) {
         ManipulatorType manipulatorType = manipulator.getManipulatorType();
         if (manipulatorType == null) return null;
         final int size = manipulatorType.size();
@@ -101,8 +97,8 @@ public class ManipulatorPeripheral implements IPeripheralProvider {
         ContextFactory<IModuleContainer> factory = ContextFactory.of(container, containerRef)
             .withCostHandler(CostHelpers.getCostHandler(manipulator))
             .withModules(container, containerRef)
-            .addContext(ContextKeys.ORIGIN, be, blockEntity(be))
-            .addContext(ContextKeys.ORIGIN, new WorldLocation(world, pos));
+            .addContext(ContextKeys.ORIGIN, manipulator, blockEntity(manipulator))
+            .addContext(ContextKeys.ORIGIN, new WorldLocation(manipulator.getWorld(), manipulator.getPos()));
 
         for (Pair<IModuleHandler, ItemStack> handler : moduleHandlers) {
             Identifier module = handler.getLeft().getModule();
@@ -118,7 +114,7 @@ public class ManipulatorPeripheral implements IPeripheralProvider {
             .getMethodsPaired(factory.getBaked());
         if (paired.getLeft().isEmpty()) return null;
 
-        ModulePeripheral peripheral = new ModulePeripheral("manipulator", be, paired, manipulator.getRunner(),
+        ModulePeripheral peripheral = new ModulePeripheral("manipulator", manipulator, paired, manipulator.getRunner(),
             factory.getAttachments(), stackHash);
         for (ManipulatorAccess access : accessMap.values()) {
             access.wrapper = peripheral;

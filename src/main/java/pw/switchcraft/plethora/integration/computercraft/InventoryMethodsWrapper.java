@@ -4,6 +4,7 @@ import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.shared.peripheral.generic.methods.InventoryMethods;
+import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
 import net.minecraft.inventory.Inventory;
 import pw.switchcraft.plethora.api.method.BasicMethod;
 import pw.switchcraft.plethora.api.method.FutureMethodResult;
@@ -22,7 +23,7 @@ public class InventoryMethodsWrapper {
     );
     public static FutureMethodResult size(IUnbakedContext<Inventory> unbaked, IArguments args) throws LuaException {
         Inventory inv = getInventory(unbaked);
-        return FutureMethodResult.result(InventoryMethods.size(inv));
+        return FutureMethodResult.result(inv.size());
     }
 
     public static final BasicMethod<Inventory> LIST = BasicMethod.of(
@@ -31,7 +32,7 @@ public class InventoryMethodsWrapper {
     );
     public static FutureMethodResult list(IUnbakedContext<Inventory> unbaked, IArguments args) throws LuaException {
         Inventory inv = getInventory(unbaked);
-        return FutureMethodResult.result(InventoryMethods.list(inv));
+        return FutureMethodResult.result(InventoryMethods.list(InventoryStorage.of(inv, null)));
     }
 
     public static final BasicMethod<Inventory> GET_ITEM_DETAIL = BasicMethod.of(
@@ -41,7 +42,7 @@ public class InventoryMethodsWrapper {
     public static FutureMethodResult getItemDetail(IUnbakedContext<Inventory> unbaked, IArguments args) throws LuaException {
         int slot = args.getInt(0);
         Inventory inv = getInventory(unbaked);
-        return FutureMethodResult.result(InventoryMethods.getItemDetail(inv, slot));
+        return FutureMethodResult.result(InventoryMethods.getItemDetail(InventoryStorage.of(inv, null), slot));
     }
 
     public static final BasicMethod<Inventory> GET_ITEM_LIMIT = BasicMethod.of(
@@ -51,7 +52,7 @@ public class InventoryMethodsWrapper {
     public static FutureMethodResult getItemLimit(IUnbakedContext<Inventory> unbaked, IArguments args) throws LuaException {
         int slot = args.getInt(0);
         Inventory inv = getInventory(unbaked);
-        return FutureMethodResult.result(InventoryMethods.getItemLimit(inv, slot));
+        return FutureMethodResult.result(InventoryMethods.getItemLimit(InventoryStorage.of(inv, null), slot));
     }
 
     public static final BasicMethod<Inventory> PUSH_ITEMS = BasicMethod.of(
@@ -67,7 +68,7 @@ public class InventoryMethodsWrapper {
 
         Context ctx = getContext(unbaked);
 
-        return FutureMethodResult.result(InventoryMethods.pushItems(ctx.inventory, ctx.access, toName, fromSlot, limit, toSlot));
+        return FutureMethodResult.result(InventoryMethods.pushItems(InventoryStorage.of(ctx.inventory, null), ctx.access, toName, fromSlot, limit, toSlot));
     }
 
     public static final BasicMethod<Inventory> PULL_ITEMS = BasicMethod.of(
@@ -83,7 +84,7 @@ public class InventoryMethodsWrapper {
 
         Context ctx = getContext(unbaked);
 
-        return FutureMethodResult.result(InventoryMethods.pullItems(ctx.inventory, ctx.access, fromName, fromSlot, limit, toSlot));
+        return FutureMethodResult.result(InventoryMethods.pullItems(InventoryStorage.of(ctx.inventory, null), ctx.access, fromName, fromSlot, limit, toSlot));
     }
 
     private static Inventory getInventory(@Nonnull IUnbakedContext<Inventory> unbaked) throws LuaException {

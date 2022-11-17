@@ -9,7 +9,6 @@ import net.minecraft.util.Pair;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import pw.switchcraft.plethora.gameplay.BaseItem;
-import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenFactory.TargetType;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
@@ -30,13 +29,12 @@ public class NeuralConnectorItem extends BaseItem {
 
         if (!world.isClient) {
             ServerComputer computer = NeuralComputerHandler.getServer(slotPair.getRight(), player, slotPair.getLeft());
-            if (computer != null) computer.turnOn();
+            computer.turnOn();
 
             // We prevent the neural connector from opening when they're already using an interface. This
             // prevents the GUI becoming unusable when one gets in a right-click loop due to a broken program.
             if (!(player.currentScreenHandler instanceof NeuralInterfaceScreenHandler)) {
-                computer.sendTerminalState(player);
-                player.openHandledScreen(new NeuralInterfaceScreenFactory(TargetType.PLAYER, 0));
+                player.openHandledScreen(new NeuralInterfaceScreenFactory(player, slotPair.getRight(), computer));
             }
         }
 
