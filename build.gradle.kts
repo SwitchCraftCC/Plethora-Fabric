@@ -21,6 +21,7 @@ val fabricKotlinVersion: String by project
 val fabricVersion: String by project
 
 val ccVersion: String by project
+val ccMcVersion: String by project
 val ccTargetVersion: String by project
 
 val configurateVersion: String by project
@@ -78,7 +79,7 @@ dependencies {
   modImplementation(include("pw.switchcraft", "sc-library", scLibraryVersion))
 
   // CC: Restitched
-  modApi("cc.tweaked:cc-tweaked-$minecraftVersion-fabric:$ccVersion") {
+  modApi("cc.tweaked:cc-tweaked-$ccMcVersion-fabric:$ccVersion") {
     exclude("net.fabricmc.fabric-api", "fabric-gametest-api-v1")
   }
 

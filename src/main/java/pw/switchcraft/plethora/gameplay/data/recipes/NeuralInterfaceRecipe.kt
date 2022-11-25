@@ -9,6 +9,7 @@ import net.minecraft.inventory.Inventories
 import net.minecraft.item.ItemStack
 import net.minecraft.recipe.Ingredient.*
 import net.minecraft.recipe.SpecialRecipeSerializer
+import net.minecraft.recipe.book.CraftingRecipeCategory
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import pw.switchcraft.library.recipe.BetterSpecialRecipe
@@ -17,7 +18,10 @@ import pw.switchcraft.plethora.gameplay.neural.NeuralHelpers
 import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceInventory
 import pw.switchcraft.plethora.gameplay.registry.Registration.ModItems.NEURAL_INTERFACE
 
-class NeuralInterfaceRecipe(id: Identifier) : BetterSpecialRecipe(id) {
+class NeuralInterfaceRecipe(
+  id: Identifier,
+  category: CraftingRecipeCategory = CraftingRecipeCategory.MISC
+) : BetterSpecialRecipe(id, category) {
   override val ingredients = listOf(
     EMPTY,                EMPTY,                                   fromTag(GOLD_INGOTS),
     fromTag(IRON_INGOTS), ofItems(POCKET_COMPUTER_ADVANCED.get()), fromTag(REDSTONE_DUSTS),
@@ -68,6 +72,6 @@ class NeuralInterfaceRecipe(id: Identifier) : BetterSpecialRecipe(id) {
   override fun getSerializer() = recipeSerializer
 
   companion object {
-    val recipeSerializer = SpecialRecipeSerializer { NeuralInterfaceRecipe(it) }
+    val recipeSerializer = SpecialRecipeSerializer(::NeuralInterfaceRecipe)
   }
 }

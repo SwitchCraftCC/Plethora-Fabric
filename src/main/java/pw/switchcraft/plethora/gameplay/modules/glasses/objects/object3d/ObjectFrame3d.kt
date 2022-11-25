@@ -8,7 +8,7 @@ import net.minecraft.client.gl.SimpleFramebuffer
 import net.minecraft.client.render.*
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.util.math.Matrix4f
+import org.joml.Matrix4f
 import net.minecraft.util.math.Vec3d
 import pw.switchcraft.plethora.Plethora
 import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasClient
@@ -96,7 +96,7 @@ class ObjectFrame3d(
     val buffer = Tessellator.getInstance().buffer
     val matrix = matrices.peek().positionMatrix
 
-    RenderSystem.setShader { GameRenderer.getPositionTexShader() }
+    RenderSystem.setShader { GameRenderer.getPositionTexProgram() }
     RenderSystem.setShaderTexture(0, framebuffer.colorAttachment)
     RenderSystem.enableBlend()
 

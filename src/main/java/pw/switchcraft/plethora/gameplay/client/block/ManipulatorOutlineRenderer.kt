@@ -6,7 +6,7 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.*
 import net.minecraft.util.hit.HitResult
 import net.minecraft.util.math.Direction
-import net.minecraft.util.math.Matrix4f
+import org.joml.Matrix4f
 import pw.switchcraft.plethora.Plethora.ModId
 import pw.switchcraft.plethora.gameplay.manipulator.ManipulatorBlock
 import kotlin.math.sin

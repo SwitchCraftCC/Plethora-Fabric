@@ -2,13 +2,14 @@ package pw.switchcraft.plethora.gameplay.data.recipes.handlers
 
 import dan200.computercraft.shared.ModRegistry
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
-import net.minecraft.data.server.RecipeProvider
 import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder
 import net.minecraft.data.server.recipe.RecipeJsonProvider
+import net.minecraft.data.server.recipe.RecipeProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.item.Items
-import net.minecraft.util.registry.Registry.RECIPE_SERIALIZER
-import net.minecraft.util.registry.Registry.register
+import net.minecraft.recipe.book.RecipeCategory
+import net.minecraft.registry.Registries.RECIPE_SERIALIZER
+import net.minecraft.registry.Registry.register
 import pw.switchcraft.library.recipe.BetterComplexRecipeJsonBuilder
 import pw.switchcraft.library.recipe.RecipeHandler
 import pw.switchcraft.plethora.Plethora.ModId
@@ -27,7 +28,7 @@ object ModuleRecipes : RecipeHandler {
   override fun generateRecipes(exporter: Consumer<RecipeJsonProvider>) {
     // Overlay Glasses
     ShapedRecipeJsonBuilder
-      .create(ModItems.GLASSES_MODULE)
+      .create(RecipeCategory.MISC, ModItems.GLASSES_MODULE)
       .pattern("MIM")
       .pattern("GGG")
       .pattern("IAI")
@@ -40,7 +41,7 @@ object ModuleRecipes : RecipeHandler {
 
     // Introspection Module
     ShapedRecipeJsonBuilder
-      .create(ModItems.INTROSPECTION_MODULE)
+      .create(RecipeCategory.MISC, ModItems.INTROSPECTION_MODULE)
       .pattern("GCG")
       .pattern("CHC")
       .pattern("GCG")
@@ -64,7 +65,7 @@ object ModuleRecipes : RecipeHandler {
 
     // Block Scanner
     ShapedRecipeJsonBuilder
-      .create(ModItems.SCANNER_MODULE)
+      .create(RecipeCategory.MISC, ModItems.SCANNER_MODULE)
       .pattern("EDE")
       .pattern("IOI")
       .pattern("III")
@@ -77,7 +78,7 @@ object ModuleRecipes : RecipeHandler {
 
     // Entity Sensor
     ShapedRecipeJsonBuilder
-      .create(ModItems.SENSOR_MODULE)
+      .create(RecipeCategory.MISC, ModItems.SENSOR_MODULE)
       .pattern("ERE")
       .pattern("IOI")
       .pattern("III")
@@ -118,7 +119,7 @@ object ModuleRecipes : RecipeHandler {
     moduleHandlerCriteria.forEach { criterion(it.key, it.value) }
   }
 
-  private fun BetterComplexRecipeJsonBuilder<*, *>.hasModuleHandler() = apply {
+  private fun BetterComplexRecipeJsonBuilder<*>.hasModuleHandler() = apply {
     moduleHandlerCriteria.forEach { criterion(it.key, it.value) }
   }
 }

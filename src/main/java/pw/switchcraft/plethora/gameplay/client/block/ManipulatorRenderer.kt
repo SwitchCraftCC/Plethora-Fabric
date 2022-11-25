@@ -6,7 +6,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.model.json.ModelTransformation.Mode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.Direction
-import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.RotationAxis
 import pw.switchcraft.plethora.api.module.IModuleHandler
 import pw.switchcraft.plethora.gameplay.manipulator.ManipulatorBlock
 import pw.switchcraft.plethora.gameplay.manipulator.ManipulatorBlockEntity
@@ -44,7 +44,7 @@ class ManipulatorRenderer : BlockEntityRenderer<ManipulatorBlockEntity> {
       )
 
       // Animated rotation
-      matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion((rotation - 90) % 360))
+      matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((rotation - 90) % 360))
 
       val model = if (item is IModuleHandler) {
         item.model.model

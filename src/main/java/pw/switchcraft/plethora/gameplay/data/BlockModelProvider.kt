@@ -1,6 +1,6 @@
 package pw.switchcraft.plethora.gameplay.data
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
 import net.minecraft.block.Block
 import net.minecraft.data.client.*
@@ -11,7 +11,7 @@ import pw.switchcraft.plethora.Plethora.ModId
 import pw.switchcraft.plethora.gameplay.registry.Registration.ModBlocks.*
 import java.util.*
 
-class BlockModelProvider(generator: FabricDataGenerator) : FabricModelProvider(generator) {
+class BlockModelProvider(out: FabricDataOutput) : FabricModelProvider(out) {
   override fun generateBlockStateModels(gen: BlockStateModelGenerator) {
     gen.registerSimpleCubeAll(REDSTONE_INTEGRATOR)
 

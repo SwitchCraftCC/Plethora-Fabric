@@ -10,8 +10,8 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.registry.Registries
 import net.minecraft.util.Identifier
-import net.minecraft.util.registry.Registry
 import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasClient
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.BaseObject
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ItemObject
@@ -35,7 +35,7 @@ class Item2d(
   override fun writeInitial(buf: PacketByteBuf) {
     ByteBufUtils.writeVec2d(buf, position)
     buf.writeFloat(scale)
-    buf.writeString(Registry.ITEM.getId(item).toString())
+    buf.writeString(Registries.ITEM.getId(item).toString())
   }
 
   override fun readInitial(buf: PacketByteBuf) {
@@ -43,7 +43,7 @@ class Item2d(
     scale = buf.readFloat()
 
     val name = Identifier(buf.readString())
-    item = Registry.ITEM[name]
+    item = Registries.ITEM[name]
   }
 
   @Environment(EnvType.CLIENT)

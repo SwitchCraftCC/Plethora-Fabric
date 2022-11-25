@@ -2,7 +2,7 @@ package pw.switchcraft.plethora.gameplay.modules.glasses.objects
 
 import dan200.computercraft.api.lua.IArguments
 import net.minecraft.item.Item
-import net.minecraft.util.registry.Registry
+import net.minecraft.registry.Registries
 import pw.switchcraft.plethora.api.method.BasicMethod
 import pw.switchcraft.plethora.api.method.FutureMethodResult
 import pw.switchcraft.plethora.api.method.IUnbakedContext
@@ -22,7 +22,7 @@ interface ItemObject {
     )
     private fun getItem(unbaked: IUnbakedContext<ItemObject>): FutureMethodResult {
       val item = safeFromTarget(unbaked).item
-      val id = Registry.ITEM.getId(item)
+      val id = Registries.ITEM.getId(item)
       return FutureMethodResult.result(id.toString())
     }
 

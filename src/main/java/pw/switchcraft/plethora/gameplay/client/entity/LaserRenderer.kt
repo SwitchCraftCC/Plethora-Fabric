@@ -5,8 +5,8 @@ import net.minecraft.client.render.entity.EntityRenderer
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.Matrix4f
-import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.RotationAxis
+import org.joml.Matrix4f
 import pw.switchcraft.plethora.Plethora.ModId
 import pw.switchcraft.plethora.gameplay.modules.laser.LaserEntity
 
@@ -19,10 +19,10 @@ class LaserRenderer(ctx: EntityRendererFactory.Context?) : EntityRenderer<LaserE
                       vertexConsumers: VertexConsumerProvider, light: Int) {
     matrices.push()
 
-    matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(entity.prevYaw + (entity.yaw - entity.prevYaw) * tickDelta - 90.0f))
-    matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(entity.prevPitch + (entity.pitch - entity.prevPitch) * tickDelta))
+    matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(entity.prevYaw + (entity.yaw - entity.prevYaw) * tickDelta - 90.0f))
+    matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(entity.prevPitch + (entity.pitch - entity.prevPitch) * tickDelta))
 
-    matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(45.0f))
+    matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(45.0f))
     matrices.scale(SCALE, SCALE, SCALE)
     matrices.translate(-4.0, 0.0, 0.0)
 
@@ -30,7 +30,7 @@ class LaserRenderer(ctx: EntityRendererFactory.Context?) : EntityRenderer<LaserE
     val matrix4f = matrices.peek().positionMatrix
 
     for (i in 0 until 2) {
-      matrix4f.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(90.0f))
+      matrix4f.rotateX((Math.PI / 2).toFloat())
 
       vertex(consumer, matrix4f, -9f, -2f, 0f, 0f, 1f, 0.0f)
       vertex(consumer, matrix4f, +9f, -2f, 0f, 1f, 1f, 0.0f)

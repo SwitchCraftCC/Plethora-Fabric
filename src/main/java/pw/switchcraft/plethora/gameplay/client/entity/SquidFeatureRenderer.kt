@@ -9,9 +9,9 @@ import net.minecraft.client.render.entity.feature.FeatureRenderer
 import net.minecraft.client.render.entity.feature.FeatureRendererContext
 import net.minecraft.client.render.entity.model.PlayerEntityModel
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.util.math.Matrix4f
+import net.minecraft.util.math.RotationAxis
 import net.minecraft.util.math.Vec3d
-import net.minecraft.util.math.Vec3f
+import org.joml.Matrix4f
 import pw.switchcraft.plethora.Plethora.ModId
 import java.util.*
 import kotlin.math.abs
@@ -59,10 +59,10 @@ class SquidFeatureRenderer(
     matrices.push()
     if (player.isInSneakingPose) {
       matrices.translate(0.0, 0.2, 0.0)
-      matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(90.0f / Math.PI.toFloat()))
+      matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90.0f / Math.PI.toFloat()))
     }
 
-    matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(90.0f))
+    matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90.0f))
     matrices.translate(0.0, 0.1, -0.3)
 
     val angle = if (player.hurtTime > 0) {
@@ -82,7 +82,7 @@ class SquidFeatureRenderer(
     for (i in 0 until TENTACLES) {
       matrices.push()
 
-      matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(360.0f / TENTACLES * i))
+      matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(360.0f / TENTACLES * i))
       matrices.translate(0.1, 0.0, 0.0)
 
       for (j in 0 until SEGMENTS) {
@@ -101,7 +101,7 @@ class SquidFeatureRenderer(
 
         lastAngles[i * SEGMENTS + j] = thisAngle
 
-        matrices.multiply(Vec3f.NEGATIVE_Z.getDegreesQuaternion(thisAngle.toFloat()))
+        matrices.multiply(RotationAxis.NEGATIVE_Z.rotationDegrees(thisAngle.toFloat()))
 
         val matrix4f = matrices.peek().positionMatrix
         tentacle(consumer, matrix4f, light)

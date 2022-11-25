@@ -6,7 +6,7 @@ import dan200.computercraft.api.turtle.ITurtleAccess
 import dan200.computercraft.api.turtle.TurtleSide
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.AffineTransformation
-import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.RotationAxis
 
 object TurtleUpgradeModuleRenderer : TurtleUpgradeModeller<TurtleUpgradeModule> {
   private val leftTransform = getMatrixFor(-0.40625)
@@ -17,7 +17,7 @@ object TurtleUpgradeModuleRenderer : TurtleUpgradeModeller<TurtleUpgradeModule> 
     matrices.push()
 
     matrices.translate(0.5, 0.5, 0.5)
-    matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(90f))
+    matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(90f))
     matrices.scale(0.8f, 0.8f, 0.8f)
     matrices.translate(-0.5, -0.5, -0.5)
     matrices.translate(-0.025 / 0.8, 0.1 / 0.8, offset / 0.8)

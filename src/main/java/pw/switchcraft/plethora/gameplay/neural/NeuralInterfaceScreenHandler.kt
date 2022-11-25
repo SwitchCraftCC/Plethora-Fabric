@@ -56,7 +56,7 @@ class NeuralInterfaceScreenHandler private constructor(
     neuralInv.onClose(player)
   }
 
-  override fun transferSlot(player: PlayerEntity, index: Int): ItemStack {
+  override fun quickMove(player: PlayerEntity, index: Int): ItemStack {
     val slot = slots[index]
     if (!slot.hasStack()) return ItemStack.EMPTY
 

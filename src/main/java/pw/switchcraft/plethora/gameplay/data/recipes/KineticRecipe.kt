@@ -9,12 +9,16 @@ import net.minecraft.potion.Potions
 import net.minecraft.recipe.Ingredient.fromTag
 import net.minecraft.recipe.Ingredient.ofItems
 import net.minecraft.recipe.SpecialRecipeSerializer
+import net.minecraft.recipe.book.CraftingRecipeCategory
 import net.minecraft.util.Identifier
 import pw.switchcraft.library.recipe.BetterSpecialRecipe
 import pw.switchcraft.library.recipe.IngredientBrew
 import pw.switchcraft.plethora.gameplay.registry.Registration.ModItems.KINETIC_MODULE
 
-class KineticRecipe(id: Identifier) : BetterSpecialRecipe(id) {
+class KineticRecipe(
+  id: Identifier,
+  category: CraftingRecipeCategory = CraftingRecipeCategory.MISC
+) : BetterSpecialRecipe(id, category) {
   private val brew = IngredientBrew(StatusEffects.JUMP_BOOST, Potions.LEAPING)
 
   override val ingredients = listOf(
@@ -29,6 +33,6 @@ class KineticRecipe(id: Identifier) : BetterSpecialRecipe(id) {
   override fun getSerializer() = recipeSerializer
 
   companion object {
-    val recipeSerializer = SpecialRecipeSerializer { KineticRecipe(it) }
+    val recipeSerializer = SpecialRecipeSerializer(::KineticRecipe)
   }
 }

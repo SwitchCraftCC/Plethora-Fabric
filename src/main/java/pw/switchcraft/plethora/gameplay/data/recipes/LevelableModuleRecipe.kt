@@ -6,15 +6,17 @@ import net.minecraft.item.Items
 import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.Ingredient.ofItems
 import net.minecraft.recipe.ShapelessRecipe
+import net.minecraft.recipe.book.CraftingRecipeCategory
 import net.minecraft.util.Identifier
 import net.minecraft.util.collection.DefaultedList
 import pw.switchcraft.plethora.gameplay.modules.LevelableModuleItem
 
 abstract class LevelableModuleRecipe(
   id: Identifier,
+  category: CraftingRecipeCategory = CraftingRecipeCategory.MISC,
   val module: LevelableModuleItem
 ) : ShapelessRecipe(
-  id, "", ItemStack(module), DefaultedList.copyOf(
+  id, "", category, ItemStack(module), DefaultedList.copyOf(
     Ingredient.EMPTY, // Defaulted item
     ofItems(module), // Module to be upgraded
     ofItems(Items.NETHER_STAR),

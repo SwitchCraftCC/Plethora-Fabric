@@ -14,8 +14,8 @@ import net.minecraft.client.render.VertexFormats.POSITION_TEXTURE
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathHelper
-import net.minecraft.util.math.Matrix4f
-import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.RotationAxis
+import org.joml.Matrix4f
 import pw.switchcraft.plethora.Plethora.ModId
 import java.awt.Color
 
@@ -34,7 +34,7 @@ open class FlareOverlayRenderer {
 
       matrices.translate(-camera.pos.x, -camera.pos.y, -camera.pos.z)
 
-      RenderSystem.setShader(GameRenderer::getPositionTexShader)
+      RenderSystem.setShader(GameRenderer::getPositionTexProgram)
       RenderSystem.setShaderTexture(0, tex)
     }
 
@@ -52,8 +52,8 @@ open class FlareOverlayRenderer {
 
       // Set up the view
       matrices.translate(x, y, z)
-      matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-camera.yaw))
-      matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(camera.pitch))
+      matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-camera.yaw))
+      matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.pitch))
 
       // The size is function of ticks and the id: ensures slightly different sizes
       val renderSize = size * 0.2f + MathHelper.sin(ticks / 100.0f + color.offset) / 16.0f
@@ -81,7 +81,7 @@ open class FlareOverlayRenderer {
       buffer.vertex(matrix4f, -size, +size, 0f).texture(1f, 1f).next()
       buffer.vertex(matrix4f, +size, +size, 0f).texture(1f, 0f).next()
       buffer.vertex(matrix4f, +size, -size, 0f).texture(0f, 0f).next()
-      BufferRenderer.drawWithShader(buffer.end())
+      BufferRenderer.drawWithGlobalProgram(buffer.end())
     }
 
     private fun getOffsetFromId(id: Int) =

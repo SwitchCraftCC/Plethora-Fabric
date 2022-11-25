@@ -2,8 +2,7 @@ package pw.switchcraft.plethora.util;
 
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Vec3f;
+import org.joml.Matrix4f;
 
 public final class MatrixHelpers {
 	private MatrixHelpers() {
@@ -45,11 +44,9 @@ public final class MatrixHelpers {
 			}
 
 			Matrix4f result = new Matrix4f();
-			result.loadIdentity();
-			result.multiplyByTranslation(0.5f, 0.5f, 0.5f);
-			result.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-y));
-			result.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-x));
-			result.multiplyByTranslation(-0.5f, -0.5f, -0.5f);
+			result.translation(0.5f, 0.5f, 0.5f);
+			result.rotateYXZ((float) Math.toRadians(-y), (float) Math.toRadians(-x), 0);
+			result.translate(-0.5f, -0.5f, -0.5f);
 			FACINGS[facing.ordinal()] = result;
 		}
 	}
@@ -61,13 +58,13 @@ public final class MatrixHelpers {
 
 	public static Box transform(Box box, Matrix4f matrix) {
 		return new Box(
-			(float) (matrix.a00 * box.minX + matrix.a01 * box.minY + matrix.a02 * box.minZ + matrix.a03),
-			(float) (matrix.a10 * box.minX + matrix.a11 * box.minY + matrix.a12 * box.minZ + matrix.a13),
-			(float) (matrix.a20 * box.minX + matrix.a21 * box.minY + matrix.a22 * box.minZ + matrix.a23),
+			(float) (matrix.m00() * box.minX + matrix.m01() * box.minY + matrix.m02() * box.minZ + matrix.m03()),
+			(float) (matrix.m10() * box.minX + matrix.m11() * box.minY + matrix.m12() * box.minZ + matrix.m13()),
+			(float) (matrix.m20() * box.minX + matrix.m21() * box.minY + matrix.m22() * box.minZ + matrix.m23()),
 
-			(float) (matrix.a00 * box.maxX + matrix.a01 * box.maxY + matrix.a02 * box.maxZ + matrix.a03),
-			(float) (matrix.a10 * box.maxX + matrix.a11 * box.maxY + matrix.a12 * box.maxZ + matrix.a13),
-			(float) (matrix.a20 * box.maxX + matrix.a21 * box.maxY + matrix.a22 * box.maxZ + matrix.a23)
+			(float) (matrix.m00() * box.maxX + matrix.m01() * box.maxY + matrix.m02() * box.maxZ + matrix.m03()),
+			(float) (matrix.m10() * box.maxX + matrix.m11() * box.maxY + matrix.m12() * box.maxZ + matrix.m13()),
+			(float) (matrix.m20() * box.maxX + matrix.m21() * box.maxY + matrix.m22() * box.maxZ + matrix.m23())
 		);
 	}
 }

@@ -3,7 +3,7 @@ package pw.switchcraft.plethora.gameplay.manipulator;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Matrix4f;
+import org.joml.Matrix4f;
 import pw.switchcraft.plethora.util.MatrixHelpers;
 
 import static pw.switchcraft.plethora.gameplay.manipulator.ManipulatorBlock.OFFSET;

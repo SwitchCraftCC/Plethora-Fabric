@@ -3,14 +3,14 @@ package pw.switchcraft.plethora.gameplay.overlay
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags.ORES
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
-import net.minecraft.block.OreBlock
+import net.minecraft.block.ExperienceDroppingBlock
 import net.minecraft.block.RedstoneOreBlock
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.render.Camera
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
+import net.minecraft.registry.Registries
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
 import pw.switchcraft.plethora.Plethora
 import pw.switchcraft.plethora.gameplay.modules.LevelableModuleItem
@@ -69,11 +69,11 @@ object ScannerOverlayRenderer : FlareOverlayRenderer() {
 
   private fun isBlockOre(state: BlockState?, block: Block?): Boolean {
     if (state == null || block == null || state.isAir) return false
-    return if (block is OreBlock || block is RedstoneOreBlock) true else state.isIn(ORES)
+    return if (block is ExperienceDroppingBlock || block is RedstoneOreBlock) true else state.isIn(ORES)
   }
 
   private fun getFlareColorByBlock(block: Block) = blockColorCache.computeIfAbsent(block) {
-    val id = Registry.BLOCK.getId(block)
+    val id = Registries.BLOCK.getId(block)
     getFlareColorById(cfg.oreColours, id)
   }
 

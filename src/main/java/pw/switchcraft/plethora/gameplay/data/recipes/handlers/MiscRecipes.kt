@@ -6,8 +6,9 @@ import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.item.Items
-import net.minecraft.util.registry.Registry.RECIPE_SERIALIZER
-import net.minecraft.util.registry.Registry.register
+import net.minecraft.recipe.book.RecipeCategory
+import net.minecraft.registry.Registries.RECIPE_SERIALIZER
+import net.minecraft.registry.Registry.register
 import pw.switchcraft.library.recipe.BetterComplexRecipeJsonBuilder
 import pw.switchcraft.library.recipe.RecipeHandler
 import pw.switchcraft.plethora.Plethora.ModId
@@ -24,7 +25,7 @@ object MiscRecipes : RecipeHandler {
   override fun generateRecipes(exporter: Consumer<RecipeJsonProvider>) {
     // Manipulator Mark I
     ShapedRecipeJsonBuilder
-      .create(ModItems.MANIPULATOR_MARK_1)
+      .create(RecipeCategory.MISC, ModItems.MANIPULATOR_MARK_1)
       .pattern("GCG")
       .pattern("RMR")
       .pattern("III")
@@ -38,7 +39,7 @@ object MiscRecipes : RecipeHandler {
 
     // Manipulator Mark II
     ShapedRecipeJsonBuilder
-      .create(ModItems.MANIPULATOR_MARK_2)
+      .create(RecipeCategory.MISC, ModItems.MANIPULATOR_MARK_2)
       .pattern("CCC")
       .pattern("RMR")
       .pattern("III")
@@ -51,7 +52,7 @@ object MiscRecipes : RecipeHandler {
 
     // Neural Connector
     ShapedRecipeJsonBuilder
-      .create(ModItems.NEURAL_CONNECTOR)
+      .create(RecipeCategory.MISC, ModItems.NEURAL_CONNECTOR)
       .pattern("  R")
       .pattern("IIR")
       .pattern("IEI")
@@ -68,7 +69,7 @@ object MiscRecipes : RecipeHandler {
 
     // Redstone Integrator
     ShapedRecipeJsonBuilder
-      .create(ModItems.REDSTONE_INTEGRATOR)
+      .create(RecipeCategory.MISC, ModItems.REDSTONE_INTEGRATOR)
       .pattern("SRS")
       .pattern("RCR")
       .pattern("SRS")
@@ -94,7 +95,7 @@ object MiscRecipes : RecipeHandler {
     computerCriteria.value.forEach { criterion(it.key, it.value) }
   }
 
-  private fun BetterComplexRecipeJsonBuilder<*, *>.hasComputer() = apply {
+  private fun BetterComplexRecipeJsonBuilder<*>.hasComputer() = apply {
     computerCriteria.value.forEach { criterion(it.key, it.value) }
   }
 }

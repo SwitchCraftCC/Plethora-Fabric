@@ -3,8 +3,8 @@ package pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d
 import dan200.computercraft.api.lua.IArguments
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.util.math.RotationAxis
 import net.minecraft.util.math.Vec3d
-import net.minecraft.util.math.Vec3f
 import pw.switchcraft.plethora.api.method.*
 import pw.switchcraft.plethora.core.ContextHelpers.safeFromTarget
 
@@ -17,12 +17,12 @@ interface Rotatable3d {
     val rot = rotation
     if (rot == null) {
       val cam = mc.gameRenderer.camera
-      matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180 - cam.yaw))
-      matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-cam.pitch))
+      matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180 - cam.yaw))
+      matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-cam.pitch))
     } else {
-      matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(rot.x.toFloat()))
-      matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(rot.y.toFloat()))
-      matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(rot.z.toFloat()))
+      matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(rot.x.toFloat()))
+      matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rot.y.toFloat()))
+      matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(rot.z.toFloat()))
     }
   }
 

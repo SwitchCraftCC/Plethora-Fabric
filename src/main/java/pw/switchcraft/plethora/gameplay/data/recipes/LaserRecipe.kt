@@ -6,12 +6,16 @@ import net.minecraft.item.ItemStack
 import net.minecraft.recipe.Ingredient.EMPTY
 import net.minecraft.recipe.Ingredient.fromTag
 import net.minecraft.recipe.SpecialRecipeSerializer
+import net.minecraft.recipe.book.CraftingRecipeCategory
 import net.minecraft.util.Identifier
 import pw.switchcraft.library.recipe.BetterSpecialRecipe
 import pw.switchcraft.library.recipe.IngredientEnchanted
 import pw.switchcraft.plethora.gameplay.registry.Registration.ModItems.LASER_MODULE
 
-class LaserRecipe(id: Identifier) : BetterSpecialRecipe(id) {
+class LaserRecipe(
+  id: Identifier,
+  category: CraftingRecipeCategory = CraftingRecipeCategory.MISC
+) : BetterSpecialRecipe(id, category) {
   private val enchanted = IngredientEnchanted(mapOf(
     Enchantments.FLAME to 1,
     Enchantments.FIRE_ASPECT to 1
@@ -29,6 +33,6 @@ class LaserRecipe(id: Identifier) : BetterSpecialRecipe(id) {
   override fun getSerializer() = recipeSerializer
 
   companion object {
-    val recipeSerializer = SpecialRecipeSerializer { LaserRecipe(it) }
+    val recipeSerializer = SpecialRecipeSerializer(::LaserRecipe)
   }
 }

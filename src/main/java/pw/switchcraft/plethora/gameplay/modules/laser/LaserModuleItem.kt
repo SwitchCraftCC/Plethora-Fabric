@@ -7,7 +7,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.util.*
 import net.minecraft.util.math.AffineTransformation
-import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.RotationAxis
 import net.minecraft.world.World
 import pw.switchcraft.plethora.Plethora
 import pw.switchcraft.plethora.api.method.IContextBuilder
@@ -73,7 +73,7 @@ class LaserModuleItem(settings: Settings) : ModuleItem("laser", settings), IModu
       val matrices = MatrixStack()
       matrices.push()
       matrices.translate(0.5, 0.5, 0.5)
-      matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180f))
+      matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180f))
       matrices.translate(-0.5, -0.5, -0.5)
 
       AffineTransformation(matrices.peek().positionMatrix)
