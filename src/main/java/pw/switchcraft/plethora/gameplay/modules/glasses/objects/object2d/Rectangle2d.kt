@@ -66,7 +66,7 @@ class Rectangle2d(
     buffer.vertex(matrix, minX, maxY, 0.0f).color(red, green, blue, alpha).next()
     buffer.vertex(matrix, maxX, maxY, 0.0f).color(red, green, blue, alpha).next()
     buffer.vertex(matrix, maxX, minY, 0.0f).color(red, green, blue, alpha).next()
-    BufferRenderer.drawWithShader(buffer.end())
+    BufferRenderer.drawWithGlobalProgram(buffer.end())
   }
 
   companion object {

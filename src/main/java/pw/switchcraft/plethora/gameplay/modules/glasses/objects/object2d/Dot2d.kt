@@ -52,6 +52,6 @@ class Dot2d(
     buffer.vertex(matrix, x + delta, y + delta, 0f).color(red, green, blue, alpha).next()
     buffer.vertex(matrix, x + delta, y - delta, 0f).color(red, green, blue, alpha).next()
 
-    BufferRenderer.drawWithShader(buffer.end())
+    BufferRenderer.drawWithGlobalProgram(buffer.end())
   }
 }

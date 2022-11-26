@@ -57,6 +57,6 @@ class Triangle2d(
     buffer.vertex(matrix, points[0].x.toFloat(), points[0].y.toFloat(), 0f).color(red, green, blue, alpha).next()
     buffer.vertex(matrix, points[1].x.toFloat(), points[1].y.toFloat(), 0f).color(red, green, blue, alpha).next()
     buffer.vertex(matrix, points[2].x.toFloat(), points[2].y.toFloat(), 0f).color(red, green, blue, alpha).next()
-    BufferRenderer.drawWithShader(buffer.end())
+    BufferRenderer.drawWithGlobalProgram(buffer.end())
   }
 }

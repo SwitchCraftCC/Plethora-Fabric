@@ -107,7 +107,7 @@ class Box3d(
     buffer.vertex(matrix, minX, maxY, maxZ).color(red, green, blue, alpha).next()
     buffer.vertex(matrix, minX, maxY, minZ).color(red, green, blue, alpha).next()
 
-    BufferRenderer.drawWithShader(buffer.end())
+    BufferRenderer.drawWithGlobalProgram(buffer.end())
   }
 
   companion object {

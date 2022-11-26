@@ -86,7 +86,7 @@ abstract class BaseObject(
       RenderSystem.disableCull()
       RenderSystem.enableBlend()
       RenderSystem.disableTexture()
-      RenderSystem.setShader { GameRenderer.getPositionColorShader() }
+      RenderSystem.setShader { GameRenderer.getPositionColorProgram() }
     }
   }
 }

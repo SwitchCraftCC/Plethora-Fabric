@@ -79,6 +79,6 @@ open class Polygon2d(
       buffer.vertex(matrix, c.x.toFloat(), c.y.toFloat(), 0f).color(red, green, blue, alpha).next()
     }
 
-    BufferRenderer.drawWithShader(buffer.end())
+    BufferRenderer.drawWithGlobalProgram(buffer.end())
   }
 }

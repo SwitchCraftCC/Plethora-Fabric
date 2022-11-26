@@ -40,7 +40,7 @@ class LineLoop2d(
     val matrix = matrices.peek().positionMatrix
     val normal = matrices.peek().normalMatrix
 
-    RenderSystem.setShader { GameRenderer.getRenderTypeLinesShader() }
+    RenderSystem.setShader(GameRenderer::getRenderTypeLinesProgram)
     buffer.begin(VertexFormat.DrawMode.LINE_STRIP, VertexFormats.LINES)
 
     for (point in points) {
@@ -57,7 +57,7 @@ class LineLoop2d(
       .color(red, green, blue, alpha)
       .normal(normal, 0f, 1f, 0f).next()
 
-    BufferRenderer.drawWithShader(buffer.end())
+    BufferRenderer.drawWithGlobalProgram(buffer.end())
     RenderSystem.lineWidth(1f)
   }
 }

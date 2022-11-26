@@ -8,8 +8,8 @@ import net.minecraft.client.gl.SimpleFramebuffer
 import net.minecraft.client.render.*
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.network.PacketByteBuf
-import org.joml.Matrix4f
 import net.minecraft.util.math.Vec3d
+import org.joml.Matrix4f
 import pw.switchcraft.plethora.Plethora
 import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasClient
 import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasHandler.HEIGHT
@@ -17,6 +17,7 @@ import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasHandler.WID
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.BaseObject
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectGroup
 import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectRegistry.FRAME_3D
+import pw.switchcraft.plethora.mixin.client.GameRendererAccessor
 import pw.switchcraft.plethora.util.ByteBufUtils
 import pw.switchcraft.plethora.util.DirtyingProperty
 
@@ -46,6 +47,8 @@ class ObjectFrame3d(
     val children = canvas.getChildren(id) ?: return
 
     val mc = MinecraftClient.getInstance()
+    val gr = mc.gameRenderer
+    val cam = gr.camera
     val w = WIDTH.toFloat(); val h = HEIGHT.toFloat()
 
     val currentBuffer = GlStateManager.getBoundFramebuffer()
@@ -56,7 +59,16 @@ class ObjectFrame3d(
 
     RenderSystem.backupProjectionMatrix()
 
-    val projection = Matrix4f.projectionMatrix(0.0f, w, h, 0.0f, 0.1f, 1000.0f)
+    val matrixStack = MatrixStack()
+    matrixStack.peek().positionMatrix.identity()
+
+    val fov = (gr as GameRendererAccessor).invokeGetFov(cam, mc.tickDelta, true)
+
+    matrixStack.peek()
+      .positionMatrix
+      .mul(Matrix4f().setPerspective((fov * (Math.PI / 180.0).toFloat()).toFloat(), w / h, 0.1f, 1000.0f))
+
+    val projection = matrixStack.peek().positionMatrix
     RenderSystem.setProjectionMatrix(projection)
 
     val matrixStack2 = MatrixStack()
@@ -105,7 +117,7 @@ class ObjectFrame3d(
     buffer.vertex(matrix, w, h, 0.0f).texture(1.0f, 0.0f).color(1.0f, 1.0f, 1.0f, 0.2f).next()
     buffer.vertex(matrix, w, 0.0f, 0.0f).texture(1.0f, 1.0f).color(1.0f, 1.0f, 1.0f, 0.2f).next()
     buffer.vertex(matrix, 0.0f, 0.0f, 0.0f).texture(0.0f, 1.0f).color(1.0f, 1.0f, 1.0f, 0.2f).next()
-    BufferRenderer.drawWithShader(buffer.end())
+    BufferRenderer.drawWithGlobalProgram(buffer.end())
 
     RenderSystem.setShaderFogEnd(currentFog)
 
