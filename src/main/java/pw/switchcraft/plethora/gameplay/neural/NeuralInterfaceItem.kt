@@ -1,17 +1,18 @@
 package pw.switchcraft.plethora.gameplay.neural
 
-import dan200.computercraft.shared.config.Config.computerSpaceLimit
 import dan200.computercraft.api.ComputerCraftAPI
-import dan200.computercraft.api.filesystem.IMount
+import dan200.computercraft.api.filesystem.Mount
 import dan200.computercraft.api.media.IMedia
 import dan200.computercraft.shared.computer.core.ComputerFamily
 import dan200.computercraft.shared.computer.core.ComputerFamily.ADVANCED
 import dan200.computercraft.shared.computer.items.IComputerItem
+import dan200.computercraft.shared.config.Config.computerSpaceLimit
 import dev.emi.trinkets.api.SlotReference
 import dev.emi.trinkets.api.TrinketItem
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.LivingEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
 import net.minecraft.text.Text.translatable
 import net.minecraft.util.Formatting.GRAY
@@ -55,12 +56,12 @@ class NeuralInterfaceItem(settings: Settings?) : TrinketItem(settings), ICompute
     return true
   }
 
-  override fun createDataMount(@Nonnull stack: ItemStack, @Nonnull world: World): IMount? {
+  override fun createDataMount(@Nonnull stack: ItemStack, @Nonnull world: ServerWorld): Mount? {
     val id = getComputerID(stack)
     return if (id < 0) {
       null
     } else {
-      ComputerCraftAPI.createSaveDirMount(world, "computer/$id", computerSpaceLimit.toLong())
+      ComputerCraftAPI.createSaveDirMount(world.server, "computer/$id", computerSpaceLimit.toLong())
     }
   }
 

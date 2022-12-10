@@ -1,9 +1,6 @@
 package pw.switchcraft.plethora.core.executor;
 
-import dan200.computercraft.api.lua.ILuaContext;
-import dan200.computercraft.api.lua.ILuaTask;
-import dan200.computercraft.api.lua.LuaException;
-import dan200.computercraft.api.lua.MethodResult;
+import dan200.computercraft.api.lua.*;
 import pw.switchcraft.plethora.api.method.FutureMethodResult;
 import pw.switchcraft.plethora.api.method.IResultExecutor;
 
@@ -14,8 +11,8 @@ import java.util.concurrent.Callable;
 import static pw.switchcraft.plethora.Plethora.log;
 
 /**
- * A result executor which relies on {@link ILuaContext#executeMainThreadTask(ILuaTask)} in order to execute tasks.
- *
+ * A result executor which relies on {@link ILuaContext#executeMainThreadTask(LuaTask)} in order to execute tasks.
+ * <p>
  * This queues a task every tick until all results in the chain have been resolved and evaluated. This could end up
  * being rather spamming in terms of events, but does not usually become an issue as most tasks finish within the tick.
  */
@@ -51,7 +48,7 @@ public final class BasicExecutor implements IResultExecutor {
 		}
 	}
 
-	private static class BlockingTask implements ILuaTask {
+	private static class BlockingTask implements LuaTask {
 		Object[] returnValue;
 		private FutureMethodResult.Resolver resolver;
 		private Callable<FutureMethodResult> callback;

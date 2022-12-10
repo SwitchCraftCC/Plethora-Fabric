@@ -3,9 +3,9 @@ package pw.switchcraft.plethora.gameplay.modules.glasses;
 import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.LuaException;
 import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
 import pw.switchcraft.plethora.util.Vec2d;
 
 import javax.annotation.Nonnull;
@@ -17,8 +17,8 @@ import static dan200.computercraft.api.lua.LuaValues.getType;
 public class GlassesArgumentHelper {
     public static Item getItem(@Nonnull IArguments args, int index) throws LuaException {
         Identifier id = new Identifier(args.getString(index));
-        if (!Registry.ITEM.containsId(id)) throw new LuaException("Unknown item '" + id + "'");
-        return Registry.ITEM.get(id);
+        if (!Registries.ITEM.containsId(id)) throw new LuaException("Unknown item '" + id + "'");
+        return Registries.ITEM.get(id);
     }
 
     public static Vec2d getVec2dTable(@Nonnull IArguments args, int index) throws LuaException {

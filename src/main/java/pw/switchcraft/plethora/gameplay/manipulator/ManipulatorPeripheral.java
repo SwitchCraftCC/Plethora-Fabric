@@ -2,16 +2,12 @@ package pw.switchcraft.plethora.gameplay.manipulator;
 
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import dan200.computercraft.api.peripheral.IPeripheralProvider;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
 import pw.switchcraft.plethora.api.IWorldLocation;
 import pw.switchcraft.plethora.api.WorldLocation;
 import pw.switchcraft.plethora.api.method.ContextKeys;

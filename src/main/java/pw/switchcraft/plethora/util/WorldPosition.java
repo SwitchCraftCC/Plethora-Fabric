@@ -1,12 +1,12 @@
 package pw.switchcraft.plethora.util;
 
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
@@ -84,7 +84,7 @@ public final class WorldPosition {
 
     public static WorldPosition deserializeNbt(NbtCompound nbt) {
         return new WorldPosition(
-            RegistryKey.of(Registry.WORLD_KEY, new Identifier(nbt.getString("worldKey"))),
+            RegistryKey.of(RegistryKeys.WORLD, new Identifier(nbt.getString("worldKey"))),
             new Vec3d(nbt.getDouble("x"), nbt.getDouble("y"), nbt.getDouble("z"))
         );
     }

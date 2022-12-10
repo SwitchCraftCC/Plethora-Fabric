@@ -14,6 +14,7 @@ import net.minecraft.entity.damage.ProjectileDamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -108,7 +109,7 @@ public class LaserEntity extends Entity implements IPlayerOwnable {
     }
 
     @Override
-    public Packet<?> createSpawnPacket() {
+    public Packet<ClientPlayPacketListener> createSpawnPacket() {
         return EntitySpawnPacket.create(this, SPAWN_PACKET_ID);
     }
 

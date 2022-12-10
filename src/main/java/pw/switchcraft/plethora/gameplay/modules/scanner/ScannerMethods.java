@@ -3,13 +3,15 @@ package pw.switchcraft.plethora.gameplay.modules.scanner;
 import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.LuaException;
 import net.minecraft.block.BlockState;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import pw.switchcraft.plethora.api.IWorldLocation;
 import pw.switchcraft.plethora.api.WorldLocation;
-import pw.switchcraft.plethora.api.method.*;
+import pw.switchcraft.plethora.api.method.FutureMethodResult;
+import pw.switchcraft.plethora.api.method.IContext;
+import pw.switchcraft.plethora.api.method.IUnbakedContext;
 import pw.switchcraft.plethora.api.module.IModuleContainer;
 import pw.switchcraft.plethora.api.module.SubtargetedModuleMethod;
 import pw.switchcraft.plethora.api.reference.BlockReference;
@@ -58,7 +60,7 @@ public class ScannerMethods {
                     data.put("y", oY - y);
                     data.put("z", oZ - z);
 
-                    Identifier name = Registry.BLOCK.getId(block.getBlock());
+                    Identifier name = Registries.BLOCK.getId(block.getBlock());
                     data.put("name", name.toString());
 
                     BlockStateMeta.fillBasicMeta(data, block);

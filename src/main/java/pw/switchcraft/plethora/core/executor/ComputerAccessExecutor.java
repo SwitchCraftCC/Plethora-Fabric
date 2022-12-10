@@ -5,7 +5,7 @@ import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.MethodResult;
 import dan200.computercraft.api.peripheral.IComputerAccess;
-import dan200.computercraft.api.peripheral.IWorkMonitor;
+import dan200.computercraft.api.peripheral.WorkMonitor;
 import pw.switchcraft.plethora.api.method.FutureMethodResult;
 import pw.switchcraft.plethora.api.method.IResultExecutor;
 
@@ -115,7 +115,7 @@ public class ComputerAccessExecutor implements IResultExecutor {
 	}
 
 	private static class ComputerTask extends Task {
-		private final IWorkMonitor monitor;
+		private final WorkMonitor monitor;
 		private final ComputerAccessExecutor executor;
 		private final boolean shouldQueue;
 		private final long taskId;

@@ -6,8 +6,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.DyeColor;
-import net.minecraft.util.registry.Registry;
 import pw.switchcraft.plethora.api.meta.ItemStackMetaProvider;
 
 import javax.annotation.Nonnull;
@@ -53,7 +53,7 @@ public final class BannerItemMeta extends ItemStackMetaProvider<BannerItem> {
     }
 
     private static BannerPattern getPatternById(String id) {
-        for (BannerPattern pattern : Registry.BANNER_PATTERN) {
+        for (BannerPattern pattern : Registries.BANNER_PATTERN) {
             if (pattern.getId().equals(id)) return pattern;
         }
 

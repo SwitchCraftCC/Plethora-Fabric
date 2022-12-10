@@ -4,8 +4,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
-import net.minecraft.util.registry.Registry;
 import pw.switchcraft.plethora.api.meta.BasicMetaProvider;
 
 import javax.annotation.Nonnull;
@@ -58,7 +58,7 @@ public final class BasicItemMeta extends BasicMetaProvider<ItemStack> {
     }
 
     public static void fillBasicMeta(HashMap<String, Object> data, ItemStack stack) {
-        data.put("name", Registry.ITEM.getId(stack.getItem()).toString());
+        data.put("name", Registries.ITEM.getId(stack.getItem()).toString());
         data.put("damage", stack.getDamage());
         data.put("count", stack.getCount());
         data.put("nbt", getNbtHash(stack));

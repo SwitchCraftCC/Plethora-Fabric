@@ -10,8 +10,6 @@ import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.Packet;
-import net.minecraft.network.message.MessageHeader;
-import net.minecraft.network.message.MessageSignatureData;
 import net.minecraft.network.message.MessageType;
 import net.minecraft.network.message.SentMessage;
 import net.minecraft.recipe.Recipe;
@@ -39,7 +37,7 @@ import java.util.OptionalInt;
  */
 public abstract class FakePlayer extends ServerPlayerEntity {
     public FakePlayer(ServerWorld world, GameProfile profile) {
-        super(world.getServer(), world, profile, null);
+        super(world.getServer(), world, profile);
         networkHandler = new FakeNetworkHandler(this);
     }
 
@@ -101,8 +99,6 @@ public abstract class FakePlayer extends ServerPlayerEntity {
     public void sendMessageToClient(Text message, boolean overlay) {}
     @Override
     public void sendChatMessage(SentMessage message, boolean overlay, MessageType.Parameters parameters) {}
-    @Override
-    public void sendMessageHeader(MessageHeader header, MessageSignatureData headerSignature, byte[] bodyDigest) {}
 
     @Override
     public String getIp() {

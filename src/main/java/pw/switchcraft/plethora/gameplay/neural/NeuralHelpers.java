@@ -11,11 +11,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 import pw.switchcraft.plethora.api.EntityWorldLocation;
 import pw.switchcraft.plethora.api.IWorldLocation;
@@ -64,7 +64,7 @@ public class NeuralHelpers {
         if (slot < PERIPHERAL_SIZE) {
             // Check if the item stack is a peripheral by checking if it is included in the allowed peripherals list and
             // is registered as a pocket computer upgrade. This may be made more extensible in the future.
-            Identifier id = Registry.ITEM.getId(stack.getItem());
+            Identifier id = Registries.ITEM.getId(stack.getItem());
             IPocketUpgrade upgrade = PocketUpgrades.instance().get(stack);
             return upgrade != null && config.neuralInterface.peripheralItemIds.contains(id.toString());
         } else {

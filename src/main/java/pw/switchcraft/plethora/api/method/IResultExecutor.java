@@ -1,8 +1,8 @@
 package pw.switchcraft.plethora.api.method;
 
 import dan200.computercraft.api.lua.ILuaContext;
-import dan200.computercraft.api.lua.ILuaTask;
 import dan200.computercraft.api.lua.LuaException;
+import dan200.computercraft.api.lua.LuaTask;
 import dan200.computercraft.api.lua.MethodResult;
 
 import javax.annotation.Nonnull;
@@ -10,15 +10,14 @@ import javax.annotation.Nullable;
 
 /**
  * An object which evaluates a {@link MethodResult}.
- *
- *
- * By default this uses {@link ILuaContext#executeMainThreadTask(ILuaTask)} to execute the task,
+ * <p>
+ * By default, this uses {@link ILuaContext#executeMainThreadTask(LuaTask)} to execute the task,
  * but some instances will execute on the TileEntity's tick instead
  */
 public interface IResultExecutor {
 	/**
 	 * Execute a task and wait for the result.
-	 *
+	 * <p>
 	 * This should immediately return {@link MethodResult#getResult()} if the result is final,
 	 * otherwise defer for the specified delay and wait til that task has finished.
 	 *

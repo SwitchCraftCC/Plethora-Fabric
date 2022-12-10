@@ -1,13 +1,13 @@
 package pw.switchcraft.plethora.gameplay.registry
 
-import dan200.computercraft.api.detail.IDetailProvider
+import dan200.computercraft.api.detail.DetailProvider
 import net.minecraft.item.ItemStack
 import pw.switchcraft.plethora.Plethora.log
 import pw.switchcraft.plethora.core.ContextFactory
 import pw.switchcraft.plethora.core.executor.BasicExecutor
 import pw.switchcraft.plethora.integration.MetaWrapper
 
-object ItemDetailsProvider : IDetailProvider<ItemStack> {
+object ItemDetailsProvider : DetailProvider<ItemStack> {
   // TODO: Probably better eventually to replace BasicItemMeta with ItemData.fill
   private val IGNORE_KEYS = setOf(
     "name", "displayName", "damage", "maxDamage",

@@ -51,7 +51,7 @@ public class NeuralComputerHandler {
         if (neural == null) {
             int computerId = nbt.contains(COMPUTER_ID)
                 ? nbt.getInt(COMPUTER_ID)
-                : ComputerCraftAPI.createUniqueNumberedSaveDir(owner.getEntityWorld(), IDAssigner.COMPUTER);
+                : ComputerCraftAPI.createUniqueNumberedSaveDir(owner.getServer(), IDAssigner.COMPUTER);
 
             String label = stack.hasCustomName() ? stack.getName().getString() : null;
             neural = new NeuralComputer((ServerWorld)owner.getEntityWorld(), owner.getBlockPos(), computerId, label);

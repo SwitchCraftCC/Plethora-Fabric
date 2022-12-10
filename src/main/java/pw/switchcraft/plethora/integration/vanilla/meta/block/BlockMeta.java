@@ -1,8 +1,8 @@
 package pw.switchcraft.plethora.integration.vanilla.meta.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import pw.switchcraft.plethora.api.meta.BasicMetaProvider;
 
 import javax.annotation.Nonnull;
@@ -24,7 +24,7 @@ public final class BlockMeta extends BasicMetaProvider<Block> {
 	public static Map<String, ?> getBasicMeta(@Nonnull Block block) {
 		HashMap<String, Object> data = new HashMap<>(3);
 
-		Identifier name = Registry.BLOCK.getId(block);
+		Identifier name = Registries.BLOCK.getId(block);
 		data.put("name", name.toString());
 
 		data.put("displayName", block.getName().getString());

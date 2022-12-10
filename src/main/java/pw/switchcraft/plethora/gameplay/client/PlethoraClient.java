@@ -14,8 +14,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
 import pw.switchcraft.plethora.core.TurtleUpgradeModuleRenderer;
 import pw.switchcraft.plethora.gameplay.client.block.ManipulatorOutlineRenderer;
 import pw.switchcraft.plethora.gameplay.client.block.ManipulatorRenderer;
@@ -55,7 +55,7 @@ public class PlethoraClient implements ClientModInitializer {
 
         // Must register a packet to spawn custom entities, because Fabric API
         ClientPlayNetworking.registerGlobalReceiver(SPAWN_PACKET_ID, (client, handler, buf, responseSender) -> {
-            EntityType<?> et = Registry.ENTITY_TYPE.get(buf.readVarInt());
+            EntityType<?> et = Registries.ENTITY_TYPE.get(buf.readVarInt());
             UUID uuid = buf.readUuid();
             int id = buf.readVarInt();
             Vec3d pos = EntitySpawnPacket.PacketBufUtil.readVec3d(buf);
@@ -68,7 +68,7 @@ public class PlethoraClient implements ClientModInitializer {
 
                 Entity e = et.create(MinecraftClient.getInstance().world);
                 if (e == null)
-                    throw new IllegalStateException("Failed to create instance of entity \"" + Registry.ENTITY_TYPE.getId(et) + "\"!");
+                    throw new IllegalStateException("Failed to create instance of entity \"" + Registries.ENTITY_TYPE.getId(et) + "\"!");
 
                 e.updateTrackedPosition(pos.x, pos.y, pos.z);
                 e.setPos(pos.x, pos.y, pos.z);

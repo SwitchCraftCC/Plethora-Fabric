@@ -5,18 +5,19 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
 
 public class EntitySpawnPacket {
-    public static Packet<?> create(Entity e, Identifier packetID) {
+    public static Packet<ClientPlayPacketListener> create(Entity e, Identifier packetID) {
         if (e.world.isClient)
             throw new IllegalStateException("SpawnPacketUtil.create called on the logical client!");
 
         PacketByteBuf byteBuf = new PacketByteBuf(Unpooled.buffer());
-        byteBuf.writeVarInt(Registry.ENTITY_TYPE.getRawId(e.getType()));
+        byteBuf.writeVarInt(Registries.ENTITY_TYPE.getRawId(e.getType()));
         byteBuf.writeUuid(e.getUuid());
         byteBuf.writeVarInt(e.getId());
 

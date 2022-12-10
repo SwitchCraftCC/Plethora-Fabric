@@ -3,9 +3,11 @@ package pw.switchcraft.plethora.gameplay.client.gui
 import com.mojang.blaze3d.systems.RenderSystem
 import dan200.computercraft.client.gui.AbstractComputerScreen
 import dan200.computercraft.client.gui.widgets.ComputerSidebar
+import dan200.computercraft.client.gui.widgets.DynamicImageButton
 import dan200.computercraft.client.gui.widgets.TerminalWidget
 import dan200.computercraft.client.render.ComputerBorderRenderer
 import dan200.computercraft.shared.computer.inventory.AbstractComputerMenu
+import net.minecraft.client.gui.tooltip.Tooltip
 import net.minecraft.client.render.GameRenderer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.player.PlayerInventory
@@ -38,7 +40,7 @@ class NeuralInterfaceScreen(
   fun initNeural() {
     // Draw the button to swap between peripherals/modules view
     addDrawableChild(PlethoraDynamicImageButton(
-      this, x + swapBtn.x(), y + swapBtn.y(), 16, 16,
+      x + swapBtn.x(), y + swapBtn.y(), 16, 16,
       { if (peripherals) 0 else 16 },  // Show the appropriate icon based on the current view
       ICON_Y, 0, tex, TEX_SIZE, TEX_SIZE,
       { // Swap view on click
@@ -90,8 +92,11 @@ class NeuralInterfaceScreen(
     private const val TEX_WIDTH = 254
     private const val TEX_HEIGHT = 217
 
-    private val TOOLTIP_MODULES = listOf(translatable("gui.plethora.neuralInterface.modules"))
-    private val TOOLTIP_PERIPHERALS = listOf(translatable("gui.plethora.neuralInterface.peripherals"))
+    private val modulesText = translatable("gui.plethora.neuralInterface.modules")
+    private val TOOLTIP_MODULES = DynamicImageButton.HintedMessage(modulesText, Tooltip.of(modulesText))
+
+    private val peripheralsText = translatable("gui.plethora.neuralInterface.peripherals")
+    private val TOOLTIP_PERIPHERALS = DynamicImageButton.HintedMessage(peripheralsText, Tooltip.of(peripheralsText))
 
     const val BORDER = 8
 
