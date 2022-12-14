@@ -174,10 +174,16 @@ publishing {
     maven {
       name = "lemmmyRepo"
       url = uri("https://repo.lem.sh/releases")
-      credentials {
-        username = System.getenv("MAVEN_USERNAME")
-        password = System.getenv("MAVEN_PASSWORD")
+
+      if (!System.getenv("MAVEN_USERNAME").isNullOrEmpty()) {
+        credentials {
+          username = System.getenv("MAVEN_USERNAME")
+          password = System.getenv("MAVEN_PASSWORD")
+        }
+      } else {
+        credentials(PasswordCredentials::class)
       }
+
       authentication {
         create<BasicAuthentication>("basic")
       }

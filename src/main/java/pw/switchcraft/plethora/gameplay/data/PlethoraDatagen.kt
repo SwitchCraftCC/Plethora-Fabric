@@ -14,8 +14,7 @@ object PlethoraDatagen : DataGeneratorEntrypoint {
     val pack = generator.createPack()
     val turtleUpgrades = pack.addProvider(::TurtleUpgradeProvider)
     val pocketUpgrades = pack.addProvider(::PocketUpgradeProvider)
-    pack.addProvider(::BlockModelProvider)
-    pack.addProvider(::ItemModelProvider)
+    pack.addProvider(::ModelProvider)
     pack.addProvider { out, _ -> RecipeGenerator(out, turtleUpgrades, pocketUpgrades) }
   }
 }

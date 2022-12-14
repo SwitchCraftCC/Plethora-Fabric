@@ -4,14 +4,16 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
 import net.minecraft.block.Block
 import net.minecraft.data.client.*
+import net.minecraft.data.client.Models.GENERATED
 import net.minecraft.data.client.TextureKey.*
 import net.minecraft.state.property.Properties.FACING
 import net.minecraft.util.math.Direction
 import pw.switchcraft.plethora.Plethora.ModId
 import pw.switchcraft.plethora.gameplay.registry.Registration.ModBlocks.*
+import pw.switchcraft.plethora.gameplay.registry.Registration.ModItems
 import java.util.*
 
-class BlockModelProvider(out: FabricDataOutput) : FabricModelProvider(out) {
+class ModelProvider(out: FabricDataOutput) : FabricModelProvider(out) {
   override fun generateBlockStateModels(gen: BlockStateModelGenerator) {
     gen.registerSimpleCubeAll(REDSTONE_INTEGRATOR)
 
@@ -20,6 +22,15 @@ class BlockModelProvider(out: FabricDataOutput) : FabricModelProvider(out) {
   }
 
   override fun generateItemModels(gen: ItemModelGenerator) {
+    gen.register(ModItems.GLASSES_MODULE, GENERATED)
+    gen.register(ModItems.INTROSPECTION_MODULE, GENERATED)
+    gen.register(ModItems.KEYBOARD_MODULE, GENERATED)
+    gen.register(ModItems.KINETIC_MODULE, GENERATED)
+    // Laser provided in JSON for custom rotations
+    gen.register(ModItems.SCANNER_MODULE, GENERATED)
+    gen.register(ModItems.SENSOR_MODULE, GENERATED)
+    gen.register(ModItems.NEURAL_CONNECTOR, GENERATED)
+    gen.register(ModItems.NEURAL_INTERFACE, GENERATED)
   }
 
   private fun registerManipulator(gen: BlockStateModelGenerator, block: Block, mark: Int) {
