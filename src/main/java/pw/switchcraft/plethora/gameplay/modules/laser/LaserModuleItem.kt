@@ -10,8 +10,6 @@ import net.minecraft.util.math.AffineTransformation
 import net.minecraft.util.math.RotationAxis
 import net.minecraft.world.World
 import pw.switchcraft.plethora.Plethora
-import pw.switchcraft.plethora.api.method.IContextBuilder
-import pw.switchcraft.plethora.api.module.IModuleAccess
 import pw.switchcraft.plethora.api.module.IModuleHandler
 import pw.switchcraft.plethora.gameplay.modules.ModuleItem
 import pw.switchcraft.plethora.gameplay.registry.PlethoraModules
@@ -57,10 +55,6 @@ class LaserModuleItem(settings: Settings) : ModuleItem("laser", settings), IModu
     val potency = ticks / USE_TICKS * (cfg.maximumPotency - cfg.minimumPotency) + cfg.minimumPotency
 
     world.spawnEntity(LaserEntity(world, player, inaccuracy.toFloat(), potency.toFloat()))
-  }
-
-  override fun getAdditionalContext(stack: ItemStack, access: IModuleAccess, builder: IContextBuilder) {
-    // TODO: this is very important!
   }
 
   override fun getModel(): TransformedModel {
