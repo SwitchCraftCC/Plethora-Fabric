@@ -5,7 +5,6 @@ import dan200.computercraft.api.peripheral.PeripheralLookup;
 import dan200.computercraft.api.pocket.PocketUpgradeSerialiser;
 import dan200.computercraft.api.turtle.TurtleUpgradeSerialiser;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerBlockEntityEvents;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.block.Block;
@@ -17,8 +16,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
@@ -129,11 +126,6 @@ public final class Registration {
   }
 
   public static final class ModItems {
-    private static final ItemGroup itemGroup = FabricItemGroup.builder(new Identifier(Plethora.modId, "main"))
-      .icon(() -> new ItemStack(ModItems.NEURAL_INTERFACE))
-      .entries(((enabledFeatures, entries, operatorEnabled) -> items.forEach(entries::add)))
-      .build();
-
     public static final NeuralConnectorItem NEURAL_CONNECTOR =
       register("neural_connector", new NeuralConnectorItem(properties().maxCount(1)));
     public static final NeuralInterfaceItem NEURAL_INTERFACE =
@@ -156,7 +148,9 @@ public final class Registration {
     }
 
     private static <B extends Block, I extends Item> I ofBlock(B parent, BiFunction<B, Item.Settings, I> supplier) {
-      return Registry.register(ITEM, BLOCK.getId(parent), supplier.apply(parent, properties()));
+      var item = Registry.register(ITEM, BLOCK.getId(parent), supplier.apply(parent, properties()));
+      items.add(item);
+      return item;
     }
 
     private static <T extends Item> T register(String id, T item) {
