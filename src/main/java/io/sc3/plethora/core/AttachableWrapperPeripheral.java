@@ -1,9 +1,9 @@
-package pw.switchcraft.plethora.core;
+package io.sc3.plethora.core;
 
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import net.minecraft.util.Pair;
-import pw.switchcraft.plethora.api.method.IAttachable;
-import pw.switchcraft.plethora.core.executor.TaskRunner;
+import io.sc3.plethora.api.method.IAttachable;
+import io.sc3.plethora.core.executor.TaskRunner;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;

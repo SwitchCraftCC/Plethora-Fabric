@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.mixin;
+package io.sc3.plethora.mixin;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import pw.switchcraft.plethora.gameplay.PlethoraFakePlayer;
+import io.sc3.plethora.gameplay.PlethoraFakePlayer;
 
 @Mixin(MeleeAttackGoal.class)
 public class MeleeAttackGoalMixin {

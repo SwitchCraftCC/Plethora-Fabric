@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.api.meta;
+package io.sc3.plethora.api.meta;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

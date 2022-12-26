@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.api.converter;
+package io.sc3.plethora.api.converter;
 
 /**
  * A converter which always returns the same value (or a value which is equivalent).

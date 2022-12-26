@@ -1,13 +1,13 @@
-package pw.switchcraft.plethora.gameplay.manipulator;
+package io.sc3.plethora.gameplay.manipulator;
 
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import org.joml.Matrix4f;
-import pw.switchcraft.plethora.util.MatrixHelpers;
+import io.sc3.plethora.util.MatrixHelpers;
 
-import static pw.switchcraft.plethora.gameplay.manipulator.ManipulatorBlock.OFFSET;
-import static pw.switchcraft.plethora.gameplay.manipulator.ManipulatorBlock.PIX;
+import static io.sc3.plethora.gameplay.manipulator.ManipulatorBlock.OFFSET;
+import static io.sc3.plethora.gameplay.manipulator.ManipulatorBlock.PIX;
 
 public enum ManipulatorType implements StringIdentifiable {
     MARK_1(0.5f, new Box(PIX * 5, OFFSET, PIX * 5, PIX * 11, OFFSET + PIX, PIX * 11)),

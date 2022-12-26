@@ -1,7 +1,7 @@
-package pw.switchcraft.plethora.api.method;
+package io.sc3.plethora.api.method;
 
 import net.minecraft.util.math.Direction;
-import pw.switchcraft.plethora.api.PlethoraAPI;
+import io.sc3.plethora.api.PlethoraAPI;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

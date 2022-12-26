@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.modules.glasses.canvas
+package io.sc3.plethora.gameplay.modules.glasses.canvas
 
 import it.unimi.dsi.fastutil.ints.*
 import it.unimi.dsi.fastutil.ints.IntIterator
@@ -6,9 +6,9 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.util.math.MatrixStack
-import pw.switchcraft.plethora.Plethora
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.BaseObject
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectGroup
+import io.sc3.plethora.Plethora
+import io.sc3.plethora.gameplay.modules.glasses.objects.BaseObject
+import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectGroup
 
 class CanvasClient(val id: Int) {
   private val objects: Int2ObjectMap<BaseObject?> = Int2ObjectOpenHashMap()

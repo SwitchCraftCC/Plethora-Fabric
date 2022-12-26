@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.modules.glasses.canvas
+package io.sc3.plethora.gameplay.modules.glasses.canvas
 
 import com.mojang.blaze3d.systems.RenderSystem
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap
@@ -14,12 +14,12 @@ import net.fabricmc.fabric.api.util.NbtType.NUMBER
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.player.PlayerEntity
-import pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler.MODULE_DATA
-import pw.switchcraft.plethora.gameplay.neural.NeuralHelpers
-import pw.switchcraft.plethora.gameplay.registry.Packets
-import pw.switchcraft.plethora.gameplay.registry.Packets.CANVAS_ADD_PACKET_ID
-import pw.switchcraft.plethora.gameplay.registry.Packets.CANVAS_REMOVE_PACKET_ID
-import pw.switchcraft.plethora.gameplay.registry.PlethoraModules.GLASSES_S
+import io.sc3.plethora.gameplay.neural.NeuralComputerHandler.MODULE_DATA
+import io.sc3.plethora.gameplay.neural.NeuralHelpers
+import io.sc3.plethora.gameplay.registry.Packets
+import io.sc3.plethora.gameplay.registry.Packets.CANVAS_ADD_PACKET_ID
+import io.sc3.plethora.gameplay.registry.Packets.CANVAS_REMOVE_PACKET_ID
+import io.sc3.plethora.gameplay.registry.PlethoraModules.GLASSES_S
 import java.util.concurrent.atomic.AtomicInteger
 
 object CanvasHandler {

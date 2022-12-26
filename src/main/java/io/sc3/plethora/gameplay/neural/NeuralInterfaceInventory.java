@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.neural;
+package io.sc3.plethora.gameplay.neural;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
@@ -6,11 +6,11 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.collection.DefaultedList;
-import pw.switchcraft.plethora.mixin.SimpleInventoryAccessor;
+import io.sc3.plethora.mixin.SimpleInventoryAccessor;
 
-import static pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler.DIRTY;
-import static pw.switchcraft.plethora.gameplay.neural.NeuralHelpers.INV_SIZE;
-import static pw.switchcraft.plethora.gameplay.neural.NeuralHelpers.isItemValid;
+import static io.sc3.plethora.gameplay.neural.NeuralComputerHandler.DIRTY;
+import static io.sc3.plethora.gameplay.neural.NeuralHelpers.INV_SIZE;
+import static io.sc3.plethora.gameplay.neural.NeuralHelpers.isItemValid;
 
 public class NeuralInterfaceInventory extends SimpleInventory {
     final ItemStack parent;

@@ -1,11 +1,11 @@
-package pw.switchcraft.plethora.gameplay.modules;
+package io.sc3.plethora.gameplay.modules;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
-import pw.switchcraft.plethora.util.EntityHelpers;
+import io.sc3.plethora.util.EntityHelpers;
 
 import javax.annotation.Nullable;
 import java.util.UUID;

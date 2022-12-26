@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.core.executor;
+package io.sc3.plethora.core.executor;
 
 import java.util.Collections;
 import java.util.Iterator;

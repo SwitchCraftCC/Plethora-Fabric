@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.api.method;
+package io.sc3.plethora.api.method;
 
 import com.google.common.base.Strings;
 import dan200.computercraft.api.lua.IArguments;

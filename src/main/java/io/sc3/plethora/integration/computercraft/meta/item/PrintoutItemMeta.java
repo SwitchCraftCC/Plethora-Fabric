@@ -1,8 +1,8 @@
-package pw.switchcraft.plethora.integration.computercraft.meta.item;
+package io.sc3.plethora.integration.computercraft.meta.item;
 
 import dan200.computercraft.shared.media.items.PrintoutItem;
 import net.minecraft.item.ItemStack;
-import pw.switchcraft.plethora.api.meta.ItemStackMetaProvider;
+import io.sc3.plethora.api.meta.ItemStackMetaProvider;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;

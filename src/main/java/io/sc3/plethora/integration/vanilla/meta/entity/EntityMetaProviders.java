@@ -1,11 +1,11 @@
-package pw.switchcraft.plethora.integration.vanilla.meta.entity;
+package io.sc3.plethora.integration.vanilla.meta.entity;
 
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.passive.SheepEntity;
-import pw.switchcraft.plethora.api.meta.BaseMetaProvider;
-import pw.switchcraft.plethora.api.meta.BasicMetaProvider;
-import pw.switchcraft.plethora.api.meta.IMetaProvider;
-import pw.switchcraft.plethora.api.method.IPartialContext;
+import io.sc3.plethora.api.meta.BaseMetaProvider;
+import io.sc3.plethora.api.meta.BasicMetaProvider;
+import io.sc3.plethora.api.meta.IMetaProvider;
+import io.sc3.plethora.api.method.IPartialContext;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;

@@ -1,10 +1,10 @@
-package pw.switchcraft.plethora.integration.computercraft.registry;
+package io.sc3.plethora.integration.computercraft.registry;
 
 import dan200.computercraft.api.ComputerCraftAPI;
 import net.minecraft.item.ItemStack;
-import pw.switchcraft.plethora.api.meta.IMetaProvider;
-import pw.switchcraft.plethora.api.meta.IMetaRegistry;
-import pw.switchcraft.plethora.integration.computercraft.meta.item.*;
+import io.sc3.plethora.api.meta.IMetaProvider;
+import io.sc3.plethora.api.meta.IMetaRegistry;
+import io.sc3.plethora.integration.computercraft.meta.item.*;
 
 public class ComputerCraftMetaRegistration {
     public static void registerMetaProviders(IMetaRegistry r) {

@@ -1,25 +1,25 @@
-package pw.switchcraft.plethora.integration.vanilla.method;
+package io.sc3.plethora.integration.vanilla.method;
 
 import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.LuaException;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.server.network.ServerPlayerEntity;
-import pw.switchcraft.plethora.api.method.FutureMethodResult;
-import pw.switchcraft.plethora.api.method.IContext;
-import pw.switchcraft.plethora.api.method.IUnbakedContext;
-import pw.switchcraft.plethora.api.method.TypedLuaObject;
-import pw.switchcraft.plethora.api.module.IModuleContainer;
-import pw.switchcraft.plethora.api.module.SubtargetedModuleMethod;
-import pw.switchcraft.plethora.gameplay.modules.introspection.IntrospectionContextHelpers.PlayerContext;
-import pw.switchcraft.plethora.integration.EntityIdentifier;
-import pw.switchcraft.plethora.util.EquipmentInventoryWrapper;
-import pw.switchcraft.plethora.util.RangedInventoryWrapper;
+import io.sc3.plethora.api.method.FutureMethodResult;
+import io.sc3.plethora.api.method.IContext;
+import io.sc3.plethora.api.method.IUnbakedContext;
+import io.sc3.plethora.api.method.TypedLuaObject;
+import io.sc3.plethora.api.module.IModuleContainer;
+import io.sc3.plethora.api.module.SubtargetedModuleMethod;
+import io.sc3.plethora.gameplay.modules.introspection.IntrospectionContextHelpers.PlayerContext;
+import io.sc3.plethora.integration.EntityIdentifier;
+import io.sc3.plethora.util.EquipmentInventoryWrapper;
+import io.sc3.plethora.util.RangedInventoryWrapper;
 
 import javax.annotation.Nonnull;
 
 import static net.minecraft.entity.player.PlayerInventory.MAIN_SIZE;
-import static pw.switchcraft.plethora.gameplay.modules.introspection.IntrospectionContextHelpers.getPlayerContext;
-import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.INTROSPECTION_M;
+import static io.sc3.plethora.gameplay.modules.introspection.IntrospectionContextHelpers.getPlayerContext;
+import static io.sc3.plethora.gameplay.registry.PlethoraModules.INTROSPECTION_M;
 
 public final class EntityIntrospectionMethods {
     public static final SubtargetedModuleMethod<EntityIdentifier.Player> GET_INVENTORY = SubtargetedModuleMethod.of(

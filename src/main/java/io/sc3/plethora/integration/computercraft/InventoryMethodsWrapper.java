@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.integration.computercraft;
+package io.sc3.plethora.integration.computercraft;
 
 import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.LuaException;
@@ -6,15 +6,15 @@ import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.shared.peripheral.generic.methods.InventoryMethods;
 import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
 import net.minecraft.inventory.Inventory;
-import pw.switchcraft.plethora.api.method.BasicMethod;
-import pw.switchcraft.plethora.api.method.FutureMethodResult;
-import pw.switchcraft.plethora.api.method.IContext;
-import pw.switchcraft.plethora.api.method.IUnbakedContext;
+import io.sc3.plethora.api.method.BasicMethod;
+import io.sc3.plethora.api.method.FutureMethodResult;
+import io.sc3.plethora.api.method.IContext;
+import io.sc3.plethora.api.method.IUnbakedContext;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
 
-import static pw.switchcraft.plethora.core.ContextHelpers.fromContext;
+import static io.sc3.plethora.core.ContextHelpers.fromContext;
 
 public class InventoryMethodsWrapper {
     public static final BasicMethod<Inventory> GET_SIZE = BasicMethod.of(

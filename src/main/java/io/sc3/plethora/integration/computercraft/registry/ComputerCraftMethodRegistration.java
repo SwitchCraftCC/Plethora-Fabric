@@ -1,12 +1,12 @@
-package pw.switchcraft.plethora.integration.computercraft.registry;
+package io.sc3.plethora.integration.computercraft.registry;
 
 import dan200.computercraft.api.ComputerCraftAPI;
 import net.minecraft.inventory.Inventory;
-import pw.switchcraft.plethora.api.method.IMethod;
-import pw.switchcraft.plethora.api.method.IMethodRegistry;
-import pw.switchcraft.plethora.api.module.IModuleContainer;
-import pw.switchcraft.plethora.integration.computercraft.InventoryMethodsWrapper;
-import pw.switchcraft.plethora.integration.computercraft.method.TurtleKineticMethods;
+import io.sc3.plethora.api.method.IMethod;
+import io.sc3.plethora.api.method.IMethodRegistry;
+import io.sc3.plethora.api.module.IModuleContainer;
+import io.sc3.plethora.integration.computercraft.InventoryMethodsWrapper;
+import io.sc3.plethora.integration.computercraft.method.TurtleKineticMethods;
 
 public final class ComputerCraftMethodRegistration {
     public static void registerMethods(IMethodRegistry r) {

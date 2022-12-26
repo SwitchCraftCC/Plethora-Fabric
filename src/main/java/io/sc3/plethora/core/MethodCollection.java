@@ -1,8 +1,8 @@
-package pw.switchcraft.plethora.core;
+package io.sc3.plethora.core;
 
 import com.google.common.collect.Lists;
-import pw.switchcraft.plethora.api.method.IMethod;
-import pw.switchcraft.plethora.api.method.IMethodCollection;
+import io.sc3.plethora.api.method.IMethod;
+import io.sc3.plethora.api.method.IMethodCollection;
 
 import javax.annotation.Nonnull;
 import java.util.List;

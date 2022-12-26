@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.api.converter;
+package io.sc3.plethora.api.converter;
 
 /**
  * Marker interface stating this method should not consume converted objects.

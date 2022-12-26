@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.client;
+package io.sc3.plethora.gameplay.client;
 
 import dan200.computercraft.api.client.ComputerCraftAPIClient;
 import dev.emi.trinkets.api.client.TrinketRendererRegistry;
@@ -16,25 +16,25 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.math.Vec3d;
-import pw.switchcraft.plethora.core.TurtleUpgradeModuleRenderer;
-import pw.switchcraft.plethora.gameplay.client.block.ManipulatorOutlineRenderer;
-import pw.switchcraft.plethora.gameplay.client.block.ManipulatorRenderer;
-import pw.switchcraft.plethora.gameplay.client.entity.LaserRenderer;
-import pw.switchcraft.plethora.gameplay.client.gui.NeuralInterfaceScreen;
-import pw.switchcraft.plethora.gameplay.client.neural.NeuralInterfaceTrinketRenderer;
-import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasHandler;
-import pw.switchcraft.plethora.gameplay.modules.glasses.networking.CanvasAddPacket;
-import pw.switchcraft.plethora.gameplay.modules.glasses.networking.CanvasRemovePacket;
-import pw.switchcraft.plethora.gameplay.modules.glasses.networking.CanvasUpdatePacket;
-import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler;
-import pw.switchcraft.plethora.gameplay.registry.Registration;
-import pw.switchcraft.plethora.gameplay.registry.Registration.ModBlockEntities;
-import pw.switchcraft.plethora.util.EntitySpawnPacket;
+import io.sc3.plethora.core.TurtleUpgradeModuleRenderer;
+import io.sc3.plethora.gameplay.client.block.ManipulatorOutlineRenderer;
+import io.sc3.plethora.gameplay.client.block.ManipulatorRenderer;
+import io.sc3.plethora.gameplay.client.entity.LaserRenderer;
+import io.sc3.plethora.gameplay.client.gui.NeuralInterfaceScreen;
+import io.sc3.plethora.gameplay.client.neural.NeuralInterfaceTrinketRenderer;
+import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasHandler;
+import io.sc3.plethora.gameplay.modules.glasses.networking.CanvasAddPacket;
+import io.sc3.plethora.gameplay.modules.glasses.networking.CanvasRemovePacket;
+import io.sc3.plethora.gameplay.modules.glasses.networking.CanvasUpdatePacket;
+import io.sc3.plethora.gameplay.neural.NeuralInterfaceScreenHandler;
+import io.sc3.plethora.gameplay.registry.Registration;
+import io.sc3.plethora.gameplay.registry.Registration.ModBlockEntities;
+import io.sc3.plethora.util.EntitySpawnPacket;
 
 import java.util.UUID;
 
-import static pw.switchcraft.plethora.Plethora.log;
-import static pw.switchcraft.plethora.gameplay.registry.Packets.*;
+import static io.sc3.plethora.Plethora.log;
+import static io.sc3.plethora.gameplay.registry.Packets.*;
 
 @Environment(EnvType.CLIENT)
 public class PlethoraClient implements ClientModInitializer {

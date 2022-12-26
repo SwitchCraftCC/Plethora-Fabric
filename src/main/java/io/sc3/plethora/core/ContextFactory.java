@@ -1,11 +1,11 @@
-package pw.switchcraft.plethora.core;
+package io.sc3.plethora.core;
 
 import com.google.common.collect.Lists;
-import pw.switchcraft.plethora.api.method.*;
-import pw.switchcraft.plethora.api.module.BasicModuleContainer;
-import pw.switchcraft.plethora.api.module.IModuleContainer;
-import pw.switchcraft.plethora.api.reference.IReference;
-import pw.switchcraft.plethora.core.executor.NeverExecutor;
+import io.sc3.plethora.api.method.*;
+import io.sc3.plethora.api.module.BasicModuleContainer;
+import io.sc3.plethora.api.module.IModuleContainer;
+import io.sc3.plethora.api.reference.IReference;
+import io.sc3.plethora.core.executor.NeverExecutor;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;

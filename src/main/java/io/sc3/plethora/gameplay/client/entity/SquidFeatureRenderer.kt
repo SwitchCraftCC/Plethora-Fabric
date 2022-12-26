@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.client.entity
+package io.sc3.plethora.gameplay.client.entity
 
 import net.minecraft.client.network.AbstractClientPlayerEntity
 import net.minecraft.client.render.OverlayTexture
@@ -12,7 +12,7 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.RotationAxis
 import net.minecraft.util.math.Vec3d
 import org.joml.Matrix4f
-import pw.switchcraft.plethora.Plethora.ModId
+import io.sc3.plethora.Plethora.ModId
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.cos

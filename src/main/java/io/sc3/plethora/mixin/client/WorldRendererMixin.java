@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.mixin.client;
+package io.sc3.plethora.mixin.client;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Camera;
@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import pw.switchcraft.plethora.gameplay.overlay.OverlayRenderer;
+import io.sc3.plethora.gameplay.overlay.OverlayRenderer;
 
 @Mixin(WorldRenderer.class)
 public class WorldRendererMixin {

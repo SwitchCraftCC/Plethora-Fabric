@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.api.method;
+package io.sc3.plethora.api.method;
 
 /**
  * A collection of built-in context keys.

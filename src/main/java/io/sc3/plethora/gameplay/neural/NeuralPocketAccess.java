@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.neural;
+package io.sc3.plethora.gameplay.neural;
 
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.pocket.IPocketAccess;

@@ -1,8 +1,8 @@
-package pw.switchcraft.plethora.api.meta;
+package io.sc3.plethora.api.meta;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import pw.switchcraft.plethora.api.method.IPartialContext;
+import io.sc3.plethora.api.method.IPartialContext;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;

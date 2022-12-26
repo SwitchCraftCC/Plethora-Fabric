@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.data.recipes
+package io.sc3.plethora.gameplay.data.recipes
 
 import net.minecraft.inventory.CraftingInventory
 import net.minecraft.item.ItemStack
@@ -9,7 +9,7 @@ import net.minecraft.recipe.ShapelessRecipe
 import net.minecraft.recipe.book.CraftingRecipeCategory
 import net.minecraft.util.Identifier
 import net.minecraft.util.collection.DefaultedList
-import pw.switchcraft.plethora.gameplay.modules.LevelableModuleItem
+import io.sc3.plethora.gameplay.modules.LevelableModuleItem
 
 abstract class LevelableModuleRecipe(
   id: Identifier,

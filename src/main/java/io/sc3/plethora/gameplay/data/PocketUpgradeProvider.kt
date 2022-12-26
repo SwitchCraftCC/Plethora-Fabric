@@ -1,13 +1,13 @@
-package pw.switchcraft.plethora.gameplay.data
+package io.sc3.plethora.gameplay.data
 
 import dan200.computercraft.api.pocket.PocketUpgradeDataProvider
 import dan200.computercraft.api.pocket.PocketUpgradeSerialiser
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.minecraft.data.DataGenerator
 import net.minecraft.item.Item
-import pw.switchcraft.plethora.api.module.IModuleHandler
-import pw.switchcraft.plethora.gameplay.registry.Registration
-import pw.switchcraft.plethora.gameplay.registry.Registration.ModItems
+import io.sc3.plethora.api.module.IModuleHandler
+import io.sc3.plethora.gameplay.registry.Registration
+import io.sc3.plethora.gameplay.registry.Registration.ModItems
 import java.util.function.Consumer
 
 class PocketUpgradeProvider(out: FabricDataOutput) : PocketUpgradeDataProvider(out) {

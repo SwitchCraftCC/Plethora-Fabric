@@ -1,11 +1,11 @@
-package pw.switchcraft.plethora.gameplay.modules.glasses.objects
+package io.sc3.plethora.gameplay.modules.glasses.objects
 
 import dan200.computercraft.api.lua.IArguments
 import dan200.computercraft.api.lua.LuaException
-import pw.switchcraft.plethora.api.method.BasicMethod
-import pw.switchcraft.plethora.api.method.FutureMethodResult
-import pw.switchcraft.plethora.api.method.IUnbakedContext
-import pw.switchcraft.plethora.core.ContextHelpers.safeFromTarget
+import io.sc3.plethora.api.method.BasicMethod
+import io.sc3.plethora.api.method.FutureMethodResult
+import io.sc3.plethora.api.method.IUnbakedContext
+import io.sc3.plethora.core.ContextHelpers.safeFromTarget
 
 /**
  * An object which can be scaled. This includes point side, text size and line thickness.

@@ -1,8 +1,8 @@
-package pw.switchcraft.plethora.api.method;
+package io.sc3.plethora.api.method;
 
 import dan200.computercraft.api.lua.IDynamicLuaObject;
-import pw.switchcraft.plethora.api.reference.IReference;
-import pw.switchcraft.plethora.api.reference.Reference;
+import io.sc3.plethora.api.reference.IReference;
+import io.sc3.plethora.api.reference.Reference;
 
 import javax.annotation.Nonnull;
 

@@ -1,11 +1,11 @@
-package pw.switchcraft.plethora.core;
+package io.sc3.plethora.core;
 
-import pw.switchcraft.plethora.api.method.ContextKeys;
-import pw.switchcraft.plethora.api.method.IContext;
-import pw.switchcraft.plethora.api.method.TypedLuaObject;
-import pw.switchcraft.plethora.api.module.IModuleContainer;
-import pw.switchcraft.plethora.api.reference.IReference;
-import pw.switchcraft.plethora.api.reference.Reference;
+import io.sc3.plethora.api.method.ContextKeys;
+import io.sc3.plethora.api.method.IContext;
+import io.sc3.plethora.api.method.TypedLuaObject;
+import io.sc3.plethora.api.module.IModuleContainer;
+import io.sc3.plethora.api.reference.IReference;
+import io.sc3.plethora.api.reference.Reference;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;

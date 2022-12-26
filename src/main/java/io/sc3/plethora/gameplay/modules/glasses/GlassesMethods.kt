@@ -1,15 +1,15 @@
-package pw.switchcraft.plethora.gameplay.modules.glasses
+package io.sc3.plethora.gameplay.modules.glasses
 
-import pw.switchcraft.plethora.api.method.BasicMethod
-import pw.switchcraft.plethora.api.method.FutureMethodResult
-import pw.switchcraft.plethora.api.method.IUnbakedContext
-import pw.switchcraft.plethora.api.module.IModuleContainer
-import pw.switchcraft.plethora.api.module.SubtargetedModuleMethod
-import pw.switchcraft.plethora.gameplay.modules.glasses.GlassesMethodsHelpers.getContext
-import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasServer
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.BaseObject
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectGroup
-import pw.switchcraft.plethora.gameplay.registry.PlethoraModules.GLASSES_M
+import io.sc3.plethora.api.method.BasicMethod
+import io.sc3.plethora.api.method.FutureMethodResult
+import io.sc3.plethora.api.method.IUnbakedContext
+import io.sc3.plethora.api.module.IModuleContainer
+import io.sc3.plethora.api.module.SubtargetedModuleMethod
+import io.sc3.plethora.gameplay.modules.glasses.GlassesMethodsHelpers.getContext
+import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasServer
+import io.sc3.plethora.gameplay.modules.glasses.objects.BaseObject
+import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectGroup
+import io.sc3.plethora.gameplay.registry.PlethoraModules.GLASSES_M
 
 object GlassesMethods {
   val GET_CANVAS = SubtargetedModuleMethod.of(

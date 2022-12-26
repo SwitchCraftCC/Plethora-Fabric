@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.api.vehicle;
+package io.sc3.plethora.api.vehicle;
 
 import dan200.computercraft.api.client.TransformedModel;
 import dan200.computercraft.api.peripheral.IPeripheral;

@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.core
+package io.sc3.plethora.core
 
 /**
  * A node which can be registered and enabled and disabled at runtime.

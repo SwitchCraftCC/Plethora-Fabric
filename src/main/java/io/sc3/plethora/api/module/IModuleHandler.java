@@ -1,11 +1,11 @@
-package pw.switchcraft.plethora.api.module;
+package io.sc3.plethora.api.module;
 
 import dan200.computercraft.api.client.TransformedModel;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
-import pw.switchcraft.plethora.api.method.IContextBuilder;
+import io.sc3.plethora.api.method.IContextBuilder;
 
 import javax.annotation.Nonnull;
 

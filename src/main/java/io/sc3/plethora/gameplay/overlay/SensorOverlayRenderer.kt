@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.overlay
+package io.sc3.plethora.gameplay.overlay
 
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.render.Camera
@@ -9,8 +9,8 @@ import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
 import net.minecraft.util.TypeFilter
 import net.minecraft.util.math.Box
-import pw.switchcraft.plethora.Plethora
-import pw.switchcraft.plethora.gameplay.modules.LevelableModuleItem
+import io.sc3.plethora.Plethora
+import io.sc3.plethora.gameplay.modules.LevelableModuleItem
 
 object SensorOverlayRenderer : FlareOverlayRenderer() {
   private val cfg by Plethora.config::sensor

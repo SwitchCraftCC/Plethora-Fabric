@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.util;
+package io.sc3.plethora.util;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.entity.Entity;
@@ -10,7 +10,7 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
-import pw.switchcraft.plethora.api.IPlayerOwnable;
+import io.sc3.plethora.api.IPlayerOwnable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

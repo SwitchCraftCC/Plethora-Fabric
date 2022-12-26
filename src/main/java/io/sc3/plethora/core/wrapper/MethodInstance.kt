@@ -1,14 +1,14 @@
-package pw.switchcraft.plethora.core.wrapper
+package io.sc3.plethora.core.wrapper
 
 import dan200.computercraft.api.lua.IArguments
 import dan200.computercraft.api.lua.LuaException
 import net.minecraft.util.Identifier
-import pw.switchcraft.plethora.api.method.FutureMethodResult
-import pw.switchcraft.plethora.api.method.IMethod
-import pw.switchcraft.plethora.api.method.IPartialContext
-import pw.switchcraft.plethora.api.method.IUnbakedContext
-import pw.switchcraft.plethora.api.module.IModuleContainer
-import pw.switchcraft.plethora.core.RegisteredMethod
+import io.sc3.plethora.api.method.FutureMethodResult
+import io.sc3.plethora.api.method.IMethod
+import io.sc3.plethora.api.method.IPartialContext
+import io.sc3.plethora.api.method.IUnbakedContext
+import io.sc3.plethora.api.module.IModuleContainer
+import io.sc3.plethora.core.RegisteredMethod
 import java.lang.reflect.Method
 import javax.annotation.Nonnull
 

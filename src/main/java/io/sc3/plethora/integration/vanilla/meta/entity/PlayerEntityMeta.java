@@ -1,8 +1,8 @@
-package pw.switchcraft.plethora.integration.vanilla.meta.entity;
+package io.sc3.plethora.integration.vanilla.meta.entity;
 
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
-import pw.switchcraft.plethora.api.meta.BasicMetaProvider;
+import io.sc3.plethora.api.meta.BasicMetaProvider;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;

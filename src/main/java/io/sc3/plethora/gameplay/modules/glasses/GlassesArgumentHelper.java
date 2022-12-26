@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.modules.glasses;
+package io.sc3.plethora.gameplay.modules.glasses;
 
 import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.LuaException;
@@ -6,7 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
-import pw.switchcraft.plethora.util.Vec2d;
+import io.sc3.plethora.util.Vec2d;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

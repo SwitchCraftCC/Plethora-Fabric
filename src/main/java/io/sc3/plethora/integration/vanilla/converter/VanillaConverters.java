@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.integration.vanilla.converter;
+package io.sc3.plethora.integration.vanilla.converter;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -9,11 +9,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import pw.switchcraft.plethora.api.WorldLocation;
-import pw.switchcraft.plethora.api.converter.ConstantConverter;
-import pw.switchcraft.plethora.api.converter.DynamicConverter;
-import pw.switchcraft.plethora.api.reference.BlockReference;
-import pw.switchcraft.plethora.integration.EntityIdentifier;
+import io.sc3.plethora.api.WorldLocation;
+import io.sc3.plethora.api.converter.ConstantConverter;
+import io.sc3.plethora.api.converter.DynamicConverter;
+import io.sc3.plethora.api.reference.BlockReference;
+import io.sc3.plethora.integration.EntityIdentifier;
 
 public final class VanillaConverters {
     public static final ConstantConverter<ItemStack, Item> GET_STACK_ITEM = ItemStack::getItem;

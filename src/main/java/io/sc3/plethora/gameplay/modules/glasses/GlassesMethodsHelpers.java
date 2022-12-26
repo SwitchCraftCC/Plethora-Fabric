@@ -1,15 +1,15 @@
-package pw.switchcraft.plethora.gameplay.modules.glasses;
+package io.sc3.plethora.gameplay.modules.glasses;
 
 import dan200.computercraft.api.lua.LuaException;
-import pw.switchcraft.plethora.api.IWorldLocation;
-import pw.switchcraft.plethora.api.method.ContextKeys;
-import pw.switchcraft.plethora.api.method.IContext;
-import pw.switchcraft.plethora.api.method.IUnbakedContext;
-import pw.switchcraft.plethora.api.module.IModuleContainer;
-import pw.switchcraft.plethora.core.ContextHelpers;
-import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasServer;
+import io.sc3.plethora.api.IWorldLocation;
+import io.sc3.plethora.api.method.ContextKeys;
+import io.sc3.plethora.api.method.IContext;
+import io.sc3.plethora.api.method.IUnbakedContext;
+import io.sc3.plethora.api.module.IModuleContainer;
+import io.sc3.plethora.core.ContextHelpers;
+import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasServer;
 
-import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.GLASSES_S;
+import static io.sc3.plethora.gameplay.registry.PlethoraModules.GLASSES_S;
 
 public class GlassesMethodsHelpers {
   public record GlassesContext(

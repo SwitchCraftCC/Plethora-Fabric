@@ -1,9 +1,9 @@
-package pw.switchcraft.plethora.api;
+package io.sc3.plethora.api;
 
-import pw.switchcraft.plethora.api.converter.IConverterRegistry;
-import pw.switchcraft.plethora.api.meta.IMetaRegistry;
-import pw.switchcraft.plethora.api.method.IMethodRegistry;
-import pw.switchcraft.plethora.api.module.IModuleRegistry;
+import io.sc3.plethora.api.converter.IConverterRegistry;
+import io.sc3.plethora.api.meta.IMetaRegistry;
+import io.sc3.plethora.api.method.IMethodRegistry;
+import io.sc3.plethora.api.module.IModuleRegistry;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -38,7 +38,7 @@ public final class PlethoraAPI {
     static {
         // TODO: This is probably the wrong way to do this for a Fabric API
         IPlethoraAPI api;
-        final String name = "pw.switchcraft.plethora.core.API";
+        final String name = "io.sc3.plethora.core.API";
         try {
             Class<?> registryClass = Class.forName(name);
             api = (IPlethoraAPI) registryClass.getDeclaredConstructor().newInstance();

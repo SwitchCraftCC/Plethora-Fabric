@@ -1,10 +1,10 @@
-package pw.switchcraft.plethora.gameplay;
+package io.sc3.plethora.gameplay;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.item.ItemStack;
-import pw.switchcraft.plethora.api.meta.ItemStackMetaProvider;
-import pw.switchcraft.plethora.gameplay.modules.BindableModuleItem;
-import pw.switchcraft.plethora.gameplay.modules.ModuleContextHelpers;
+import io.sc3.plethora.api.meta.ItemStackMetaProvider;
+import io.sc3.plethora.gameplay.modules.BindableModuleItem;
+import io.sc3.plethora.gameplay.modules.ModuleContextHelpers;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;

@@ -1,21 +1,21 @@
-package pw.switchcraft.plethora.gameplay.modules.introspection;
+package io.sc3.plethora.gameplay.modules.introspection;
 
 import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.LuaException;
-import pw.switchcraft.plethora.api.method.FutureMethodResult;
-import pw.switchcraft.plethora.api.method.IUnbakedContext;
-import pw.switchcraft.plethora.api.module.IModuleContainer;
-import pw.switchcraft.plethora.api.module.SubtargetedModuleMethod;
-import pw.switchcraft.plethora.gameplay.modules.introspection.IntrospectionContextHelpers.ServerContext;
-import pw.switchcraft.plethora.integration.EntityIdentifier;
+import io.sc3.plethora.api.method.FutureMethodResult;
+import io.sc3.plethora.api.method.IUnbakedContext;
+import io.sc3.plethora.api.module.IModuleContainer;
+import io.sc3.plethora.api.module.SubtargetedModuleMethod;
+import io.sc3.plethora.gameplay.modules.introspection.IntrospectionContextHelpers.ServerContext;
+import io.sc3.plethora.integration.EntityIdentifier;
 
 import javax.annotation.Nonnull;
 import java.util.Set;
 
-import static pw.switchcraft.plethora.gameplay.modules.introspection.IntrospectionContextHelpers.getContext;
-import static pw.switchcraft.plethora.gameplay.modules.introspection.IntrospectionContextHelpers.getServerContext;
-import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.INTROSPECTION_M;
-import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.SENSOR_M;
+import static io.sc3.plethora.gameplay.modules.introspection.IntrospectionContextHelpers.getContext;
+import static io.sc3.plethora.gameplay.modules.introspection.IntrospectionContextHelpers.getServerContext;
+import static io.sc3.plethora.gameplay.registry.PlethoraModules.INTROSPECTION_M;
+import static io.sc3.plethora.gameplay.registry.PlethoraModules.SENSOR_M;
 
 public final class IntrospectionMethods {
     public static final SubtargetedModuleMethod<EntityIdentifier> GET_ID = SubtargetedModuleMethod.of(

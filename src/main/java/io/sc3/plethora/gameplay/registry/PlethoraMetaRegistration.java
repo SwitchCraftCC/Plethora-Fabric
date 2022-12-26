@@ -1,11 +1,11 @@
-package pw.switchcraft.plethora.gameplay.registry;
+package io.sc3.plethora.gameplay.registry;
 
 import net.minecraft.item.ItemStack;
-import pw.switchcraft.plethora.Plethora;
-import pw.switchcraft.plethora.api.meta.IMetaProvider;
-import pw.switchcraft.plethora.api.meta.IMetaRegistry;
-import pw.switchcraft.plethora.gameplay.BindableModuleItemMeta;
-import pw.switchcraft.plethora.integration.MetaWrapper;
+import io.sc3.plethora.Plethora;
+import io.sc3.plethora.api.meta.IMetaProvider;
+import io.sc3.plethora.api.meta.IMetaRegistry;
+import io.sc3.plethora.gameplay.BindableModuleItemMeta;
+import io.sc3.plethora.integration.MetaWrapper;
 
 public class PlethoraMetaRegistration {
     public static void registerMetaProviders(IMetaRegistry r) {

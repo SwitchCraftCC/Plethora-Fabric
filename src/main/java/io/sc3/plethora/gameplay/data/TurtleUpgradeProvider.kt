@@ -1,13 +1,13 @@
-package pw.switchcraft.plethora.gameplay.data
+package io.sc3.plethora.gameplay.data
 
 import dan200.computercraft.api.turtle.TurtleUpgradeDataProvider
 import dan200.computercraft.api.turtle.TurtleUpgradeSerialiser
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.minecraft.data.DataGenerator
 import net.minecraft.item.Item
-import pw.switchcraft.plethora.api.module.IModuleHandler
-import pw.switchcraft.plethora.gameplay.registry.Registration.ModItems
-import pw.switchcraft.plethora.gameplay.registry.Registration.ModTurtleUpgradeSerialisers
+import io.sc3.plethora.api.module.IModuleHandler
+import io.sc3.plethora.gameplay.registry.Registration.ModItems
+import io.sc3.plethora.gameplay.registry.Registration.ModTurtleUpgradeSerialisers
 import java.util.function.Consumer
 
 class TurtleUpgradeProvider(out: FabricDataOutput) : TurtleUpgradeDataProvider(out) {

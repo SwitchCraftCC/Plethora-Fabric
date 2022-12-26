@@ -1,7 +1,7 @@
-package pw.switchcraft.plethora.api.method;
+package io.sc3.plethora.api.method;
 
 import dan200.computercraft.api.lua.LuaException;
-import pw.switchcraft.plethora.api.reference.IReference;
+import io.sc3.plethora.api.reference.IReference;
 
 import javax.annotation.Nonnull;
 

@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.core.collections;
+package io.sc3.plethora.core.collections;
 
 import com.google.common.collect.Queues;
 

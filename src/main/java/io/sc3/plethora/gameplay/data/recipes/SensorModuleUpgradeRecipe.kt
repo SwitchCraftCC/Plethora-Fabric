@@ -1,9 +1,9 @@
-package pw.switchcraft.plethora.gameplay.data.recipes
+package io.sc3.plethora.gameplay.data.recipes
 
 import net.minecraft.recipe.SpecialRecipeSerializer
 import net.minecraft.recipe.book.CraftingRecipeCategory
 import net.minecraft.util.Identifier
-import pw.switchcraft.plethora.gameplay.registry.Registration.ModItems.SENSOR_MODULE
+import io.sc3.plethora.gameplay.registry.Registration.ModItems.SENSOR_MODULE
 
 class SensorModuleUpgradeRecipe(
   id: Identifier,

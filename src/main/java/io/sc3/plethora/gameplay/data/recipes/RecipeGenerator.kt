@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.data.recipes
+package io.sc3.plethora.gameplay.data.recipes
 
 import dan200.computercraft.api.pocket.PocketUpgradeDataProvider
 import dan200.computercraft.api.turtle.TurtleUpgradeDataProvider
@@ -7,9 +7,9 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
 import net.minecraft.advancement.criterion.InventoryChangedCriterion
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.item.ItemConvertible
-import pw.switchcraft.plethora.gameplay.data.recipes.handlers.PocketRecipes
-import pw.switchcraft.plethora.gameplay.data.recipes.handlers.RecipeHandlers.RECIPE_HANDLERS
-import pw.switchcraft.plethora.gameplay.data.recipes.handlers.TurtleRecipes
+import io.sc3.plethora.gameplay.data.recipes.handlers.PocketRecipes
+import io.sc3.plethora.gameplay.data.recipes.handlers.RecipeHandlers.RECIPE_HANDLERS
+import io.sc3.plethora.gameplay.data.recipes.handlers.TurtleRecipes
 import java.util.function.Consumer
 
 class RecipeGenerator(

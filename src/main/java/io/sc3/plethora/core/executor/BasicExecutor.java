@@ -1,14 +1,14 @@
-package pw.switchcraft.plethora.core.executor;
+package io.sc3.plethora.core.executor;
 
 import dan200.computercraft.api.lua.*;
-import pw.switchcraft.plethora.api.method.FutureMethodResult;
-import pw.switchcraft.plethora.api.method.IResultExecutor;
+import io.sc3.plethora.api.method.FutureMethodResult;
+import io.sc3.plethora.api.method.IResultExecutor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.concurrent.Callable;
 
-import static pw.switchcraft.plethora.Plethora.log;
+import static io.sc3.plethora.Plethora.log;
 
 /**
  * A result executor which relies on {@link ILuaContext#executeMainThreadTask(LuaTask)} in order to execute tasks.

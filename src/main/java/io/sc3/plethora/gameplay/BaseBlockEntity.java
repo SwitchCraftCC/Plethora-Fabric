@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay;
+package io.sc3.plethora.gameplay;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerBlockEntityEvents;
 import net.minecraft.block.Block;
@@ -15,7 +15,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import pw.switchcraft.plethora.gameplay.registry.Registration;
+import io.sc3.plethora.gameplay.registry.Registration;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

@@ -1,11 +1,11 @@
-package pw.switchcraft.plethora.integration.vanilla.meta.block;
+package io.sc3.plethora.integration.vanilla.meta.block;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.MapColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import pw.switchcraft.plethora.api.meta.BasicMetaProvider;
-import pw.switchcraft.plethora.api.reference.BlockReference;
+import io.sc3.plethora.api.meta.BasicMetaProvider;
+import io.sc3.plethora.api.reference.BlockReference;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;

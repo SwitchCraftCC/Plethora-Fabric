@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.client.block
+package io.sc3.plethora.gameplay.client.block
 
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.VertexConsumerProvider
@@ -7,10 +7,10 @@ import net.minecraft.client.render.model.json.ModelTransformation.Mode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.RotationAxis
-import pw.switchcraft.plethora.api.module.IModuleHandler
-import pw.switchcraft.plethora.gameplay.manipulator.ManipulatorBlock
-import pw.switchcraft.plethora.gameplay.manipulator.ManipulatorBlockEntity
-import pw.switchcraft.plethora.util.MatrixHelpers
+import io.sc3.plethora.api.module.IModuleHandler
+import io.sc3.plethora.gameplay.manipulator.ManipulatorBlock
+import io.sc3.plethora.gameplay.manipulator.ManipulatorBlockEntity
+import io.sc3.plethora.util.MatrixHelpers
 
 class ManipulatorRenderer : BlockEntityRenderer<ManipulatorBlockEntity> {
   private val mc by lazy { MinecraftClient.getInstance() }

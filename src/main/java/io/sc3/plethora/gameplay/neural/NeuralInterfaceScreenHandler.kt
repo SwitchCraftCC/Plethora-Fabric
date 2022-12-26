@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.neural
+package io.sc3.plethora.gameplay.neural
 
 import dan200.computercraft.shared.computer.core.ComputerFamily.ADVANCED
 import dan200.computercraft.shared.computer.core.ServerComputer
@@ -11,10 +11,10 @@ import net.minecraft.inventory.Inventory
 import net.minecraft.inventory.SimpleInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.screen.slot.Slot
-import pw.switchcraft.plethora.gameplay.client.gui.NeuralInterfaceScreen.Companion.BORDER
-import pw.switchcraft.plethora.gameplay.neural.NeuralHelpers.INV_SIZE
-import pw.switchcraft.plethora.gameplay.registry.Registration.ModScreens.NEURAL_INTERFACE_HANDLER_TYPE
-import pw.switchcraft.plethora.util.Vec2i
+import io.sc3.plethora.gameplay.client.gui.NeuralInterfaceScreen.Companion.BORDER
+import io.sc3.plethora.gameplay.neural.NeuralHelpers.INV_SIZE
+import io.sc3.plethora.gameplay.registry.Registration.ModScreens.NEURAL_INTERFACE_HANDLER_TYPE
+import io.sc3.plethora.util.Vec2i
 import java.util.function.Predicate
 
 class NeuralInterfaceScreenHandler private constructor(

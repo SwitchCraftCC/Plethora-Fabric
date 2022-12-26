@@ -1,9 +1,9 @@
-package pw.switchcraft.plethora.gameplay.modules.sensor
+package io.sc3.plethora.gameplay.modules.sensor
 
 import net.minecraft.util.Identifier
-import pw.switchcraft.plethora.Plethora
-import pw.switchcraft.plethora.gameplay.modules.LevelableModuleItem
-import pw.switchcraft.plethora.gameplay.registry.PlethoraModules
+import io.sc3.plethora.Plethora
+import io.sc3.plethora.gameplay.modules.LevelableModuleItem
+import io.sc3.plethora.gameplay.registry.PlethoraModules
 
 class SensorModuleItem(settings: Settings) : LevelableModuleItem("sensor", settings) {
   private val cfg by Plethora.config::sensor

@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.neural;
+package io.sc3.plethora.gameplay.neural;
 
 import dan200.computercraft.shared.computer.core.ServerComputer;
 import dan200.computercraft.shared.network.container.ComputerContainerData;

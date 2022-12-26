@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.core;
+package io.sc3.plethora.core;
 
 import com.mojang.authlib.GameProfile;
 import dan200.computercraft.api.client.TransformedModel;
@@ -11,18 +11,18 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.Direction;
-import pw.switchcraft.plethora.api.IPlayerOwnable;
-import pw.switchcraft.plethora.api.IWorldLocation;
-import pw.switchcraft.plethora.api.TurtleWorldLocation;
-import pw.switchcraft.plethora.api.method.ContextKeys;
-import pw.switchcraft.plethora.api.module.IModuleAccess;
-import pw.switchcraft.plethora.api.module.IModuleContainer;
-import pw.switchcraft.plethora.api.module.IModuleHandler;
-import pw.switchcraft.plethora.api.module.SingletonModuleContainer;
-import pw.switchcraft.plethora.api.reference.ConstantReference;
-import pw.switchcraft.plethora.api.reference.IReference;
-import pw.switchcraft.plethora.api.reference.Reference;
-import pw.switchcraft.plethora.core.executor.TaskRunner;
+import io.sc3.plethora.api.IPlayerOwnable;
+import io.sc3.plethora.api.IWorldLocation;
+import io.sc3.plethora.api.TurtleWorldLocation;
+import io.sc3.plethora.api.method.ContextKeys;
+import io.sc3.plethora.api.module.IModuleAccess;
+import io.sc3.plethora.api.module.IModuleContainer;
+import io.sc3.plethora.api.module.IModuleHandler;
+import io.sc3.plethora.api.module.SingletonModuleContainer;
+import io.sc3.plethora.api.reference.ConstantReference;
+import io.sc3.plethora.api.reference.IReference;
+import io.sc3.plethora.api.reference.Reference;
+import io.sc3.plethora.core.executor.TaskRunner;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

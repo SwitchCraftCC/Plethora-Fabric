@@ -1,7 +1,7 @@
-package pw.switchcraft.plethora.core;
+package io.sc3.plethora.core;
 
 import com.google.common.collect.Multimap;
-import pw.switchcraft.plethora.core.collections.SortedMultimap;
+import io.sc3.plethora.core.collections.SortedMultimap;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

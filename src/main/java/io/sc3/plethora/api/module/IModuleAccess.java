@@ -1,8 +1,8 @@
-package pw.switchcraft.plethora.api.module;
+package io.sc3.plethora.api.module;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
-import pw.switchcraft.plethora.api.IWorldLocation;
+import io.sc3.plethora.api.IWorldLocation;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

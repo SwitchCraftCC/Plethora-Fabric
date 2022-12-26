@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.api.meta;
+package io.sc3.plethora.api.meta;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

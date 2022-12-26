@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.api.module;
+package io.sc3.plethora.api.module;
 
 import net.minecraft.util.Identifier;
 

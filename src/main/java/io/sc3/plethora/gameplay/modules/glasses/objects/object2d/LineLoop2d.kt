@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d
+package io.sc3.plethora.gameplay.modules.glasses.objects.object2d
 
 import com.mojang.blaze3d.systems.RenderSystem
 import net.fabricmc.api.EnvType
@@ -6,10 +6,10 @@ import net.fabricmc.api.Environment
 import net.minecraft.client.render.*
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.network.PacketByteBuf
-import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasClient
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectRegistry.LINE_LOOP_2D
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.Scalable
-import pw.switchcraft.plethora.util.DirtyingProperty
+import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasClient
+import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectRegistry.LINE_LOOP_2D
+import io.sc3.plethora.gameplay.modules.glasses.objects.Scalable
+import io.sc3.plethora.util.DirtyingProperty
 import javax.annotation.Nonnull
 
 class LineLoop2d(

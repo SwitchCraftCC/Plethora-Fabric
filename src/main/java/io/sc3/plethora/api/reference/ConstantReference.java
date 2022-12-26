@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.api.reference;
+package io.sc3.plethora.api.reference;
 
 /**
  * A reference which always returns the same value (or a value which is equivalent).

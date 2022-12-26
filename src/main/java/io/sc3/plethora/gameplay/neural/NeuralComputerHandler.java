@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.neural;
+package io.sc3.plethora.gameplay.neural;
 
 import dan200.computercraft.api.ComputerCraftAPI;
 import dan200.computercraft.shared.computer.core.ServerComputer;
@@ -13,7 +13,7 @@ import net.minecraft.server.world.ServerWorld;
 
 import javax.annotation.Nonnull;
 
-import static pw.switchcraft.plethora.Plethora.log;
+import static io.sc3.plethora.Plethora.log;
 
 /**
  * Attempt to get computers from items

@@ -1,10 +1,10 @@
-package pw.switchcraft.plethora.api.method;
+package io.sc3.plethora.api.method;
 
 import net.minecraft.item.ItemStack;
-import pw.switchcraft.plethora.api.meta.TypedMeta;
-import pw.switchcraft.plethora.core.ContextFactory;
-import pw.switchcraft.plethora.core.executor.BasicExecutor;
-import pw.switchcraft.plethora.integration.MetaWrapper;
+import io.sc3.plethora.api.meta.TypedMeta;
+import io.sc3.plethora.core.ContextFactory;
+import io.sc3.plethora.core.executor.BasicExecutor;
+import io.sc3.plethora.integration.MetaWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

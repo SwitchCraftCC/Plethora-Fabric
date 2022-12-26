@@ -1,8 +1,8 @@
-package pw.switchcraft.plethora.api.reference;
+package io.sc3.plethora.api.reference;
 
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
-import pw.switchcraft.plethora.api.IWorldLocation;
+import io.sc3.plethora.api.IWorldLocation;
 
 import javax.annotation.Nonnull;
 

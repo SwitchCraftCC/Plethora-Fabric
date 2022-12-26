@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.mixin.client;
+package io.sc3.plethora.mixin.client;
 
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;

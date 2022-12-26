@@ -1,8 +1,8 @@
-package pw.switchcraft.plethora.gameplay.modules;
+package io.sc3.plethora.gameplay.modules;
 
-import pw.switchcraft.plethora.api.reference.ConstantReference;
-import pw.switchcraft.plethora.gameplay.modules.scanner.ScannerModuleItem;
-import pw.switchcraft.plethora.gameplay.modules.sensor.SensorModuleItem;
+import io.sc3.plethora.api.reference.ConstantReference;
+import io.sc3.plethora.gameplay.modules.scanner.ScannerModuleItem;
+import io.sc3.plethora.gameplay.modules.sensor.SensorModuleItem;
 
 import javax.annotation.Nonnull;
 import java.util.function.IntUnaryOperator;
@@ -22,7 +22,7 @@ public interface RangeInfo extends ConstantReference<RangeInfo> {
      * The cost for some bulk operation (sense/scan).
      *
      * @return The cost of a bulk operation.
-     * @see pw.switchcraft.plethora.api.method.ICostHandler
+     * @see io.sc3.plethora.api.method.ICostHandler
      */
     int getBulkCost();
 

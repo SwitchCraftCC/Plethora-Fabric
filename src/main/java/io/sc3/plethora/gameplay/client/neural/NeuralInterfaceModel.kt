@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.client.neural
+package io.sc3.plethora.gameplay.client.neural
 
 import net.minecraft.client.model.Dilation
 import net.minecraft.client.model.ModelPartBuilder.create

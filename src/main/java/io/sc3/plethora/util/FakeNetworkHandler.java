@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.util;
+package io.sc3.plethora.util;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.embedded.EmbeddedChannel;
@@ -8,7 +8,7 @@ import net.minecraft.network.packet.c2s.play.*;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
-import pw.switchcraft.plethora.mixin.ClientConnectionAccessor;
+import io.sc3.plethora.mixin.ClientConnectionAccessor;
 
 import javax.annotation.Nonnull;
 import javax.crypto.Cipher;

@@ -1,8 +1,8 @@
-package pw.switchcraft.plethora.api.vehicle;
+package io.sc3.plethora.api.vehicle;
 
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
-import pw.switchcraft.plethora.api.module.BasicModuleHandler;
+import io.sc3.plethora.api.module.BasicModuleHandler;
 
 /**
  * A {@link BasicModuleHandler} which also provides a {@link IVehicleUpgradeHandler}.

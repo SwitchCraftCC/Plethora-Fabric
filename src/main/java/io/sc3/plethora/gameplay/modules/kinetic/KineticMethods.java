@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.modules.kinetic;
+package io.sc3.plethora.gameplay.modules.kinetic;
 
 import com.mojang.authlib.GameProfile;
 import dan200.computercraft.api.lua.IArguments;
@@ -9,25 +9,25 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.MathHelper;
-import pw.switchcraft.plethora.api.IPlayerOwnable;
-import pw.switchcraft.plethora.api.method.FutureMethodResult;
-import pw.switchcraft.plethora.api.method.IContext;
-import pw.switchcraft.plethora.api.method.IUnbakedContext;
-import pw.switchcraft.plethora.api.module.IModuleContainer;
-import pw.switchcraft.plethora.api.module.SubtargetedModuleMethod;
-import pw.switchcraft.plethora.gameplay.PlethoraFakePlayer;
-import pw.switchcraft.plethora.mixin.ServerPlayNetworkHandlerAdapter;
+import io.sc3.plethora.api.IPlayerOwnable;
+import io.sc3.plethora.api.method.FutureMethodResult;
+import io.sc3.plethora.api.method.IContext;
+import io.sc3.plethora.api.method.IUnbakedContext;
+import io.sc3.plethora.api.module.IModuleContainer;
+import io.sc3.plethora.api.module.SubtargetedModuleMethod;
+import io.sc3.plethora.gameplay.PlethoraFakePlayer;
+import io.sc3.plethora.mixin.ServerPlayNetworkHandlerAdapter;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static pw.switchcraft.plethora.Plethora.config;
-import static pw.switchcraft.plethora.api.method.ArgumentHelper.assertBetween;
-import static pw.switchcraft.plethora.api.method.ContextKeys.ORIGIN;
-import static pw.switchcraft.plethora.core.ContextHelpers.fromContext;
-import static pw.switchcraft.plethora.core.ContextHelpers.fromSubtarget;
-import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.KINETIC_M;
-import static pw.switchcraft.plethora.util.Helpers.normaliseAngle;
+import static io.sc3.plethora.Plethora.config;
+import static io.sc3.plethora.api.method.ArgumentHelper.assertBetween;
+import static io.sc3.plethora.api.method.ContextKeys.ORIGIN;
+import static io.sc3.plethora.core.ContextHelpers.fromContext;
+import static io.sc3.plethora.core.ContextHelpers.fromSubtarget;
+import static io.sc3.plethora.gameplay.registry.PlethoraModules.KINETIC_M;
+import static io.sc3.plethora.util.Helpers.normaliseAngle;
 
 public class KineticMethods {
     private static final double TERMINAL_VELOCITY = -2;

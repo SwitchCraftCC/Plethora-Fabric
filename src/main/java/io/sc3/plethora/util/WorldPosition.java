@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.util;
+package io.sc3.plethora.util;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryKey;

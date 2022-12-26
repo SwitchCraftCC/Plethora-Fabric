@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.util
+package io.sc3.plethora.util
 
 import kotlin.reflect.KProperty
 

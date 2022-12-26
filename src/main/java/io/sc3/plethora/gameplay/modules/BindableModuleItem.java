@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.modules;
+package io.sc3.plethora.gameplay.modules;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.item.TooltipContext;

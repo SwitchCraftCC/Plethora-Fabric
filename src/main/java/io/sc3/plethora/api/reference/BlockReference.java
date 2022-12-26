@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.api.reference;
+package io.sc3.plethora.api.reference;
 
 import com.google.common.base.Objects;
 import dan200.computercraft.api.lua.LuaException;
@@ -7,7 +7,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-import pw.switchcraft.plethora.api.IWorldLocation;
+import io.sc3.plethora.api.IWorldLocation;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

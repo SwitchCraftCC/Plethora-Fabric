@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.redstone;
+package io.sc3.plethora.gameplay.redstone;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;

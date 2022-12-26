@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d
+package io.sc3.plethora.gameplay.modules.glasses.objects.object3d
 
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
@@ -14,13 +14,13 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.registry.Registries
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3d
-import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasClient
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.BaseObject
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ItemObject
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectRegistry.ITEM_3D
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.Scalable
-import pw.switchcraft.plethora.util.ByteBufUtils
-import pw.switchcraft.plethora.util.DirtyingProperty
+import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasClient
+import io.sc3.plethora.gameplay.modules.glasses.objects.BaseObject
+import io.sc3.plethora.gameplay.modules.glasses.objects.ItemObject
+import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectRegistry.ITEM_3D
+import io.sc3.plethora.gameplay.modules.glasses.objects.Scalable
+import io.sc3.plethora.util.ByteBufUtils
+import io.sc3.plethora.util.DirtyingProperty
 
 class Item3d(
   id: Int,

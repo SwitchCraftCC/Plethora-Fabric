@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.mixin;
+package io.sc3.plethora.mixin;
 
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import org.spongepowered.asm.mixin.Mixin;

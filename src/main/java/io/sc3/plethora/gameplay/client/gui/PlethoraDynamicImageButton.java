@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.client.gui;
+package io.sc3.plethora.gameplay.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import dan200.computercraft.client.gui.widgets.DynamicImageButton;

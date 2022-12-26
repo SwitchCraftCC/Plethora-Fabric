@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.neural
+package io.sc3.plethora.gameplay.neural
 
 import net.minecraft.inventory.Inventory
 import net.minecraft.item.ItemStack

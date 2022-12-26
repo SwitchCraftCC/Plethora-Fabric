@@ -1,21 +1,21 @@
-package pw.switchcraft.plethora.core;
+package io.sc3.plethora.core;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.Direction;
-import pw.switchcraft.plethora.Plethora;
-import pw.switchcraft.plethora.api.converter.IConverterExcludeMethod;
-import pw.switchcraft.plethora.api.method.*;
-import pw.switchcraft.plethora.core.collections.ClassIteratorIterable;
-import pw.switchcraft.plethora.util.config.ConfigLoader;
+import io.sc3.plethora.Plethora;
+import io.sc3.plethora.api.converter.IConverterExcludeMethod;
+import io.sc3.plethora.api.method.*;
+import io.sc3.plethora.core.collections.ClassIteratorIterable;
+import io.sc3.plethora.util.config.ConfigLoader;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
-import static pw.switchcraft.plethora.Plethora.log;
+import static io.sc3.plethora.Plethora.log;
 
 public final class MethodRegistry implements IMethodRegistry {
 	public static final MethodRegistry instance = new MethodRegistry();

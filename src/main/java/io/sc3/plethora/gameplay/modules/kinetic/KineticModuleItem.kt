@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.modules.kinetic
+package io.sc3.plethora.gameplay.modules.kinetic
 
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -8,9 +8,9 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.UseAction
 import net.minecraft.world.World
-import pw.switchcraft.plethora.Plethora.config
-import pw.switchcraft.plethora.gameplay.modules.ModuleItem
-import pw.switchcraft.plethora.gameplay.registry.PlethoraModules
+import io.sc3.plethora.Plethora.config
+import io.sc3.plethora.gameplay.modules.ModuleItem
+import io.sc3.plethora.gameplay.registry.PlethoraModules
 
 private const val MAX_TICKS = 72000
 private const val USE_TICKS = 30

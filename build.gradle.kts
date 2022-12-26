@@ -50,7 +50,7 @@ repositories {
   maven {
     url = uri("https://repo.lem.sh/releases")
     content {
-      includeGroup("pw.switchcraft")
+      includeGroup("io.sc3")
     }
   }
 
@@ -58,13 +58,19 @@ repositories {
     content {
       includeGroup("cc.tweaked")
       includeModule("org.squiddev", "Cobalt")
-      includeModule("net.minecraftforge", "forgeconfigapiport-fabric")
     }
   }
   maven("https://maven.shedaniel.me") // cloth-config
   maven("https://maven.terraformersmc.com/releases") // Mod Menu
   maven("https://maven.terraformersmc.com/") // Trinkets
   maven("https://ladysnake.jfrog.io/artifactory/mods") // Trinkets
+
+  // forgeconfigapiport-fabric, dependency of CC: Tweaked
+  maven("https://raw.githubusercontent.com/Fuzss/modresources/main/maven/") {
+    content {
+      includeModule("fuzs.forgeconfigapiport", "forgeconfigapiport-fabric")
+    }
+  }
 }
 
 dependencies {
@@ -76,7 +82,7 @@ dependencies {
   }
   modImplementation("net.fabricmc", "fabric-language-kotlin", fabricKotlinVersion)
 
-  modImplementation(include("pw.switchcraft", "sc-library", scLibraryVersion))
+  modImplementation(include("io.sc3", "sc-library", scLibraryVersion))
 
   // CC: Restitched
   modApi("cc.tweaked:cc-tweaked-$ccMcVersion-fabric:$ccVersion") {

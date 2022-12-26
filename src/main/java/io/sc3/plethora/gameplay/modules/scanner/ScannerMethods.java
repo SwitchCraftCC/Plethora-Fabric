@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.modules.scanner;
+package io.sc3.plethora.gameplay.modules.scanner;
 
 import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.LuaException;
@@ -7,16 +7,16 @@ import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import pw.switchcraft.plethora.api.IWorldLocation;
-import pw.switchcraft.plethora.api.WorldLocation;
-import pw.switchcraft.plethora.api.method.FutureMethodResult;
-import pw.switchcraft.plethora.api.method.IContext;
-import pw.switchcraft.plethora.api.method.IUnbakedContext;
-import pw.switchcraft.plethora.api.module.IModuleContainer;
-import pw.switchcraft.plethora.api.module.SubtargetedModuleMethod;
-import pw.switchcraft.plethora.api.reference.BlockReference;
-import pw.switchcraft.plethora.gameplay.modules.RangeInfo;
-import pw.switchcraft.plethora.integration.vanilla.meta.block.BlockStateMeta;
+import io.sc3.plethora.api.IWorldLocation;
+import io.sc3.plethora.api.WorldLocation;
+import io.sc3.plethora.api.method.FutureMethodResult;
+import io.sc3.plethora.api.method.IContext;
+import io.sc3.plethora.api.method.IUnbakedContext;
+import io.sc3.plethora.api.module.IModuleContainer;
+import io.sc3.plethora.api.module.SubtargetedModuleMethod;
+import io.sc3.plethora.api.reference.BlockReference;
+import io.sc3.plethora.gameplay.modules.RangeInfo;
+import io.sc3.plethora.integration.vanilla.meta.block.BlockStateMeta;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -24,11 +24,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static pw.switchcraft.plethora.api.method.ArgumentHelper.assertBetween;
-import static pw.switchcraft.plethora.api.method.ContextKeys.ORIGIN;
-import static pw.switchcraft.plethora.core.ContextHelpers.fromContext;
-import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.SCANNER_M;
-import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.SCANNER_S;
+import static io.sc3.plethora.api.method.ArgumentHelper.assertBetween;
+import static io.sc3.plethora.api.method.ContextKeys.ORIGIN;
+import static io.sc3.plethora.core.ContextHelpers.fromContext;
+import static io.sc3.plethora.gameplay.registry.PlethoraModules.SCANNER_M;
+import static io.sc3.plethora.gameplay.registry.PlethoraModules.SCANNER_S;
 
 public class ScannerMethods {
     public static final SubtargetedModuleMethod<IWorldLocation> SCAN = SubtargetedModuleMethod.of(

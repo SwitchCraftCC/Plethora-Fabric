@@ -1,7 +1,7 @@
-package pw.switchcraft.plethora.api.module;
+package io.sc3.plethora.api.module;
 
 import net.minecraft.util.Identifier;
-import pw.switchcraft.plethora.api.method.IMethod;
+import io.sc3.plethora.api.method.IMethod;
 
 import javax.annotation.Nonnull;
 import java.util.Set;

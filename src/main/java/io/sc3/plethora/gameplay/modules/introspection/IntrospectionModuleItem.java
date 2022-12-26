@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.modules.introspection;
+package io.sc3.plethora.gameplay.modules.introspection;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EnderChestInventory;
@@ -11,11 +11,11 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
-import pw.switchcraft.plethora.gameplay.modules.BindableModuleItem;
+import io.sc3.plethora.gameplay.modules.BindableModuleItem;
 
 import javax.annotation.Nonnull;
 
-import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.INTROSPECTION_M;
+import static io.sc3.plethora.gameplay.registry.PlethoraModules.INTROSPECTION_M;
 
 public class IntrospectionModuleItem extends BindableModuleItem {
     public static final Text CONTAINER_TEXT = Text.translatable("container.enderchest");

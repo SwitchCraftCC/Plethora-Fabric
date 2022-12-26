@@ -1,10 +1,10 @@
-package pw.switchcraft.plethora.core;
+package io.sc3.plethora.core;
 
-import pw.switchcraft.plethora.api.meta.TypedMeta;
-import pw.switchcraft.plethora.api.method.ContextKeys;
-import pw.switchcraft.plethora.api.method.ICostHandler;
-import pw.switchcraft.plethora.api.method.IPartialContext;
-import pw.switchcraft.plethora.api.module.IModuleContainer;
+import io.sc3.plethora.api.meta.TypedMeta;
+import io.sc3.plethora.api.method.ContextKeys;
+import io.sc3.plethora.api.method.ICostHandler;
+import io.sc3.plethora.api.method.IPartialContext;
+import io.sc3.plethora.api.module.IModuleContainer;
 
 import javax.annotation.Nonnull;
 import java.util.*;

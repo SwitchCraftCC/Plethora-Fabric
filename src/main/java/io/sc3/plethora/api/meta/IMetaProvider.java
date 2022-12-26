@@ -1,6 +1,6 @@
-package pw.switchcraft.plethora.api.meta;
+package io.sc3.plethora.api.meta;
 
-import pw.switchcraft.plethora.api.method.IPartialContext;
+import io.sc3.plethora.api.method.IPartialContext;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

@@ -1,12 +1,12 @@
-package pw.switchcraft.plethora.integration.vanilla.meta.entity;
+package io.sc3.plethora.integration.vanilla.meta.entity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
-import pw.switchcraft.plethora.api.IWorldLocation;
-import pw.switchcraft.plethora.api.meta.BaseMetaProvider;
-import pw.switchcraft.plethora.api.method.IPartialContext;
-import pw.switchcraft.plethora.util.EntityHelpers;
+import io.sc3.plethora.api.IWorldLocation;
+import io.sc3.plethora.api.meta.BaseMetaProvider;
+import io.sc3.plethora.api.method.IPartialContext;
+import io.sc3.plethora.util.EntityHelpers;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -14,8 +14,8 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
-import static pw.switchcraft.plethora.api.method.ContextKeys.ORIGIN;
-import static pw.switchcraft.plethora.util.Helpers.normaliseAngle;
+import static io.sc3.plethora.api.method.ContextKeys.ORIGIN;
+import static io.sc3.plethora.util.Helpers.normaliseAngle;
 
 public class EntityMeta extends BaseMetaProvider<Entity> {
     private EnumSet<Direction.Axis> ALL_AXES = EnumSet.allOf(Direction.Axis.class);

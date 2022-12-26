@@ -1,8 +1,8 @@
-package pw.switchcraft.plethora.api.method;
+package io.sc3.plethora.api.method;
 
 import net.minecraft.util.Identifier;
-import pw.switchcraft.plethora.api.meta.TypedMeta;
-import pw.switchcraft.plethora.api.module.IModuleContainer;
+import io.sc3.plethora.api.meta.TypedMeta;
+import io.sc3.plethora.api.module.IModuleContainer;
 
 import javax.annotation.Nonnull;
 
@@ -123,7 +123,7 @@ public interface IPartialContext<T> {
      * Get the metadata for this object
      *
      * @return The object's metadata
-     * @see pw.switchcraft.plethora.api.meta.IMetaProvider
+     * @see io.sc3.plethora.api.meta.IMetaProvider
      */
     @Nonnull
     TypedMeta<T, ?> getMeta();

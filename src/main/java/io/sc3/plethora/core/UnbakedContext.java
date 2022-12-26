@@ -1,11 +1,11 @@
-package pw.switchcraft.plethora.core;
+package io.sc3.plethora.core;
 
 import dan200.computercraft.api.lua.LuaException;
-import pw.switchcraft.plethora.api.method.ICostHandler;
-import pw.switchcraft.plethora.api.method.IResultExecutor;
-import pw.switchcraft.plethora.api.method.IUnbakedContext;
-import pw.switchcraft.plethora.api.module.IModuleContainer;
-import pw.switchcraft.plethora.api.reference.IReference;
+import io.sc3.plethora.api.method.ICostHandler;
+import io.sc3.plethora.api.method.IResultExecutor;
+import io.sc3.plethora.api.method.IUnbakedContext;
+import io.sc3.plethora.api.module.IModuleContainer;
+import io.sc3.plethora.api.reference.IReference;
 
 import javax.annotation.Nonnull;
 

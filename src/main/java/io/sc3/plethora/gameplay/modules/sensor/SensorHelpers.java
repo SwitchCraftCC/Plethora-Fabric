@@ -1,11 +1,11 @@
-package pw.switchcraft.plethora.gameplay.modules.sensor;
+package io.sc3.plethora.gameplay.modules.sensor;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
-import pw.switchcraft.plethora.api.IWorldLocation;
-import pw.switchcraft.plethora.util.EntityHelpers;
+import io.sc3.plethora.api.IWorldLocation;
+import io.sc3.plethora.util.EntityHelpers;
 
 import javax.annotation.Nullable;
 import java.util.List;

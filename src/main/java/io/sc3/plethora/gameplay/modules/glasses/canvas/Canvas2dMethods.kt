@@ -1,13 +1,13 @@
-package pw.switchcraft.plethora.gameplay.modules.glasses.canvas
+package io.sc3.plethora.gameplay.modules.glasses.canvas
 
 import dan200.computercraft.api.lua.IArguments
-import pw.switchcraft.plethora.api.method.*
-import pw.switchcraft.plethora.gameplay.modules.glasses.GlassesArgumentHelper
-import pw.switchcraft.plethora.gameplay.modules.glasses.GlassesMethodsHelpers.getContext
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.DEFAULT_COLOUR
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectGroup.Frame2d
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectGroup.Group2d
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.*
+import io.sc3.plethora.api.method.*
+import io.sc3.plethora.gameplay.modules.glasses.GlassesArgumentHelper
+import io.sc3.plethora.gameplay.modules.glasses.GlassesMethodsHelpers.getContext
+import io.sc3.plethora.gameplay.modules.glasses.objects.DEFAULT_COLOUR
+import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectGroup.Frame2d
+import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectGroup.Group2d
+import io.sc3.plethora.gameplay.modules.glasses.objects.object2d.*
 
 object Canvas2dMethods {
   val ADD_RECTANGLE = BasicMethod.of(

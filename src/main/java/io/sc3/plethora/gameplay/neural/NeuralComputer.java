@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.neural;
+package io.sc3.plethora.gameplay.neural;
 
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.pocket.IPocketUpgrade;
@@ -14,16 +14,16 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
-import pw.switchcraft.plethora.core.executor.TaskRunner;
-import pw.switchcraft.plethora.util.Helpers;
+import io.sc3.plethora.core.executor.TaskRunner;
+import io.sc3.plethora.util.Helpers;
 
 import javax.annotation.Nonnull;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
-import static pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler.*;
-import static pw.switchcraft.plethora.gameplay.neural.NeuralHelpers.*;
+import static io.sc3.plethora.gameplay.neural.NeuralComputerHandler.*;
+import static io.sc3.plethora.gameplay.neural.NeuralHelpers.*;
 
 public class NeuralComputer extends ServerComputer {
     private WeakReference<LivingEntity> entity;

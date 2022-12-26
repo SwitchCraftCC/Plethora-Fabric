@@ -1,11 +1,11 @@
-package pw.switchcraft.plethora.integration;
+package io.sc3.plethora.integration;
 
 import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.LuaException;
 import net.minecraft.util.Identifier;
-import pw.switchcraft.plethora.api.method.*;
-import pw.switchcraft.plethora.api.module.BasicModuleContainer;
-import pw.switchcraft.plethora.api.module.IModuleContainer;
+import io.sc3.plethora.api.method.*;
+import io.sc3.plethora.api.module.BasicModuleContainer;
+import io.sc3.plethora.api.module.IModuleContainer;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;

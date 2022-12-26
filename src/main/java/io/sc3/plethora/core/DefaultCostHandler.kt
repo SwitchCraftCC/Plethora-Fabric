@@ -1,10 +1,10 @@
-package pw.switchcraft.plethora.core
+package io.sc3.plethora.core
 
 import com.google.common.collect.MapMaker
 import dan200.computercraft.api.lua.LuaException
-import pw.switchcraft.plethora.Plethora
-import pw.switchcraft.plethora.api.method.FutureMethodResult
-import pw.switchcraft.plethora.api.method.ICostHandler
+import io.sc3.plethora.Plethora
+import io.sc3.plethora.api.method.FutureMethodResult
+import io.sc3.plethora.api.method.ICostHandler
 import java.util.concurrent.Callable
 
 /**

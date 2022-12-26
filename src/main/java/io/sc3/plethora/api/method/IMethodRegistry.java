@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.api.method;
+package io.sc3.plethora.api.method;
 
 import net.minecraft.util.math.Direction;
 

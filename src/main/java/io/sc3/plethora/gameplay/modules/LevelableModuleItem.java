@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.modules;
+package io.sc3.plethora.gameplay.modules;
 
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemStack;
@@ -6,8 +6,8 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import pw.switchcraft.plethora.api.method.IContextBuilder;
-import pw.switchcraft.plethora.api.module.IModuleAccess;
+import io.sc3.plethora.api.method.IContextBuilder;
+import io.sc3.plethora.api.module.IModuleAccess;
 
 import javax.annotation.Nonnull;
 import java.util.List;

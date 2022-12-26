@@ -1,12 +1,12 @@
-package pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d
+package io.sc3.plethora.gameplay.modules.glasses.objects.object3d
 
 import dan200.computercraft.api.lua.IArguments
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.RotationAxis
 import net.minecraft.util.math.Vec3d
-import pw.switchcraft.plethora.api.method.*
-import pw.switchcraft.plethora.core.ContextHelpers.safeFromTarget
+import io.sc3.plethora.api.method.*
+import io.sc3.plethora.core.ContextHelpers.safeFromTarget
 
 interface Rotatable3d {
   var rotation: Vec3d?

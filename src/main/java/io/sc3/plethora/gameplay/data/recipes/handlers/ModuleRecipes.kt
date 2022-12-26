@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.data.recipes.handlers
+package io.sc3.plethora.gameplay.data.recipes.handlers
 
 import dan200.computercraft.shared.ModRegistry
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
@@ -10,11 +10,11 @@ import net.minecraft.item.Items
 import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.Registries.RECIPE_SERIALIZER
 import net.minecraft.registry.Registry.register
-import pw.switchcraft.library.recipe.BetterComplexRecipeJsonBuilder
-import pw.switchcraft.library.recipe.RecipeHandler
-import pw.switchcraft.plethora.Plethora.ModId
-import pw.switchcraft.plethora.gameplay.data.recipes.*
-import pw.switchcraft.plethora.gameplay.registry.Registration.ModItems
+import io.sc3.library.recipe.BetterComplexRecipeJsonBuilder
+import io.sc3.library.recipe.RecipeHandler
+import io.sc3.plethora.Plethora.ModId
+import io.sc3.plethora.gameplay.data.recipes.*
+import io.sc3.plethora.gameplay.registry.Registration.ModItems
 import java.util.function.Consumer
 
 object ModuleRecipes : RecipeHandler {

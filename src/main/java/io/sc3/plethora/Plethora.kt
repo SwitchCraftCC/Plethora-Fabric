@@ -1,15 +1,15 @@
-package pw.switchcraft.plethora
+package io.sc3.plethora
 
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.util.Identifier
 import org.slf4j.LoggerFactory
-import pw.switchcraft.plethora.core.PlethoraCore
-import pw.switchcraft.plethora.gameplay.registry.Registration
-import pw.switchcraft.plethora.util.config.ConfigLoader.loadConfig
-import pw.switchcraft.plethora.util.config.ConfigValidator.ConfigValidationException
-import pw.switchcraft.plethora.util.config.ConfigValidator.validate
-import pw.switchcraft.plethora.util.config.PlethoraConfig
+import io.sc3.plethora.core.PlethoraCore
+import io.sc3.plethora.gameplay.registry.Registration
+import io.sc3.plethora.util.config.ConfigLoader.loadConfig
+import io.sc3.plethora.util.config.ConfigValidator.ConfigValidationException
+import io.sc3.plethora.util.config.ConfigValidator.validate
+import io.sc3.plethora.util.config.PlethoraConfig
 
 object Plethora : ModInitializer {
   internal const val modId = "plethora"

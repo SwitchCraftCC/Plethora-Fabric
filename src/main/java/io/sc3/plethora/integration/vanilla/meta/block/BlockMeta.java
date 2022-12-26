@@ -1,9 +1,9 @@
-package pw.switchcraft.plethora.integration.vanilla.meta.block;
+package io.sc3.plethora.integration.vanilla.meta.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import pw.switchcraft.plethora.api.meta.BasicMetaProvider;
+import io.sc3.plethora.api.meta.BasicMetaProvider;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;

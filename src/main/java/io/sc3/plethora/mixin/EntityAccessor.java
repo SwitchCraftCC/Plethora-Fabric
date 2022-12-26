@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.mixin;
+package io.sc3.plethora.mixin;
 
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;

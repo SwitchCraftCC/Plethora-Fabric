@@ -17,24 +17,24 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "pw.switchcraft.plethora.gameplay.client.PlethoraClient"
+      "io.sc3.plethora.gameplay.client.PlethoraClient"
     ],
     "main": [
       {
         "adapter": "kotlin",
-        "value": "pw.switchcraft.plethora.Plethora"
+        "value": "io.sc3.plethora.Plethora"
       }
     ],
     "fabric-datagen": [
       {
         "adapter": "kotlin",
-        "value": "pw.switchcraft.plethora.gameplay.data.PlethoraDatagen"
+        "value": "io.sc3.plethora.gameplay.data.PlethoraDatagen"
       }
     ],
     "modmenu": [
       {
         "adapter": "kotlin",
-        "value": "pw.switchcraft.plethora.util.config.ModMenuIntegration"
+        "value": "io.sc3.plethora.util.config.ModMenuIntegration"
       }
     ]
   },

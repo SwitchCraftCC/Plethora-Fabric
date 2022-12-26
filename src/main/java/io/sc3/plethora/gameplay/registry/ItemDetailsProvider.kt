@@ -1,11 +1,11 @@
-package pw.switchcraft.plethora.gameplay.registry
+package io.sc3.plethora.gameplay.registry
 
 import dan200.computercraft.api.detail.DetailProvider
 import net.minecraft.item.ItemStack
-import pw.switchcraft.plethora.Plethora.log
-import pw.switchcraft.plethora.core.ContextFactory
-import pw.switchcraft.plethora.core.executor.BasicExecutor
-import pw.switchcraft.plethora.integration.MetaWrapper
+import io.sc3.plethora.Plethora.log
+import io.sc3.plethora.core.ContextFactory
+import io.sc3.plethora.core.executor.BasicExecutor
+import io.sc3.plethora.integration.MetaWrapper
 
 object ItemDetailsProvider : DetailProvider<ItemStack> {
   // TODO: Probably better eventually to replace BasicItemMeta with ItemData.fill

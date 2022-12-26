@@ -1,13 +1,13 @@
-package pw.switchcraft.plethora.core;
+package io.sc3.plethora.core;
 
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import pw.switchcraft.plethora.api.converter.IConverter;
-import pw.switchcraft.plethora.api.converter.IConverterRegistry;
-import pw.switchcraft.plethora.api.reference.IReference;
-import pw.switchcraft.plethora.core.collections.ClassIteratorIterable;
+import io.sc3.plethora.api.converter.IConverter;
+import io.sc3.plethora.api.converter.IConverterRegistry;
+import io.sc3.plethora.api.reference.IReference;
+import io.sc3.plethora.core.collections.ClassIteratorIterable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

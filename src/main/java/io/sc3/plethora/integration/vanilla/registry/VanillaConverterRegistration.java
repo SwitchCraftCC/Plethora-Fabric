@@ -1,15 +1,15 @@
-package pw.switchcraft.plethora.integration.vanilla.registry;
+package io.sc3.plethora.integration.vanilla.registry;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
-import pw.switchcraft.plethora.api.converter.IConverter;
-import pw.switchcraft.plethora.api.converter.IConverterRegistry;
-import pw.switchcraft.plethora.api.reference.BlockReference;
+import io.sc3.plethora.api.converter.IConverter;
+import io.sc3.plethora.api.converter.IConverterRegistry;
+import io.sc3.plethora.api.reference.BlockReference;
 
-import static pw.switchcraft.plethora.integration.vanilla.converter.VanillaConverters.*;
+import static io.sc3.plethora.integration.vanilla.converter.VanillaConverters.*;
 
 public class VanillaConverterRegistration {
     public static void registerConverters(IConverterRegistry r) {

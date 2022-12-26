@@ -1,19 +1,19 @@
-package pw.switchcraft.plethora.core;
+package io.sc3.plethora.core;
 
 import com.google.common.collect.Lists;
-import pw.switchcraft.plethora.api.meta.IMetaProvider;
-import pw.switchcraft.plethora.api.meta.IMetaRegistry;
-import pw.switchcraft.plethora.api.meta.TypedMeta;
-import pw.switchcraft.plethora.api.method.ContextKeys;
-import pw.switchcraft.plethora.api.method.IPartialContext;
-import pw.switchcraft.plethora.core.collections.ClassIteratorIterable;
-import pw.switchcraft.plethora.core.collections.SortedMultimap;
+import io.sc3.plethora.api.meta.IMetaProvider;
+import io.sc3.plethora.api.meta.IMetaRegistry;
+import io.sc3.plethora.api.meta.TypedMeta;
+import io.sc3.plethora.api.method.ContextKeys;
+import io.sc3.plethora.api.method.IPartialContext;
+import io.sc3.plethora.core.collections.ClassIteratorIterable;
+import io.sc3.plethora.core.collections.SortedMultimap;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
-import static pw.switchcraft.plethora.Plethora.log;
+import static io.sc3.plethora.Plethora.log;
 
 public final class MetaRegistry implements IMetaRegistry {
     public static final MetaRegistry instance = new MetaRegistry();

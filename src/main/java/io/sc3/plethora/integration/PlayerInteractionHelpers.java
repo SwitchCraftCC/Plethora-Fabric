@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.integration;
+package io.sc3.plethora.integration;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -16,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import pw.switchcraft.plethora.api.method.FutureMethodResult;
+import io.sc3.plethora.api.method.FutureMethodResult;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

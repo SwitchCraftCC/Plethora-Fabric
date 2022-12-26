@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.neural
+package io.sc3.plethora.gameplay.neural
 
 import dan200.computercraft.api.ComputerCraftAPI
 import dan200.computercraft.api.filesystem.Mount
@@ -17,10 +17,10 @@ import net.minecraft.text.Text
 import net.minecraft.text.Text.translatable
 import net.minecraft.util.Formatting.GRAY
 import net.minecraft.world.World
-import pw.switchcraft.library.Tooltips.addDescLines
-import pw.switchcraft.plethora.Plethora.modId
-import pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler.COMPUTER_ID
-import pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler.DIRTY
+import io.sc3.library.Tooltips.addDescLines
+import io.sc3.plethora.Plethora.modId
+import io.sc3.plethora.gameplay.neural.NeuralComputerHandler.COMPUTER_ID
+import io.sc3.plethora.gameplay.neural.NeuralComputerHandler.DIRTY
 import javax.annotation.Nonnull
 
 class NeuralInterfaceItem(settings: Settings?) : TrinketItem(settings), IComputerItem, IMedia {

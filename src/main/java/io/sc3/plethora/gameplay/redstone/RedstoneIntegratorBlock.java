@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.redstone;
+package io.sc3.plethora.gameplay.redstone;
 
 import dan200.computercraft.shared.common.IBundledRedstoneBlock;
 import net.minecraft.block.Block;
@@ -9,8 +9,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import pw.switchcraft.plethora.gameplay.BaseBlockWithEntity;
-import pw.switchcraft.plethora.gameplay.registry.Registration;
+import io.sc3.plethora.gameplay.BaseBlockWithEntity;
+import io.sc3.plethora.gameplay.registry.Registration;
 
 import javax.annotation.Nullable;
 

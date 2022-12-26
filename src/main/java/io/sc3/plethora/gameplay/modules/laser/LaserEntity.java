@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.modules.laser;
+package io.sc3.plethora.gameplay.modules.laser;
 
 import com.mojang.authlib.GameProfile;
 import net.fabricmc.fabric.api.util.NbtType;
@@ -27,12 +27,12 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
-import pw.switchcraft.plethora.api.IPlayerOwnable;
-import pw.switchcraft.plethora.gameplay.PlethoraFakePlayer;
-import pw.switchcraft.plethora.mixin.TntBlockInvoker;
-import pw.switchcraft.plethora.util.EntitySpawnPacket;
-import pw.switchcraft.plethora.util.PlayerHelpers;
-import pw.switchcraft.plethora.util.WorldPosition;
+import io.sc3.plethora.api.IPlayerOwnable;
+import io.sc3.plethora.gameplay.PlethoraFakePlayer;
+import io.sc3.plethora.mixin.TntBlockInvoker;
+import io.sc3.plethora.util.EntitySpawnPacket;
+import io.sc3.plethora.util.PlayerHelpers;
+import io.sc3.plethora.util.WorldPosition;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -40,9 +40,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-import static pw.switchcraft.plethora.Plethora.config;
-import static pw.switchcraft.plethora.gameplay.registry.Packets.SPAWN_PACKET_ID;
-import static pw.switchcraft.plethora.gameplay.registry.Registration.LASER_ENTITY;
+import static io.sc3.plethora.Plethora.config;
+import static io.sc3.plethora.gameplay.registry.Packets.SPAWN_PACKET_ID;
+import static io.sc3.plethora.gameplay.registry.Registration.LASER_ENTITY;
 
 public class LaserEntity extends Entity implements IPlayerOwnable {
     private static final Random rand = new Random();

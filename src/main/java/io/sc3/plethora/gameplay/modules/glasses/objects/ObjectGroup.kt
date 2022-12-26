@@ -1,6 +1,6 @@
-package pw.switchcraft.plethora.gameplay.modules.glasses.objects
+package io.sc3.plethora.gameplay.modules.glasses.objects
 
-import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasHandler
+import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasHandler
 
 /**
  * Represents a holder for [BaseObject]s.

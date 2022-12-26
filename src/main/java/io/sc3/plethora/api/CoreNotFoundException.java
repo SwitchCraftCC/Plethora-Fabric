@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.api;
+package io.sc3.plethora.api;
 
 /**
  * Thrown when the Plethora API cannot be loaded

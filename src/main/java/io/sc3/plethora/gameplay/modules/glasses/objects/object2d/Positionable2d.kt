@@ -1,9 +1,9 @@
-package pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d
+package io.sc3.plethora.gameplay.modules.glasses.objects.object2d
 
 import dan200.computercraft.api.lua.IArguments
-import pw.switchcraft.plethora.api.method.*
-import pw.switchcraft.plethora.core.ContextHelpers.safeFromTarget
-import pw.switchcraft.plethora.util.Vec2d
+import io.sc3.plethora.api.method.*
+import io.sc3.plethora.core.ContextHelpers.safeFromTarget
+import io.sc3.plethora.util.Vec2d
 
 /**
  * An object which can be positioned in 2D.

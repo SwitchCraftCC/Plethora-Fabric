@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.integration.vanilla.method;
+package io.sc3.plethora.integration.vanilla.method;
 
 import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.LuaException;
@@ -12,22 +12,22 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import pw.switchcraft.plethora.api.method.ArgumentHelper;
-import pw.switchcraft.plethora.api.method.FutureMethodResult;
-import pw.switchcraft.plethora.api.method.IUnbakedContext;
-import pw.switchcraft.plethora.api.module.IModuleContainer;
-import pw.switchcraft.plethora.api.module.SubtargetedModuleMethod;
-import pw.switchcraft.plethora.gameplay.PlethoraFakePlayer;
-import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticMethods;
-import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticMethods.KineticMethodContext;
-import pw.switchcraft.plethora.integration.PlayerInteractionHelpers;
-import pw.switchcraft.plethora.util.PlayerHelpers;
+import io.sc3.plethora.api.method.ArgumentHelper;
+import io.sc3.plethora.api.method.FutureMethodResult;
+import io.sc3.plethora.api.method.IUnbakedContext;
+import io.sc3.plethora.api.module.IModuleContainer;
+import io.sc3.plethora.api.module.SubtargetedModuleMethod;
+import io.sc3.plethora.gameplay.PlethoraFakePlayer;
+import io.sc3.plethora.gameplay.modules.kinetic.KineticMethods;
+import io.sc3.plethora.gameplay.modules.kinetic.KineticMethods.KineticMethodContext;
+import io.sc3.plethora.integration.PlayerInteractionHelpers;
+import io.sc3.plethora.util.PlayerHelpers;
 
 import javax.annotation.Nonnull;
 import java.util.EnumSet;
 
-import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.KINETIC_M;
-import static pw.switchcraft.plethora.util.Helpers.normaliseAngle;
+import static io.sc3.plethora.gameplay.registry.PlethoraModules.KINETIC_M;
+import static io.sc3.plethora.util.Helpers.normaliseAngle;
 
 public final class EntityKineticMethods {
     private static final EnumSet<PlayerPositionLookS2CPacket.Flag> LOOK_FLAGS = EnumSet.of(

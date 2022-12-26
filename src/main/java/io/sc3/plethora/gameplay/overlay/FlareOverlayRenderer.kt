@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.overlay
+package io.sc3.plethora.gameplay.overlay
 
 import com.mojang.blaze3d.platform.GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA
 import com.mojang.blaze3d.platform.GlStateManager.DstFactor.ZERO
@@ -16,7 +16,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.RotationAxis
 import org.joml.Matrix4f
-import pw.switchcraft.plethora.Plethora.ModId
+import io.sc3.plethora.Plethora.ModId
 import java.awt.Color
 
 open class FlareOverlayRenderer {

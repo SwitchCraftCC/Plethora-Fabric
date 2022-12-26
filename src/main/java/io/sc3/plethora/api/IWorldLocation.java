@@ -1,10 +1,10 @@
-package pw.switchcraft.plethora.api;
+package io.sc3.plethora.api;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import pw.switchcraft.plethora.api.reference.IReference;
+import io.sc3.plethora.api.reference.IReference;
 
 import javax.annotation.Nonnull;
 
@@ -12,7 +12,7 @@ import javax.annotation.Nonnull;
  * The location within a world.
  * This is exposed in method contexts from a tile entity
  *
- * @see pw.switchcraft.plethora.api.method.IContext
+ * @see io.sc3.plethora.api.method.IContext
  */
 public interface IWorldLocation extends IReference<IWorldLocation> {
     /**

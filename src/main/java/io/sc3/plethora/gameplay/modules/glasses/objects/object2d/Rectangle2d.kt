@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d
+package io.sc3.plethora.gameplay.modules.glasses.objects.object2d
 
 import dan200.computercraft.api.lua.IArguments
 import net.fabricmc.api.EnvType
@@ -6,17 +6,17 @@ import net.fabricmc.api.Environment
 import net.minecraft.client.render.*
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.network.PacketByteBuf
-import pw.switchcraft.plethora.api.method.BasicMethod
-import pw.switchcraft.plethora.api.method.FutureMethodResult
-import pw.switchcraft.plethora.api.method.IUnbakedContext
-import pw.switchcraft.plethora.api.method.getVec2d
-import pw.switchcraft.plethora.core.ContextHelpers.safeFromTarget
-import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasClient
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ColourableObject
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectRegistry.RECTANGLE_2D
-import pw.switchcraft.plethora.util.ByteBufUtils
-import pw.switchcraft.plethora.util.DirtyingProperty
-import pw.switchcraft.plethora.util.Vec2d
+import io.sc3.plethora.api.method.BasicMethod
+import io.sc3.plethora.api.method.FutureMethodResult
+import io.sc3.plethora.api.method.IUnbakedContext
+import io.sc3.plethora.api.method.getVec2d
+import io.sc3.plethora.core.ContextHelpers.safeFromTarget
+import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasClient
+import io.sc3.plethora.gameplay.modules.glasses.objects.ColourableObject
+import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectRegistry.RECTANGLE_2D
+import io.sc3.plethora.util.ByteBufUtils
+import io.sc3.plethora.util.DirtyingProperty
+import io.sc3.plethora.util.Vec2d
 
 class Rectangle2d(
   id: Int,

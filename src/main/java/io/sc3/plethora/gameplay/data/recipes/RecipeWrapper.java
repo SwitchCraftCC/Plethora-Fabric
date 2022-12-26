@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.data.recipes;
+package io.sc3.plethora.gameplay.data.recipes;
 
 import com.google.gson.JsonObject;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;

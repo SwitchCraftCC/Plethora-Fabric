@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.data
+package io.sc3.plethora.gameplay.data
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
@@ -8,9 +8,9 @@ import net.minecraft.data.client.Models.GENERATED
 import net.minecraft.data.client.TextureKey.*
 import net.minecraft.state.property.Properties.FACING
 import net.minecraft.util.math.Direction
-import pw.switchcraft.plethora.Plethora.ModId
-import pw.switchcraft.plethora.gameplay.registry.Registration.ModBlocks.*
-import pw.switchcraft.plethora.gameplay.registry.Registration.ModItems
+import io.sc3.plethora.Plethora.ModId
+import io.sc3.plethora.gameplay.registry.Registration.ModBlocks.*
+import io.sc3.plethora.gameplay.registry.Registration.ModItems
 import java.util.*
 
 class ModelProvider(out: FabricDataOutput) : FabricModelProvider(out) {

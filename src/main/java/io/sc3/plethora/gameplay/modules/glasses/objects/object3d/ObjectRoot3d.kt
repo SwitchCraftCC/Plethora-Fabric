@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d
+package io.sc3.plethora.gameplay.modules.glasses.objects.object3d
 
 import dan200.computercraft.api.lua.IArguments
 import net.minecraft.client.MinecraftClient
@@ -8,18 +8,18 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
-import pw.switchcraft.plethora.api.IWorldLocation
-import pw.switchcraft.plethora.api.method.BasicMethod
-import pw.switchcraft.plethora.api.method.ContextKeys.ORIGIN
-import pw.switchcraft.plethora.api.method.FutureMethodResult
-import pw.switchcraft.plethora.api.method.IUnbakedContext
-import pw.switchcraft.plethora.api.method.getVec3dNullable
-import pw.switchcraft.plethora.core.ContextHelpers
-import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasClient
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.BaseObject
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectGroup.Group3d
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectRegistry.ORIGIN_3D
-import pw.switchcraft.plethora.util.ByteBufUtils
+import io.sc3.plethora.api.IWorldLocation
+import io.sc3.plethora.api.method.BasicMethod
+import io.sc3.plethora.api.method.ContextKeys.ORIGIN
+import io.sc3.plethora.api.method.FutureMethodResult
+import io.sc3.plethora.api.method.IUnbakedContext
+import io.sc3.plethora.api.method.getVec3dNullable
+import io.sc3.plethora.core.ContextHelpers
+import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasClient
+import io.sc3.plethora.gameplay.modules.glasses.objects.BaseObject
+import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectGroup.Group3d
+import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectRegistry.ORIGIN_3D
+import io.sc3.plethora.util.ByteBufUtils
 
 class ObjectRoot3d(
   id: Int,

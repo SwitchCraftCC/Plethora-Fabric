@@ -1,27 +1,27 @@
-package pw.switchcraft.plethora.gameplay.registry
+package io.sc3.plethora.gameplay.registry
 
-import pw.switchcraft.plethora.Plethora.modId
-import pw.switchcraft.plethora.api.method.IMethod
-import pw.switchcraft.plethora.api.method.IMethodCollection
-import pw.switchcraft.plethora.api.method.IMethodRegistry
-import pw.switchcraft.plethora.api.module.IModuleContainer
-import pw.switchcraft.plethora.gameplay.modules.glasses.GlassesMethods
-import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.Canvas2dMethods
-import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.Canvas3dMethods
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.*
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectGroup.*
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.MultiPoint2d
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.MultiPointResizable2d
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.Positionable2d
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.Rectangle2d
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.*
-import pw.switchcraft.plethora.gameplay.modules.introspection.IntrospectionMethods
-import pw.switchcraft.plethora.gameplay.modules.kinetic.KineticMethods
-import pw.switchcraft.plethora.gameplay.modules.laser.LaserMethods
-import pw.switchcraft.plethora.gameplay.modules.scanner.ScannerMethods
-import pw.switchcraft.plethora.gameplay.modules.sensor.SensorMethods
-import pw.switchcraft.plethora.integration.CoreMethods
-import pw.switchcraft.plethora.integration.GetMetadataMethod
+import io.sc3.plethora.Plethora.modId
+import io.sc3.plethora.api.method.IMethod
+import io.sc3.plethora.api.method.IMethodCollection
+import io.sc3.plethora.api.method.IMethodRegistry
+import io.sc3.plethora.api.module.IModuleContainer
+import io.sc3.plethora.gameplay.modules.glasses.GlassesMethods
+import io.sc3.plethora.gameplay.modules.glasses.canvas.Canvas2dMethods
+import io.sc3.plethora.gameplay.modules.glasses.canvas.Canvas3dMethods
+import io.sc3.plethora.gameplay.modules.glasses.objects.*
+import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectGroup.*
+import io.sc3.plethora.gameplay.modules.glasses.objects.object2d.MultiPoint2d
+import io.sc3.plethora.gameplay.modules.glasses.objects.object2d.MultiPointResizable2d
+import io.sc3.plethora.gameplay.modules.glasses.objects.object2d.Positionable2d
+import io.sc3.plethora.gameplay.modules.glasses.objects.object2d.Rectangle2d
+import io.sc3.plethora.gameplay.modules.glasses.objects.object3d.*
+import io.sc3.plethora.gameplay.modules.introspection.IntrospectionMethods
+import io.sc3.plethora.gameplay.modules.kinetic.KineticMethods
+import io.sc3.plethora.gameplay.modules.laser.LaserMethods
+import io.sc3.plethora.gameplay.modules.scanner.ScannerMethods
+import io.sc3.plethora.gameplay.modules.sensor.SensorMethods
+import io.sc3.plethora.integration.CoreMethods
+import io.sc3.plethora.integration.GetMetadataMethod
 
 internal object PlethoraMethodRegistration {
   @JvmStatic

@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.integration.vanilla.meta.item;
+package io.sc3.plethora.integration.vanilla.meta.item;
 
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.item.BannerItem;
@@ -8,7 +8,7 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.DyeColor;
-import pw.switchcraft.plethora.api.meta.ItemStackMetaProvider;
+import io.sc3.plethora.api.meta.ItemStackMetaProvider;
 
 import javax.annotation.Nonnull;
 import java.util.*;

@@ -1,10 +1,10 @@
-package pw.switchcraft.plethora.integration.vanilla.meta.entity;
+package io.sc3.plethora.integration.vanilla.meta.entity;
 
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import pw.switchcraft.plethora.api.meta.BaseMetaProvider;
-import pw.switchcraft.plethora.api.method.ContextHelpers;
-import pw.switchcraft.plethora.api.method.IPartialContext;
+import io.sc3.plethora.api.meta.BaseMetaProvider;
+import io.sc3.plethora.api.method.ContextHelpers;
+import io.sc3.plethora.api.method.IPartialContext;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;

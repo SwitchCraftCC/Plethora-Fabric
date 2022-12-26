@@ -1,9 +1,9 @@
-package pw.switchcraft.plethora.core;
+package io.sc3.plethora.core;
 
 import com.google.common.base.Strings;
 import dan200.computercraft.api.lua.LuaException;
-import pw.switchcraft.plethora.api.converter.ConstantConverter;
-import pw.switchcraft.plethora.api.converter.IConverter;
+import io.sc3.plethora.api.converter.ConstantConverter;
+import io.sc3.plethora.api.converter.IConverter;
 
 public class ConverterReference<T> {
 	private static final ConstantConverter<Object, Object> identity = x -> x;

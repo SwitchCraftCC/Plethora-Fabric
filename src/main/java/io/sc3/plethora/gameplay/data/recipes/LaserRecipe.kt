@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.data.recipes
+package io.sc3.plethora.gameplay.data.recipes
 
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags.*
 import net.minecraft.enchantment.Enchantments
@@ -8,9 +8,9 @@ import net.minecraft.recipe.Ingredient.fromTag
 import net.minecraft.recipe.SpecialRecipeSerializer
 import net.minecraft.recipe.book.CraftingRecipeCategory
 import net.minecraft.util.Identifier
-import pw.switchcraft.library.recipe.BetterSpecialRecipe
-import pw.switchcraft.library.recipe.IngredientEnchanted
-import pw.switchcraft.plethora.gameplay.registry.Registration.ModItems.LASER_MODULE
+import io.sc3.library.recipe.BetterSpecialRecipe
+import io.sc3.library.recipe.IngredientEnchanted
+import io.sc3.plethora.gameplay.registry.Registration.ModItems.LASER_MODULE
 
 class LaserRecipe(
   id: Identifier,

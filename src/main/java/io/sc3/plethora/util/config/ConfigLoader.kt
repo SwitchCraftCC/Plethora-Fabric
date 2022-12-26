@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.util.config
+package io.sc3.plethora.util.config
 
 import org.spongepowered.configurate.CommentedConfigurationNode
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader

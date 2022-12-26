@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.core;
+package io.sc3.plethora.core;
 
 import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.ILuaContext;
@@ -9,11 +9,11 @@ import dan200.computercraft.api.peripheral.IDynamicPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import net.minecraft.util.Pair;
 import org.apache.commons.lang3.ObjectUtils;
-import pw.switchcraft.plethora.api.method.ContextKeys;
-import pw.switchcraft.plethora.api.method.FutureMethodResult;
-import pw.switchcraft.plethora.api.method.IResultExecutor;
-import pw.switchcraft.plethora.core.executor.ComputerAccessExecutor;
-import pw.switchcraft.plethora.core.executor.TaskRunner;
+import io.sc3.plethora.api.method.ContextKeys;
+import io.sc3.plethora.api.method.FutureMethodResult;
+import io.sc3.plethora.api.method.IResultExecutor;
+import io.sc3.plethora.core.executor.ComputerAccessExecutor;
+import io.sc3.plethora.core.executor.TaskRunner;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static pw.switchcraft.plethora.Plethora.log;
+import static io.sc3.plethora.Plethora.log;
 
 /**
  * Handles integration with a {@link IPeripheral}

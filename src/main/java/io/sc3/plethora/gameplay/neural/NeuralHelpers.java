@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.neural;
+package io.sc3.plethora.gameplay.neural;
 
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IDynamicPeripheral;
@@ -17,27 +17,27 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.collection.DefaultedList;
 import org.jetbrains.annotations.Nullable;
-import pw.switchcraft.plethora.api.EntityWorldLocation;
-import pw.switchcraft.plethora.api.IWorldLocation;
-import pw.switchcraft.plethora.api.method.ContextKeys;
-import pw.switchcraft.plethora.api.method.CostHelpers;
-import pw.switchcraft.plethora.api.method.ICostHandler;
-import pw.switchcraft.plethora.api.module.BasicModuleContainer;
-import pw.switchcraft.plethora.api.module.IModuleAccess;
-import pw.switchcraft.plethora.api.module.IModuleContainer;
-import pw.switchcraft.plethora.api.module.IModuleHandler;
-import pw.switchcraft.plethora.api.reference.ConstantReference;
-import pw.switchcraft.plethora.api.reference.IReference;
-import pw.switchcraft.plethora.core.*;
-import pw.switchcraft.plethora.gameplay.modules.ModuleItem;
-import pw.switchcraft.plethora.gameplay.modules.ModulePeripheral;
-import pw.switchcraft.plethora.gameplay.registry.Registration;
+import io.sc3.plethora.api.EntityWorldLocation;
+import io.sc3.plethora.api.IWorldLocation;
+import io.sc3.plethora.api.method.ContextKeys;
+import io.sc3.plethora.api.method.CostHelpers;
+import io.sc3.plethora.api.method.ICostHandler;
+import io.sc3.plethora.api.module.BasicModuleContainer;
+import io.sc3.plethora.api.module.IModuleAccess;
+import io.sc3.plethora.api.module.IModuleContainer;
+import io.sc3.plethora.api.module.IModuleHandler;
+import io.sc3.plethora.api.reference.ConstantReference;
+import io.sc3.plethora.api.reference.IReference;
+import io.sc3.plethora.core.*;
+import io.sc3.plethora.gameplay.modules.ModuleItem;
+import io.sc3.plethora.gameplay.modules.ModulePeripheral;
+import io.sc3.plethora.gameplay.registry.Registration;
 
 import javax.annotation.Nonnull;
 import java.util.*;
 
-import static pw.switchcraft.plethora.Plethora.config;
-import static pw.switchcraft.plethora.api.reference.Reference.entity;
+import static io.sc3.plethora.Plethora.config;
+import static io.sc3.plethora.api.reference.Reference.entity;
 
 public class NeuralHelpers {
     public static final int MODULE_SIZE = 5;

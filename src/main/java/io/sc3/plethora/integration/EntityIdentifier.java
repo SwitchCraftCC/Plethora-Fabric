@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.integration;
+package io.sc3.plethora.integration;
 
 import com.mojang.authlib.GameProfile;
 import dan200.computercraft.api.lua.LuaException;
@@ -6,9 +6,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
-import pw.switchcraft.plethora.api.IPlayerOwnable;
-import pw.switchcraft.plethora.api.reference.ConstantReference;
-import pw.switchcraft.plethora.util.EntityHelpers;
+import io.sc3.plethora.api.IPlayerOwnable;
+import io.sc3.plethora.api.reference.ConstantReference;
+import io.sc3.plethora.util.EntityHelpers;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

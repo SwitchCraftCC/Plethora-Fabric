@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.api.vehicle;
+package io.sc3.plethora.api.vehicle;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;

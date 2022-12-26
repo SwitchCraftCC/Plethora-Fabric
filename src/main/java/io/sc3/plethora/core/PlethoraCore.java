@@ -1,12 +1,12 @@
-package pw.switchcraft.plethora.core;
+package io.sc3.plethora.core;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import pw.switchcraft.plethora.api.PlethoraAPI;
-import pw.switchcraft.plethora.api.PlethoraEvents;
-import pw.switchcraft.plethora.core.executor.TaskRunner;
+import io.sc3.plethora.api.PlethoraAPI;
+import io.sc3.plethora.api.PlethoraEvents;
+import io.sc3.plethora.core.executor.TaskRunner;
 
-import static pw.switchcraft.plethora.Plethora.log;
+import static io.sc3.plethora.Plethora.log;
 
 public class PlethoraCore {
     public static void initializeCore() {

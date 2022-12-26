@@ -1,9 +1,9 @@
-package pw.switchcraft.plethora.api.reference;
+package io.sc3.plethora.api.reference;
 
 import dan200.computercraft.api.lua.LuaException;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.MinecraftServer;
-import pw.switchcraft.plethora.util.EntityHelpers;
+import io.sc3.plethora.util.EntityHelpers;
 
 import javax.annotation.Nonnull;
 import java.lang.ref.WeakReference;

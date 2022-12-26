@@ -1,17 +1,17 @@
-package pw.switchcraft.plethora.gameplay.modules.glasses.canvas
+package io.sc3.plethora.gameplay.modules.glasses.canvas
 
 import dan200.computercraft.api.lua.IArguments
 import net.minecraft.util.math.Vec3d
-import pw.switchcraft.plethora.api.method.*
-import pw.switchcraft.plethora.gameplay.modules.glasses.GlassesArgumentHelper
-import pw.switchcraft.plethora.gameplay.modules.glasses.GlassesMethodsHelpers.getContext
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.DEFAULT_COLOUR
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectGroup.Group3d
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectGroup.Origin3d
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.Box3d
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.Item3d
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.ObjectFrame3d
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.ObjectRoot3d
+import io.sc3.plethora.api.method.*
+import io.sc3.plethora.gameplay.modules.glasses.GlassesArgumentHelper
+import io.sc3.plethora.gameplay.modules.glasses.GlassesMethodsHelpers.getContext
+import io.sc3.plethora.gameplay.modules.glasses.objects.DEFAULT_COLOUR
+import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectGroup.Group3d
+import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectGroup.Origin3d
+import io.sc3.plethora.gameplay.modules.glasses.objects.object3d.Box3d
+import io.sc3.plethora.gameplay.modules.glasses.objects.object3d.Item3d
+import io.sc3.plethora.gameplay.modules.glasses.objects.object3d.ObjectFrame3d
+import io.sc3.plethora.gameplay.modules.glasses.objects.object3d.ObjectRoot3d
 
 object Canvas3dMethods {
   val CREATE = BasicMethod.of(

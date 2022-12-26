@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.integration.vanilla.meta.item;
+package io.sc3.plethora.integration.vanilla.meta.item;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -6,7 +6,7 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
-import pw.switchcraft.plethora.api.meta.BasicMetaProvider;
+import io.sc3.plethora.api.meta.BasicMetaProvider;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

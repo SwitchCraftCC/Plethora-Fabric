@@ -1,7 +1,7 @@
-package pw.switchcraft.plethora.gameplay.modules.glasses.objects
+package io.sc3.plethora.gameplay.modules.glasses.objects
 
 import net.minecraft.network.PacketByteBuf
-import pw.switchcraft.plethora.util.DirtyingProperty
+import io.sc3.plethora.util.DirtyingProperty
 
 abstract class ColourableObject(id: Int, parent: Int, type: Byte) : BaseObject(id, parent, type), Colourable {
   override var colour by DirtyingProperty(DEFAULT_COLOUR.toInt())

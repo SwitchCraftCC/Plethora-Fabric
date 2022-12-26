@@ -1,7 +1,7 @@
-package pw.switchcraft.plethora.gameplay.registry;
+package io.sc3.plethora.gameplay.registry;
 
 import net.minecraft.util.Identifier;
-import pw.switchcraft.plethora.Plethora;
+import io.sc3.plethora.Plethora;
 
 public class PlethoraModules {
     private static final String MOD_ID = Plethora.modId;

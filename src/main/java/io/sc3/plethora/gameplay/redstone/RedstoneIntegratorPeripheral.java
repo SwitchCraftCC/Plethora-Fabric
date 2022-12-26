@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.redstone;
+package io.sc3.plethora.gameplay.redstone;
 
 import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.LuaException;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import static pw.switchcraft.plethora.api.method.ArgumentHelper.assertBetween;
+import static io.sc3.plethora.api.method.ArgumentHelper.assertBetween;
 
 public class RedstoneIntegratorPeripheral implements IPeripheral {
     private final RedstoneIntegratorBlockEntity be;

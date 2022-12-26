@@ -1,12 +1,12 @@
-package pw.switchcraft.plethora.gameplay.modules.glasses.objects
+package io.sc3.plethora.gameplay.modules.glasses.objects
 
 import net.minecraft.network.PacketByteBuf
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.BaseObject.Factory
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d.*
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.Box3d
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.Item3d
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.ObjectFrame3d
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d.ObjectRoot3d
+import io.sc3.plethora.gameplay.modules.glasses.objects.BaseObject.Factory
+import io.sc3.plethora.gameplay.modules.glasses.objects.object2d.*
+import io.sc3.plethora.gameplay.modules.glasses.objects.object3d.Box3d
+import io.sc3.plethora.gameplay.modules.glasses.objects.object3d.Item3d
+import io.sc3.plethora.gameplay.modules.glasses.objects.object3d.ObjectFrame3d
+import io.sc3.plethora.gameplay.modules.glasses.objects.object3d.ObjectRoot3d
 
 object ObjectRegistry {
   // 2D

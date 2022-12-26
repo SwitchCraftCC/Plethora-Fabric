@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.client.entity
+package io.sc3.plethora.gameplay.client.entity
 
 import net.minecraft.client.render.*
 import net.minecraft.client.render.entity.EntityRenderer
@@ -7,8 +7,8 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.RotationAxis
 import org.joml.Matrix4f
-import pw.switchcraft.plethora.Plethora.ModId
-import pw.switchcraft.plethora.gameplay.modules.laser.LaserEntity
+import io.sc3.plethora.Plethora.ModId
+import io.sc3.plethora.gameplay.modules.laser.LaserEntity
 
 private const val SCALE = 0.05625f
 

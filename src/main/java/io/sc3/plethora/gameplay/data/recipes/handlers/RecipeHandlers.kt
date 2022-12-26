@@ -1,6 +1,6 @@
-package pw.switchcraft.plethora.gameplay.data.recipes.handlers
+package io.sc3.plethora.gameplay.data.recipes.handlers
 
-import pw.switchcraft.library.recipe.RecipeHandler
+import io.sc3.library.recipe.RecipeHandler
 
 object RecipeHandlers {
   val RECIPE_HANDLERS by lazy { listOf(

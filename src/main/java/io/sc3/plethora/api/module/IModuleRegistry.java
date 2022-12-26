@@ -1,6 +1,6 @@
-package pw.switchcraft.plethora.api.module;
+package io.sc3.plethora.api.module;
 
-import pw.switchcraft.plethora.api.vehicle.IVehicleUpgradeHandler;
+import io.sc3.plethora.api.vehicle.IVehicleUpgradeHandler;
 
 import javax.annotation.Nonnull;
 

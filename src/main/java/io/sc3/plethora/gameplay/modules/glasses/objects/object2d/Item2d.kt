@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.modules.glasses.objects.object2d
+package io.sc3.plethora.gameplay.modules.glasses.objects.object2d
 
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
@@ -12,14 +12,14 @@ import net.minecraft.item.Items
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.registry.Registries
 import net.minecraft.util.Identifier
-import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasClient
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.BaseObject
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ItemObject
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectRegistry.ITEM_2D
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.Scalable
-import pw.switchcraft.plethora.util.ByteBufUtils
-import pw.switchcraft.plethora.util.DirtyingProperty
-import pw.switchcraft.plethora.util.Vec2d
+import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasClient
+import io.sc3.plethora.gameplay.modules.glasses.objects.BaseObject
+import io.sc3.plethora.gameplay.modules.glasses.objects.ItemObject
+import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectRegistry.ITEM_2D
+import io.sc3.plethora.gameplay.modules.glasses.objects.Scalable
+import io.sc3.plethora.util.ByteBufUtils
+import io.sc3.plethora.util.DirtyingProperty
+import io.sc3.plethora.util.Vec2d
 
 class Item2d(
   id: Int,

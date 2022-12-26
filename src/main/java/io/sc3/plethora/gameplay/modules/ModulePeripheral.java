@@ -1,12 +1,12 @@
-package pw.switchcraft.plethora.gameplay.modules;
+package io.sc3.plethora.gameplay.modules;
 
 import dan200.computercraft.api.peripheral.IPeripheral;
 import net.minecraft.util.Pair;
-import pw.switchcraft.plethora.api.method.IAttachable;
-import pw.switchcraft.plethora.core.AttachableWrapperPeripheral;
-import pw.switchcraft.plethora.core.RegisteredMethod;
-import pw.switchcraft.plethora.core.UnbakedContext;
-import pw.switchcraft.plethora.core.executor.TaskRunner;
+import io.sc3.plethora.api.method.IAttachable;
+import io.sc3.plethora.core.AttachableWrapperPeripheral;
+import io.sc3.plethora.core.RegisteredMethod;
+import io.sc3.plethora.core.UnbakedContext;
+import io.sc3.plethora.core.executor.TaskRunner;
 
 import java.util.Collection;
 import java.util.List;

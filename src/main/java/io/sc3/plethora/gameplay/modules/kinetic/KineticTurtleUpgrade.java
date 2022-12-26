@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.modules.kinetic;
+package io.sc3.plethora.gameplay.modules.kinetic;
 
 import dan200.computercraft.api.turtle.*;
 import net.minecraft.item.ItemStack;
@@ -7,13 +7,13 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Direction;
-import pw.switchcraft.plethora.api.IPlayerOwnable;
-import pw.switchcraft.plethora.api.module.IModuleHandler;
-import pw.switchcraft.plethora.core.TurtleUpgradeModule;
-import pw.switchcraft.plethora.gameplay.PlethoraFakePlayer;
-import pw.switchcraft.plethora.integration.PlayerInteractionHelpers;
-import pw.switchcraft.plethora.integration.computercraft.TurtleFakePlayerProvider;
-import pw.switchcraft.plethora.util.PlayerHelpers;
+import io.sc3.plethora.api.IPlayerOwnable;
+import io.sc3.plethora.api.module.IModuleHandler;
+import io.sc3.plethora.core.TurtleUpgradeModule;
+import io.sc3.plethora.gameplay.PlethoraFakePlayer;
+import io.sc3.plethora.integration.PlayerInteractionHelpers;
+import io.sc3.plethora.integration.computercraft.TurtleFakePlayerProvider;
+import io.sc3.plethora.util.PlayerHelpers;
 
 import javax.annotation.Nonnull;
 

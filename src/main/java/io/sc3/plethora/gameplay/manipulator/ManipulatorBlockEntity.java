@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.manipulator;
+package io.sc3.plethora.gameplay.manipulator;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.block.Block;
@@ -19,13 +19,13 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import pw.switchcraft.plethora.api.IPlayerOwnable;
-import pw.switchcraft.plethora.api.module.IModuleHandler;
-import pw.switchcraft.plethora.core.executor.TaskRunner;
-import pw.switchcraft.plethora.gameplay.BaseBlockEntity;
-import pw.switchcraft.plethora.gameplay.registry.Registration.ModBlocks;
-import pw.switchcraft.plethora.util.Helpers;
-import pw.switchcraft.plethora.util.PlayerHelpers;
+import io.sc3.plethora.api.IPlayerOwnable;
+import io.sc3.plethora.api.module.IModuleHandler;
+import io.sc3.plethora.core.executor.TaskRunner;
+import io.sc3.plethora.gameplay.BaseBlockEntity;
+import io.sc3.plethora.gameplay.registry.Registration.ModBlocks;
+import io.sc3.plethora.util.Helpers;
+import io.sc3.plethora.util.PlayerHelpers;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -33,10 +33,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static pw.switchcraft.plethora.gameplay.manipulator.ManipulatorBlock.BOX_EXPAND;
-import static pw.switchcraft.plethora.gameplay.manipulator.ManipulatorBlock.OFFSET;
-import static pw.switchcraft.plethora.gameplay.manipulator.ManipulatorType.MARK_1;
-import static pw.switchcraft.plethora.gameplay.manipulator.ManipulatorType.MARK_2;
+import static io.sc3.plethora.gameplay.manipulator.ManipulatorBlock.BOX_EXPAND;
+import static io.sc3.plethora.gameplay.manipulator.ManipulatorBlock.OFFSET;
+import static io.sc3.plethora.gameplay.manipulator.ManipulatorType.MARK_1;
+import static io.sc3.plethora.gameplay.manipulator.ManipulatorType.MARK_2;
 
 public class ManipulatorBlockEntity extends BaseBlockEntity implements IPlayerOwnable {
     private ManipulatorType type;

@@ -1,11 +1,11 @@
-package pw.switchcraft.plethora.integration.vanilla.registry;
+package io.sc3.plethora.integration.vanilla.registry;
 
 import net.minecraft.util.Identifier;
-import pw.switchcraft.plethora.api.method.IMethod;
-import pw.switchcraft.plethora.api.method.IMethodRegistry;
-import pw.switchcraft.plethora.api.module.IModuleContainer;
-import pw.switchcraft.plethora.integration.vanilla.method.EntityIntrospectionMethods;
-import pw.switchcraft.plethora.integration.vanilla.method.EntityKineticMethods;
+import io.sc3.plethora.api.method.IMethod;
+import io.sc3.plethora.api.method.IMethodRegistry;
+import io.sc3.plethora.api.module.IModuleContainer;
+import io.sc3.plethora.integration.vanilla.method.EntityIntrospectionMethods;
+import io.sc3.plethora.integration.vanilla.method.EntityKineticMethods;
 
 public final class VanillaMethodRegistration {
     public static void registerMethods(IMethodRegistry r) {

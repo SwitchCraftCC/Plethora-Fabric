@@ -1,19 +1,19 @@
-package pw.switchcraft.plethora.gameplay.modules.introspection;
+package io.sc3.plethora.gameplay.modules.introspection;
 
 import dan200.computercraft.api.lua.LuaException;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.MinecraftServer;
-import pw.switchcraft.plethora.api.WorldLocation;
-import pw.switchcraft.plethora.api.method.IContext;
-import pw.switchcraft.plethora.api.method.IUnbakedContext;
-import pw.switchcraft.plethora.api.module.IModuleContainer;
-import pw.switchcraft.plethora.integration.EntityIdentifier;
+import io.sc3.plethora.api.WorldLocation;
+import io.sc3.plethora.api.method.IContext;
+import io.sc3.plethora.api.method.IUnbakedContext;
+import io.sc3.plethora.api.module.IModuleContainer;
+import io.sc3.plethora.integration.EntityIdentifier;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static pw.switchcraft.plethora.core.ContextHelpers.fromContext;
-import static pw.switchcraft.plethora.core.ContextHelpers.fromSubtarget;
+import static io.sc3.plethora.core.ContextHelpers.fromContext;
+import static io.sc3.plethora.core.ContextHelpers.fromSubtarget;
 
 public class IntrospectionContextHelpers {
     public record IntrospectionContext(IContext<IModuleContainer> context, EntityIdentifier entity,

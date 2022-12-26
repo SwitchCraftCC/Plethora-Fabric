@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.api;
+package io.sc3.plethora.api;
 
 import java.util.UUID;
 

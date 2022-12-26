@@ -1,11 +1,11 @@
-package pw.switchcraft.plethora.gameplay.modules.keyboard;
+package io.sc3.plethora.gameplay.modules.keyboard;
 
 import net.minecraft.util.Identifier;
-import pw.switchcraft.plethora.gameplay.modules.ModuleItem;
+import io.sc3.plethora.gameplay.modules.ModuleItem;
 
 import javax.annotation.Nonnull;
 
-import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.KEYBOARD_M;
+import static io.sc3.plethora.gameplay.registry.PlethoraModules.KEYBOARD_M;
 
 public class KeyboardModuleItem extends ModuleItem {
     public KeyboardModuleItem(Settings settings) {

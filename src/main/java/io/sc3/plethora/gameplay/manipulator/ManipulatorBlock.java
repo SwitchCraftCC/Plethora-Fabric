@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.manipulator;
+package io.sc3.plethora.gameplay.manipulator;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -17,14 +17,14 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import pw.switchcraft.plethora.gameplay.BaseBlockWithEntity;
-import pw.switchcraft.plethora.util.PlayerHelpers;
+import io.sc3.plethora.gameplay.BaseBlockWithEntity;
+import io.sc3.plethora.util.PlayerHelpers;
 
 import javax.annotation.Nullable;
 
-import static pw.switchcraft.plethora.gameplay.manipulator.ManipulatorType.MARK_1;
-import static pw.switchcraft.plethora.gameplay.registry.Registration.ModBlockEntities.MANIPULATOR_MARK_1;
-import static pw.switchcraft.plethora.gameplay.registry.Registration.ModBlockEntities.MANIPULATOR_MARK_2;
+import static io.sc3.plethora.gameplay.manipulator.ManipulatorType.MARK_1;
+import static io.sc3.plethora.gameplay.registry.Registration.ModBlockEntities.MANIPULATOR_MARK_1;
+import static io.sc3.plethora.gameplay.registry.Registration.ModBlockEntities.MANIPULATOR_MARK_2;
 
 public class ManipulatorBlock extends BaseBlockWithEntity {
     public static final DirectionProperty FACING = Properties.FACING;

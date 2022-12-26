@@ -1,8 +1,8 @@
-package pw.switchcraft.plethora.api.module;
+package io.sc3.plethora.api.module;
 
 import net.minecraft.util.Identifier;
-import pw.switchcraft.plethora.api.reference.IReference;
-import pw.switchcraft.plethora.api.reference.Reference;
+import io.sc3.plethora.api.reference.IReference;
+import io.sc3.plethora.api.reference.Reference;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.util;
+package io.sc3.plethora.util;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.block.entity.CommandBlockBlockEntity;

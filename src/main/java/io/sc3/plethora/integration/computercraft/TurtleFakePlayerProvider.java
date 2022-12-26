@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.integration.computercraft;
+package io.sc3.plethora.integration.computercraft;
 
 import com.mojang.authlib.GameProfile;
 import dan200.computercraft.api.turtle.ITurtleAccess;
@@ -14,8 +14,8 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import pw.switchcraft.plethora.api.IPlayerOwnable;
-import pw.switchcraft.plethora.gameplay.PlethoraFakePlayer;
+import io.sc3.plethora.api.IPlayerOwnable;
+import io.sc3.plethora.gameplay.PlethoraFakePlayer;
 
 import java.util.WeakHashMap;
 

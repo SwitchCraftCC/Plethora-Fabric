@@ -1,6 +1,6 @@
-package pw.switchcraft.plethora.gameplay.registry
+package io.sc3.plethora.gameplay.registry
 
-import pw.switchcraft.plethora.Plethora.ModId
+import io.sc3.plethora.Plethora.ModId
 
 object Packets {
   @JvmField val SPAWN_PACKET_ID = ModId("spawn_packet")

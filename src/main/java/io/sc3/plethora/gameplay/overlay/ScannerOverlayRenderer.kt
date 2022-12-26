@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.overlay
+package io.sc3.plethora.gameplay.overlay
 
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags.ORES
 import net.minecraft.block.Block
@@ -12,8 +12,8 @@ import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-import pw.switchcraft.plethora.Plethora
-import pw.switchcraft.plethora.gameplay.modules.LevelableModuleItem
+import io.sc3.plethora.Plethora
+import io.sc3.plethora.gameplay.modules.LevelableModuleItem
 
 object ScannerOverlayRenderer : FlareOverlayRenderer() {
   private val cfg by Plethora.config::scanner

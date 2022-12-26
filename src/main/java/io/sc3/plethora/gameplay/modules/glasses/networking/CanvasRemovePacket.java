@@ -1,12 +1,12 @@
-package pw.switchcraft.plethora.gameplay.modules.glasses.networking;
+package io.sc3.plethora.gameplay.modules.glasses.networking;
 
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.PacketByteBuf;
-import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasClient;
-import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasHandler;
+import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasClient;
+import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasHandler;
 
 public class CanvasRemovePacket {
     private int canvasId;

@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.data.recipes
+package io.sc3.plethora.gameplay.data.recipes
 
 import dan200.computercraft.shared.ModRegistry.Items.POCKET_COMPUTER_ADVANCED
 import dan200.computercraft.shared.ModRegistry.Items.WIRED_MODEM
@@ -12,11 +12,11 @@ import net.minecraft.recipe.SpecialRecipeSerializer
 import net.minecraft.recipe.book.CraftingRecipeCategory
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
-import pw.switchcraft.library.recipe.BetterSpecialRecipe
-import pw.switchcraft.plethora.gameplay.neural.NeuralComputerHandler
-import pw.switchcraft.plethora.gameplay.neural.NeuralHelpers
-import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceInventory
-import pw.switchcraft.plethora.gameplay.registry.Registration.ModItems.NEURAL_INTERFACE
+import io.sc3.library.recipe.BetterSpecialRecipe
+import io.sc3.plethora.gameplay.neural.NeuralComputerHandler
+import io.sc3.plethora.gameplay.neural.NeuralHelpers
+import io.sc3.plethora.gameplay.neural.NeuralInterfaceInventory
+import io.sc3.plethora.gameplay.registry.Registration.ModItems.NEURAL_INTERFACE
 
 class NeuralInterfaceRecipe(
   id: Identifier,

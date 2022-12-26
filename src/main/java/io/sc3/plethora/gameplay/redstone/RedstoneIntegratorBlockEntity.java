@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.redstone;
+package io.sc3.plethora.gameplay.redstone;
 
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
@@ -11,7 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
-import pw.switchcraft.plethora.gameplay.BaseBlockEntity;
+import io.sc3.plethora.gameplay.BaseBlockEntity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static pw.switchcraft.plethora.Plethora.log;
+import static io.sc3.plethora.Plethora.log;
 
 public class RedstoneIntegratorBlockEntity extends BaseBlockEntity {
     final byte[] inputs = new byte[6];

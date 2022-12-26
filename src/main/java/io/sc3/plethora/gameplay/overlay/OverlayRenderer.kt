@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.overlay
+package io.sc3.plethora.gameplay.overlay
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -7,9 +7,9 @@ import net.minecraft.client.render.Camera
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Hand
-import pw.switchcraft.plethora.gameplay.overlay.ScannerOverlayRenderer.render
-import pw.switchcraft.plethora.gameplay.overlay.SensorOverlayRenderer.render
-import pw.switchcraft.plethora.gameplay.registry.Registration
+import io.sc3.plethora.gameplay.overlay.ScannerOverlayRenderer.render
+import io.sc3.plethora.gameplay.overlay.SensorOverlayRenderer.render
+import io.sc3.plethora.gameplay.registry.Registration
 import java.lang.Math.PI
 
 object OverlayRenderer {

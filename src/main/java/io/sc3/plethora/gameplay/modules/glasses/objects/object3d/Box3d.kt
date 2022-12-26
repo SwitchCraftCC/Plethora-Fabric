@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d
+package io.sc3.plethora.gameplay.modules.glasses.objects.object3d
 
 import com.mojang.blaze3d.systems.RenderSystem
 import dan200.computercraft.api.lua.IArguments
@@ -6,13 +6,13 @@ import net.minecraft.client.render.*
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.math.Vec3d
-import pw.switchcraft.plethora.api.method.*
-import pw.switchcraft.plethora.core.ContextHelpers.safeFromTarget
-import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasClient
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ColourableObject
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectRegistry.BOX_3D
-import pw.switchcraft.plethora.util.ByteBufUtils
-import pw.switchcraft.plethora.util.DirtyingProperty
+import io.sc3.plethora.api.method.*
+import io.sc3.plethora.core.ContextHelpers.safeFromTarget
+import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasClient
+import io.sc3.plethora.gameplay.modules.glasses.objects.ColourableObject
+import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectRegistry.BOX_3D
+import io.sc3.plethora.util.ByteBufUtils
+import io.sc3.plethora.util.DirtyingProperty
 
 class Box3d(
   id: Int,

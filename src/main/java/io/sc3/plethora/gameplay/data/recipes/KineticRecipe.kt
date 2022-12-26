@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.data.recipes
+package io.sc3.plethora.gameplay.data.recipes
 
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags.GOLD_INGOTS
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags.REDSTONE_DUSTS
@@ -11,9 +11,9 @@ import net.minecraft.recipe.Ingredient.ofItems
 import net.minecraft.recipe.SpecialRecipeSerializer
 import net.minecraft.recipe.book.CraftingRecipeCategory
 import net.minecraft.util.Identifier
-import pw.switchcraft.library.recipe.BetterSpecialRecipe
-import pw.switchcraft.library.recipe.IngredientBrew
-import pw.switchcraft.plethora.gameplay.registry.Registration.ModItems.KINETIC_MODULE
+import io.sc3.library.recipe.BetterSpecialRecipe
+import io.sc3.library.recipe.IngredientBrew
+import io.sc3.plethora.gameplay.registry.Registration.ModItems.KINETIC_MODULE
 
 class KineticRecipe(
   id: Identifier,

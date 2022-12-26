@@ -1,14 +1,14 @@
-package pw.switchcraft.plethora.core.executor;
+package io.sc3.plethora.core.executor;
 
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.MethodResult;
-import pw.switchcraft.plethora.api.method.FutureMethodResult;
+import io.sc3.plethora.api.method.FutureMethodResult;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.concurrent.Callable;
 
-import static pw.switchcraft.plethora.Plethora.log;
+import static io.sc3.plethora.Plethora.log;
 
 /**
  * Represents an evaluation of a {@link FutureMethodResult} on the main thread.

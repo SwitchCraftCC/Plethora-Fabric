@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.neural;
+package io.sc3.plethora.gameplay.neural;
 
 import dan200.computercraft.shared.computer.core.ServerComputer;
 import dev.emi.trinkets.api.SlotReference;
@@ -8,7 +8,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Pair;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
-import pw.switchcraft.plethora.gameplay.BaseItem;
+import io.sc3.plethora.gameplay.BaseItem;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;

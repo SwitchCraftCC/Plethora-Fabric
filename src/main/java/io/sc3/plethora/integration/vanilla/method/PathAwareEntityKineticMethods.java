@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.integration.vanilla.method;
+package io.sc3.plethora.integration.vanilla.method;
 
 public final class PathAwareEntityKineticMethods {
     // TODO: Methods for a PathAwareEntity:

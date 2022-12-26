@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.core;
+package io.sc3.plethora.core;
 
 import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.ILuaContext;
@@ -6,9 +6,9 @@ import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.MethodResult;
 import net.minecraft.util.Pair;
 import org.apache.commons.lang3.ObjectUtils;
-import pw.switchcraft.plethora.api.method.FutureMethodResult;
-import pw.switchcraft.plethora.api.method.IUnbakedContext;
-import pw.switchcraft.plethora.api.method.TypedLuaObject;
+import io.sc3.plethora.api.method.FutureMethodResult;
+import io.sc3.plethora.api.method.IUnbakedContext;
+import io.sc3.plethora.api.method.TypedLuaObject;
 
 import javax.annotation.Nonnull;
 import java.util.List;

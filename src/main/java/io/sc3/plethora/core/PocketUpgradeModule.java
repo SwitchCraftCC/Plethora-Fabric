@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.core;
+package io.sc3.plethora.core;
 
 import com.mojang.authlib.GameProfile;
 import dan200.computercraft.api.lua.LuaException;
@@ -16,19 +16,19 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import pw.switchcraft.plethora.api.EntityWorldLocation;
-import pw.switchcraft.plethora.api.IPlayerOwnable;
-import pw.switchcraft.plethora.api.IWorldLocation;
-import pw.switchcraft.plethora.api.method.ContextKeys;
-import pw.switchcraft.plethora.api.method.IAttachable;
-import pw.switchcraft.plethora.api.module.IModuleAccess;
-import pw.switchcraft.plethora.api.module.IModuleContainer;
-import pw.switchcraft.plethora.api.module.IModuleHandler;
-import pw.switchcraft.plethora.api.module.SingletonModuleContainer;
-import pw.switchcraft.plethora.api.reference.ConstantReference;
-import pw.switchcraft.plethora.api.reference.IReference;
-import pw.switchcraft.plethora.core.executor.TaskRunner;
-import pw.switchcraft.plethora.util.PlayerHelpers;
+import io.sc3.plethora.api.EntityWorldLocation;
+import io.sc3.plethora.api.IPlayerOwnable;
+import io.sc3.plethora.api.IWorldLocation;
+import io.sc3.plethora.api.method.ContextKeys;
+import io.sc3.plethora.api.method.IAttachable;
+import io.sc3.plethora.api.module.IModuleAccess;
+import io.sc3.plethora.api.module.IModuleContainer;
+import io.sc3.plethora.api.module.IModuleHandler;
+import io.sc3.plethora.api.module.SingletonModuleContainer;
+import io.sc3.plethora.api.reference.ConstantReference;
+import io.sc3.plethora.api.reference.IReference;
+import io.sc3.plethora.core.executor.TaskRunner;
+import io.sc3.plethora.util.PlayerHelpers;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

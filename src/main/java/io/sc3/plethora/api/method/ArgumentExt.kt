@@ -1,10 +1,10 @@
-package pw.switchcraft.plethora.api.method
+package io.sc3.plethora.api.method
 
 import dan200.computercraft.api.lua.IArguments
 import dan200.computercraft.api.lua.LuaValues.badArgumentOf
 import net.minecraft.util.math.Vec3d
-import pw.switchcraft.plethora.gameplay.modules.glasses.GlassesArgumentHelper
-import pw.switchcraft.plethora.util.Vec2d
+import io.sc3.plethora.gameplay.modules.glasses.GlassesArgumentHelper
+import io.sc3.plethora.util.Vec2d
 
 fun IArguments.getVec2d(startIndex: Int = 0): Vec2d =
   getVec2dNullable(startIndex) ?: throw badArgumentOf(startIndex, "number", get(startIndex))

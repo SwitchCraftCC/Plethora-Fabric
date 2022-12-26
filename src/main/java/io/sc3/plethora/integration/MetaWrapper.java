@@ -1,8 +1,8 @@
-package pw.switchcraft.plethora.integration;
+package io.sc3.plethora.integration;
 
-import pw.switchcraft.plethora.api.meta.BaseMetaProvider;
-import pw.switchcraft.plethora.api.method.IPartialContext;
-import pw.switchcraft.plethora.api.reference.ConstantReference;
+import io.sc3.plethora.api.meta.BaseMetaProvider;
+import io.sc3.plethora.api.method.IPartialContext;
+import io.sc3.plethora.api.reference.ConstantReference;
 
 import javax.annotation.Nonnull;
 import java.util.Map;

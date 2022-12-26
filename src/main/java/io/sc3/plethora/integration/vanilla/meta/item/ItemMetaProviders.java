@@ -1,9 +1,9 @@
-package pw.switchcraft.plethora.integration.vanilla.meta.item;
+package io.sc3.plethora.integration.vanilla.meta.item;
 
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.ItemStack;
-import pw.switchcraft.plethora.api.meta.BasicMetaProvider;
-import pw.switchcraft.plethora.api.meta.IMetaProvider;
+import io.sc3.plethora.api.meta.BasicMetaProvider;
+import io.sc3.plethora.api.meta.IMetaProvider;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;

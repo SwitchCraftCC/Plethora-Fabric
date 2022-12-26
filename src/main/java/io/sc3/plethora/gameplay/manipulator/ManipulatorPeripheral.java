@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.manipulator;
+package io.sc3.plethora.gameplay.manipulator;
 
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IPeripheral;
@@ -8,24 +8,24 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.Direction;
-import pw.switchcraft.plethora.api.IWorldLocation;
-import pw.switchcraft.plethora.api.WorldLocation;
-import pw.switchcraft.plethora.api.method.ContextKeys;
-import pw.switchcraft.plethora.api.method.CostHelpers;
-import pw.switchcraft.plethora.api.module.BasicModuleContainer;
-import pw.switchcraft.plethora.api.module.IModuleAccess;
-import pw.switchcraft.plethora.api.module.IModuleContainer;
-import pw.switchcraft.plethora.api.module.IModuleHandler;
-import pw.switchcraft.plethora.api.reference.ConstantReference;
-import pw.switchcraft.plethora.api.reference.IReference;
-import pw.switchcraft.plethora.core.*;
-import pw.switchcraft.plethora.gameplay.modules.ModulePeripheral;
+import io.sc3.plethora.api.IWorldLocation;
+import io.sc3.plethora.api.WorldLocation;
+import io.sc3.plethora.api.method.ContextKeys;
+import io.sc3.plethora.api.method.CostHelpers;
+import io.sc3.plethora.api.module.BasicModuleContainer;
+import io.sc3.plethora.api.module.IModuleAccess;
+import io.sc3.plethora.api.module.IModuleContainer;
+import io.sc3.plethora.api.module.IModuleHandler;
+import io.sc3.plethora.api.reference.ConstantReference;
+import io.sc3.plethora.api.reference.IReference;
+import io.sc3.plethora.core.*;
+import io.sc3.plethora.gameplay.modules.ModulePeripheral;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
-import static pw.switchcraft.plethora.api.reference.Reference.blockEntity;
+import static io.sc3.plethora.api.reference.Reference.blockEntity;
 
 public class ManipulatorPeripheral {
     @Nullable

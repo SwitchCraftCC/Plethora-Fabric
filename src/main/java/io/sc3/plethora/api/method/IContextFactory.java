@@ -1,7 +1,7 @@
-package pw.switchcraft.plethora.api.method;
+package io.sc3.plethora.api.method;
 
-import pw.switchcraft.plethora.api.module.IModuleContainer;
-import pw.switchcraft.plethora.api.reference.IReference;
+import io.sc3.plethora.api.module.IModuleContainer;
+import io.sc3.plethora.api.reference.IReference;
 
 import javax.annotation.Nonnull;
 

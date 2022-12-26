@@ -1,8 +1,8 @@
-package pw.switchcraft.plethora.core;
+package io.sc3.plethora.core;
 
-import pw.switchcraft.plethora.api.module.IModuleHandler;
-import pw.switchcraft.plethora.api.module.IModuleRegistry;
-import pw.switchcraft.plethora.api.vehicle.IVehicleUpgradeHandler;
+import io.sc3.plethora.api.module.IModuleHandler;
+import io.sc3.plethora.api.module.IModuleRegistry;
+import io.sc3.plethora.api.vehicle.IVehicleUpgradeHandler;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;

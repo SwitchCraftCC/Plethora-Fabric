@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.api;
+package io.sc3.plethora.api;
 
 import dan200.computercraft.api.lua.LuaException;
 import net.minecraft.entity.Entity;
@@ -7,7 +7,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import pw.switchcraft.plethora.api.reference.ConstantReference;
+import io.sc3.plethora.api.reference.ConstantReference;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;

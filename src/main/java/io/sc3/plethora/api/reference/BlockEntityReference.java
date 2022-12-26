@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.api.reference;
+package io.sc3.plethora.api.reference;
 
 import dan200.computercraft.api.lua.LuaException;
 import net.minecraft.block.entity.BlockEntity;

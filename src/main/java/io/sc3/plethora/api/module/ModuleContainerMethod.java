@@ -1,9 +1,9 @@
-package pw.switchcraft.plethora.api.module;
+package io.sc3.plethora.api.module;
 
 import com.google.common.base.Preconditions;
 import net.minecraft.util.Identifier;
-import pw.switchcraft.plethora.api.method.BasicMethod;
-import pw.switchcraft.plethora.api.method.IPartialContext;
+import io.sc3.plethora.api.method.BasicMethod;
+import io.sc3.plethora.api.method.IPartialContext;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;

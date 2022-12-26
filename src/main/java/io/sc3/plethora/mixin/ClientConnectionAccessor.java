@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.mixin;
+package io.sc3.plethora.mixin;
 
 import io.netty.channel.Channel;
 import net.minecraft.network.ClientConnection;

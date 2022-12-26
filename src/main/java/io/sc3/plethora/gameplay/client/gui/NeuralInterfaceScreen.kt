@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.client.gui
+package io.sc3.plethora.gameplay.client.gui
 
 import com.mojang.blaze3d.systems.RenderSystem
 import dan200.computercraft.client.gui.AbstractComputerScreen
@@ -14,13 +14,13 @@ import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.screen.slot.Slot
 import net.minecraft.text.Text
 import net.minecraft.text.Text.translatable
-import pw.switchcraft.plethora.Plethora.ModId
-import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler
-import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler.Companion.NEURAL_START_X
-import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler.Companion.S
-import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler.Companion.START_Y
-import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler.Companion.slotPositions
-import pw.switchcraft.plethora.gameplay.neural.NeuralInterfaceScreenHandler.Companion.swapBtn
+import io.sc3.plethora.Plethora.ModId
+import io.sc3.plethora.gameplay.neural.NeuralInterfaceScreenHandler
+import io.sc3.plethora.gameplay.neural.NeuralInterfaceScreenHandler.Companion.NEURAL_START_X
+import io.sc3.plethora.gameplay.neural.NeuralInterfaceScreenHandler.Companion.S
+import io.sc3.plethora.gameplay.neural.NeuralInterfaceScreenHandler.Companion.START_Y
+import io.sc3.plethora.gameplay.neural.NeuralInterfaceScreenHandler.Companion.slotPositions
+import io.sc3.plethora.gameplay.neural.NeuralInterfaceScreenHandler.Companion.swapBtn
 
 class NeuralInterfaceScreen(
   private val container: NeuralInterfaceScreenHandler,

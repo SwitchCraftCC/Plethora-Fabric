@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.util.config
+package io.sc3.plethora.util.config
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory
 import com.terraformersmc.modmenu.api.ModMenuApi
@@ -11,9 +11,9 @@ import net.minecraft.block.RedstoneOreBlock
 import net.minecraft.registry.Registries
 import net.minecraft.text.Text.of
 import net.minecraft.text.Text.translatable
-import pw.switchcraft.plethora.Plethora
-import pw.switchcraft.plethora.gameplay.overlay.ScannerOverlayRenderer
-import pw.switchcraft.plethora.gameplay.overlay.SensorOverlayRenderer
+import io.sc3.plethora.Plethora
+import io.sc3.plethora.gameplay.overlay.ScannerOverlayRenderer
+import io.sc3.plethora.gameplay.overlay.SensorOverlayRenderer
 import java.awt.Color
 
 object ModMenuIntegration : ModMenuApi {

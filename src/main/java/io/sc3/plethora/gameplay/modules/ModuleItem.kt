@@ -1,15 +1,15 @@
-package pw.switchcraft.plethora.gameplay.modules
+package io.sc3.plethora.gameplay.modules
 
 import dan200.computercraft.api.client.TransformedModel
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.AffineTransformation
-import pw.switchcraft.plethora.Plethora.modId
-import pw.switchcraft.plethora.api.method.IContextBuilder
-import pw.switchcraft.plethora.api.module.IModuleAccess
-import pw.switchcraft.plethora.api.module.IModuleHandler
-import pw.switchcraft.plethora.api.reference.Reference
-import pw.switchcraft.plethora.gameplay.BaseItem
-import pw.switchcraft.plethora.integration.EntityIdentifier.Player
+import io.sc3.plethora.Plethora.modId
+import io.sc3.plethora.api.method.IContextBuilder
+import io.sc3.plethora.api.module.IModuleAccess
+import io.sc3.plethora.api.module.IModuleHandler
+import io.sc3.plethora.api.reference.Reference
+import io.sc3.plethora.gameplay.BaseItem
+import io.sc3.plethora.integration.EntityIdentifier.Player
 
 abstract class ModuleItem(
   itemName: String,

@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay;
+package io.sc3.plethora.gameplay;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.block.Block;
@@ -15,16 +15,16 @@ import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-import pw.switchcraft.plethora.Plethora;
-import pw.switchcraft.plethora.mixin.EntityAccessor;
-import pw.switchcraft.plethora.mixin.ServerPlayerInteractionManagerAccessor;
-import pw.switchcraft.plethora.util.FakePlayer;
+import io.sc3.plethora.Plethora;
+import io.sc3.plethora.mixin.EntityAccessor;
+import io.sc3.plethora.mixin.ServerPlayerInteractionManagerAccessor;
+import io.sc3.plethora.util.FakePlayer;
 
 import javax.annotation.Nonnull;
 import java.lang.ref.WeakReference;
 
 import static net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket.Action.START_DESTROY_BLOCK;
-import static pw.switchcraft.plethora.api.Constants.FAKEPLAYER_UUID;
+import static io.sc3.plethora.api.Constants.FAKEPLAYER_UUID;
 
 public class PlethoraFakePlayer extends FakePlayer {
     public static final GameProfile PROFILE = new GameProfile(FAKEPLAYER_UUID, "[" + Plethora.modId + "]");

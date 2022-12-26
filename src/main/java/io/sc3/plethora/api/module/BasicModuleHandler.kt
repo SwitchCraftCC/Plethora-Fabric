@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.api.module
+package io.sc3.plethora.api.module
 
 import dan200.computercraft.api.client.TransformedModel
 import net.minecraft.item.Item

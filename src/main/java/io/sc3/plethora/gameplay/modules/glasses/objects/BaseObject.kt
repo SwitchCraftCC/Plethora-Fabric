@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.modules.glasses.objects
+package io.sc3.plethora.gameplay.modules.glasses.objects
 
 import com.mojang.blaze3d.systems.RenderSystem
 import dan200.computercraft.api.lua.LuaException
@@ -8,10 +8,10 @@ import net.minecraft.client.render.GameRenderer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.network.PacketByteBuf
-import pw.switchcraft.plethora.api.reference.ConstantReference
-import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasClient
-import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasServer
-import pw.switchcraft.plethora.util.Dirtyable
+import io.sc3.plethora.api.reference.ConstantReference
+import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasClient
+import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasServer
+import io.sc3.plethora.util.Dirtyable
 
 abstract class BaseObject(
   val id: Int,

@@ -1,12 +1,12 @@
-package pw.switchcraft.plethora.api.module;
+package io.sc3.plethora.api.module;
 
 import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.LuaException;
 import net.minecraft.util.Identifier;
-import pw.switchcraft.plethora.api.method.ContextKeys;
-import pw.switchcraft.plethora.api.method.FutureMethodResult;
-import pw.switchcraft.plethora.api.method.IPartialContext;
-import pw.switchcraft.plethora.api.method.IUnbakedContext;
+import io.sc3.plethora.api.method.ContextKeys;
+import io.sc3.plethora.api.method.FutureMethodResult;
+import io.sc3.plethora.api.method.IPartialContext;
+import io.sc3.plethora.api.method.IUnbakedContext;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;

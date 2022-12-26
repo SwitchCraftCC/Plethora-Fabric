@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.modules.glasses.objects.object3d
+package io.sc3.plethora.gameplay.modules.glasses.objects.object3d
 
 import com.mojang.blaze3d.platform.GlConst
 import com.mojang.blaze3d.platform.GlStateManager
@@ -10,16 +10,16 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.math.Vec3d
 import org.joml.Matrix4f
-import pw.switchcraft.plethora.Plethora
-import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasClient
-import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasHandler.HEIGHT
-import pw.switchcraft.plethora.gameplay.modules.glasses.canvas.CanvasHandler.WIDTH
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.BaseObject
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectGroup
-import pw.switchcraft.plethora.gameplay.modules.glasses.objects.ObjectRegistry.FRAME_3D
-import pw.switchcraft.plethora.mixin.client.GameRendererAccessor
-import pw.switchcraft.plethora.util.ByteBufUtils
-import pw.switchcraft.plethora.util.DirtyingProperty
+import io.sc3.plethora.Plethora
+import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasClient
+import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasHandler.HEIGHT
+import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasHandler.WIDTH
+import io.sc3.plethora.gameplay.modules.glasses.objects.BaseObject
+import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectGroup
+import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectRegistry.FRAME_3D
+import io.sc3.plethora.mixin.client.GameRendererAccessor
+import io.sc3.plethora.util.ByteBufUtils
+import io.sc3.plethora.util.DirtyingProperty
 
 private const val SCALE = 1 / 64.0f
 

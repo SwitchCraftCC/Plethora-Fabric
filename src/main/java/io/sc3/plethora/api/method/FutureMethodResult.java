@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.api.method;
+package io.sc3.plethora.api.method;
 
 import dan200.computercraft.api.lua.MethodResult;
 

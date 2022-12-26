@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.util.config
+package io.sc3.plethora.util.config
 
 object ConfigValidator {
   @Throws(ConfigValidationException::class)

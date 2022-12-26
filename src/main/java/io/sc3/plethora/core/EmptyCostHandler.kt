@@ -1,8 +1,8 @@
-package pw.switchcraft.plethora.core
+package io.sc3.plethora.core
 
 import dan200.computercraft.api.lua.LuaException
-import pw.switchcraft.plethora.api.method.FutureMethodResult
-import pw.switchcraft.plethora.api.method.ICostHandler
+import io.sc3.plethora.api.method.FutureMethodResult
+import io.sc3.plethora.api.method.ICostHandler
 import java.util.concurrent.Callable
 
 object EmptyCostHandler : ICostHandler {

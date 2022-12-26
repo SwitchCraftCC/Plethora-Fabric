@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.api;
+package io.sc3.plethora.api;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;

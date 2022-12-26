@@ -1,7 +1,7 @@
-package pw.switchcraft.plethora.api.module;
+package io.sc3.plethora.api.module;
 
 import net.minecraft.item.ItemStack;
-import pw.switchcraft.plethora.api.method.IContextBuilder;
+import io.sc3.plethora.api.method.IContextBuilder;
 
 import javax.annotation.Nonnull;
 

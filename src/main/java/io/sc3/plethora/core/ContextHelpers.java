@@ -1,12 +1,12 @@
-package pw.switchcraft.plethora.core;
+package io.sc3.plethora.core;
 
 import dan200.computercraft.api.lua.LuaException;
 import joptsimple.internal.Strings;
 import net.minecraft.util.Identifier;
-import pw.switchcraft.plethora.api.method.ContextKeys;
-import pw.switchcraft.plethora.api.method.IMethod;
-import pw.switchcraft.plethora.api.method.IPartialContext;
-import pw.switchcraft.plethora.api.method.IUnbakedContext;
+import io.sc3.plethora.api.method.ContextKeys;
+import io.sc3.plethora.api.method.IMethod;
+import io.sc3.plethora.api.method.IPartialContext;
+import io.sc3.plethora.api.method.IUnbakedContext;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

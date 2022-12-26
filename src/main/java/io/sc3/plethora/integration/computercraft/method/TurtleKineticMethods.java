@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.integration.computercraft.method;
+package io.sc3.plethora.integration.computercraft.method;
 
 import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.LuaException;
@@ -8,24 +8,24 @@ import net.minecraft.util.Pair;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
-import pw.switchcraft.plethora.api.IPlayerOwnable;
-import pw.switchcraft.plethora.api.method.FutureMethodResult;
-import pw.switchcraft.plethora.api.method.IContext;
-import pw.switchcraft.plethora.api.method.IUnbakedContext;
-import pw.switchcraft.plethora.api.module.IModuleContainer;
-import pw.switchcraft.plethora.api.module.SubtargetedModuleMethod;
-import pw.switchcraft.plethora.gameplay.PlethoraFakePlayer;
-import pw.switchcraft.plethora.integration.PlayerInteractionHelpers;
-import pw.switchcraft.plethora.integration.computercraft.TurtleFakePlayerProvider;
-import pw.switchcraft.plethora.util.PlayerHelpers;
+import io.sc3.plethora.api.IPlayerOwnable;
+import io.sc3.plethora.api.method.FutureMethodResult;
+import io.sc3.plethora.api.method.IContext;
+import io.sc3.plethora.api.method.IUnbakedContext;
+import io.sc3.plethora.api.module.IModuleContainer;
+import io.sc3.plethora.api.module.SubtargetedModuleMethod;
+import io.sc3.plethora.gameplay.PlethoraFakePlayer;
+import io.sc3.plethora.integration.PlayerInteractionHelpers;
+import io.sc3.plethora.integration.computercraft.TurtleFakePlayerProvider;
+import io.sc3.plethora.util.PlayerHelpers;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static pw.switchcraft.plethora.api.method.ContextKeys.ORIGIN;
-import static pw.switchcraft.plethora.core.ContextHelpers.fromContext;
-import static pw.switchcraft.plethora.core.ContextHelpers.fromSubtarget;
-import static pw.switchcraft.plethora.gameplay.registry.PlethoraModules.KINETIC_M;
+import static io.sc3.plethora.api.method.ContextKeys.ORIGIN;
+import static io.sc3.plethora.core.ContextHelpers.fromContext;
+import static io.sc3.plethora.core.ContextHelpers.fromSubtarget;
+import static io.sc3.plethora.gameplay.registry.PlethoraModules.KINETIC_M;
 
 public class TurtleKineticMethods {
     public static final SubtargetedModuleMethod<ITurtleAccess> USE = SubtargetedModuleMethod.of(

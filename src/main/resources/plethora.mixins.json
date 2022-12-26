@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "pw.switchcraft.plethora.mixin",
+  "package": "io.sc3.plethora.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "ClientConnectionAccessor",

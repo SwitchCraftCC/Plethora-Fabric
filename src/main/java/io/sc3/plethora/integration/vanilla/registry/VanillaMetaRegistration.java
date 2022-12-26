@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.integration.vanilla.registry;
+package io.sc3.plethora.integration.vanilla.registry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -9,17 +9,17 @@ import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
-import pw.switchcraft.plethora.api.meta.IMetaProvider;
-import pw.switchcraft.plethora.api.meta.IMetaRegistry;
-import pw.switchcraft.plethora.api.reference.BlockReference;
-import pw.switchcraft.plethora.integration.vanilla.meta.block.BlockMeta;
-import pw.switchcraft.plethora.integration.vanilla.meta.block.BlockReferenceMeta;
-import pw.switchcraft.plethora.integration.vanilla.meta.block.BlockStateMeta;
-import pw.switchcraft.plethora.integration.vanilla.meta.entity.EntityMeta;
-import pw.switchcraft.plethora.integration.vanilla.meta.entity.EntityMetaProviders;
-import pw.switchcraft.plethora.integration.vanilla.meta.entity.LivingEntityMeta;
-import pw.switchcraft.plethora.integration.vanilla.meta.entity.PlayerEntityMeta;
-import pw.switchcraft.plethora.integration.vanilla.meta.item.*;
+import io.sc3.plethora.api.meta.IMetaProvider;
+import io.sc3.plethora.api.meta.IMetaRegistry;
+import io.sc3.plethora.api.reference.BlockReference;
+import io.sc3.plethora.integration.vanilla.meta.block.BlockMeta;
+import io.sc3.plethora.integration.vanilla.meta.block.BlockReferenceMeta;
+import io.sc3.plethora.integration.vanilla.meta.block.BlockStateMeta;
+import io.sc3.plethora.integration.vanilla.meta.entity.EntityMeta;
+import io.sc3.plethora.integration.vanilla.meta.entity.EntityMetaProviders;
+import io.sc3.plethora.integration.vanilla.meta.entity.LivingEntityMeta;
+import io.sc3.plethora.integration.vanilla.meta.entity.PlayerEntityMeta;
+import io.sc3.plethora.integration.vanilla.meta.item.*;
 
 public class VanillaMetaRegistration {
     public static void registerMetaProviders(IMetaRegistry r) {

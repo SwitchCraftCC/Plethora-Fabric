@@ -1,9 +1,9 @@
-package pw.switchcraft.plethora.integration.vanilla.meta.item;
+package io.sc3.plethora.integration.vanilla.meta.item;
 
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.DyeableArmorItem;
 import net.minecraft.item.ItemStack;
-import pw.switchcraft.plethora.api.meta.ItemStackMetaProvider;
+import io.sc3.plethora.api.meta.ItemStackMetaProvider;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;

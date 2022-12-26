@@ -1,11 +1,11 @@
-package pw.switchcraft.plethora.integration.vanilla.meta.block;
+package io.sc3.plethora.integration.vanilla.meta.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
 import net.minecraft.state.property.Property;
-import pw.switchcraft.plethora.api.meta.BaseMetaProvider;
-import pw.switchcraft.plethora.api.method.IPartialContext;
+import io.sc3.plethora.api.meta.BaseMetaProvider;
+import io.sc3.plethora.api.method.IPartialContext;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;

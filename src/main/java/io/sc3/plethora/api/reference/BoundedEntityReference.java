@@ -1,9 +1,9 @@
-package pw.switchcraft.plethora.api.reference;
+package io.sc3.plethora.api.reference;
 
 import dan200.computercraft.api.lua.LuaException;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
-import pw.switchcraft.plethora.api.IWorldLocation;
+import io.sc3.plethora.api.IWorldLocation;
 
 import javax.annotation.Nonnull;
 

@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.data.recipes.handlers
+package io.sc3.plethora.gameplay.data.recipes.handlers
 
 import dan200.computercraft.api.turtle.TurtleUpgradeDataProvider
 import dan200.computercraft.shared.ModRegistry
@@ -7,11 +7,11 @@ import dan200.computercraft.shared.turtle.items.TurtleItemFactory
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.recipe.book.RecipeCategory
-import pw.switchcraft.library.recipe.RecipeHandler
-import pw.switchcraft.plethora.Plethora.ModId
-import pw.switchcraft.plethora.Plethora.modId
-import pw.switchcraft.plethora.gameplay.data.recipes.RecipeWrapper
-import pw.switchcraft.plethora.gameplay.data.recipes.inventoryChange
+import io.sc3.library.recipe.RecipeHandler
+import io.sc3.plethora.Plethora.ModId
+import io.sc3.plethora.Plethora.modId
+import io.sc3.plethora.gameplay.data.recipes.RecipeWrapper
+import io.sc3.plethora.gameplay.data.recipes.inventoryChange
 import java.util.function.Consumer
 
 class TurtleRecipes(private val upgrades: TurtleUpgradeDataProvider) : RecipeHandler {

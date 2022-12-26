@@ -1,10 +1,10 @@
-package pw.switchcraft.plethora.core.executor;
+package io.sc3.plethora.core.executor;
 
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.MethodResult;
-import pw.switchcraft.plethora.api.method.FutureMethodResult;
-import pw.switchcraft.plethora.api.method.IResultExecutor;
+import io.sc3.plethora.api.method.FutureMethodResult;
+import io.sc3.plethora.api.method.IResultExecutor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.gameplay.client.neural
+package io.sc3.plethora.gameplay.client.neural
 
 import dev.emi.trinkets.api.SlotReference
 import dev.emi.trinkets.api.client.TrinketRenderer
@@ -8,7 +8,7 @@ import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.LivingEntity
 import net.minecraft.item.ItemStack
-import pw.switchcraft.plethora.Plethora.ModId
+import io.sc3.plethora.Plethora.ModId
 
 class NeuralInterfaceTrinketRenderer : TrinketRenderer {
   private val tex = ModId("textures/models/neural_interface.png")

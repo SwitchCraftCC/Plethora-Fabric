@@ -1,12 +1,12 @@
-package pw.switchcraft.plethora.gameplay
+package io.sc3.plethora.gameplay
 
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
 import net.minecraft.world.World
-import pw.switchcraft.library.Tooltips.addDescLines
-import pw.switchcraft.plethora.Plethora.modId
+import io.sc3.library.Tooltips.addDescLines
+import io.sc3.plethora.Plethora.modId
 
 abstract class BaseItem(protected val itemName: String, settings: Settings) : Item(settings) {
   override fun getTranslationKey() = "item.$modId.$itemName"

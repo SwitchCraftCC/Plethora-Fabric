@@ -1,4 +1,4 @@
-package pw.switchcraft.plethora.util.config
+package io.sc3.plethora.util.config
 
 import org.spongepowered.configurate.objectmapping.ConfigSerializable
 import org.spongepowered.configurate.objectmapping.meta.Comment

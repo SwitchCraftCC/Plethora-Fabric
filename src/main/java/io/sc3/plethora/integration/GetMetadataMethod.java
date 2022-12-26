@@ -1,13 +1,13 @@
-package pw.switchcraft.plethora.integration;
+package io.sc3.plethora.integration;
 
 import dan200.computercraft.api.lua.IArguments;
-import pw.switchcraft.plethora.api.PlethoraAPI;
-import pw.switchcraft.plethora.api.converter.IConverterExcludeMethod;
-import pw.switchcraft.plethora.api.meta.IMetaRegistry;
-import pw.switchcraft.plethora.api.method.BasicMethod;
-import pw.switchcraft.plethora.api.method.FutureMethodResult;
-import pw.switchcraft.plethora.api.method.IPartialContext;
-import pw.switchcraft.plethora.api.method.IUnbakedContext;
+import io.sc3.plethora.api.PlethoraAPI;
+import io.sc3.plethora.api.converter.IConverterExcludeMethod;
+import io.sc3.plethora.api.meta.IMetaRegistry;
+import io.sc3.plethora.api.method.BasicMethod;
+import io.sc3.plethora.api.method.FutureMethodResult;
+import io.sc3.plethora.api.method.IPartialContext;
+import io.sc3.plethora.api.method.IUnbakedContext;
 
 import javax.annotation.Nonnull;
 
