@@ -1,140 +1,133 @@
-package io.sc3.plethora.gameplay.neural;
+package io.sc3.plethora.gameplay.neural
 
-import dan200.computercraft.api.peripheral.IPeripheral;
-import dan200.computercraft.api.pocket.IPocketUpgrade;
-import dan200.computercraft.core.computer.ComputerSide;
-import dan200.computercraft.impl.PocketUpgrades;
-import dan200.computercraft.shared.computer.core.ComputerFamily;
-import dan200.computercraft.shared.computer.core.ServerComputer;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.inventory.Inventories;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.math.BlockPos;
-import io.sc3.plethora.core.executor.TaskRunner;
-import io.sc3.plethora.util.Helpers;
+import dan200.computercraft.core.computer.ComputerSide
+import dan200.computercraft.impl.PocketUpgrades
+import dan200.computercraft.shared.computer.core.ComputerFamily.ADVANCED
+import dan200.computercraft.shared.computer.core.ServerComputer
+import io.sc3.plethora.Plethora
+import io.sc3.plethora.core.executor.TaskRunner
+import io.sc3.plethora.gameplay.neural.NeuralComputerHandler.HEIGHT
+import io.sc3.plethora.gameplay.neural.NeuralComputerHandler.WIDTH
+import io.sc3.plethora.gameplay.neural.NeuralHelpers.INV_SIZE
+import io.sc3.plethora.util.Helpers
+import net.minecraft.entity.LivingEntity
+import net.minecraft.inventory.Inventories
+import net.minecraft.item.ItemStack
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.Identifier
+import net.minecraft.util.collection.DefaultedList
+import net.minecraft.util.math.BlockPos
+import java.lang.ref.WeakReference
+import javax.annotation.Nonnull
 
-import javax.annotation.Nonnull;
-import java.lang.ref.WeakReference;
-import java.util.HashMap;
-import java.util.Map;
+class NeuralComputer(
+  world: ServerWorld,
+  pos: BlockPos,
+  computerId: Int,
+  label: String?
+) : ServerComputer(world, pos, computerId, label, ADVANCED, WIDTH, HEIGHT) {
+  var entity: WeakReference<LivingEntity>? = null
+    private set
 
-import static io.sc3.plethora.gameplay.neural.NeuralComputerHandler.*;
-import static io.sc3.plethora.gameplay.neural.NeuralHelpers.*;
+  private val stacks = DefaultedList.ofSize(INV_SIZE, ItemStack.EMPTY)
+  var moduleHash = 0
+    private set
 
-public class NeuralComputer extends ServerComputer {
-    private WeakReference<LivingEntity> entity;
+  private val moduleData: MutableMap<Identifier, NbtCompound> = HashMap()
+  private var moduleDataDirty = false
 
-    private final DefaultedList<ItemStack> stacks = DefaultedList.ofSize(INV_SIZE, ItemStack.EMPTY);
-    private int moduleHash;
+  val executor = TaskRunner()
+  private val access: NeuralPocketAccess = NeuralPocketAccess(this)
 
-    private final Map<Identifier, NbtCompound> moduleData = new HashMap<>();
-    private boolean moduleDataDirty = false;
+  fun readModuleData(nbt: NbtCompound) {
+    for (key in nbt.keys) {
+      moduleData[Identifier(key)] = nbt.getCompound(key)
+    }
+  }
 
-    private final TaskRunner runner = new TaskRunner();
-    private final NeuralPocketAccess access;
+  fun getModuleData(id: Identifier): NbtCompound? {
+    var nbt = moduleData[id]
+    if (nbt == null) moduleData[id] = NbtCompound().also { nbt = it }
+    return nbt
+  }
 
-    public NeuralComputer(ServerWorld world, BlockPos pos, int computerId, String label) {
-        super(world, pos, computerId, label, ComputerFamily.ADVANCED, WIDTH, HEIGHT);
-        access = new NeuralPocketAccess(this);
+  fun markModuleDataDirty() {
+    moduleDataDirty = true
+  }
+
+  /**
+   * Update an sync peripherals
+   *
+   * @param owner The owner of the current peripherals
+   */
+  fun update(@Nonnull owner: LivingEntity, @Nonnull neuralStack: ItemStack, dirtyStatus: Int): Boolean {
+    var dirty = dirtyStatus
+
+    val existing = if (entity == null) null else entity!!.get()
+    if (existing !== owner) {
+      dirty = -1
+      entity = if (owner.isAlive) WeakReference(owner) else null
     }
 
-    public TaskRunner getExecutor() {
-        return runner;
+    level = owner.entityWorld as ServerWorld
+    position = owner.blockPos
+
+    // Sync changed slots
+    if (dirty != 0) {
+      stacks.clear()
+      Inventories.readNbt(neuralStack.orCreateNbt, stacks)
+      moduleHash = Helpers.hashStacks(stacks.subList(NeuralHelpers.PERIPHERAL_SIZE, INV_SIZE))
     }
 
-    public void readModuleData(NbtCompound nbt) {
-        for (String key : nbt.getKeys()) {
-            moduleData.put(new Identifier(key), nbt.getCompound(key));
+    // Update peripherals
+    for (slot in 0 until NeuralHelpers.PERIPHERAL_SIZE) {
+      val stack = stacks[slot]
+      if (stack.isEmpty) continue
+
+      val upgrade = PocketUpgrades.instance()[stack] ?: continue
+      val side = ComputerSide.valueOf(if (slot < NeuralHelpers.BACK) slot else slot + 1)
+      val peripheral = getPeripheral(side) ?: continue
+      upgrade.update(access, peripheral)
+    }
+
+    if (dirty != 0) {
+      for (slot in 0 until NeuralHelpers.PERIPHERAL_SIZE) {
+        if (dirty and (1 shl slot) == 1 shl slot) {
+          // We skip the "back" slot
+          try {
+            val newPeripheral = NeuralHelpers.buildPeripheral(access, stacks[slot])
+            setPeripheral(ComputerSide.valueOf(if (slot < NeuralHelpers.BACK) slot else slot + 1), newPeripheral)
+          } catch (e: Exception) {
+            Plethora.log.error("Failed to build peripheral for slot $slot", e)
+          }
         }
-    }
+      }
 
-    public NbtCompound getModuleData(Identifier id) {
-        NbtCompound nbt = moduleData.get(id);
-        if (nbt == null) moduleData.put(id, nbt = new NbtCompound());
-        return nbt;
-    }
-
-    public void markModuleDataDirty() {
-        moduleDataDirty = true;
-    }
-
-    public int getModuleHash() {
-        return moduleHash;
-    }
-
-    /**
-     * Update an sync peripherals
-     *
-     * @param owner The owner of the current peripherals
-     */
-    public boolean update(@Nonnull LivingEntity owner, @Nonnull ItemStack neuralStack, int dirtyStatus) {
-        LivingEntity existing = entity == null ? null : entity.get();
-        if (existing != owner) {
-            dirtyStatus = -1;
-            entity = owner.isAlive() ? new WeakReference<>(owner) : null;
+      // If the modules have changed.
+      if (dirty shr NeuralHelpers.PERIPHERAL_SIZE != 0) {
+        try {
+          setPeripheral(ComputerSide.BACK, NeuralHelpers.buildModules(this, stacks, owner))
+        } catch (e: Exception) {
+          Plethora.log.error("Failed to build peripheral for modules", e)
         }
-
-        setLevel((ServerWorld)owner.getEntityWorld());
-        setPosition(owner.getBlockPos());
-
-        // Sync changed slots
-        if (dirtyStatus != 0) {
-            stacks.clear();
-            Inventories.readNbt(neuralStack.getOrCreateNbt(), stacks);
-            moduleHash = Helpers.hashStacks(stacks.subList(PERIPHERAL_SIZE, INV_SIZE));
-        }
-
-        // Update peripherals
-        for (int slot = 0; slot < PERIPHERAL_SIZE; slot++) {
-            ItemStack stack = stacks.get(slot);
-            if (stack.isEmpty()) continue;
-
-            IPocketUpgrade upgrade = PocketUpgrades.instance().get(stack);
-            if (upgrade == null) continue;
-
-            ComputerSide side = ComputerSide.valueOf(slot < BACK ? slot : slot + 1);
-            IPeripheral peripheral = getPeripheral(side);
-            if (peripheral == null) continue;
-
-            upgrade.update(access, peripheral);
-        }
-
-        if (dirtyStatus != 0) {
-            for (int slot = 0; slot < PERIPHERAL_SIZE; slot++) {
-                if ((dirtyStatus & (1 << slot)) == 1 << slot) {
-                    // We skip the "back" slot
-                    setPeripheral(ComputerSide.valueOf(slot < BACK ? slot : slot + 1),
-                        buildPeripheral(access, stacks.get(slot)));
-                }
-            }
-
-            // If the modules have changed.
-            if (dirtyStatus >> PERIPHERAL_SIZE != 0) {
-                setPeripheral(ComputerSide.BACK, buildModules(this, stacks, owner));
-            }
-        }
-
-        runner.update();
-
-        if (moduleDataDirty) {
-            moduleDataDirty = false;
-
-            NbtCompound nbt = new NbtCompound();
-            for (Map.Entry<Identifier, NbtCompound> entry : moduleData.entrySet()){
-                nbt.put(entry.getKey().toString(), entry.getValue());
-            }
-            neuralStack.getOrCreateNbt().put(MODULE_DATA, nbt);
-            return true;
-        }
-
-        return false;
+      }
     }
 
-    WeakReference<LivingEntity> getEntity() {
-        return entity;
+    executor.update()
+
+    if (moduleDataDirty) {
+      moduleDataDirty = false
+
+      val nbt = NbtCompound()
+      for ((key, value) in moduleData) {
+        nbt.put(key.toString(), value)
+      }
+
+      neuralStack.orCreateNbt.put(NeuralComputerHandler.MODULE_DATA, nbt)
+      return true
     }
+
+    return false
+  }
 }
