@@ -4,22 +4,6 @@ import dan200.computercraft.api.detail.VanillaDetailRegistries;
 import dan200.computercraft.api.peripheral.PeripheralLookup;
 import dan200.computercraft.api.pocket.PocketUpgradeSerialiser;
 import dan200.computercraft.api.turtle.TurtleUpgradeSerialiser;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerBlockEntityEvents;
-import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Material;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnGroup;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
 import io.sc3.plethora.Plethora;
 import io.sc3.plethora.api.PlethoraEvents;
 import io.sc3.plethora.api.module.IModuleHandler;
@@ -53,14 +37,33 @@ import io.sc3.plethora.integration.computercraft.registry.ComputerCraftMethodReg
 import io.sc3.plethora.integration.vanilla.registry.VanillaConverterRegistration;
 import io.sc3.plethora.integration.vanilla.registry.VanillaMetaRegistration;
 import io.sc3.plethora.integration.vanilla.registry.VanillaMethodRegistration;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerBlockEntityEvents;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Material;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import static net.minecraft.registry.Registries.*;
 import static io.sc3.plethora.Plethora.log;
+import static net.minecraft.registry.Registries.*;
 
 public final class Registration {
   private static final List<Item> items = new ArrayList<>();
@@ -142,6 +145,11 @@ public final class Registration {
     public static final BlockItem MANIPULATOR_MARK_1 = ofBlock(ModBlocks.MANIPULATOR_MARK_1, BlockItem::new);
     public static final BlockItem MANIPULATOR_MARK_2 = ofBlock(ModBlocks.MANIPULATOR_MARK_2, BlockItem::new);
     public static final BlockItem REDSTONE_INTEGRATOR = ofBlock(ModBlocks.REDSTONE_INTEGRATOR, BlockItem::new);
+
+    public static final ItemGroup PLETHORA_ITEM_GROUP = FabricItemGroup.builder(new Identifier(Plethora.modId, "main"))
+      .icon(() -> new ItemStack(NEURAL_CONNECTOR))
+      .entries((enabledFeatures, entries, operatorEnabled) -> items.forEach(entries::add))
+      .build();
 
     private static Item.Settings properties() {
       return new Item.Settings();
