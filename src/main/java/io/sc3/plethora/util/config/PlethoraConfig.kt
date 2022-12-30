@@ -90,6 +90,7 @@ class PlethoraConfig {
 
     companion object {
       val defaultOreColors = mapOf(
+        "minecraft:ancient_debris"         to "#95867e",
         "minecraft:coal_ore"               to "#252525",
         "minecraft:copper_ore"             to "#4fba98",
         "minecraft:diamond_ore"            to "#1ed0d6",
