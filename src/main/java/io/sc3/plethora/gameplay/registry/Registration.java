@@ -185,7 +185,7 @@ public final class Registration {
     }
 
     private static Block.Settings properties() {
-      return Block.Settings.of(Material.STONE).strength(2.0F).nonOpaque();
+      return Block.Settings.of(Material.STONE).strength(2.0F).requiresTool().nonOpaque();
     }
   }
 

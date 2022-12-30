@@ -1,4 +1,4 @@
-// 1.19.3	2022-12-29T00:33:34.1238462	Plethora/Recipes
+// 1.19.3	2022-12-30T21:58:18.1762439	Plethora/Recipes
 b91d718d6453ae0acbc95a577d41e9613bfdab9d data\plethora\recipes\turtle_normal\plethora\sensor.json
 c582d879a677c8cc5dc0e992d1d6a318ef015e8b data\plethora\advancements\recipes\misc\module_scanner.json
 87dd6b61b878f6e15d7e020ee24ec3429cd20a61 data\plethora\recipes\turtle_advanced\plethora\sensor.json
@@ -46,8 +46,8 @@ b33be898cf78670195f40187fd2f5ef317dd4482 data\plethora\advancements\recipes\misc
 4cd983c9e235c9fcaa325dc95c07c6c71647a2be data\plethora\recipes\pocket_advanced\plethora\scanner.json
 e158e2a8454d0a8306fcab35f5645220265bdfd0 data\plethora\recipes\turtle_advanced\plethora\laser.json
 31bb57ab97937b37b5af15552cea1cf96186db8c data\plethora\advancements\recipes\misc\module_glasses.json
-2b759b495b2799bbb83411259bf6ac2f781db6bb data\plethora\recipes\turtle_advanced\plethora\scanner.json
 c9b072e1a62e09a665f5467db377db57d12f9345 data\plethora\advancements\recipes\misc\turtle_normal\plethora\introspection.json
+2b759b495b2799bbb83411259bf6ac2f781db6bb data\plethora\recipes\turtle_advanced\plethora\scanner.json
 8b60544058fa7955800ba30676eb81f44af3f829 data\plethora\recipes\module_sensor.json
 681abf21e552dd393df004cf3f9c57dc23e6445b data\plethora\advancements\recipes\misc\pocket_normal\plethora\scanner.json
 87f39f5af4cd82cc339b93f78649edd6f82f7875 data\plethora\advancements\recipes\misc\turtle_normal\plethora\kinetic.json

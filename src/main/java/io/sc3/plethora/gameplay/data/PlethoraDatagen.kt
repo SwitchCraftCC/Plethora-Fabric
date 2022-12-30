@@ -1,9 +1,9 @@
 package io.sc3.plethora.gameplay.data
 
+import io.sc3.plethora.gameplay.data.recipes.RecipeGenerator
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 import org.slf4j.LoggerFactory
-import io.sc3.plethora.gameplay.data.recipes.RecipeGenerator
 
 object PlethoraDatagen : DataGeneratorEntrypoint {
   val log = LoggerFactory.getLogger("Plethora/PlethoraDatagen")!!
@@ -15,6 +15,8 @@ object PlethoraDatagen : DataGeneratorEntrypoint {
     val turtleUpgrades = pack.addProvider(::TurtleUpgradeProvider)
     val pocketUpgrades = pack.addProvider(::PocketUpgradeProvider)
     pack.addProvider(::ModelProvider)
+    pack.addProvider(::BlockLootTableProvider)
+    pack.addProvider(::BlockTagProvider)
     pack.addProvider { out, _ -> RecipeGenerator(out, turtleUpgrades, pocketUpgrades) }
   }
 }
