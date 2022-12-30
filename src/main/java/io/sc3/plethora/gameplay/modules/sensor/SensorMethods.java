@@ -2,9 +2,7 @@ package io.sc3.plethora.gameplay.modules.sensor;
 
 import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.LuaException;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import io.sc3.plethora.Plethora;
 import io.sc3.plethora.api.IWorldLocation;
 import io.sc3.plethora.api.method.FutureMethodResult;
 import io.sc3.plethora.api.method.IContext;
@@ -14,6 +12,9 @@ import io.sc3.plethora.api.module.SubtargetedModuleMethod;
 import io.sc3.plethora.api.reference.Reference;
 import io.sc3.plethora.gameplay.modules.RangeInfo;
 import io.sc3.plethora.integration.vanilla.meta.entity.EntityMeta;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -78,14 +79,19 @@ public class SensorMethods {
     );
     private static FutureMethodResult getMetaByName(@Nonnull IUnbakedContext<IModuleContainer> unbaked,
                                                     @Nonnull IArguments args) throws LuaException {
-        SensorMethodContext ctx = getContext(unbaked);
-        int radius = ctx.range.getRange();
+        try {
+            SensorMethodContext ctx = getContext(unbaked);
+            int radius = ctx.range.getRange();
 
-        Entity entity = findEntityByName(ctx.loc, radius, args.getString(0));
-        if (entity == null) return null;
+            Entity entity = findEntityByName(ctx.loc, radius, args.getString(0));
+            if (entity == null) return null;
 
-        return FutureMethodResult.result(ctx.context.makeChild(entity, Reference.bounded(entity, ctx.loc, radius))
-            .getMeta());
+            return FutureMethodResult.result(ctx.context.makeChild(entity,
+              Reference.bounded(entity, ctx.loc, radius)).getMeta());
+        } catch (Exception e) {
+            Plethora.log.error("Error in getMetaByName", e);
+            throw new LuaException("Unknown error in getMetaByName");
+        }
     }
 
     private record SensorMethodContext(IContext<IModuleContainer> context, IWorldLocation loc, RangeInfo range) {}
