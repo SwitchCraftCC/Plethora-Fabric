@@ -343,8 +343,8 @@ public class LaserEntity extends Entity implements IPlayerOwnable {
 
                     Entity shooter = getShooter();
                     DamageSource source = shooter == null
-                        ? new EntityDamageSource("laser", this)
-                        : new ProjectileDamageSource("laser", this, shooter);
+                        ? new EntityDamageSource("plethora.laser", this)
+                        : new ProjectileDamageSource("plethora.laser", this, shooter);
 
                     source.setProjectile();
 

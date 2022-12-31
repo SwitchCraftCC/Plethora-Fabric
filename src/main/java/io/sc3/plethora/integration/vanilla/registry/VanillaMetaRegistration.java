@@ -42,6 +42,7 @@ public class VanillaMetaRegistration {
         provider(r, "itemMaterial", ItemStack.class, new ItemMaterialMeta());
         provider(r, "foodItem", ItemStack.class, ItemMetaProviders.ITEM_FOOD);
         provider(r, "potionItem", ItemStack.class, new PotionItemMeta());
+        provider(r, "enchantedItem", ItemStack.class, new EnchantedItemMeta());
     }
 
     private static <T> void provider(IMetaRegistry r, String name, Class<T> target, IMetaProvider<T> provider) {
