@@ -1,17 +1,19 @@
 package io.sc3.plethora.gameplay.registry
 
 import dan200.computercraft.api.detail.DetailProvider
-import net.minecraft.item.ItemStack
 import io.sc3.plethora.Plethora.log
 import io.sc3.plethora.core.ContextFactory
 import io.sc3.plethora.core.executor.BasicExecutor
 import io.sc3.plethora.integration.MetaWrapper
+import net.minecraft.item.ItemStack
 
 object ItemDetailsProvider : DetailProvider<ItemStack> {
-  // TODO: Probably better eventually to replace BasicItemMeta with ItemData.fill
+  // These keys are handled by calling ItemDetails.fill in BasicItemMeta, but continue to ignore them to prevent
+  // accidental overwrite if BasicItemMeta changes again.
   private val IGNORE_KEYS = setOf(
     "name", "displayName", "damage", "maxDamage",
-    "count", "maxCount", "nbtHash", "durability", "lore"
+    "count", "maxCount", "nbtHash", "durability", "lore",
+    "tags", "itemGroups", "enchantments", "unbreakable"
   )
 
   override fun provideDetails(out: MutableMap<in String, Any?>, stack: ItemStack) {

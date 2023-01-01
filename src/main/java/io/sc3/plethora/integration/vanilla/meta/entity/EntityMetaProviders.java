@@ -1,11 +1,12 @@
 package io.sc3.plethora.integration.vanilla.meta.entity;
 
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.passive.SheepEntity;
+import dan200.computercraft.api.detail.VanillaDetailRegistries;
 import io.sc3.plethora.api.meta.BaseMetaProvider;
 import io.sc3.plethora.api.meta.BasicMetaProvider;
 import io.sc3.plethora.api.meta.IMetaProvider;
 import io.sc3.plethora.api.method.IPartialContext;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.passive.SheepEntity;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;
@@ -19,7 +20,9 @@ public final class EntityMetaProviders {
         @Nonnull
         @Override
         public Map<String, ?> getMeta(@Nonnull IPartialContext<ItemEntity> context) {
-            return Collections.singletonMap("item", context.makePartialChild(context.getTarget().getStack()).getMeta());
+            var stack = context.getTarget().getStack();
+            var data = VanillaDetailRegistries.ITEM_STACK.getDetails(stack);
+            return Collections.singletonMap("item", data);
         }
     };
 
