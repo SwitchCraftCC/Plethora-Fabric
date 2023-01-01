@@ -84,7 +84,7 @@ public class SensorMethods {
             int radius = ctx.range.getRange();
 
             Entity entity = findEntityByName(ctx.loc, radius, args.getString(0));
-            if (entity == null) return null;
+            if (entity == null) return FutureMethodResult.empty();
 
             return FutureMethodResult.result(ctx.context.makeChild(entity,
               Reference.bounded(entity, ctx.loc, radius)).getMeta());
