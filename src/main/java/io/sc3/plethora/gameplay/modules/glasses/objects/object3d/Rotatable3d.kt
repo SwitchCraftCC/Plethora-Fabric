@@ -11,14 +11,14 @@ import net.minecraft.util.math.Vec3d
 interface Rotatable3d {
   var rotation: Vec3d?
 
-  fun applyRotation(matrices: MatrixStack) {
+  fun applyRotation(matrices: MatrixStack, flipPitch: Boolean) {
     val mc = MinecraftClient.getInstance()
 
     val rot = rotation
     if (rot == null) {
       val cam = mc.gameRenderer.camera
       matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180 - cam.yaw))
-      matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(cam.pitch))
+      matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(if (flipPitch) -cam.pitch else cam.pitch))
     } else {
       matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(rot.x.toFloat()))
       matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rot.y.toFloat()))

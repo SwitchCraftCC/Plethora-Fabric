@@ -1,6 +1,13 @@
 package io.sc3.plethora.gameplay.modules.glasses.objects.object3d
 
 import com.mojang.blaze3d.systems.RenderSystem
+import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasClient
+import io.sc3.plethora.gameplay.modules.glasses.objects.BaseObject
+import io.sc3.plethora.gameplay.modules.glasses.objects.ItemObject
+import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectRegistry.ITEM_3D
+import io.sc3.plethora.gameplay.modules.glasses.objects.Scalable
+import io.sc3.plethora.util.ByteBufUtils
+import io.sc3.plethora.util.DirtyingProperty
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.LightmapTextureManager.MAX_LIGHT_COORDINATE
 import net.minecraft.client.render.OverlayTexture.DEFAULT_UV
@@ -14,13 +21,6 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.registry.Registries
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3d
-import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasClient
-import io.sc3.plethora.gameplay.modules.glasses.objects.BaseObject
-import io.sc3.plethora.gameplay.modules.glasses.objects.ItemObject
-import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectRegistry.ITEM_3D
-import io.sc3.plethora.gameplay.modules.glasses.objects.Scalable
-import io.sc3.plethora.util.ByteBufUtils
-import io.sc3.plethora.util.DirtyingProperty
 
 class Item3d(
   id: Int,
@@ -62,7 +62,7 @@ class Item3d(
 
     matrices.translate(position.x, position.y, position.z)
     matrices.scale(scale, scale, scale)
-    applyRotation(matrices)
+    applyRotation(matrices, true)
 
     val buffer = Tessellator.getInstance().buffer
     val immediate = VertexConsumerProvider.immediate(buffer)

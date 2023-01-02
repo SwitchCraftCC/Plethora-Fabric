@@ -3,13 +3,6 @@ package io.sc3.plethora.gameplay.modules.glasses.objects.object3d
 import com.mojang.blaze3d.platform.GlConst
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gl.SimpleFramebuffer
-import net.minecraft.client.render.*
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.network.PacketByteBuf
-import net.minecraft.util.math.Vec3d
-import org.joml.Matrix4f
 import io.sc3.plethora.Plethora
 import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasClient
 import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasHandler.HEIGHT
@@ -20,6 +13,13 @@ import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectRegistry.FRAME_3D
 import io.sc3.plethora.mixin.client.GameRendererAccessor
 import io.sc3.plethora.util.ByteBufUtils
 import io.sc3.plethora.util.DirtyingProperty
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gl.SimpleFramebuffer
+import net.minecraft.client.render.*
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.network.PacketByteBuf
+import net.minecraft.util.math.Vec3d
+import org.joml.Matrix4f
 
 private const val SCALE = 1 / 64.0f
 
@@ -97,7 +97,7 @@ class ObjectFrame3d(
 
     matrices.translate(position.x, position.y, position.z)
     matrices.scale(SCALE, SCALE, SCALE)
-    applyRotation(matrices)
+    applyRotation(matrices, false)
 
     if (hasDepthTest) {
       RenderSystem.enableDepthTest()
