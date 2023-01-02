@@ -1,10 +1,9 @@
 package io.sc3.plethora.gameplay.overlay
 
+import io.sc3.plethora.Plethora
+import io.sc3.plethora.gameplay.modules.LevelableModuleItem
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags.ORES
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.ExperienceDroppingBlock
-import net.minecraft.block.RedstoneOreBlock
+import net.minecraft.block.*
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.render.Camera
 import net.minecraft.client.util.math.MatrixStack
@@ -12,8 +11,6 @@ import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-import io.sc3.plethora.Plethora
-import io.sc3.plethora.gameplay.modules.LevelableModuleItem
 
 object ScannerOverlayRenderer : FlareOverlayRenderer() {
   private val cfg by Plethora.config::scanner
@@ -69,7 +66,10 @@ object ScannerOverlayRenderer : FlareOverlayRenderer() {
 
   private fun isBlockOre(state: BlockState?, block: Block?): Boolean {
     if (state == null || block == null || state.isAir) return false
-    return if (block is ExperienceDroppingBlock || block is RedstoneOreBlock) true else state.isIn(ORES)
+    return block is ExperienceDroppingBlock
+      || block is RedstoneOreBlock
+      || block == Blocks.ANCIENT_DEBRIS
+      || state.isIn(ORES)
   }
 
   private fun getFlareColorByBlock(block: Block) = blockColorCache.computeIfAbsent(block) {
