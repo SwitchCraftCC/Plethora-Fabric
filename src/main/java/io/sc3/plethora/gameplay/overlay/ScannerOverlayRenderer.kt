@@ -66,7 +66,7 @@ object ScannerOverlayRenderer : FlareOverlayRenderer() {
 
   private fun isBlockOre(state: BlockState?, block: Block?): Boolean {
     if (state == null || block == null || state.isAir) return false
-    return block is ExperienceDroppingBlock
+    return (block is ExperienceDroppingBlock && block !is SculkBlock)
       || block is RedstoneOreBlock
       || block == Blocks.ANCIENT_DEBRIS
       || state.isIn(ORES)
