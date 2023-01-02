@@ -1,9 +1,10 @@
 package io.sc3.plethora.gameplay.overlay
 
 import io.sc3.plethora.Plethora
+import io.sc3.plethora.gameplay.data.BlockTagProvider
 import io.sc3.plethora.gameplay.modules.LevelableModuleItem
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags.ORES
-import net.minecraft.block.*
+import net.minecraft.block.Block
+import net.minecraft.block.BlockState
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.render.Camera
 import net.minecraft.client.util.math.MatrixStack
@@ -66,10 +67,7 @@ object ScannerOverlayRenderer : FlareOverlayRenderer() {
 
   private fun isBlockOre(state: BlockState?, block: Block?): Boolean {
     if (state == null || block == null || state.isAir) return false
-    return (block is ExperienceDroppingBlock && block !is SculkBlock)
-      || block is RedstoneOreBlock
-      || block == Blocks.ANCIENT_DEBRIS
-      || state.isIn(ORES)
+    return state.isIn(BlockTagProvider.BLOCK_SCANNER_ORES)
   }
 
   private fun getFlareColorByBlock(block: Block) = blockColorCache.computeIfAbsent(block) {

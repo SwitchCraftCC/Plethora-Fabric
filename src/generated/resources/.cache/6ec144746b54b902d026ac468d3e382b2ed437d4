@@ -1,2 +1,3 @@
-// 1.19.3	2022-12-31T00:38:13.0707454	Plethora/Tags for minecraft:block
+// 1.19.3	2023-01-02T09:32:49.8115372	Plethora/Tags for minecraft:block
 785f33f2865bd89d8f24fc84ab143def8e4c5d87 data\minecraft\tags\blocks\mineable\pickaxe.json
+023aacfec8a137605576149770fb054d1a01123e data\plethora\tags\blocks\block_scanner_ores.json

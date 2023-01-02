@@ -1,12 +1,12 @@
 package io.sc3.plethora.gameplay.modules.glasses.objects.object3d
 
 import dan200.computercraft.api.lua.IArguments
+import io.sc3.plethora.api.method.*
+import io.sc3.plethora.core.ContextHelpers.safeFromTarget
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.RotationAxis
 import net.minecraft.util.math.Vec3d
-import io.sc3.plethora.api.method.*
-import io.sc3.plethora.core.ContextHelpers.safeFromTarget
 
 interface Rotatable3d {
   var rotation: Vec3d?
@@ -18,7 +18,7 @@ interface Rotatable3d {
     if (rot == null) {
       val cam = mc.gameRenderer.camera
       matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180 - cam.yaw))
-      matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-cam.pitch))
+      matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(cam.pitch))
     } else {
       matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(rot.x.toFloat()))
       matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rot.y.toFloat()))
