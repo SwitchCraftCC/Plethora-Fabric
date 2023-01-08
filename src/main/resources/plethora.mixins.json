@@ -11,11 +11,13 @@
     "ServerPlayerInteractionManagerAccessor",
     "ServerPlayNetworkHandlerAdapter",
     "SimpleInventoryAccessor",
-    "TntBlockInvoker"
+    "TntBlockInvoker",
+    "computercraft.AbstractComputerBlockEntityAccessor"
   ],
   "client": [
     "client.GameRendererAccessor",
     "client.InGameHudMixin",
+    "client.KeyboardMixin",
     "client.PlayerEntityRendererMixin",
     "client.WorldRendererMixin"
   ],

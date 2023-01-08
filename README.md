@@ -9,7 +9,7 @@ ongoing.
 - [x] Frickin' laser beam
 - [x] Block scanner
 - [x] Entity sensor
-- [ ] Keyboard
+- [x] Keyboard
 - [x] Neural interface
   - [x] Peripheral API
   - [x] Module API

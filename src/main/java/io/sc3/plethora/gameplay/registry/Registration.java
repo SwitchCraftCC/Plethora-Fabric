@@ -4,6 +4,8 @@ import dan200.computercraft.api.detail.VanillaDetailRegistries;
 import dan200.computercraft.api.peripheral.PeripheralLookup;
 import dan200.computercraft.api.pocket.PocketUpgradeSerialiser;
 import dan200.computercraft.api.turtle.TurtleUpgradeSerialiser;
+import dan200.computercraft.shared.computer.inventory.ComputerMenuWithoutInventory;
+import dan200.computercraft.shared.network.container.ComputerContainerData;
 import io.sc3.plethora.Plethora;
 import io.sc3.plethora.api.PlethoraEvents;
 import io.sc3.plethora.api.module.IModuleHandler;
@@ -18,7 +20,9 @@ import io.sc3.plethora.gameplay.manipulator.ManipulatorType;
 import io.sc3.plethora.gameplay.modules.glasses.GlassesModuleItem;
 import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasHandler;
 import io.sc3.plethora.gameplay.modules.introspection.IntrospectionModuleItem;
+import io.sc3.plethora.gameplay.modules.keyboard.KeyboardKeyPacket;
 import io.sc3.plethora.gameplay.modules.keyboard.KeyboardModuleItem;
+import io.sc3.plethora.gameplay.modules.keyboard.ServerKeyListener;
 import io.sc3.plethora.gameplay.modules.kinetic.KineticModuleItem;
 import io.sc3.plethora.gameplay.modules.kinetic.KineticTurtleUpgrade;
 import io.sc3.plethora.gameplay.modules.laser.LaserEntity;
@@ -39,6 +43,7 @@ import io.sc3.plethora.integration.vanilla.registry.VanillaMetaRegistration;
 import io.sc3.plethora.integration.vanilla.registry.VanillaMethodRegistration;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerBlockEntityEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.block.Block;
@@ -63,6 +68,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import static io.sc3.plethora.Plethora.log;
+import static io.sc3.plethora.gameplay.registry.Packets.KEYBOARD_KEY_PACKET_ID;
 import static net.minecraft.registry.Registries.*;
 
 public final class Registration {
@@ -91,6 +97,8 @@ public final class Registration {
 
     Registry.register(Registries.SCREEN_HANDLER, new Identifier(Plethora.modId, "neural_interface"),
       ModScreens.NEURAL_INTERFACE_HANDLER_TYPE);
+    Registry.register(Registries.SCREEN_HANDLER, new Identifier(Plethora.modId, "keyboard"),
+      ModScreens.KEYBOARD_HANDLER_TYPE);
 
     PlethoraEvents.REGISTER.register(api -> {
       // Vanilla registration
@@ -122,8 +130,11 @@ public final class Registration {
       if (blockEntity instanceof BaseBlockEntity base) base.onChunkUnloaded();
     });
 
+    ServerPlayNetworking.registerGlobalReceiver(KEYBOARD_KEY_PACKET_ID, KeyboardKeyPacket::onReceive);
+
     RedstoneIntegratorTicker.registerEvents();
     CanvasHandler.registerServerEvents();
+    ServerKeyListener.registerEvents();
 
     RecipeHandlers.registerSerializers();
   }
@@ -212,6 +223,10 @@ public final class Registration {
   public static final class ModScreens {
     public static final ExtendedScreenHandlerType<NeuralInterfaceScreenHandler> NEURAL_INTERFACE_HANDLER_TYPE =
       new ExtendedScreenHandlerType<>(NeuralInterfaceScreenFactory::fromPacket);
+
+    public static final ExtendedScreenHandlerType<ComputerMenuWithoutInventory> KEYBOARD_HANDLER_TYPE =
+      new ExtendedScreenHandlerType<>((id, inv, data) ->
+        new ComputerMenuWithoutInventory(ModScreens.KEYBOARD_HANDLER_TYPE, id, inv, new ComputerContainerData(data)));
   }
 
   public static final class ModTurtleUpgradeSerialisers {

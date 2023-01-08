@@ -1,6 +1,11 @@
 package io.sc3.plethora.gameplay.data.recipes.handlers
 
 import dan200.computercraft.shared.ModRegistry
+import io.sc3.library.recipe.BetterComplexRecipeJsonBuilder
+import io.sc3.library.recipe.RecipeHandler
+import io.sc3.plethora.Plethora.ModId
+import io.sc3.plethora.gameplay.data.recipes.*
+import io.sc3.plethora.gameplay.registry.Registration.ModItems
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
 import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder
 import net.minecraft.data.server.recipe.RecipeJsonProvider
@@ -10,11 +15,6 @@ import net.minecraft.item.Items
 import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.Registries.RECIPE_SERIALIZER
 import net.minecraft.registry.Registry.register
-import io.sc3.library.recipe.BetterComplexRecipeJsonBuilder
-import io.sc3.library.recipe.RecipeHandler
-import io.sc3.plethora.Plethora.ModId
-import io.sc3.plethora.gameplay.data.recipes.*
-import io.sc3.plethora.gameplay.registry.Registration.ModItems
 import java.util.function.Consumer
 
 object ModuleRecipes : RecipeHandler {
@@ -52,16 +52,16 @@ object ModuleRecipes : RecipeHandler {
       .offerTo(exporter)
 
     // Keyboard
-//    ShapedRecipeJsonBuilder
-//      .create(ModItems.KEYBOARD_MODULE)
-//      .pattern("  C")
-//      .pattern("SSI")
-//      .pattern("SSS")
-//      .input('C', ModRegistry.Items.CABLE)
-//      .input('I', ConventionalItemTags.IRON_INGOTS)
-//      .input('S', Items.STONE)
-//      .hasModuleHandler()
-//      .offerTo(exporter)
+    ShapedRecipeJsonBuilder
+      .create(RecipeCategory.MISC, ModItems.KEYBOARD_MODULE)
+      .pattern("  C")
+      .pattern("SSI")
+      .pattern("SSS")
+      .input('C', ModRegistry.Items.CABLE.get())
+      .input('I', ConventionalItemTags.IRON_INGOTS)
+      .input('S', Items.STONE)
+      .hasModuleHandler()
+      .offerTo(exporter)
 
     // Block Scanner
     ShapedRecipeJsonBuilder
