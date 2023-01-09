@@ -1,3 +1,29 @@
 {
-  "type": "plethora:neural_interface"
+  "type": "plethora:neural_interface",
+  "category": "misc",
+  "key": {
+    "G": {
+      "tag": "c:gold_ingots"
+    },
+    "I": {
+      "tag": "c:iron_ingots"
+    },
+    "M": {
+      "tag": "computercraft:wired_modem"
+    },
+    "P": {
+      "item": "computercraft:pocket_computer_advanced"
+    },
+    "R": {
+      "tag": "c:redstone_dusts"
+    }
+  },
+  "pattern": [
+    "  G",
+    "IPR",
+    " GM"
+  ],
+  "result": {
+    "item": "plethora:neural_interface"
+  }
 }

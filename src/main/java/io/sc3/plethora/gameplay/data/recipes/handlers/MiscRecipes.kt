@@ -1,5 +1,6 @@
 package io.sc3.plethora.gameplay.data.recipes.handlers
 
+import dan200.computercraft.api.ComputerCraftTags
 import dan200.computercraft.shared.ModRegistry
 import io.sc3.library.recipe.BetterComplexRecipeJsonBuilder
 import io.sc3.library.recipe.RecipeHandler
@@ -12,6 +13,7 @@ import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.item.Items
+import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.Registries.RECIPE_SERIALIZER
 import net.minecraft.registry.Registry.register
@@ -19,7 +21,7 @@ import java.util.function.Consumer
 
 object MiscRecipes : RecipeHandler {
   override fun registerSerializers() {
-    register(RECIPE_SERIALIZER, ModId("neural_interface"), NeuralInterfaceRecipe.recipeSerializer)
+    register(RECIPE_SERIALIZER, ModId("neural_interface"), NeuralInterfaceRecipe.Serializer)
   }
 
   override fun generateRecipes(exporter: Consumer<RecipeJsonProvider>) {
@@ -63,9 +65,18 @@ object MiscRecipes : RecipeHandler {
       .offerTo(exporter)
 
     // Neural Interface
-    BetterComplexRecipeJsonBuilder(ModItems.NEURAL_INTERFACE, NeuralInterfaceRecipe.recipeSerializer)
+    ShapedRecipeJsonBuilder
+      .create(RecipeCategory.MISC, ModItems.NEURAL_INTERFACE)
+      .pattern("  G")
+      .pattern("IPR")
+      .pattern(" GM")
+      .input('G', ConventionalItemTags.GOLD_INGOTS)
+      .input('I', ConventionalItemTags.IRON_INGOTS)
+      .input('R', ConventionalItemTags.REDSTONE_DUSTS)
+      .input('M', ComputerCraftTags.Items.WIRED_MODEM)
+      .input('P', ModRegistry.Items.POCKET_COMPUTER_ADVANCED.get())
       .hasComputer()
-      .offerTo(exporter)
+      .offerTo(exporter, NeuralInterfaceRecipe.Serializer)
 
     // Redstone Integrator
     ShapedRecipeJsonBuilder
@@ -97,5 +108,17 @@ object MiscRecipes : RecipeHandler {
 
   private fun BetterComplexRecipeJsonBuilder<*>.hasComputer() = apply {
     computerCriteria.value.forEach { criterion(it.key, it.value) }
+  }
+
+  private fun CraftingRecipeJsonBuilder.offerTo(
+    out: Consumer<RecipeJsonProvider>,
+    serializer: RecipeSerializer<*>
+  ) {
+    offerTo { out.accept(Wrapper(it, serializer)) }
+  }
+
+  class Wrapper(original: RecipeJsonProvider, private val serializer: RecipeSerializer<*>) :
+    RecipeJsonProvider by original {
+    override fun getSerializer(): RecipeSerializer<*> = serializer
   }
 }
