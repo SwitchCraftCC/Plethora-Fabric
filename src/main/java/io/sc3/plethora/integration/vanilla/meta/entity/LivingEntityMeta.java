@@ -37,7 +37,7 @@ public final class LivingEntityMeta extends BaseMetaProvider<LivingEntity> {
 
         map.put("health", target.getHealth());
         map.put("maxHealth", target.getMaxHealth());
-        map.put("isAirborne", target.velocityDirty);
+        map.put("isAirborne", !target.isOnGround());
         map.put("isBurning", target.isOnFire());
         map.put("isAlive", target.isAlive());
         map.put("isInWater", target.isTouchingWater());
