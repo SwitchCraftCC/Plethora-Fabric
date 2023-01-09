@@ -1,32 +1,34 @@
-package io.sc3.plethora.integration.vanilla.registry;
+package io.sc3.plethora.integration.vanilla.registry
 
-import net.minecraft.util.Identifier;
-import io.sc3.plethora.api.method.IMethod;
-import io.sc3.plethora.api.method.IMethodRegistry;
-import io.sc3.plethora.api.module.IModuleContainer;
-import io.sc3.plethora.integration.vanilla.method.EntityIntrospectionMethods;
-import io.sc3.plethora.integration.vanilla.method.EntityKineticMethods;
+import io.sc3.plethora.api.method.IMethod
+import io.sc3.plethora.api.method.IMethodRegistry
+import io.sc3.plethora.api.module.IModuleContainer
+import io.sc3.plethora.integration.vanilla.method.EntityIntrospectionMethods
+import io.sc3.plethora.integration.vanilla.method.EntityKineticMethods
+import net.minecraft.util.Identifier
 
-public final class VanillaMethodRegistration {
-    public static void registerMethods(IMethodRegistry r) {
-        moduleMethod(r, "introspection:getInventory", EntityIntrospectionMethods.GET_INVENTORY);
-        moduleMethod(r, "introspection:getEquipment", EntityIntrospectionMethods.GET_EQUIPMENT);
-        moduleMethod(r, "introspection:getEnder", EntityIntrospectionMethods.GET_ENDER_CHEST);
-
-        moduleMethod(r, "kinetic:look", EntityKineticMethods.LOOK);
-        moduleMethod(r, "kinetic:use", EntityKineticMethods.USE);
-        moduleMethod(r, "kinetic:swing", EntityKineticMethods.SWING);
+object VanillaMethodRegistration {
+  @JvmStatic
+  fun registerMethods(registry: IMethodRegistry) {
+    with (registry) {
+      moduleMethod("introspection:getInventory", EntityIntrospectionMethods.GET_INVENTORY)
+      moduleMethod("introspection:getEquipment", EntityIntrospectionMethods.GET_EQUIPMENT)
+      moduleMethod("introspection:getEnder", EntityIntrospectionMethods.GET_ENDER_CHEST)
+      moduleMethod("kinetic:look", EntityKineticMethods.LOOK)
+      moduleMethod("kinetic:use", EntityKineticMethods.USE)
+      moduleMethod("kinetic:swing", EntityKineticMethods.SWING)
     }
+  }
 
-    private static <T> void method(IMethodRegistry r, String name, Class<T> target, IMethod<T> method) {
-        r.registerMethod(Identifier.DEFAULT_NAMESPACE, name, target, method);
-    }
+  private inline fun <reified T> IMethodRegistry.method(name: String, method: IMethod<T>) {
+    registerMethod(Identifier.DEFAULT_NAMESPACE, name, T::class.java, method)
+  }
 
-    private static <T> void method(IMethodRegistry r, Class<T> target, IMethod<T> method) {
-        r.registerMethod(Identifier.DEFAULT_NAMESPACE, method.getName(), target, method);
-    }
+  private inline fun <reified T> IMethodRegistry.method(method: IMethod<T>) {
+    registerMethod(Identifier.DEFAULT_NAMESPACE, method.name, T::class.java, method)
+  }
 
-    private static void moduleMethod(IMethodRegistry r, String name, IMethod<IModuleContainer> method) {
-        method(r, name, IModuleContainer.class, method);
-    }
+  private fun IMethodRegistry.moduleMethod(name: String, method: IMethod<IModuleContainer>) {
+    method(name, method)
+  }
 }

@@ -41,6 +41,7 @@ import io.sc3.plethora.integration.computercraft.registry.ComputerCraftMethodReg
 import io.sc3.plethora.integration.vanilla.registry.VanillaConverterRegistration;
 import io.sc3.plethora.integration.vanilla.registry.VanillaMetaRegistration;
 import io.sc3.plethora.integration.vanilla.registry.VanillaMethodRegistration;
+import io.sc3.plethora.integration.vanilla.registry.VanillaPeripheralRegistration;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerBlockEntityEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -105,6 +106,7 @@ public final class Registration {
       VanillaConverterRegistration.registerConverters(api.converterRegistry());
       VanillaMetaRegistration.registerMetaProviders(api.metaRegistry());
       VanillaMethodRegistration.registerMethods(api.methodRegistry());
+      VanillaPeripheralRegistration.registerPeripherals();
 
       // Plethora registration
       PlethoraMetaRegistration.registerMetaProviders(api.metaRegistry());
