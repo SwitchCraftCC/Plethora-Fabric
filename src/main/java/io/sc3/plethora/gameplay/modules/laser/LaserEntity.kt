@@ -28,10 +28,12 @@ import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents.ITEM_FLINTANDSTEEL_USE
+import net.minecraft.util.Identifier
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.hit.HitResult
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.RaycastContext
@@ -427,12 +429,21 @@ class LaserEntity : Entity, IPlayerOwnable {
     }
 
     private fun cleanupLasers(expireThreshold: Long) {
-      val toRemove = trackedLasers.filter { it.age > expireThreshold }
+      val toRemove = trackedLasers.filter { it.spawnTime < expireThreshold }
 
       if (toRemove.isNotEmpty()) {
-        Plethora.log.info("Removing {} expired lasers", toRemove.size)
+        val worstChunk = if (toRemove.size > 10) findWorstLaserChunk(toRemove) else null
+        val worstChunkStr = worstChunk?.let { (world, pos, count) -> " ($count in chunk $pos in $world)" } ?: ""
+        Plethora.log.info("Removing {} expired lasers{}", toRemove.size, worstChunkStr)
+
         toRemove.forEach { it.kill() }
       }
+    }
+
+    private fun findWorstLaserChunk(lasers: List<LaserEntity>): Triple<Identifier, ChunkPos, Int>? {
+      val laserChunks = lasers.groupBy { Pair(it.world.registryKey.value, it.chunkPos) }
+      val worst = laserChunks.maxByOrNull { it.value.size } ?: return null
+      return Triple(worst.key.first, worst.key.second, worst.value.size)
     }
   }
 }
