@@ -10,7 +10,6 @@
     "MeleeAttackGoalMixin",
     "ServerPlayerInteractionManagerAccessor",
     "ServerPlayNetworkHandlerAdapter",
-    "ServerWorldMixin",
     "SimpleInventoryAccessor",
     "TntBlockInvoker",
     "computercraft.AbstractComputerBlockEntityAccessor"
