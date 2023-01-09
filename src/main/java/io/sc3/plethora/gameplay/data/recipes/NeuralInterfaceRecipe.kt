@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import dan200.computercraft.shared.computer.items.IComputerItem
 import dan200.computercraft.shared.computer.recipe.ComputerConvertRecipe
 import dan200.computercraft.shared.pocket.items.PocketComputerItem
-import dan200.computercraft.shared.util.RecipeUtil
+import io.sc3.library.recipe.ShapedRecipeSpec
 import io.sc3.plethora.gameplay.neural.NeuralComputerHandler
 import io.sc3.plethora.gameplay.neural.NeuralHelpers
 import io.sc3.plethora.gameplay.neural.NeuralInterfaceInventory
@@ -16,12 +16,11 @@ import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.recipe.book.CraftingRecipeCategory
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
-import net.minecraft.util.JsonHelper
 import net.minecraft.util.collection.DefaultedList
 
 class NeuralInterfaceRecipe(
   id: Identifier,
-  group: String?,
+  group: String,
   category: CraftingRecipeCategory,
   width: Int,
   height: Int,
@@ -58,47 +57,12 @@ class NeuralInterfaceRecipe(
   override fun getSerializer() = Serializer
 
   object Serializer : RecipeSerializer<NeuralInterfaceRecipe> {
-    override fun read(id: Identifier, json: JsonObject): NeuralInterfaceRecipe {
-      val group = JsonHelper.getString(json, "group", "")
-      val category =
-        CraftingRecipeCategory.CODEC.byId(JsonHelper.getString(json, "category", null), CraftingRecipeCategory.MISC)
+    private fun make(id: Identifier, spec: ShapedRecipeSpec) = NeuralInterfaceRecipe(
+      id, spec.group, spec.category, spec.width, spec.height, spec.ingredients, spec.output,
+    )
 
-      val template = RecipeUtil.getTemplate(json)
-      val result = outputFromJson(JsonHelper.getObject(json, "result"))
-
-      return NeuralInterfaceRecipe(
-        id,
-        group,
-        category,
-        template.width(),
-        template.height(),
-        template.ingredients(),
-        result,
-      )
-    }
-
-    override fun read(id: Identifier, buf: PacketByteBuf): NeuralInterfaceRecipe {
-      val width = buf.readVarInt()
-      val height = buf.readVarInt()
-      val group = buf.readString()
-      val category = buf.readEnumConstant(
-        CraftingRecipeCategory::class.java
-      )
-
-      val ingredients = DefaultedList.ofSize(width * height, Ingredient.EMPTY)
-      for (i in ingredients.indices) ingredients[i] = Ingredient.fromPacket(buf)
-
-      val result = buf.readItemStack()
-      return NeuralInterfaceRecipe(id, group, category, width, height, ingredients, result)
-    }
-
-    override fun write(buf: PacketByteBuf, recipe: NeuralInterfaceRecipe) {
-      buf.writeVarInt(recipe.width)
-      buf.writeVarInt(recipe.height)
-      buf.writeString(recipe.group)
-      buf.writeEnumConstant(recipe.category)
-      for (ingredient in recipe.ingredients) ingredient.write(buf)
-      buf.writeItemStack(recipe.output)
-    }
+    override fun read(id: Identifier, json: JsonObject) = make(id, ShapedRecipeSpec.ofJson(json))
+    override fun read(id: Identifier, buf: PacketByteBuf) = make(id, ShapedRecipeSpec.ofPacket(buf))
+    override fun write(buf: PacketByteBuf, recipe: NeuralInterfaceRecipe) = ShapedRecipeSpec.ofRecipe(recipe).write(buf)
   }
 }
