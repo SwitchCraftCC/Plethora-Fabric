@@ -135,6 +135,7 @@ public final class Registration {
     RedstoneIntegratorTicker.registerEvents();
     CanvasHandler.registerServerEvents();
     ServerKeyListener.registerEvents();
+    LaserEntity.initLaserTracker();
 
     RecipeHandlers.registerSerializers();
   }

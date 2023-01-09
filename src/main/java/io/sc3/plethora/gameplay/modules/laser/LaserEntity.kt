@@ -1,6 +1,7 @@
 package io.sc3.plethora.gameplay.modules.laser
 
 import com.mojang.authlib.GameProfile
+import io.sc3.plethora.Plethora
 import io.sc3.plethora.Plethora.config
 import io.sc3.plethora.api.IPlayerOwnable
 import io.sc3.plethora.gameplay.PlethoraFakePlayer
@@ -10,6 +11,8 @@ import io.sc3.plethora.mixin.TntBlockInvoker
 import io.sc3.plethora.util.EntitySpawnPacket
 import io.sc3.plethora.util.PlayerHelpers
 import io.sc3.plethora.util.WorldPosition
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.util.NbtType
 import net.minecraft.block.Blocks
 import net.minecraft.entity.Entity
@@ -48,6 +51,7 @@ class LaserEntity : Entity, IPlayerOwnable {
   private var shooterPos: WorldPosition? = null
 
   var potency = 0.0f
+  var spawnTime = world.time
 
   constructor(entityType: EntityType<out LaserEntity>, world: World) : super(entityType, world)
 
@@ -129,6 +133,7 @@ class LaserEntity : Entity, IPlayerOwnable {
     PlayerHelpers.writeProfile(nbt, shooterOwner)
     shooterPos?.let { nbt.put("shooterPos", it.serializeNbt()) }
     nbt.putFloat("potency", potency)
+    nbt.putLong("spawn", spawnTime)
   }
 
   public override fun readCustomDataFromNbt(nbt: NbtCompound) {
@@ -141,6 +146,7 @@ class LaserEntity : Entity, IPlayerOwnable {
     }
 
     potency = nbt.getFloat("potency")
+    spawnTime = nbt.getLong("spawn")
   }
 
   override fun tick() {
@@ -230,7 +236,7 @@ class LaserEntity : Entity, IPlayerOwnable {
       setPosition(newPos)
     }
 
-    if (!world.isClient && (potency <= 0 || age > config.laser.lifetime)) {
+    if (!world.isClient && (potency <= 0 || age > lifetime)) {
       kill()
     }
   }
@@ -250,7 +256,7 @@ class LaserEntity : Entity, IPlayerOwnable {
         val hardness = blockState.getHardness(world, position)
         val player = getShooterPlayer() ?: return
 
-        // Ensure the player is setup correctly
+        // Ensure the player is set up correctly
         syncPositions(true)
 
         if (!world.canPlayerModifyAt(player, position)) {
@@ -380,6 +386,10 @@ class LaserEntity : Entity, IPlayerOwnable {
   companion object {
     private val rand = Random()
 
+    private val lifetime = config.laser.lifetime
+    private val trackedLasers = mutableSetOf<LaserEntity>()
+    private val laserCleanupInterval = lifetime * 2 // Default 5 * 2 seconds
+
     private fun syncFromEntity(player: PlayerEntity, from: Entity) {
       val fromPos = from.pos
       player.moveToWorld(from.entityWorld as ServerWorld)
@@ -389,6 +399,40 @@ class LaserEntity : Entity, IPlayerOwnable {
     private fun syncFromPos(player: PlayerEntity, @Nonnull world: World, pos: Vec3d, yaw: Float, pitch: Float) {
       player.moveToWorld(world as ServerWorld)
       player.updatePositionAndAngles(pos.x, pos.y, pos.z, yaw, pitch)
+    }
+
+    @JvmStatic
+    fun initLaserTracker() {
+      // If a chunk is loaded with a level greater than 31, lasers will not be ticked and thus will not be removed
+      // from the world when their age exceeds the lifetime. Keep track of lasers and remove them manually.
+      ServerEntityEvents.ENTITY_LOAD.register { entity, _ ->
+        if (entity is LaserEntity) {
+          trackedLasers.add(entity)
+        }
+      }
+
+      ServerEntityEvents.ENTITY_UNLOAD.register { entity, _ ->
+        if (entity is LaserEntity) {
+          trackedLasers.remove(entity)
+        }
+      }
+
+      ServerTickEvents.END_SERVER_TICK.register(ServerTickEvents.EndTick { server ->
+        // Check for lasers that should've been removed every 10 seconds
+        val time = server.overworld.time
+        if (time % laserCleanupInterval == 0L) {
+          cleanupLasers(time - lifetime)
+        }
+      })
+    }
+
+    private fun cleanupLasers(expireThreshold: Long) {
+      val toRemove = trackedLasers.filter { it.age > expireThreshold }
+
+      if (toRemove.isNotEmpty()) {
+        Plethora.log.info("Removing {} expired lasers", toRemove.size)
+        toRemove.forEach { it.kill() }
+      }
     }
   }
 }
