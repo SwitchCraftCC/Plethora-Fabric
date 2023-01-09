@@ -1,42 +1,36 @@
 package io.sc3.plethora.gameplay.data.recipes
 
-import dan200.computercraft.shared.ModRegistry.Items.POCKET_COMPUTER_ADVANCED
-import dan200.computercraft.shared.ModRegistry.Items.WIRED_MODEM
+import com.google.gson.JsonObject
+import dan200.computercraft.shared.computer.items.IComputerItem
+import dan200.computercraft.shared.computer.recipe.ComputerConvertRecipe
 import dan200.computercraft.shared.pocket.items.PocketComputerItem
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags.*
-import net.minecraft.inventory.CraftingInventory
-import net.minecraft.inventory.Inventories
-import net.minecraft.item.ItemStack
-import net.minecraft.recipe.Ingredient.*
-import net.minecraft.recipe.SpecialRecipeSerializer
-import net.minecraft.recipe.book.CraftingRecipeCategory
-import net.minecraft.text.Text
-import net.minecraft.util.Identifier
-import io.sc3.library.recipe.BetterSpecialRecipe
+import dan200.computercraft.shared.util.RecipeUtil
 import io.sc3.plethora.gameplay.neural.NeuralComputerHandler
 import io.sc3.plethora.gameplay.neural.NeuralHelpers
 import io.sc3.plethora.gameplay.neural.NeuralInterfaceInventory
-import io.sc3.plethora.gameplay.registry.Registration.ModItems.NEURAL_INTERFACE
+import net.minecraft.inventory.Inventories
+import net.minecraft.item.ItemStack
+import net.minecraft.network.PacketByteBuf
+import net.minecraft.recipe.Ingredient
+import net.minecraft.recipe.RecipeSerializer
+import net.minecraft.recipe.book.CraftingRecipeCategory
+import net.minecraft.text.Text
+import net.minecraft.util.Identifier
+import net.minecraft.util.JsonHelper
+import net.minecraft.util.collection.DefaultedList
 
 class NeuralInterfaceRecipe(
   id: Identifier,
-  category: CraftingRecipeCategory = CraftingRecipeCategory.MISC
-) : BetterSpecialRecipe(id, category) {
-  override val ingredients = listOf(
-    EMPTY,                EMPTY,                                   fromTag(GOLD_INGOTS),
-    fromTag(IRON_INGOTS), ofItems(POCKET_COMPUTER_ADVANCED.get()), fromTag(REDSTONE_DUSTS),
-    EMPTY,                fromTag(GOLD_INGOTS),                    ofItems(WIRED_MODEM.get())
-  )
-
-  override val outputItem = ItemStack(NEURAL_INTERFACE)
-
-  override fun craft(inv: CraftingInventory): ItemStack {
-    val output = ItemStack(outputItem.item)
-
-    // Get the old pocket computer
-    val old = stackAtPos(inv, 1, 1)
-    val id = POCKET_COMPUTER_ADVANCED.get().getComputerID(old)
-    val label = POCKET_COMPUTER_ADVANCED.get().getLabel(old)
+  group: String?,
+  category: CraftingRecipeCategory,
+  width: Int,
+  height: Int,
+  ingredients: DefaultedList<Ingredient>,
+  result: ItemStack,
+) : ComputerConvertRecipe(id, group, category, width, height, ingredients, result) {
+  override fun convert(item: IComputerItem, old: ItemStack): ItemStack {
+    val id = item.getComputerID(old)
+    val label = item.getLabel(old)
 
     // Copy across key properties
     val nbt = output.orCreateNbt
@@ -61,17 +55,50 @@ class NeuralInterfaceRecipe(
     return output
   }
 
-  private fun stackAtPos(inv: CraftingInventory, row: Int, column: Int) =
-    if (row >= 0 && row < inv.width && column >= 0 && column <= inv.height) {
-      inv.getStack(row + column * inv.width)
-    } else {
-      ItemStack.EMPTY
+  override fun getSerializer() = Serializer
+
+  object Serializer : RecipeSerializer<NeuralInterfaceRecipe> {
+    override fun read(id: Identifier, json: JsonObject): NeuralInterfaceRecipe {
+      val group = JsonHelper.getString(json, "group", "")
+      val category =
+        CraftingRecipeCategory.CODEC.byId(JsonHelper.getString(json, "category", null), CraftingRecipeCategory.MISC)
+
+      val template = RecipeUtil.getTemplate(json)
+      val result = outputFromJson(JsonHelper.getObject(json, "result"))
+
+      return NeuralInterfaceRecipe(
+        id,
+        group,
+        category,
+        template.width(),
+        template.height(),
+        template.ingredients(),
+        result,
+      )
     }
 
-  override fun isIgnoredInRecipeBook() = false
-  override fun getSerializer() = recipeSerializer
+    override fun read(id: Identifier, buf: PacketByteBuf): NeuralInterfaceRecipe {
+      val width = buf.readVarInt()
+      val height = buf.readVarInt()
+      val group = buf.readString()
+      val category = buf.readEnumConstant(
+        CraftingRecipeCategory::class.java
+      )
 
-  companion object {
-    val recipeSerializer = SpecialRecipeSerializer(::NeuralInterfaceRecipe)
+      val ingredients = DefaultedList.ofSize(width * height, Ingredient.EMPTY)
+      for (i in ingredients.indices) ingredients[i] = Ingredient.fromPacket(buf)
+
+      val result = buf.readItemStack()
+      return NeuralInterfaceRecipe(id, group, category, width, height, ingredients, result)
+    }
+
+    override fun write(buf: PacketByteBuf, recipe: NeuralInterfaceRecipe) {
+      buf.writeVarInt(recipe.width)
+      buf.writeVarInt(recipe.height)
+      buf.writeString(recipe.group)
+      buf.writeEnumConstant(recipe.category)
+      for (ingredient in recipe.ingredients) ingredient.write(buf)
+      buf.writeItemStack(recipe.output)
+    }
   }
 }
