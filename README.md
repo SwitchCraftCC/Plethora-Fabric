@@ -1,6 +1,6 @@
 # Plethora-Fabric
 
-Plethora-Fabric is a port of [Plethora](https://github.com/SquidDev-CC/plethora) for Fabric 1.19+. The port is still
+Plethora-Fabric is a port of [Plethora](https://github.com/SquidDev-CC/plethora) for Fabric 1.19.3+. The port is still
 ongoing.
 
 ## Port status
