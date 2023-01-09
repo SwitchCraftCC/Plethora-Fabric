@@ -2,9 +2,6 @@ package io.sc3.plethora.gameplay.modules.laser
 
 import dan200.computercraft.api.lua.IArguments
 import dan200.computercraft.api.turtle.ITurtleAccess
-import net.minecraft.block.entity.BlockEntity
-import net.minecraft.entity.Entity
-import net.minecraft.util.math.Vec3d
 import io.sc3.plethora.Plethora
 import io.sc3.plethora.api.IPlayerOwnable
 import io.sc3.plethora.api.IWorldLocation
@@ -17,6 +14,9 @@ import io.sc3.plethora.api.module.SubtargetedModuleMethod
 import io.sc3.plethora.gameplay.registry.PlethoraModules
 import io.sc3.plethora.util.Helpers
 import io.sc3.plethora.util.PlayerHelpers
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.entity.Entity
+import net.minecraft.util.math.Vec3d
 import java.lang.Math.PI
 import java.util.concurrent.Callable
 import kotlin.math.cos
@@ -88,7 +88,7 @@ object LaserMethods {
         laser.setPosition(pos)
       }
 
-      laser.setPotency(potency)
+      laser.potency = potency
       laser.shoot(motionX, motionY, motionZ, 1.5f, 0.0f)
 
       location.world.spawnEntity(laser)
