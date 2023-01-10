@@ -9,8 +9,8 @@ object ConfigValidator {
     min("laser.damage", laser.damage)
     min("laser.lifetime", laser.lifetime.toDouble())
 
-    min("kinetic.launchMax", kinetic.launchMax.toDouble())
-    min("kinetic.launchCost", kinetic.launchCost.toDouble())
+    min("kinetic.launchMax", kinetic.launchMax)
+    min("kinetic.launchCost", kinetic.launchCost)
     min("kinetic.launchYScale", kinetic.launchYScale)
     min("kinetic.launchElytraScale", kinetic.launchElytraScale)
 

@@ -43,11 +43,11 @@ class PlethoraConfig {
   class Kinetic {
     @JvmField
     @Comment("The maximum velocity the kinetic manipulator can apply to you.")
-    var launchMax = 4
+    var launchMax = 4.0
 
     @JvmField
     @Comment("The cost per launch power.")
-    var launchCost = 0
+    var launchCost = 10.0
 
     @JvmField
     @Comment("The value to scale the y velocity by, helps limit how high the player can go.")
@@ -151,7 +151,7 @@ class PlethoraConfig {
   class CostSystem {
     @JvmField
     @Comment("The energy level all systems start at.")
-    var initial = 100.0
+    var initial = 250.0
 
     @JvmField
     @Comment("The amount of energy regenerated each tick.")
@@ -159,7 +159,7 @@ class PlethoraConfig {
 
     @JvmField
     @Comment("The maximum energy level an item can have.")
-    var limit = 100.0
+    var limit = 250.0
 
     @JvmField
     @Comment("Allows costs to go into the negative. Methods will fail when there is negative energy. This allows you "

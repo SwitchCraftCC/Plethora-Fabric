@@ -1,5 +1,8 @@
 package io.sc3.plethora.gameplay.modules.kinetic
 
+import io.sc3.plethora.Plethora.config
+import io.sc3.plethora.gameplay.modules.ModuleItem
+import io.sc3.plethora.gameplay.registry.PlethoraModules
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -8,9 +11,6 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.UseAction
 import net.minecraft.world.World
-import io.sc3.plethora.Plethora.config
-import io.sc3.plethora.gameplay.modules.ModuleItem
-import io.sc3.plethora.gameplay.registry.PlethoraModules
 
 private const val MAX_TICKS = 72000
 private const val USE_TICKS = 30
@@ -40,7 +40,7 @@ class KineticModuleItem(settings: Settings) : ModuleItem("kinetic", settings) {
 
     KineticMethods.launch(
       player, player.yaw, player.pitch,
-      ticks / USE_TICKS * config.kinetic.launchMax
+      (ticks / USE_TICKS * config.kinetic.launchMax).toFloat()
     )
   }
 }
