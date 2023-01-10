@@ -28,12 +28,13 @@ class NeuralInterfaceRecipe(
   result: ItemStack,
 ) : ComputerConvertRecipe(id, group, category, width, height, ingredients, result) {
   override fun convert(item: IComputerItem, old: ItemStack): ItemStack {
+    val result = ItemStack(output.item)
     val id = item.getComputerID(old)
     val label = item.getLabel(old)
 
     // Copy across key properties
-    val nbt = output.orCreateNbt
-    if (!label.isNullOrEmpty()) output.setCustomName(Text.of(label))
+    val nbt = result.orCreateNbt
+    if (!label.isNullOrEmpty()) result.setCustomName(Text.of(label))
     if (id >= 0) nbt.putInt(NeuralComputerHandler.COMPUTER_ID, id)
 
     // Forge/1.12.2 Plethora does not check if the source pocket computer has an upgrade, but I feel like it would kinda
@@ -43,7 +44,7 @@ class NeuralInterfaceRecipe(
       // Check if the neural will actually accept the item before trying to add it. Add to the BACK slot (2)
       val upgradeStack = upgrade.craftingItem
       if (NeuralHelpers.isItemValid(NeuralHelpers.BACK, upgradeStack)) {
-        val neuralInv = NeuralInterfaceInventory(output)
+        val neuralInv = NeuralInterfaceInventory(result)
         neuralInv.setStack(NeuralHelpers.BACK, upgradeStack)
 
         // Write the new inventory to our output's NBT
@@ -51,7 +52,7 @@ class NeuralInterfaceRecipe(
       }
     }
 
-    return output
+    return result
   }
 
   override fun getSerializer() = Serializer
