@@ -27,9 +27,10 @@ to migrate your code, see the changes list at [docs.sc3.io](https://docs.sc3.io/
 
 ## Requirements
 - Minecraft 1.19.3
-- [Fabric](https://fabricmc.net/use/installer/)
+- [Fabric](https://fabricmc.net/use/installer)
 - [Fabric API](https://modrinth.com/mod/fabric-api)
-- [Trinkets](https://modrinth.com/mod/trinkets/)
+- [CC: Tweaked](https://modrinth.com/mod/cc-tweaked)
+- [Trinkets](https://modrinth.com/mod/trinkets)
 
 ## Documentation
 There is pretty comprehensive documentation on [the Plethora website](https://squiddev-cc.github.io/plethora/). This
