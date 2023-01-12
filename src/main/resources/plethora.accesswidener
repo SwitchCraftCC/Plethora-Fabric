@@ -5,3 +5,8 @@ accessible method net/minecraft/recipe/Ingredient <init> (Ljava/util/stream/Stre
 
 mutable field net/minecraft/screen/slot/Slot x I
 mutable field net/minecraft/screen/slot/Slot y I
+
+accessible field net/minecraft/block/entity/AbstractFurnaceBlockEntity burnTime I
+accessible field net/minecraft/block/entity/AbstractFurnaceBlockEntity fuelTime I
+accessible field net/minecraft/block/entity/AbstractFurnaceBlockEntity cookTime I
+accessible field net/minecraft/block/entity/BrewingStandBlockEntity brewTime I
