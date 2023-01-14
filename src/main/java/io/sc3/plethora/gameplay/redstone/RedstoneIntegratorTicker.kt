@@ -1,43 +1,39 @@
-package io.sc3.plethora.gameplay.redstone;
+package io.sc3.plethora.gameplay.redstone
 
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.World;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents
+import net.minecraft.server.world.ServerWorld
+import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+object RedstoneIntegratorTicker {
+  private val toTick = Collections.newSetFromMap(ConcurrentHashMap<RedstoneIntegratorBlockEntity, Boolean>())
 
-public class RedstoneIntegratorTicker {
-    private static final Set<RedstoneIntegratorBlockEntity> toTick = Collections.newSetFromMap(new ConcurrentHashMap<>());
+  fun enqueueTick(be: RedstoneIntegratorBlockEntity) {
+    toTick.add(be)
+  }
 
-    public static void enqueueTick(RedstoneIntegratorBlockEntity be) {
-        toTick.add(be);
+  fun handleTick() {
+    val it = toTick.iterator()
+    while (it.hasNext()) {
+      val be = it.next()
+      be.updateOnce()
+      it.remove()
     }
+  }
 
-    public static void handleTick(MinecraftServer server) {
-        Iterator<RedstoneIntegratorBlockEntity> it = toTick.iterator();
-        while (it.hasNext()) {
-            RedstoneIntegratorBlockEntity be = it.next();
-            be.updateOnce();
-            it.remove();
-        }
+  fun handleUnload(eventWorld: ServerWorld) {
+    if (eventWorld.isClient) return
+    val it = toTick.iterator()
+    while (it.hasNext()) {
+      val world = it.next().world
+      if (world == null || world === eventWorld) it.remove()
     }
+  }
 
-    public static void handleUnload(MinecraftServer server, ServerWorld eventWorld) {
-        if (eventWorld.isClient) return;
-        Iterator<RedstoneIntegratorBlockEntity> it = toTick.iterator();
-        while (it.hasNext()) {
-            World world = it.next().getWorld();
-            if (world == null || world == eventWorld) it.remove();
-        }
-    }
-
-    public static void registerEvents() {
-        ServerTickEvents.START_SERVER_TICK.register(RedstoneIntegratorTicker::handleTick);
-        ServerWorldEvents.UNLOAD.register(RedstoneIntegratorTicker::handleUnload);
-    }
+  @JvmStatic
+  fun registerEvents() {
+    ServerTickEvents.START_SERVER_TICK.register { handleTick() }
+    ServerWorldEvents.UNLOAD.register { _, world -> handleUnload(world) }
+  }
 }

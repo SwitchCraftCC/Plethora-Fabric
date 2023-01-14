@@ -121,7 +121,7 @@ public final class Registration {
       // Manipulator peripheral
       PeripheralLookup.get().registerForBlockEntity(ManipulatorPeripheral::getPeripheral, ModBlockEntities.MANIPULATOR_MARK_1);
       PeripheralLookup.get().registerForBlockEntity(ManipulatorPeripheral::getPeripheral, ModBlockEntities.MANIPULATOR_MARK_2);
-      PeripheralLookup.get().registerForBlockEntity(RedstoneIntegratorBlockEntity::getPeripheral, ModBlockEntities.REDSTONE_INTEGRATOR);
+      PeripheralLookup.get().registerForBlockEntity((b, s) -> b.getPeripheral(), ModBlockEntities.REDSTONE_INTEGRATOR);
     });
 
     ServerBlockEntityEvents.BLOCK_ENTITY_LOAD.register((blockEntity, world) -> {

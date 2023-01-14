@@ -1,74 +1,44 @@
-package io.sc3.plethora.gameplay.redstone;
+package io.sc3.plethora.gameplay.redstone
 
-import dan200.computercraft.shared.common.IBundledRedstoneBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import io.sc3.plethora.gameplay.BaseBlockWithEntity;
-import io.sc3.plethora.gameplay.registry.Registration;
+import dan200.computercraft.shared.common.IBundledRedstoneBlock
+import io.sc3.plethora.gameplay.BaseBlockWithEntity
+import io.sc3.plethora.gameplay.registry.Registration.ModBlockEntities.REDSTONE_INTEGRATOR
+import net.minecraft.block.Block
+import net.minecraft.block.BlockRenderType
+import net.minecraft.block.BlockState
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Direction
+import net.minecraft.world.BlockView
+import net.minecraft.world.World
 
-import javax.annotation.Nullable;
+class RedstoneIntegratorBlock(settings: Settings) : BaseBlockWithEntity(settings), IBundledRedstoneBlock {
+  override fun getRenderType(state: BlockState): BlockRenderType = BlockRenderType.MODEL
 
-public class RedstoneIntegratorBlock extends BaseBlockWithEntity implements IBundledRedstoneBlock {
-    public RedstoneIntegratorBlock(Settings settings) {
-        super(settings);
-    }
+  override fun emitsRedstonePower(state: BlockState) = true
 
-    @Override
-    public boolean emitsRedstonePower(BlockState state) {
-        return true;
-    }
+  override fun getStrongRedstonePower(state: BlockState, world: BlockView, pos: BlockPos, side: Direction) =
+    getIntegrator(world, pos)?.getRedstoneOutput(side.opposite) ?: 0
 
-    @Override
-    public int getStrongRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction side) {
-        RedstoneIntegratorBlockEntity integrator = getIntegrator(world, pos);
-        return integrator != null ? integrator.getRedstoneOutput(side.getOpposite()) : 0;
-    }
+  override fun getWeakRedstonePower(state: BlockState, world: BlockView, pos: BlockPos, direction: Direction) =
+    getStrongRedstonePower(state, world, pos, direction) // Weak same as strong
 
-    @Override
-    public int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
-        return getStrongRedstonePower(state, world, pos, direction); // Weak same as strong
-    }
+  override fun getBundledRedstoneConnectivity(world: World, pos: BlockPos, side: Direction) = true
 
-    @Override
-    public boolean getBundledRedstoneConnectivity(World world, BlockPos pos, Direction side) {
-        return true;
-    }
+  override fun getBundledRedstoneOutput(world: World, pos: BlockPos, side: Direction) =
+    getIntegrator(world, pos)?.getBundledRedstoneOutput(side) ?: 0
 
-    @Override
-    public int getBundledRedstoneOutput(World world, BlockPos pos, Direction side) {
-        RedstoneIntegratorBlockEntity integrator = getIntegrator(world, pos);
-        return integrator != null ? integrator.getBundledRedstoneOutput(side) : 0;
-    }
+  override fun neighborUpdate(state: BlockState, world: World, pos: BlockPos, block: Block, fromPos: BlockPos,
+                              notify: Boolean) {
+    super.neighborUpdate(state, world, pos, block, fromPos, notify)
+    getIntegrator(world, pos)?.updateInput()
+  }
 
-    @Override
-    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
-        super.neighborUpdate(state, world, pos, block, fromPos, notify);
+  override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity =
+    RedstoneIntegratorBlockEntity(REDSTONE_INTEGRATOR, pos, state)
 
-        RedstoneIntegratorBlockEntity integrator = getIntegrator(world, pos);
-        if (integrator != null) integrator.updateInput();
-    }
-
-    @Nullable
-    @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new RedstoneIntegratorBlockEntity(Registration.ModBlockEntities.REDSTONE_INTEGRATOR, pos, state);
-    }
-
-    private RedstoneIntegratorBlockEntity getIntegrator(BlockView world, BlockPos pos) {
-        BlockEntity be = world.getBlockEntity(pos);
-        return be instanceof RedstoneIntegratorBlockEntity integrator ? integrator : null;
-    }
-
-
-
-    @Override
-    public BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
-    }
+  private fun getIntegrator(world: BlockView, pos: BlockPos): RedstoneIntegratorBlockEntity? {
+    val be = world.getBlockEntity(pos)
+    return be as? RedstoneIntegratorBlockEntity
+  }
 }
