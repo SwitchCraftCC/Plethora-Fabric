@@ -182,7 +182,7 @@ public final class Registration {
     }
 
     private static <T extends Item> T registerModule(String id, Function<Item.Settings, T> itemCtor) {
-      return register("module_" + id, itemCtor.apply(properties().maxCount(1)));
+      return register("module_" + id, itemCtor.apply(properties().maxCount(16)));
     }
   }
 
