@@ -1,7 +1,6 @@
 package io.sc3.plethora.gameplay.modules.glasses.canvas
 
 import dan200.computercraft.api.lua.IArguments
-import net.minecraft.util.math.Vec3d
 import io.sc3.plethora.api.method.*
 import io.sc3.plethora.gameplay.modules.glasses.GlassesArgumentHelper
 import io.sc3.plethora.gameplay.modules.glasses.GlassesMethodsHelpers.getContext
@@ -12,6 +11,7 @@ import io.sc3.plethora.gameplay.modules.glasses.objects.object3d.Box3d
 import io.sc3.plethora.gameplay.modules.glasses.objects.object3d.Item3d
 import io.sc3.plethora.gameplay.modules.glasses.objects.object3d.ObjectFrame3d
 import io.sc3.plethora.gameplay.modules.glasses.objects.object3d.ObjectRoot3d
+import net.minecraft.util.math.Vec3d
 
 object Canvas3dMethods {
   val CREATE = BasicMethod.of(
@@ -24,7 +24,7 @@ object Canvas3dMethods {
     val canvas = ctx.canvas
     val location = ctx.location
 
-    val offset = args.getVec3dNullable(0) ?: Vec3d.ZERO
+    val offset = if (args.count() > 0) args.getVec3dTable(0) else Vec3d.ZERO
 
     val root = ObjectRoot3d(canvas.newObjectId(), group.id)
     root.recenter(location.world, location.loc.add(offset))
