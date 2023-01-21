@@ -10,7 +10,6 @@ import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasHandler.WIDTH
 import io.sc3.plethora.gameplay.modules.glasses.objects.BaseObject
 import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectGroup
 import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectRegistry.FRAME_3D
-import io.sc3.plethora.mixin.client.GameRendererAccessor
 import io.sc3.plethora.util.ByteBufUtils
 import io.sc3.plethora.util.DirtyingProperty
 import net.minecraft.client.MinecraftClient
@@ -48,33 +47,24 @@ class ObjectFrame3d(
 
     val mc = MinecraftClient.getInstance()
     val gr = mc.gameRenderer
-    val cam = gr.camera
     val w = WIDTH.toFloat(); val h = HEIGHT.toFloat()
 
     val currentBuffer = GlStateManager.getBoundFramebuffer()
     val currentFog = RenderSystem.getShaderFogEnd()
+    val currentFogColor = RenderSystem.getShaderFogColor()
     RenderSystem.setShaderFogEnd(2000.0f)
+    RenderSystem.setShaderFogColor(0.0f, 0.0f, 0.0f, 0.0f)
 
     // ==============================
 
     RenderSystem.backupProjectionMatrix()
 
+    val matrix4f = Matrix4f().setOrtho(0.0f, WIDTH.toFloat(), HEIGHT.toFloat(), 0.0f, 1000.0f, 3000.0f)
+    RenderSystem.setProjectionMatrix(matrix4f)
+
     val matrixStack = MatrixStack()
-    matrixStack.peek().positionMatrix.identity()
-
-    val fov = (gr as GameRendererAccessor).invokeGetFov(cam, mc.tickDelta, true)
-
-    matrixStack.peek()
-      .positionMatrix
-      .mul(Matrix4f().setPerspective((fov * (Math.PI / 180.0).toFloat()).toFloat(), w / h, 0.1f, 1000.0f))
-
-    val projection = matrixStack.peek().positionMatrix
-    RenderSystem.setProjectionMatrix(projection)
-
-    val matrixStack2 = MatrixStack()
-    matrixStack2.push()
-    matrixStack2.loadIdentity()
-    matrixStack2.translate(0.0, 0.0, -500.0)
+    matrixStack.loadIdentity()
+    matrixStack.translate(0.0, 0.0, -1000.0)
 
     RenderSystem.colorMask(true, true, true, true)
     framebuffer.setClearColor(0.0f, 0.0f, 0.0f, 0.0f)
@@ -82,9 +72,7 @@ class ObjectFrame3d(
     framebuffer.beginWrite(true)
 
     RenderSystem.disableDepthTest()
-    canvas.drawChildren(children.iterator(), matrixStack2, consumers)
-
-    matrixStack2.pop()
+    canvas.drawChildren(children.iterator(), matrixStack, consumers)
 
     RenderSystem.viewport(0, 0, mc.window.framebufferWidth, mc.window.framebufferHeight)
     RenderSystem.restoreProjectionMatrix()
@@ -96,7 +84,7 @@ class ObjectFrame3d(
     matrices.push()
 
     matrices.translate(position.x, position.y, position.z)
-    matrices.scale(SCALE, SCALE, SCALE)
+    matrices.scale(SCALE, -SCALE, SCALE)
     applyRotation(matrices, false)
 
     if (hasDepthTest) {
@@ -120,6 +108,7 @@ class ObjectFrame3d(
     BufferRenderer.drawWithGlobalProgram(buffer.end())
 
     RenderSystem.setShaderFogEnd(currentFog)
+    RenderSystem.setShaderFogColor(currentFogColor[0], currentFogColor[1], currentFogColor[2], currentFogColor[3])
 
     matrices.pop()
   }
