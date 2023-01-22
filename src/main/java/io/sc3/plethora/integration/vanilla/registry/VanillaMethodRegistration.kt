@@ -5,6 +5,7 @@ import io.sc3.plethora.api.method.IMethodRegistry
 import io.sc3.plethora.api.module.IModuleContainer
 import io.sc3.plethora.integration.vanilla.method.EntityIntrospectionMethods
 import io.sc3.plethora.integration.vanilla.method.EntityKineticMethods
+import io.sc3.plethora.integration.vanilla.method.RangedInventoryWrapperMethods
 import net.minecraft.util.Identifier
 
 object VanillaMethodRegistration {
@@ -17,6 +18,9 @@ object VanillaMethodRegistration {
       moduleMethod("kinetic:look", EntityKineticMethods.LOOK)
       moduleMethod("kinetic:use", EntityKineticMethods.USE)
       moduleMethod("kinetic:swing", EntityKineticMethods.SWING)
+
+      method("introspection:consume", RangedInventoryWrapperMethods.CONSUME)
+      method("introspection:drop", RangedInventoryWrapperMethods.DROP)
     }
   }
 
