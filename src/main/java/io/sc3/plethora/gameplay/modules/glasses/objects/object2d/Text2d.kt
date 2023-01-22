@@ -1,14 +1,6 @@
 package io.sc3.plethora.gameplay.modules.glasses.objects.object2d
 
 import com.mojang.blaze3d.systems.RenderSystem
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.render.LightmapTextureManager
-import net.minecraft.client.render.Tessellator
-import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.network.PacketByteBuf
 import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasClient
 import io.sc3.plethora.gameplay.modules.glasses.objects.ColourableObject
 import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectRegistry.TEXT_2D
@@ -17,6 +9,14 @@ import io.sc3.plethora.gameplay.modules.glasses.objects.TextObject
 import io.sc3.plethora.util.ByteBufUtils
 import io.sc3.plethora.util.DirtyingProperty
 import io.sc3.plethora.util.Vec2d
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.render.LightmapTextureManager
+import net.minecraft.client.render.Tessellator
+import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.network.PacketByteBuf
 
 class Text2d(
   id: Int,
@@ -89,6 +89,8 @@ class Text2d(
     }
 
     immediate.draw()
+
+    RenderSystem.enableBlend()
 
     matrices.pop()
   }
