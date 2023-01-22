@@ -1,76 +1,44 @@
-package io.sc3.plethora.util;
+package io.sc3.plethora.util
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.inventory.Inventory
+import net.minecraft.item.ItemStack
 
-public class RangedInventoryWrapper implements Inventory {
-    private final Inventory underlying;
-    private final int minSlot;
-    private final int size;
-    private final int maxSlot;
+class RangedInventoryWrapper(
+  private val underlying: Inventory,
+  private val minSlot: Int,
+  private val size: Int
+) : Inventory {
+  private val maxSlot = minSlot + size
 
-    public RangedInventoryWrapper(Inventory underlying, int minSlot, int size) {
-        this.underlying = underlying;
-        this.minSlot = minSlot;
-        this.size = size;
-        this.maxSlot = minSlot + size;
-    }
+  override fun size() = size
+  override fun isEmpty() = false
+  override fun getMaxCountPerStack() = underlying.maxCountPerStack
 
-    @Override
-    public int size() {
-        return size;
-    }
+  override fun canPlayerUse(player: PlayerEntity) =
+    underlying.canPlayerUse(player)
 
-    @Override
-    public boolean isEmpty() {
-        return false;
-    }
+  private fun checkSlot(localSlot: Int) =
+    localSlot + minSlot < maxSlot
 
-    @Override
-    public ItemStack getStack(int slot) {
-        if (checkSlot(slot)) return underlying.getStack(slot + minSlot);
-        return ItemStack.EMPTY;
-    }
+  override fun getStack(slot: Int): ItemStack =
+    if (checkSlot(slot)) underlying.getStack(slot + minSlot) else ItemStack.EMPTY
 
-    @Override
-    public ItemStack removeStack(int slot, int amount) {
-        if (checkSlot(slot)) return underlying.removeStack(slot + minSlot, amount);
-        return ItemStack.EMPTY;
-    }
+  override fun removeStack(slot: Int, amount: Int): ItemStack =
+    if (checkSlot(slot)) underlying.removeStack(slot + minSlot, amount) else ItemStack.EMPTY
 
-    @Override
-    public ItemStack removeStack(int slot) {
-        if (checkSlot(slot)) return underlying.removeStack(slot + minSlot);
-        return ItemStack.EMPTY;
-    }
+  override fun removeStack(slot: Int): ItemStack =
+    if (checkSlot(slot)) underlying.removeStack(slot + minSlot) else ItemStack.EMPTY
 
-    @Override
-    public void setStack(int slot, ItemStack stack) {
-        if (checkSlot(slot)) underlying.setStack(slot + minSlot, stack);
-    }
+  override fun setStack(slot: Int, stack: ItemStack) {
+    if (checkSlot(slot)) underlying.setStack(slot + minSlot, stack)
+  }
 
-    @Override
-    public void markDirty() {
-        underlying.markDirty();
-    }
+  override fun markDirty() {
+    underlying.markDirty()
+  }
 
-    @Override
-    public boolean canPlayerUse(PlayerEntity player) {
-        return underlying.canPlayerUse(player);
-    }
-
-    @Override
-    public int getMaxCountPerStack() {
-        return underlying.getMaxCountPerStack();
-    }
-
-    @Override
-    public void clear() {
-        throw new UnsupportedOperationException();
-    }
-
-    private boolean checkSlot(int localSlot) {
-        return localSlot + minSlot < maxSlot;
-    }
+  override fun clear() {
+    throw UnsupportedOperationException()
+  }
 }
