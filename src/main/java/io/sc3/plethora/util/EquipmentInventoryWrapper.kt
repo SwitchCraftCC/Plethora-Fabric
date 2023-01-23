@@ -1,5 +1,6 @@
 package io.sc3.plethora.util
 
+import io.sc3.plethora.api.reference.IReference
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.mob.MobEntity
@@ -8,7 +9,12 @@ import net.minecraft.inventory.Inventory
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemStack.EMPTY
 
-class EquipmentInventoryWrapper(private val entity: LivingEntity) : Inventory {
+class EquipmentInventoryWrapper(
+  private val entityReference: IReference<LivingEntity>
+) : Inventory {
+  private val entity: LivingEntity
+    get() = entityReference.get()
+
   override fun size() = SLOTS
   override fun isEmpty() = false
   override fun getMaxCountPerStack() = 64

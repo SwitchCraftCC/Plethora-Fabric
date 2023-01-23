@@ -23,7 +23,7 @@ object RangedInventoryWrapperMethods {
     "consume", "function(slot:number):boolean -- Consume an item from the given slot in the inventory",
     ::consume
   )
-  private fun consume(unbaked: IUnbakedContext<RangedInventoryWrapper>, args: IArguments): FutureMethodResult {
+  private fun consume(unbaked: IUnbakedContext<RangedInventoryWrapper<PlayerEntity>>, args: IArguments): FutureMethodResult {
     val slot = args.getInt(0)
     ArgumentHelpers.assertBetween(slot, 1, MAIN_SIZE, "Slot out of range (%s)")
 
@@ -50,7 +50,7 @@ object RangedInventoryWrapperMethods {
     "drop", "function(slot:number, [limit:number, [direction:string]]):number -- Drop an item on the ground",
     ::drop
   )
-  private fun drop(unbaked: IUnbakedContext<RangedInventoryWrapper>, args: IArguments): FutureMethodResult {
+  private fun drop(unbaked: IUnbakedContext<RangedInventoryWrapper<PlayerEntity>>, args: IArguments): FutureMethodResult {
     val slot = args.getInt(0)
     ArgumentHelpers.assertBetween(slot, 1, MAIN_SIZE, "Slot out of range (%s)")
 
@@ -97,11 +97,11 @@ object RangedInventoryWrapperMethods {
   }
 
   private data class InventoryData(
-    val context: IContext<RangedInventoryWrapper>,
-    val inventory: RangedInventoryWrapper,
+    val context: IContext<RangedInventoryWrapper<PlayerEntity>>,
+    val inventory: RangedInventoryWrapper<PlayerEntity>,
     val player: PlayerEntity
   )
-  private fun IUnbakedContext<RangedInventoryWrapper>.getInventory(): InventoryData {
+  private fun IUnbakedContext<RangedInventoryWrapper<PlayerEntity>>.getInventory(): InventoryData {
     val context = bake()
     require(context.modules.hasModule(INTROSPECTION_M)) { "No Introspection module installed" }
 

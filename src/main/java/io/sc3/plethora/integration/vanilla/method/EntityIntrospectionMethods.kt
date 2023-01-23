@@ -7,6 +7,7 @@ import io.sc3.plethora.api.method.IContext
 import io.sc3.plethora.api.method.IUnbakedContext
 import io.sc3.plethora.api.module.IModuleContainer
 import io.sc3.plethora.api.module.SubtargetedModuleMethod
+import io.sc3.plethora.api.reference.Reference.entity
 import io.sc3.plethora.gameplay.modules.introspection.IntrospectionContextHelpers.getPlayerContext
 import io.sc3.plethora.gameplay.registry.PlethoraModules.INTROSPECTION_M
 import io.sc3.plethora.integration.EntityIdentifier
@@ -24,7 +25,7 @@ object EntityIntrospectionMethods {
   private fun getInventory(unbaked: IUnbakedContext<IModuleContainer>, args: IArguments): FutureMethodResult {
     val ctx = getPlayerContext(unbaked)
     val player = ctx.player.getPlayer(ctx.server)
-    val inventory = RangedInventoryWrapper(player.inventory, 0, MAIN_SIZE)
+    val inventory = RangedInventoryWrapper(entity(player), 0, MAIN_SIZE) { it.inventory }
     return inventory.wrapped(ctx.context)
   }
 
@@ -36,7 +37,7 @@ object EntityIntrospectionMethods {
   private fun getEquipment(unbaked: IUnbakedContext<IModuleContainer>, args: IArguments): FutureMethodResult {
     val ctx = getPlayerContext(unbaked)
     val player = ctx.player.getPlayer(ctx.server)
-    val equipment = EquipmentInventoryWrapper(player)
+    val equipment = EquipmentInventoryWrapper(entity(player))
     return equipment.wrapped(ctx.context)
   }
 
@@ -48,7 +49,8 @@ object EntityIntrospectionMethods {
   private fun getEnder(unbaked: IUnbakedContext<IModuleContainer>, args: IArguments): FutureMethodResult {
     val ctx = getPlayerContext(unbaked)
     val player = ctx.player.getPlayer(ctx.server)
-    return player.enderChestInventory.wrapped(ctx.context)
+    val inventory = RangedInventoryWrapper(entity(player), 0, 27) { it.enderChestInventory }
+    return inventory.wrapped(ctx.context)
   }
 
   private fun Inventory.wrapped(ctx: IContext<*>): FutureMethodResult {
