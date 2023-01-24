@@ -12,12 +12,12 @@ public class PlethoraCore {
     public static void initializeCore() {
         log.info("Plethora core initializing");
 
-        log.debug("Building registries");
+        log.info("Beginning Plethora registration");
         PlethoraEvents.REGISTER.invoker().onRegister(PlethoraAPI.instance());
         buildRegistries();
 
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
-            log.debug("Server started, resetting shared task runner");
+            log.info("Server started, resetting shared task runner");
             TaskRunner.SHARED.reset();
         });
 
@@ -27,15 +27,18 @@ public class PlethoraCore {
         });
 
         ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
-            log.debug("Server stopped, resetting cost handler and shared task runner");
+            log.info("Server stopped, resetting cost handler and shared task runner");
             DefaultCostHandler.reset();
             TaskRunner.SHARED.reset();
         });
     }
 
     static void buildRegistries() {
+        log.info("Building converter registry");
         ConverterRegistry.instance.build();
+        log.info("Building meta registry");
         MetaRegistry.instance.build();
+        log.info("Building method registry");
         MethodRegistry.instance.build();
     }
 }

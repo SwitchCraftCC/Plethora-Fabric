@@ -265,8 +265,16 @@ public final class Registration {
 
     public static final PocketUpgradeSerialiser<PocketUpgradeModule> MODULE = register(
       new Identifier(Plethora.modId, "module"),
-      PocketUpgradeSerialiser.simpleWithCustomItem((id, item) ->
-      new PocketUpgradeModule(item, (IModuleHandler) item.getItem(), item.getTranslationKey() + ".adjective"))
+      PocketUpgradeSerialiser.simpleWithCustomItem((id, item) -> {
+        log.info("Registering pocket module {} with crafting item {}", id, item);
+        if (item.getItem() instanceof IModuleHandler handler) {
+          return new PocketUpgradeModule(item, handler, item.getTranslationKey() + ".adjective");
+        } else if (item.isEmpty()) {
+          throw new IllegalArgumentException("Cannot register a pocket module (id: " + id + ") with an empty item!");
+        } else {
+          throw new IllegalArgumentException("Item " + item + " is not a valid module handler!");
+        }
+      })
     );
   }
 }
