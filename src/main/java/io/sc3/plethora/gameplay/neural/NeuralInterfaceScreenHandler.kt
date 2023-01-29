@@ -4,6 +4,10 @@ import dan200.computercraft.shared.computer.core.ComputerFamily.ADVANCED
 import dan200.computercraft.shared.computer.core.ServerComputer
 import dan200.computercraft.shared.computer.inventory.AbstractComputerMenu
 import dan200.computercraft.shared.network.container.ComputerContainerData
+import io.sc3.plethora.gameplay.client.gui.NeuralInterfaceScreen.Companion.BORDER
+import io.sc3.plethora.gameplay.neural.NeuralHelpers.INV_SIZE
+import io.sc3.plethora.gameplay.registry.Registration.ModScreens.NEURAL_INTERFACE_HANDLER_TYPE
+import io.sc3.plethora.util.Vec2i
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
@@ -11,10 +15,6 @@ import net.minecraft.inventory.Inventory
 import net.minecraft.inventory.SimpleInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.screen.slot.Slot
-import io.sc3.plethora.gameplay.client.gui.NeuralInterfaceScreen.Companion.BORDER
-import io.sc3.plethora.gameplay.neural.NeuralHelpers.INV_SIZE
-import io.sc3.plethora.gameplay.registry.Registration.ModScreens.NEURAL_INTERFACE_HANDLER_TYPE
-import io.sc3.plethora.util.Vec2i
 import java.util.function.Predicate
 
 class NeuralInterfaceScreenHandler private constructor(
@@ -60,15 +60,25 @@ class NeuralInterfaceScreenHandler private constructor(
     val slot = slots[index]
     if (!slot.hasStack()) return ItemStack.EMPTY
 
-    val existing = slot.stack.copy()
+    val existing = slot.stack
     val result = existing.copy()
 
     if (index < INV_SIZE) {
       // One of our neural slots, insert into the player's inventory
       if (!insertItem(existing, INV_SIZE, INV_SIZE + 36, true)) return ItemStack.EMPTY
+      slot.onQuickTransfer(existing, result)
     } else {
-      // One of the player's inventory slots (hopefully!), insert into the neural inventory
-      if (!insertItem(existing, 0, INV_SIZE, false)) return ItemStack.EMPTY
+      // One of the player's inventory slots, insert into the neural inventory. Try each slot one at a time, so we don't
+      // insert a whole stack (insertItem seems to prefer stacking even with Slot.getMaxItemCount set to 1)
+      for (i in 0 until INV_SIZE) {
+        val other = slots[i]
+        if (other is NeuralSlot && !other.hasStack() && other.canInsert(existing)) {
+          // Manually insert one item
+          other.stack = existing.split(1)
+          other.markDirty()
+          break
+        }
+      }
     }
 
     if (existing.isEmpty) {

@@ -8,4 +8,6 @@ class NeuralSlot(inv: Inventory, i: Int, x: Int, y: Int) : Slot(inv, i, x, y) {
   override fun canInsert(stack: ItemStack): Boolean {
     return !stack.isEmpty && inventory.isValid(index, stack)
   }
+
+  override fun getMaxItemCount() = 1
 }
