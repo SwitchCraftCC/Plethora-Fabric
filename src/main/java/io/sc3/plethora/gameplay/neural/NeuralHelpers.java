@@ -128,7 +128,7 @@ public class NeuralHelpers {
             @Override
             public IModuleContainer safeGet() throws LuaException {
                 if (moduleHash != computer.getModuleHash()) {
-                    throw new LuaException("A moudle has changed");
+                    throw new LuaException("A module has changed");
                 }
 
                 return container;
