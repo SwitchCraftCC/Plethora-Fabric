@@ -14,7 +14,9 @@ import io.sc3.plethora.util.WorldPosition
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.util.NbtType
+import net.minecraft.block.Block
 import net.minecraft.block.Blocks
+import net.minecraft.block.OperatorBlock
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
@@ -22,6 +24,7 @@ import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.damage.EntityDamageSource
 import net.minecraft.entity.damage.ProjectileDamageSource
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.Packet
 import net.minecraft.network.listener.ClientPlayPacketListener
@@ -244,8 +247,8 @@ class LaserEntity : Entity, IPlayerOwnable {
   }
 
   private fun onImpact(hitResult: HitResult) {
-    val world = world
     if (world.isClient) return
+    val world = world as? ServerWorld ?: return
 
     if (hitResult.type == HitResult.Type.BLOCK) {
       if (hitResult !is BlockHitResult) return
@@ -296,8 +299,28 @@ class LaserEntity : Entity, IPlayerOwnable {
         } else if (hardness > -1 && hardness <= potency) {
           potency -= hardness
 
-          if (canBreakBlock(world, position, true, player)) {
-            block.onBroken(world, position, blockState)
+          // Mimic the behavior of ServerPlayerInteractionManager.tryBreakBlock.
+          // Permission check first: (isSpawnProtected, or ClaimKit)
+          if (canBreakBlock(world, position, false, player) && block !is OperatorBlock) {
+            // Don't do the drops in tryBreakBlock, as onBreak might try to do them itself. For the other cases, call
+            // dropStacks after.
+            block.onBreak(world, position, blockState, player)
+
+            val broken = tryBreakBlock(world, position, false, player)
+            if (broken) {
+              block.onBroken(world, position, blockState)
+
+              // ServerPlayerInteractionManager only calls dropStacks if the user is not in creative mode. This results
+              // in interesting behavior, such as shulker boxes calling dropStacks in onBreak for creative mode, and in
+              // getDroppedStacks for survival mode. Since that behavior checks `player`, we need to do it here too.
+              // Note that this results in most normal blocks not dropping if a creative player fires a laser. Blocks
+              // with special behavior in onBreak (shulkers, computers, chest contents) will still drop.
+              if (!player.isCreative) {
+                // ServerPlayerInteractionManager calls dropStacks via afterBreak, but we don't want to increment
+                // exhaustion, so call dropStacks directly instead.
+                Block.dropStacks(blockState, world, position, world.getBlockEntity(position), player, ItemStack.EMPTY)
+              }
+            }
           }
         } else {
           potency = -1f
@@ -376,6 +399,11 @@ class LaserEntity : Entity, IPlayerOwnable {
   }
 
   private fun canBreakBlock(world: World, pos: BlockPos, drop: Boolean, player: PlayerEntity): Boolean {
+    // Injection point for ClaimKit
+    return world.canPlayerModifyAt(player, pos)
+  }
+
+  private fun tryBreakBlock(world: World, pos: BlockPos, drop: Boolean, player: PlayerEntity): Boolean {
     // Injection point for ClaimKit
     return world.breakBlock(pos, drop, player)
   }
