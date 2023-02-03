@@ -4,8 +4,8 @@ import com.mojang.authlib.GameProfile;
 import dan200.computercraft.api.turtle.ITurtleAccess;
 import dan200.computercraft.shared.turtle.TurtleUtil;
 import dan200.computercraft.shared.util.DirectionUtil;
-import dan200.computercraft.shared.util.InventoryUtil;
-import dan200.computercraft.shared.util.WorldUtil;
+import io.sc3.plethora.api.IPlayerOwnable;
+import io.sc3.plethora.gameplay.PlethoraFakePlayer;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -14,8 +14,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import io.sc3.plethora.api.IPlayerOwnable;
-import io.sc3.plethora.gameplay.PlethoraFakePlayer;
 
 import java.util.WeakHashMap;
 
@@ -96,11 +94,11 @@ public class TurtleFakePlayerProvider {
         }
 
         for (int i = size; i < largerSize; i++) {
-          TurtleUtil.storeItemOrDrop(turtle, playerInv.getStack(i));
-
+            TurtleUtil.storeItemOrDrop(turtle, playerInv.getStack(i));
             playerInv.setStack(i, ItemStack.EMPTY);
         }
 
         playerInv.markDirty();
+        turtleInv.markDirty();
     }
 }
