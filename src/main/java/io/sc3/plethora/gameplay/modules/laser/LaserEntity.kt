@@ -302,6 +302,10 @@ class LaserEntity : Entity, IPlayerOwnable {
           // Mimic the behavior of ServerPlayerInteractionManager.tryBreakBlock.
           // Permission check first: (isSpawnProtected, or ClaimKit)
           if (canBreakBlock(world, position, false, player) && block !is OperatorBlock) {
+            // Get the block entity before breaking the block, as we need it in dropStacks before it's removed from the
+            // world.
+            val blockEntity = world.getBlockEntity(position)
+
             // Don't do the drops in tryBreakBlock, as onBreak might try to do them itself. For the other cases, call
             // dropStacks after.
             block.onBreak(world, position, blockState, player)
@@ -318,7 +322,7 @@ class LaserEntity : Entity, IPlayerOwnable {
               if (!player.isCreative) {
                 // ServerPlayerInteractionManager calls dropStacks via afterBreak, but we don't want to increment
                 // exhaustion, so call dropStacks directly instead.
-                Block.dropStacks(blockState, world, position, world.getBlockEntity(position), player, ItemStack.EMPTY)
+                Block.dropStacks(blockState, world, position, blockEntity, player, ItemStack.EMPTY)
               }
             }
           }
