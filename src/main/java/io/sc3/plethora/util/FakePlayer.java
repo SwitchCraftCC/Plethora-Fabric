@@ -9,7 +9,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.message.MessageType;
 import net.minecraft.network.message.SentMessage;
 import net.minecraft.recipe.Recipe;
@@ -74,7 +74,7 @@ public abstract class FakePlayer extends ServerPlayerEntity {
     @Override
     public void closeHandledScreen() {}
     @Override
-    public void closeScreenHandler() {}
+    public void onHandledScreenClosed() {}
     @Override
     public int unlockRecipes(Collection<Recipe<?>> recipes) { return 0;}
     @Override

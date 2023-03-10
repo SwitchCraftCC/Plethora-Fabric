@@ -2,6 +2,14 @@ package io.sc3.plethora.gameplay.modules.glasses.objects.object2d
 
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
+import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasClient
+import io.sc3.plethora.gameplay.modules.glasses.objects.BaseObject
+import io.sc3.plethora.gameplay.modules.glasses.objects.ItemObject
+import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectRegistry.ITEM_2D
+import io.sc3.plethora.gameplay.modules.glasses.objects.Scalable
+import io.sc3.plethora.util.ByteBufUtils
+import io.sc3.plethora.util.DirtyingProperty
+import io.sc3.plethora.util.Vec2d
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
@@ -12,14 +20,6 @@ import net.minecraft.item.Items
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.registry.Registries
 import net.minecraft.util.Identifier
-import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasClient
-import io.sc3.plethora.gameplay.modules.glasses.objects.BaseObject
-import io.sc3.plethora.gameplay.modules.glasses.objects.ItemObject
-import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectRegistry.ITEM_2D
-import io.sc3.plethora.gameplay.modules.glasses.objects.Scalable
-import io.sc3.plethora.util.ByteBufUtils
-import io.sc3.plethora.util.DirtyingProperty
-import io.sc3.plethora.util.Vec2d
 
 class Item2d(
   id: Int,
@@ -59,7 +59,6 @@ class Item2d(
 
     // RenderSystem.enableRescaleNormal();
     // RenderSystem.enableAlpha();
-    RenderSystem.enableTexture()
     RenderSystem.enableDepthTest()
     RenderSystem.enableBlend()
     RenderSystem.blendFuncSeparate(
@@ -77,9 +76,10 @@ class Item2d(
     renderStack.multiplyPositionMatrix(matrices.peek().positionMatrix)
     RenderSystem.applyModelViewMatrix()
 
-    itemRenderer.zOffset = 200.0f
-    itemRenderer.renderInGuiWithOverrides(player, stack, 0, 0, 0)
-    itemRenderer.zOffset = 0f
+    matrices.push()
+    matrices.translate(0.0f, 0.0f, 200.0f)
+    itemRenderer.renderInGuiWithOverrides(matrices, stack, 0, 0)
+    matrices.pop()
 
     renderStack.pop()
     RenderSystem.applyModelViewMatrix()

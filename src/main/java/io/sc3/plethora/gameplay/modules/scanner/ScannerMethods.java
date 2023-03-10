@@ -52,7 +52,7 @@ public class ScannerMethods {
         for (int oX = x - radius; oX <= x + radius; oX++) {
             for (int oY = y - radius; oY <= y + radius; oY++) {
                 for (int oZ = z - radius; oZ <= z + radius; oZ++) {
-                    BlockPos subPos = new BlockPos(oX, oY, oZ);
+                    BlockPos subPos = BlockPos.ofFloored(oX, oY, oZ);
                     BlockState block = world.getBlockState(subPos);
 
                     HashMap<String, Object> data = new HashMap<>(6);

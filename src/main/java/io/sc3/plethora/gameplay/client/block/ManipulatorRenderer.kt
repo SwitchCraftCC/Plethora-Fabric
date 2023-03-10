@@ -1,16 +1,16 @@
 package io.sc3.plethora.gameplay.client.block
 
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.render.block.entity.BlockEntityRenderer
-import net.minecraft.client.render.model.json.ModelTransformation.Mode
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.util.math.Direction
-import net.minecraft.util.math.RotationAxis
 import io.sc3.plethora.api.module.IModuleHandler
 import io.sc3.plethora.gameplay.manipulator.ManipulatorBlock
 import io.sc3.plethora.gameplay.manipulator.ManipulatorBlockEntity
 import io.sc3.plethora.util.MatrixHelpers
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.block.entity.BlockEntityRenderer
+import net.minecraft.client.render.model.json.ModelTransformationMode
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.util.math.Direction
+import net.minecraft.util.math.RotationAxis
 
 class ManipulatorRenderer : BlockEntityRenderer<ManipulatorBlockEntity> {
   private val mc by lazy { MinecraftClient.getInstance() }
@@ -56,7 +56,8 @@ class ManipulatorRenderer : BlockEntityRenderer<ManipulatorBlockEntity> {
       matrices.translate(0.0, -0.2, 0.0) // ItemRenderer already translates by -0.5f, -0.5f, -0.5f
 
       // Be sure to use the NONE mode here, GROUND and other modes imply a default translation and scale
-      itemRenderer.renderItem(stack, Mode.NONE, false, matrices, vertexConsumers, light, overlay, model)
+      itemRenderer.renderItem(stack, ModelTransformationMode.NONE, false, matrices, vertexConsumers, light,
+        overlay, model)
 
       matrices.pop()
     }

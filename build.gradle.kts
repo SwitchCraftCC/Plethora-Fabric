@@ -50,6 +50,12 @@ tasks.withType<KotlinCompile>().configureEach {
 }
 
 repositories {
+  mavenLocal {
+    content {
+      includeModule("io.sc3", "sc-library")
+    }
+  }
+
   maven {
     url = uri("https://repo.lem.sh/releases")
     content {

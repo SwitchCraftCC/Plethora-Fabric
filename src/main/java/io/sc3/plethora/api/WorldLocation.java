@@ -31,7 +31,7 @@ public final class WorldLocation implements ConstantReference<IWorldLocation>, I
         Objects.requireNonNull(pos, "pos cannot be null");
 
         this.world = world;
-        this.pos = new BlockPos(pos.x, pos.y + 0.5, pos.z);
+        this.pos = BlockPos.ofFloored(pos.x, pos.y + 0.5, pos.z);
         loc = pos;
     }
 

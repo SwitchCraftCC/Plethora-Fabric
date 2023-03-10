@@ -54,12 +54,12 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.damage.DamageType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
+import net.minecraft.registry.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
@@ -93,6 +93,7 @@ public final class Registration {
       ModScreens.NEURAL_INTERFACE_HANDLER_TYPE,
       ModTurtleUpgradeSerialisers.MODULE,
       ModPocketUpgradeSerialisers.MODULE,
+      ModDamageSources.LASER,
     };
     log.trace("oh no:" + (o[0] != null ? "yes" : "NullPointerException")); // lig was here
 
@@ -142,6 +143,10 @@ public final class Registration {
     RecipeHandlers.registerSerializers();
   }
 
+  public static void bootstrapDamageTypes(Registerable<DamageType> damageTypeRegisterable) {
+    damageTypeRegisterable.register(ModDamageSources.LASER, new DamageType("plethora.laser", 0.1f));
+  }
+
   public static final class ModItems {
     public static final NeuralConnectorItem NEURAL_CONNECTOR =
       register("neural_connector", new NeuralConnectorItem(properties().maxCount(1)));
@@ -162,7 +167,7 @@ public final class Registration {
 
     public static final ItemGroup PLETHORA_ITEM_GROUP = FabricItemGroup.builder(new Identifier(Plethora.modId, "main"))
       .icon(() -> new ItemStack(NEURAL_CONNECTOR))
-      .entries((enabledFeatures, entries, operatorEnabled) -> items.forEach(entries::add))
+      .entries((enabledFeatures, entries) -> items.forEach(entries::add))
       .build();
 
     private static Item.Settings properties() {
@@ -276,5 +281,10 @@ public final class Registration {
         }
       })
     );
+  }
+
+  public static final class ModDamageSources {
+    public static final RegistryKey<DamageType> LASER = RegistryKey.of(RegistryKeys.DAMAGE_TYPE,
+      new Identifier(Plethora.modId, "laser"));
   }
 }

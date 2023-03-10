@@ -2,13 +2,17 @@ package io.sc3.plethora.util;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.embedded.EmbeddedChannel;
-import net.minecraft.network.*;
+import io.sc3.plethora.mixin.ClientConnectionAccessor;
+import net.minecraft.network.ClientConnection;
+import net.minecraft.network.NetworkSide;
+import net.minecraft.network.NetworkState;
+import net.minecraft.network.PacketCallbacks;
 import net.minecraft.network.listener.PacketListener;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.play.*;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
-import io.sc3.plethora.mixin.ClientConnectionAccessor;
 
 import javax.annotation.Nonnull;
 import javax.crypto.Cipher;

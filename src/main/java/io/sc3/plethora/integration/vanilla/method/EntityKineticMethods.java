@@ -2,16 +2,6 @@ package io.sc3.plethora.integration.vanilla.method;
 
 import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.LuaException;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Pair;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import io.sc3.plethora.api.method.ArgumentHelper;
 import io.sc3.plethora.api.method.FutureMethodResult;
 import io.sc3.plethora.api.method.IUnbakedContext;
@@ -22,6 +12,16 @@ import io.sc3.plethora.gameplay.modules.kinetic.KineticMethods;
 import io.sc3.plethora.gameplay.modules.kinetic.KineticMethods.KineticMethodContext;
 import io.sc3.plethora.integration.PlayerInteractionHelpers;
 import io.sc3.plethora.util.PlayerHelpers;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.network.packet.s2c.play.PositionFlag;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Pair;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 
 import javax.annotation.Nonnull;
 import java.util.EnumSet;
@@ -30,10 +30,10 @@ import static io.sc3.plethora.gameplay.registry.PlethoraModules.KINETIC_M;
 import static io.sc3.plethora.util.Helpers.normaliseAngle;
 
 public final class EntityKineticMethods {
-    private static final EnumSet<PlayerPositionLookS2CPacket.Flag> LOOK_FLAGS = EnumSet.of(
-        PlayerPositionLookS2CPacket.Flag.X,
-        PlayerPositionLookS2CPacket.Flag.Y,
-        PlayerPositionLookS2CPacket.Flag.Z
+    private static final EnumSet<PositionFlag> LOOK_FLAGS = EnumSet.of(
+        PositionFlag.X,
+        PositionFlag.Y,
+        PositionFlag.Z
     );
 
     public static final SubtargetedModuleMethod<LivingEntity> LOOK = SubtargetedModuleMethod.of(

@@ -1,5 +1,6 @@
 package io.sc3.plethora.gameplay.data.recipes
 
+import io.sc3.plethora.gameplay.modules.LevelableModuleItem
 import net.minecraft.inventory.CraftingInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
@@ -7,9 +8,9 @@ import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.Ingredient.ofItems
 import net.minecraft.recipe.ShapelessRecipe
 import net.minecraft.recipe.book.CraftingRecipeCategory
+import net.minecraft.registry.DynamicRegistryManager
 import net.minecraft.util.Identifier
 import net.minecraft.util.collection.DefaultedList
-import io.sc3.plethora.gameplay.modules.LevelableModuleItem
 
 abstract class LevelableModuleRecipe(
   id: Identifier,
@@ -23,7 +24,9 @@ abstract class LevelableModuleRecipe(
     ofItems(Items.NETHERITE_INGOT)
   )
 ) {
-  override fun craft(inv: CraftingInventory): ItemStack {
+  override fun craft(inv: CraftingInventory, manager: DynamicRegistryManager): ItemStack {
+    val output = getOutput(manager)
+
     for (i in 0 until inv.size()) {
       val stack: ItemStack = inv.getStack(i)
       if (stack.item !is LevelableModuleItem || stack.item !== output.item) {

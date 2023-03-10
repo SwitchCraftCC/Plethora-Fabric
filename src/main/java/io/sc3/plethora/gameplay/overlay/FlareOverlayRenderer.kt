@@ -28,7 +28,6 @@ open class FlareOverlayRenderer {
       RenderSystem.disableCull()
       RenderSystem.enableBlend()
       RenderSystem.blendFuncSeparate(SRC_ALPHA, ONE_MINUS_SRC_ALPHA, ONE, ZERO)
-      RenderSystem.enableTexture()
 
       matrices.push()
 

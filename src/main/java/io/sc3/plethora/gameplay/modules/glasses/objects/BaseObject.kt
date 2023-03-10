@@ -85,7 +85,6 @@ abstract class BaseObject(
     protected fun setupFlat() {
       RenderSystem.disableCull()
       RenderSystem.enableBlend()
-      RenderSystem.disableTexture()
       RenderSystem.setShader { GameRenderer.getPositionColorProgram() }
     }
   }

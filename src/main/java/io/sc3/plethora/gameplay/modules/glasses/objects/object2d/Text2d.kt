@@ -12,6 +12,7 @@ import io.sc3.plethora.util.Vec2d
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.font.TextRenderer.TextLayerType
 import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.Tessellator
 import net.minecraft.client.render.VertexConsumerProvider
@@ -59,7 +60,6 @@ class Text2d(
     if (alpha and 0xFC == 0) colour = colour or 0x4
 
     setupFlat()
-    RenderSystem.enableTexture()
 
     val textRenderer = MinecraftClient.getInstance().textRenderer
 
@@ -78,7 +78,7 @@ class Text2d(
         // We use 0xRRGGBBAA, but the font renderer expects 0xAARRGGBB, so we rotate the bits
         x = textRenderer.draw(
           tabSection, x.toFloat(), y.toFloat(), Integer.rotateRight(colour, 8), dropShadow, matrix, immediate,
-          false, 0, LightmapTextureManager.MAX_LIGHT_COORDINATE
+          TextLayerType.NORMAL, 0, LightmapTextureManager.MAX_LIGHT_COORDINATE
         )
 
         // Round the X coordinate to the next tab stop.

@@ -1,8 +1,11 @@
 package io.sc3.plethora.gameplay.data
 
 import io.sc3.plethora.gameplay.data.recipes.RecipeGenerator
+import io.sc3.plethora.gameplay.registry.Registration
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
+import net.minecraft.registry.RegistryBuilder
+import net.minecraft.registry.RegistryKeys
 import org.slf4j.LoggerFactory
 
 object PlethoraDatagen : DataGeneratorEntrypoint {
@@ -18,5 +21,9 @@ object PlethoraDatagen : DataGeneratorEntrypoint {
     pack.addProvider(::BlockLootTableProvider)
     pack.addProvider(::BlockTagProvider)
     pack.addProvider { out, _ -> RecipeGenerator(out, turtleUpgrades, pocketUpgrades) }
+  }
+
+  override fun buildRegistry(registryBuilder: RegistryBuilder) {
+    registryBuilder.addRegistry(RegistryKeys.DAMAGE_TYPE, Registration::bootstrapDamageTypes)
   }
 }

@@ -28,6 +28,7 @@ class NeuralInterfaceRecipe(
   result: ItemStack,
 ) : ComputerConvertRecipe(id, group, category, width, height, ingredients, result) {
   override fun convert(item: IComputerItem, old: ItemStack): ItemStack {
+    val output = getOutput(null) // TODO(1.19.4)
     val result = ItemStack(output.item)
     val id = item.getComputerID(old)
     val label = item.getLabel(old)

@@ -7,6 +7,7 @@ import io.sc3.plethora.api.IPlayerOwnable
 import io.sc3.plethora.gameplay.PlethoraFakePlayer
 import io.sc3.plethora.gameplay.registry.Packets.SPAWN_PACKET_ID
 import io.sc3.plethora.gameplay.registry.Registration
+import io.sc3.plethora.gameplay.registry.Registration.ModDamageSources
 import io.sc3.plethora.mixin.TntBlockInvoker
 import io.sc3.plethora.util.EntitySpawnPacket
 import io.sc3.plethora.util.PlayerHelpers
@@ -21,13 +22,12 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
-import net.minecraft.entity.damage.EntityDamageSource
-import net.minecraft.entity.damage.ProjectileDamageSource
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.network.Packet
 import net.minecraft.network.listener.ClientPlayPacketListener
+import net.minecraft.network.packet.Packet
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents.ITEM_FLINTANDSTEEL_USE
@@ -226,7 +226,7 @@ class LaserEntity : Entity, IPlayerOwnable {
 
         // Handle collision
         if (collision != null && collision.type != HitResult.Type.MISS) {
-          val blockPos = BlockPos(collision.pos)
+          val blockPos = BlockPos.ofFloored(collision.pos)
           if (collision.type == HitResult.Type.BLOCK && world.getBlockState(blockPos).isOf(Blocks.NETHER_PORTAL)) {
             setInNetherPortal(blockPos)
           } else {
@@ -253,7 +253,7 @@ class LaserEntity : Entity, IPlayerOwnable {
     if (hitResult.type == HitResult.Type.BLOCK) {
       if (hitResult !is BlockHitResult) return
 
-      val position = BlockPos(hitResult.getPos())
+      val position = BlockPos.ofFloored(hitResult.getPos())
       val blockState = world.getBlockState(position)
       val block = blockState.block
 
@@ -339,12 +339,8 @@ class LaserEntity : Entity, IPlayerOwnable {
         syncPositions(true)
 
         val shooter = getShooter()
-        val source: DamageSource = if (shooter == null) {
-          EntityDamageSource("plethora.laser", this)
-        } else {
-          ProjectileDamageSource("plethora.laser", this, shooter)
-        }
-        source.setProjectile()
+        val damageType = world.registryManager.get(RegistryKeys.DAMAGE_TYPE).entryOf(ModDamageSources.LASER)
+        val source = DamageSource(damageType, this, shooter)
 
         entity.setFireTicks(5)
         entity.damage(source, (potency * config.laser.damage).toFloat())

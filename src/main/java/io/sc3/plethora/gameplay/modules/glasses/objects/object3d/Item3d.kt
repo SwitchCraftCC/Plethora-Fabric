@@ -13,7 +13,7 @@ import net.minecraft.client.render.LightmapTextureManager.MAX_LIGHT_COORDINATE
 import net.minecraft.client.render.OverlayTexture.DEFAULT_UV
 import net.minecraft.client.render.Tessellator
 import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.render.model.json.ModelTransformation.Mode
+import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
@@ -67,8 +67,6 @@ class Item3d(
     val buffer = Tessellator.getInstance().buffer
     val immediate = VertexConsumerProvider.immediate(buffer)
 
-    RenderSystem.enableTexture()
-
     if (hasDepthTest) {
       RenderSystem.enableDepthTest()
     } else {
@@ -76,7 +74,8 @@ class Item3d(
     }
 
     val stack = stack ?: ItemStack(item).also { stack = it }
-    itemRenderer.renderItem(stack, Mode.NONE, MAX_LIGHT_COORDINATE, DEFAULT_UV, matrices, immediate, 0)
+    itemRenderer.renderItem(stack, ModelTransformationMode.NONE, MAX_LIGHT_COORDINATE, DEFAULT_UV, matrices,
+      immediate, mc.world, 0)
 
     immediate.draw()
 

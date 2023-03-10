@@ -50,8 +50,8 @@ class NeuralInterfaceScreenHandler private constructor(
   private fun addSlots(inv: Inventory, offset: Int, length: Int): List<Slot> =
     (0 until length).map { NeuralSlot(inv, offset + it, 0, 0) }.onEach(::addSlot)
 
-  override fun close(player: PlayerEntity) {
-    super.close(player)
+  override fun onClosed(player: PlayerEntity) {
+    super.onClosed(player)
     // Ensure the inventory is saved
     neuralInv.onClose(player)
   }

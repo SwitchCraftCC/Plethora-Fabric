@@ -30,7 +30,7 @@ public class EntityWorldLocation implements ConstantReference<IWorldLocation>, I
     @Override
     public BlockPos getPos() {
         Vec3d eyePos = entity.getEyePos();
-        return new BlockPos(eyePos.x, eyePos.y, eyePos.z);
+        return BlockPos.ofFloored(eyePos.x, eyePos.y, eyePos.z);
     }
 
     @Nonnull
