@@ -37,6 +37,11 @@ val cardinalComponentsVersion: String by project
 
 val scLibraryVersion: String by project
 
+// ===========================
+// Third party mod integration
+// ===========================
+val scPeripheralsVersion: String by project
+
 val archivesBaseName = "plethora"
 version = modVersion
 group = mavenGroup
@@ -112,6 +117,12 @@ dependencies {
 
   modImplementation(include("dev.onyxstudios.cardinal-components-api", "cardinal-components-base", cardinalComponentsVersion))
   modImplementation(include("dev.onyxstudios.cardinal-components-api", "cardinal-components-entity", cardinalComponentsVersion))
+
+  // ===========================
+  // Third party mod integration
+  // ===========================
+  // sc-peripherals
+  modApi("io.sc3:sc-peripherals:${scPeripheralsVersion}")
 }
 
 tasks {
