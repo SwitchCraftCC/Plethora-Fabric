@@ -36,6 +36,7 @@ import io.sc3.plethora.gameplay.neural.NeuralInterfaceScreenHandler;
 import io.sc3.plethora.gameplay.redstone.RedstoneIntegratorBlock;
 import io.sc3.plethora.gameplay.redstone.RedstoneIntegratorBlockEntity;
 import io.sc3.plethora.gameplay.redstone.RedstoneIntegratorTicker;
+import io.sc3.plethora.integration.InternalIntegration;
 import io.sc3.plethora.integration.computercraft.registry.ComputerCraftMetaRegistration;
 import io.sc3.plethora.integration.computercraft.registry.ComputerCraftMethodRegistration;
 import io.sc3.plethora.integration.vanilla.registry.VanillaConverterRegistration;
@@ -118,6 +119,9 @@ public final class Registration {
       ComputerCraftMethodRegistration.registerMethods(api.methodRegistry());
 
       VanillaDetailRegistries.ITEM_STACK.addProvider(ItemDetailsProvider.INSTANCE);
+
+      // Other integration registration
+      InternalIntegration.Companion.init(api);
 
       // Manipulator peripheral
       PeripheralLookup.get().registerForBlockEntity(ManipulatorPeripheral::getPeripheral, ModBlockEntities.MANIPULATOR_MARK_1);
