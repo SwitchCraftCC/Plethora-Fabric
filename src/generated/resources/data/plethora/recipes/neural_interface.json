@@ -25,5 +25,6 @@
   ],
   "result": {
     "item": "plethora:neural_interface"
-  }
+  },
+  "show_notification": true
 }

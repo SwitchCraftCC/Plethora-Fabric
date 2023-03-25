@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "plethora:module_introspection"
-  }
+  },
+  "show_notification": true
 }

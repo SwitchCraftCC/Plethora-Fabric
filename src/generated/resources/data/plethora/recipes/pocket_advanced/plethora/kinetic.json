@@ -16,5 +16,6 @@
   "result": {
     "item": "computercraft:pocket_computer_advanced",
     "nbt": "{Upgrade:\"plethora:kinetic\"}"
-  }
+  },
+  "show_notification": true
 }

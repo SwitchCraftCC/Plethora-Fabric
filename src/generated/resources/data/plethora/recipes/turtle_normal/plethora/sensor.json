@@ -16,5 +16,6 @@
   "result": {
     "item": "computercraft:turtle_normal",
     "nbt": "{RightUpgrade:\"plethora:sensor\"}"
-  }
+  },
+  "show_notification": true
 }

@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "plethora:redstone_integrator"
-  }
+  },
+  "show_notification": true
 }

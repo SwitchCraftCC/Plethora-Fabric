@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "plethora:module_scanner"
-  }
+  },
+  "show_notification": true
 }

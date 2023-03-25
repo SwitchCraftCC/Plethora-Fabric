@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "plethora:module_keyboard"
-  }
+  },
+  "show_notification": true
 }

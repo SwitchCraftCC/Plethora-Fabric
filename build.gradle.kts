@@ -58,6 +58,7 @@ repositories {
   mavenLocal {
     content {
       includeModule("io.sc3", "sc-library")
+      includeModule("io.sc3", "sc-peripherals")
     }
   }
 
@@ -78,13 +79,6 @@ repositories {
   maven("https://maven.terraformersmc.com/releases") // Mod Menu
   maven("https://maven.terraformersmc.com/") // Trinkets
   maven("https://ladysnake.jfrog.io/artifactory/mods") // Trinkets
-
-  // forgeconfigapiport-fabric, dependency of CC: Tweaked
-  maven("https://raw.githubusercontent.com/Fuzss/modresources/main/maven/") {
-    content {
-      includeModule("fuzs.forgeconfigapiport", "forgeconfigapiport-fabric")
-    }
-  }
 }
 
 dependencies {
@@ -101,6 +95,7 @@ dependencies {
   // CC: Restitched
   modApi("cc.tweaked:cc-tweaked-$ccMcVersion-fabric:$ccVersion") {
     exclude("net.fabricmc.fabric-api", "fabric-gametest-api-v1")
+    exclude("fuzs.forgeconfigapiport", "forgeconfigapiport-fabric")
   }
 
   modImplementation("dev.emi:trinkets:${trinketsVersion}")
@@ -128,7 +123,7 @@ dependencies {
   // Third party mod integration
   // ===========================
   // sc-peripherals
-  modApi("io.sc3:sc-peripherals:${scPeripheralsVersion}")
+  modCompileOnly("io.sc3:sc-peripherals:${scPeripheralsVersion}")
 }
 
 tasks {

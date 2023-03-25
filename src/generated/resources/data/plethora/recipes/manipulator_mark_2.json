@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "plethora:manipulator_mark_2"
-  }
+  },
+  "show_notification": true
 }

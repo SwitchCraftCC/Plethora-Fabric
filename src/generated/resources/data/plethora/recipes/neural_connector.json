@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "plethora:neural_connector"
-  }
+  },
+  "show_notification": true
 }

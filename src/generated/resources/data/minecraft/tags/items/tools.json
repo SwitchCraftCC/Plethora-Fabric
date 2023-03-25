@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "plethora:module_laser",
+    "plethora:module_kinetic"
+  ]
+}

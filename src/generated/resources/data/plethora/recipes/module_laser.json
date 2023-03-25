@@ -34,5 +34,6 @@
   ],
   "result": {
     "item": "plethora:module_laser"
-  }
+  },
+  "show_notification": true
 }

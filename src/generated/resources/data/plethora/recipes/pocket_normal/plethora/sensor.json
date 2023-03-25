@@ -16,5 +16,6 @@
   "result": {
     "item": "computercraft:pocket_computer_normal",
     "nbt": "{Upgrade:\"plethora:sensor\"}"
-  }
+  },
+  "show_notification": true
 }

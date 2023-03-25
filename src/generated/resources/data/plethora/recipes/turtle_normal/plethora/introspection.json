@@ -16,5 +16,6 @@
   "result": {
     "item": "computercraft:turtle_normal",
     "nbt": "{RightUpgrade:\"plethora:introspection\"}"
-  }
+  },
+  "show_notification": true
 }
