@@ -10,6 +10,7 @@ import net.minecraft.block.Block
 import net.minecraft.block.entity.SignBlockEntity
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
+import java.nio.charset.StandardCharsets
 
 object SignGenericPeripheral : GenericPeripheral {
   override fun id() = Identifier("sign").toString()
@@ -23,7 +24,7 @@ object SignGenericPeripheral : GenericPeripheral {
   @JvmStatic
   fun setSignText(sign: SignBlockEntity, args: IArguments) {
     val lines = (0 until 4).map {
-      val line = args.optString(it, "") ?: ""
+      val line = args.optUtf8String(it) ?: ""
       // This may seem rather large, but it is possible to get quite large when using very narrow letters.
       if (line.length > 384) {
         throw LuaException("Expected length <= 384 for argument (${it + 1}), got ${line.length}")
@@ -40,5 +41,10 @@ object SignGenericPeripheral : GenericPeripheral {
     val pos = sign.pos
     val state = world.getBlockState(pos)
     world.updateListeners(pos, state, state, Block.NOTIFY_ALL)
+  }
+
+  private fun IArguments.optUtf8String(index: Int): String? {
+    val buf = optBytes(index).orElse(null) ?: return null
+    return StandardCharsets.UTF_8.decode(buf).toString()
   }
 }
