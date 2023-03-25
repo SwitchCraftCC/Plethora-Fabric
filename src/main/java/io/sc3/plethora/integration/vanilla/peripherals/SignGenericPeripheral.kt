@@ -25,7 +25,10 @@ object SignGenericPeripheral : GenericPeripheral {
     val lines = (0 until 4).map {
       val line = args.optString(it, "") ?: ""
       // This may seem rather large, but it is possible to get quite large when using very narrow letters.
-      if (line.length > 64) throw LuaException("Expected length <= 64 for argument (${it + 1}), got ${line.length}")
+      if (line.length > 384) {
+        throw LuaException("Expected length <= 384 for argument (${it + 1}), got ${line.length}")
+      }
+
       Text.of(line)
     }
 
