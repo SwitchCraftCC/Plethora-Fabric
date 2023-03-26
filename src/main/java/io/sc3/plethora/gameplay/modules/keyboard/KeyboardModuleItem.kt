@@ -4,6 +4,7 @@ import dan200.computercraft.shared.computer.blocks.AbstractComputerBlockEntity
 import dan200.computercraft.shared.computer.blocks.CommandComputerBlockEntity
 import dan200.computercraft.shared.network.container.ComputerContainerData
 import dan200.computercraft.shared.platform.PlatformHelper
+import io.sc3.library.ext.event
 import io.sc3.plethora.api.method.IAttachable
 import io.sc3.plethora.api.method.IContextBuilder
 import io.sc3.plethora.api.module.IModuleAccess
@@ -91,6 +92,14 @@ class KeyboardModuleItem(settings: Settings) : ModuleItem("keyboard", settings) 
   }
 
   companion object {
+    @JvmField
+    val CAN_USE_KEYBOARD = event<(
+      world: ServerWorld,
+      player: PlayerEntity,
+      pos: BlockPos,
+      blockEntity: AbstractComputerBlockEntity
+    ) -> Boolean> { cb -> { world, player, pos, be -> cb.all{ it(world, player, pos, be) }}}
+
     @JvmStatic
     fun canUseKeyboard(world: ServerWorld, player: PlayerEntity, pos: BlockPos,
                        blockEntity: AbstractComputerBlockEntity): Boolean {
@@ -98,6 +107,7 @@ class KeyboardModuleItem(settings: Settings) : ModuleItem("keyboard", settings) 
       // isUsable: check the player is alive and is within range. Command computers also check that the player has
       //           permission to use the computer.
       return world.canPlayerModifyAt(player, pos) && isComputerUsableWithRange(player, blockEntity, REACH_RANGE)
+        && CAN_USE_KEYBOARD.invoker().invoke(world, player, pos, blockEntity)
     }
 
     @JvmStatic
