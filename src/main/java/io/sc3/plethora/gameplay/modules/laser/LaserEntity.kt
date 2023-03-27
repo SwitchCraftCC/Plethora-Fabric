@@ -5,11 +5,9 @@ import io.sc3.plethora.Plethora
 import io.sc3.plethora.Plethora.config
 import io.sc3.plethora.api.IPlayerOwnable
 import io.sc3.plethora.gameplay.PlethoraFakePlayer
-import io.sc3.plethora.gameplay.registry.Packets.SPAWN_PACKET_ID
 import io.sc3.plethora.gameplay.registry.Registration
 import io.sc3.plethora.gameplay.registry.Registration.ModDamageSources
 import io.sc3.plethora.mixin.TntBlockInvoker
-import io.sc3.plethora.util.EntitySpawnPacket
 import io.sc3.plethora.util.PlayerHelpers
 import io.sc3.plethora.util.WorldPosition
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents
@@ -25,8 +23,6 @@ import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.network.listener.ClientPlayPacketListener
-import net.minecraft.network.packet.Packet
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
@@ -96,9 +92,6 @@ class LaserEntity : Entity, IPlayerOwnable {
   override fun initDataTracker() {
     // TODO: ?
   }
-
-  override fun createSpawnPacket(): Packet<ClientPlayPacketListener> =
-    EntitySpawnPacket.create(this, SPAWN_PACKET_ID)
 
   fun shoot(vx: Double, vy: Double, vz: Double, velocity: Float, inaccuracy: Float) {
     val vec3d = Vec3d(vx, vy, vz)

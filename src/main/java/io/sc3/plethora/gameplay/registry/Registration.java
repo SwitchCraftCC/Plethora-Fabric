@@ -47,12 +47,14 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerBlockEntityEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.damage.DamageType;
@@ -79,10 +81,11 @@ public final class Registration {
   public static final EntityType<LaserEntity> LASER_ENTITY = Registry.register(
     Registries.ENTITY_TYPE,
     new Identifier(Plethora.modId, "laser"),
-    EntityType.Builder.<LaserEntity>create(LaserEntity::new, SpawnGroup.MISC)
-      .setDimensions(0.25F, 0.25F)
-      .maxTrackingRange(4).trackingTickInterval(10)
-      .build("laser")
+    FabricEntityTypeBuilder.<LaserEntity>create(SpawnGroup.MISC, LaserEntity::new)
+      .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
+      .trackRangeBlocks(4).trackedUpdateRate(10)
+      .forceTrackedVelocityUpdates(true)
+      .build()
   );
 
   public static void init() {
