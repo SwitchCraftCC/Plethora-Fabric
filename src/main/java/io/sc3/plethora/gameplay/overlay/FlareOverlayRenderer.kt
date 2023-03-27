@@ -5,6 +5,7 @@ import com.mojang.blaze3d.platform.GlStateManager.DstFactor.ZERO
 import com.mojang.blaze3d.platform.GlStateManager.SrcFactor.ONE
 import com.mojang.blaze3d.platform.GlStateManager.SrcFactor.SRC_ALPHA
 import com.mojang.blaze3d.systems.RenderSystem
+import io.sc3.plethora.Plethora.ModId
 import net.minecraft.client.render.BufferRenderer
 import net.minecraft.client.render.Camera
 import net.minecraft.client.render.GameRenderer
@@ -16,7 +17,6 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.RotationAxis
 import org.joml.Matrix4f
-import io.sc3.plethora.Plethora.ModId
 import java.awt.Color
 
 open class FlareOverlayRenderer {
@@ -40,6 +40,7 @@ open class FlareOverlayRenderer {
     fun uninitFlareRenderer(matrices: MatrixStack) {
       matrices.pop()
 
+      RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f)
       RenderSystem.defaultBlendFunc()
       RenderSystem.disableBlend()
       RenderSystem.enableDepthTest()
