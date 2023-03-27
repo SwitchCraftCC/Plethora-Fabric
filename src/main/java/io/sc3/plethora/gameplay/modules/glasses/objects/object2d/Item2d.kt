@@ -77,7 +77,7 @@ class Item2d(
     RenderSystem.applyModelViewMatrix()
 
     matrices.push()
-    matrices.translate(0.0f, 0.0f, 200.0f)
+    // matrices.translate(0.0f, 0.0f, 200.0f)
     itemRenderer.renderInGuiWithOverrides(matrices, stack, 0, 0)
     matrices.pop()
 
