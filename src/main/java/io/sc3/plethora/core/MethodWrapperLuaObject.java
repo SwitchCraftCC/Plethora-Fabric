@@ -27,13 +27,15 @@ public class MethodWrapperLuaObject<T> extends MethodWrapper implements TypedLua
 
 	@Override
 	public MethodResult callMethod(@Nonnull ILuaContext luaContext, int method, @Nonnull final IArguments args) throws LuaException {
+    args.escapes(); // https://github.com/cc-tweaked/CC-Tweaked/commit/8fe509ecb1a941d58a417a8da29e3de142a57328
+
 		UnbakedContext<?> context = getContext(method);
 		@SuppressWarnings("unchecked")
 		FutureMethodResult result = getMethod(method).call((IUnbakedContext) context, args);
 		return ObjectUtils.firstNonNull(context.getExecutor().execute(result, luaContext), MethodResult.of());
 
-//		RegisteredMethod<?> registeredMethod = getMethod(method);
-//		return luaContext.executeMainThreadTask(() -> registeredMethod.call((IUnbakedContext) context, args)
-//			.getResult());
+		// RegisteredMethod<?> registeredMethod = getMethod(method);
+		// return luaContext.executeMainThreadTask(() -> registeredMethod.call((IUnbakedContext) context, args)
+		// 	.getResult());
 	}
 }

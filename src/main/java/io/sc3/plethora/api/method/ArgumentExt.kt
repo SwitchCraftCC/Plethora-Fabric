@@ -2,12 +2,12 @@ package io.sc3.plethora.api.method
 
 import dan200.computercraft.api.lua.IArguments
 import dan200.computercraft.api.lua.LuaValues.badArgumentOf
-import net.minecraft.util.math.Vec3d
 import io.sc3.plethora.gameplay.modules.glasses.GlassesArgumentHelper
 import io.sc3.plethora.util.Vec2d
+import net.minecraft.util.math.Vec3d
 
 fun IArguments.getVec2d(startIndex: Int = 0): Vec2d =
-  getVec2dNullable(startIndex) ?: throw badArgumentOf(startIndex, "number", get(startIndex))
+  getVec2dNullable(startIndex) ?: throw badArgumentOf(this, startIndex, "number")
 
 fun IArguments.getVec2dNullable(startIndex: Int = 0): Vec2d? =
   if (count() < startIndex || count() == startIndex && this[0] == null) {
@@ -27,7 +27,7 @@ fun IArguments.getVec3dNullable(startIndex: Int = 0): Vec3d? =
   }
 
 fun IArguments.getVec3d(startIndex: Int = 0): Vec3d =
-  getVec3dNullable(startIndex) ?: throw badArgumentOf(startIndex, "number", get(startIndex))
+  getVec3dNullable(startIndex) ?: throw badArgumentOf(this, startIndex, "number")
 
 fun IArguments.getVec3dTable(index: Int = 0): Vec3d =
   GlassesArgumentHelper.getVec3dTable(getTable(index))
