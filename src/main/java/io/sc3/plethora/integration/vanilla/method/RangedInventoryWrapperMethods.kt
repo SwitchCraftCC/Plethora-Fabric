@@ -1,6 +1,7 @@
 package io.sc3.plethora.integration.vanilla.method
 
 import dan200.computercraft.api.lua.IArguments
+import dan200.computercraft.api.lua.LuaException
 import dan200.computercraft.shared.util.ArgumentHelpers
 import io.sc3.plethora.api.IWorldLocation
 import io.sc3.plethora.api.method.*
@@ -72,7 +73,7 @@ object RangedInventoryWrapperMethods {
         "backward" -> player.horizontalFacing.opposite
         null -> null
         else -> Direction.byName(direction)
-          ?: throw IllegalArgumentException("Invalid direction: $direction")
+          ?: throw LuaException("Invalid direction: $direction")
       }
 
       // Drop the item
@@ -103,11 +104,12 @@ object RangedInventoryWrapperMethods {
   )
   private fun IUnbakedContext<RangedInventoryWrapper<PlayerEntity>>.getInventory(): InventoryData {
     val context = bake()
-    require(context.modules.hasModule(INTROSPECTION_M)) { "No Introspection module installed" }
+    if (!context.modules.hasModule(INTROSPECTION_M))
+      throw LuaException("No Introspection module installed")
 
     val inventory = context.target
     val player = fromContext(context, PlayerEntity::class.java) ?:
-      throw IllegalArgumentException("No player associated with inventory")
+      throw LuaException("No player associated with inventory")
 
     return InventoryData(context, inventory, player)
   }
