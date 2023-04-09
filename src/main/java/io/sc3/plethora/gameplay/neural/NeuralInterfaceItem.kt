@@ -9,6 +9,10 @@ import dan200.computercraft.shared.computer.items.IComputerItem
 import dan200.computercraft.shared.config.Config.computerSpaceLimit
 import dev.emi.trinkets.api.SlotReference
 import dev.emi.trinkets.api.TrinketItem
+import io.sc3.library.Tooltips.addDescLines
+import io.sc3.plethora.Plethora.modId
+import io.sc3.plethora.gameplay.neural.NeuralComputerHandler.COMPUTER_ID
+import io.sc3.plethora.gameplay.neural.NeuralComputerHandler.DIRTY
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.LivingEntity
 import net.minecraft.item.ItemStack
@@ -17,10 +21,6 @@ import net.minecraft.text.Text
 import net.minecraft.text.Text.translatable
 import net.minecraft.util.Formatting.GRAY
 import net.minecraft.world.World
-import io.sc3.library.Tooltips.addDescLines
-import io.sc3.plethora.Plethora.modId
-import io.sc3.plethora.gameplay.neural.NeuralComputerHandler.COMPUTER_ID
-import io.sc3.plethora.gameplay.neural.NeuralComputerHandler.DIRTY
 import javax.annotation.Nonnull
 
 class NeuralInterfaceItem(settings: Settings?) : TrinketItem(settings), IComputerItem, IMedia {

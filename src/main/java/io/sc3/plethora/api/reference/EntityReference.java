@@ -29,9 +29,9 @@ public class EntityReference<T extends Entity> implements ConstantReference<T> {
 	public T get() throws LuaException {
 		T entity = this.entity.get();
 
-		if (entity == null || entity.isRemoved() || entity.getEntityWorld().getEntityById(entity.getId()) != entity) {
+		if (entity == null || !entity.isAlive() || entity.getEntityWorld().getEntityById(entity.getId()) != entity) {
 			entity = (T) EntityHelpers.getEntityFromUuid(server, id);
-			if (entity == null || entity.isRemoved()) throw new LuaException("The entity is no longer there");
+			if (entity == null || !entity.isAlive()) throw new LuaException("The entity is no longer there");
 
 			this.entity = new WeakReference<>(entity);
 		}
@@ -43,7 +43,7 @@ public class EntityReference<T extends Entity> implements ConstantReference<T> {
 	@Override
 	public T safeGet() throws LuaException {
 		T value = entity.get();
-		if (value == null || value.isRemoved()) throw new LuaException("The entity is no longer there");
+		if (value == null || !value.isAlive()) throw new LuaException("The entity is no longer there");
 
 		return value;
 	}
