@@ -4,6 +4,7 @@ import com.mojang.authlib.GameProfile
 import io.sc3.plethora.Plethora
 import io.sc3.plethora.Plethora.config
 import io.sc3.plethora.api.IPlayerOwnable
+import io.sc3.plethora.gameplay.PlethoraBlockTags.LASER_DONT_DROP
 import io.sc3.plethora.gameplay.PlethoraFakePlayer
 import io.sc3.plethora.gameplay.registry.Registration
 import io.sc3.plethora.gameplay.registry.Registration.ModDamageSources
@@ -23,6 +24,7 @@ import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.registry.Registries
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
@@ -312,7 +314,7 @@ class LaserEntity : Entity, IPlayerOwnable {
               // getDroppedStacks for survival mode. Since that behavior checks `player`, we need to do it here too.
               // Note that this results in most normal blocks not dropping if a creative player fires a laser. Blocks
               // with special behavior in onBreak (shulkers, computers, chest contents) will still drop.
-              if (!player.isCreative) {
+              if (!player.isCreative && !Registries.BLOCK.getEntry(block).isIn(LASER_DONT_DROP)) {
                 // ServerPlayerInteractionManager calls dropStacks via afterBreak, but we don't want to increment
                 // exhaustion, so call dropStacks directly instead.
                 Block.dropStacks(blockState, world, position, blockEntity, player, ItemStack.EMPTY)
