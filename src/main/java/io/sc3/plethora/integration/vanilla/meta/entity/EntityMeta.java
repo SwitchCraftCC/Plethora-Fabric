@@ -1,5 +1,6 @@
 package io.sc3.plethora.integration.vanilla.meta.entity;
 
+import io.sc3.plethora.util.VelocityDeterminable;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
@@ -56,7 +57,7 @@ public class EntityMeta extends BaseMetaProvider<Entity> {
         result.put("name", EntityHelpers.getName(entity));
         result.put("displayName", entity.getName().getString());
 
-        Vec3d motion = entity.getVelocity();
+        Vec3d motion = ((VelocityDeterminable)entity).getMotion();
         result.put("motionX", motion.x);
         result.put("motionY", motion.y);
         result.put("motionZ", motion.z);
