@@ -9,8 +9,9 @@ import org.spongepowered.asm.mixin.Unique;
 @Mixin(Entity.class)
 public class EntityMixin implements VelocityDeterminable {
     @Unique
-    public Vec3d prevPos = Vec3d.ZERO;
-    public Vec3d motion = Vec3d.ZERO;
+    private Vec3d prevPos = Vec3d.ZERO;
+    @Unique
+    private Vec3d motion = Vec3d.ZERO;
 
     @Override
     public void storePrevPos() {
