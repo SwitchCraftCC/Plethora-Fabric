@@ -6,10 +6,12 @@
   "mixins": [
     "ClientConnectionAccessor",
     "EntityAccessor",
+    "EntityMixin",
     "LivingEntityMixin",
     "MeleeAttackGoalMixin",
     "ServerPlayerInteractionManagerAccessor",
     "ServerPlayNetworkHandlerAdapter",
+    "ServerWorldMixin",
     "SimpleInventoryAccessor",
     "TntBlockInvoker",
     "computercraft.AbstractComputerBlockEntityAccessor"
