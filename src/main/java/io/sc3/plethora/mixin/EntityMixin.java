@@ -36,6 +36,6 @@ public class EntityMixin implements VelocityDeterminable {
 
   @Override
   public Vec3d getMotion() {
-        return motion;
-    }
+    return motion;
+  }
 }

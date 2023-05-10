@@ -10,13 +10,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ServerWorld.class)
 public class ServerWorldMixin {
-    @Inject(at = @At("TAIL"), method = "tickEntity(Lnet/minecraft/entity/Entity;)V")
-    private void setPrevPos(Entity entity, CallbackInfo ci) {
-        ((VelocityDeterminable)entity).storePrevPos();
-    }
+  @Inject(at = @At("TAIL"), method = "tickEntity(Lnet/minecraft/entity/Entity;)V")
+  private void setPrevPos(Entity entity, CallbackInfo ci) {
+    ((VelocityDeterminable) entity).storePrevPos();
+  }
 
   @Inject(at = @At("TAIL"), method = "tickPassenger(Lnet/minecraft/entity/Entity;Lnet/minecraft/entity/Entity;)V")
   private void setPrevPosRiding(Entity vehicle, Entity passenger, CallbackInfo ci) {
-    ((VelocityDeterminable)passenger).storePrevPos();
+    ((VelocityDeterminable) passenger).storePrevPos();
   }
 }
