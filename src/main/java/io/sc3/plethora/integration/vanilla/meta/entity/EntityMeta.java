@@ -1,13 +1,13 @@
 package io.sc3.plethora.integration.vanilla.meta.entity;
 
-import io.sc3.plethora.util.VelocityDeterminable;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
 import io.sc3.plethora.api.IWorldLocation;
 import io.sc3.plethora.api.meta.BaseMetaProvider;
 import io.sc3.plethora.api.method.IPartialContext;
 import io.sc3.plethora.util.EntityHelpers;
+import io.sc3.plethora.util.VelocityDeterminable;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -57,10 +57,20 @@ public class EntityMeta extends BaseMetaProvider<Entity> {
         result.put("name", EntityHelpers.getName(entity));
         result.put("displayName", entity.getName().getString());
 
-        Vec3d motion = ((VelocityDeterminable)entity).getMotion();
+        // Server-side velocity. Only includes velocity that was initiated from the server, when the player is not on
+        // the ground. This will update immediately, but will not reflect all changes of the player's position.
+        Vec3d motion = entity.getVelocity();
         result.put("motionX", motion.x);
         result.put("motionY", motion.y);
         result.put("motionZ", motion.z);
+
+        // Client-side velocity. Includes velocity that was initiated from the client, such as when the player is
+        // moving around. This will NOT update immediately, and some changes may be delayed according to the player's
+        // network latency, as the client is responsible for updating the player's position.
+        Vec3d deltaPos = ((VelocityDeterminable) entity).getDeltaPos();
+        result.put("deltaPosX", deltaPos.x);
+        result.put("deltaPosY", deltaPos.y);
+        result.put("deltaPosZ", deltaPos.z);
 
         result.put("pitch", normaliseAngle(entity.getPitch()));
         result.put("yaw", normaliseAngle(entity.getYaw()));

@@ -13,7 +13,7 @@ public class EntityMixin implements VelocityDeterminable {
   @Unique
   private Vec3d prevPos = Vec3d.ZERO;
   @Unique
-  private Vec3d motion = Vec3d.ZERO;
+  private Vec3d deltaPos = Vec3d.ZERO;
   @Unique
   private RegistryKey<World> prevWorld;
 
@@ -26,16 +26,16 @@ public class EntityMixin implements VelocityDeterminable {
     // Avoid velocity spikes when changing dimensions
     if (prevWorld != world) {
       prevWorld = world;
-      motion = Vec3d.ZERO;
+      deltaPos = Vec3d.ZERO;
     } else {
-      motion = pos.subtract(prevPos);
+      deltaPos = pos.subtract(prevPos);
     }
 
     prevPos = pos;
   }
 
   @Override
-  public Vec3d getMotion() {
-    return motion;
+  public Vec3d getDeltaPos() {
+    return deltaPos;
   }
 }
