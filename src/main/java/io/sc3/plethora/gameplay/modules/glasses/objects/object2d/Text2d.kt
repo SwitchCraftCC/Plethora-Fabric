@@ -38,7 +38,7 @@ class Text2d(
     buf.writeFloat(scale)
     buf.writeBoolean(dropShadow)
     buf.writeShort(lineHeight.toInt())
-    buf.writeString(text)
+    buf.writeString(text.take(MAX_LENGTH))
   }
 
   override fun readInitial(buf: PacketByteBuf) {
@@ -113,6 +113,8 @@ class Text2d(
 
     private val SPLIT_PATTERN = Regex("\r\n|\n|\r")
     private val TAB_PATTERN = Regex("\t")
+
+    const val MAX_LENGTH = 512
 
     private fun splitText(text: String): List<List<String>> {
       val lines = SPLIT_PATTERN.split(text)

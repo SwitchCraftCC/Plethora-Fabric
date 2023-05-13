@@ -23,15 +23,14 @@ import io.sc3.plethora.gameplay.registry.Registration.ModScreens;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 
+import static io.sc3.library.networking.ScLibraryPacketKt.registerClientReceiver;
 import static io.sc3.plethora.Plethora.log;
-import static io.sc3.plethora.gameplay.registry.Packets.*;
 
 @Environment(EnvType.CLIENT)
 public class PlethoraClient implements ClientModInitializer {
@@ -53,10 +52,10 @@ public class PlethoraClient implements ClientModInitializer {
         HandledScreens.<AbstractComputerMenu, KeyboardComputerScreen<AbstractComputerMenu>>register(ModScreens.KEYBOARD_HANDLER_TYPE, KeyboardComputerScreen::new);
 
         // Custom packets
-        ClientPlayNetworking.registerGlobalReceiver(CANVAS_ADD_PACKET_ID, CanvasAddPacket::onReceive);
-        ClientPlayNetworking.registerGlobalReceiver(CANVAS_REMOVE_PACKET_ID, CanvasRemovePacket::onReceive);
-        ClientPlayNetworking.registerGlobalReceiver(CANVAS_UPDATE_PACKET_ID, CanvasUpdatePacket::onReceive);
-        ClientPlayNetworking.registerGlobalReceiver(KEYBOARD_LISTEN_PACKET_ID, KeyboardListenPacket::onReceive);
+        registerClientReceiver(CanvasAddPacket.id, CanvasAddPacket::fromBytes);
+        registerClientReceiver(CanvasRemovePacket.id, CanvasRemovePacket::fromBytes);
+        registerClientReceiver(CanvasUpdatePacket.id, CanvasUpdatePacket::fromBytes);
+        registerClientReceiver(KeyboardListenPacket.id, KeyboardListenPacket::fromBytes);
 
         // CC:R's ComputerScreenBase makes Screen.init() and other methods final (?!), so we have to call our own init
         // function using this event instead

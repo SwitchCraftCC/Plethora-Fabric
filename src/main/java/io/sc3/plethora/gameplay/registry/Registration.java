@@ -45,7 +45,6 @@ import io.sc3.plethora.integration.vanilla.registry.VanillaMethodRegistration;
 import io.sc3.plethora.integration.vanilla.registry.VanillaPeripheralRegistration;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerBlockEntityEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
@@ -71,8 +70,8 @@ import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import static io.sc3.library.networking.ScLibraryPacketKt.registerServerReceiver;
 import static io.sc3.plethora.Plethora.log;
-import static io.sc3.plethora.gameplay.registry.Packets.KEYBOARD_KEY_PACKET_ID;
 import static net.minecraft.registry.Registries.*;
 
 public final class Registration {
@@ -140,7 +139,7 @@ public final class Registration {
       if (blockEntity instanceof BaseBlockEntity base) base.onChunkUnloaded();
     });
 
-    ServerPlayNetworking.registerGlobalReceiver(KEYBOARD_KEY_PACKET_ID, KeyboardKeyPacket::onReceive);
+    registerServerReceiver(KeyboardKeyPacket.id, KeyboardKeyPacket::fromBytes);
 
     RedstoneIntegratorTicker.registerEvents();
     CanvasHandler.registerServerEvents();

@@ -1,11 +1,12 @@
 package io.sc3.plethora.gameplay.modules.glasses.canvas
 
 import com.mojang.blaze3d.systems.RenderSystem
+import io.sc3.plethora.Plethora
+import io.sc3.plethora.gameplay.modules.glasses.networking.CanvasAddPacket
+import io.sc3.plethora.gameplay.modules.glasses.networking.CanvasRemovePacket
+import io.sc3.plethora.gameplay.modules.glasses.networking.CanvasUpdatePacket
 import io.sc3.plethora.gameplay.neural.NeuralComputerHandler.MODULE_DATA
 import io.sc3.plethora.gameplay.neural.NeuralHelpers
-import io.sc3.plethora.gameplay.registry.Packets
-import io.sc3.plethora.gameplay.registry.Packets.CANVAS_ADD_PACKET_ID
-import io.sc3.plethora.gameplay.registry.Packets.CANVAS_REMOVE_PACKET_ID
 import io.sc3.plethora.gameplay.registry.PlethoraModules.GLASSES_S
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
@@ -40,14 +41,14 @@ object CanvasHandler {
   fun addServer(canvas: CanvasServer) {
     synchronized(server) {
       server.add(canvas)
-      ServerPlayNetworking.send(canvas.player, CANVAS_ADD_PACKET_ID, canvas.makeAddPacket().toBytes())
+      canvas.makeAddPacket()?.let { ServerPlayNetworking.send(canvas.player, CanvasAddPacket.id, it.toBytes()) }
     }
   }
 
   fun removeServer(canvas: CanvasServer) {
     synchronized(server) {
       server.remove(canvas)
-      ServerPlayNetworking.send(canvas.player, CANVAS_REMOVE_PACKET_ID, canvas.makeRemovePacket().toBytes())
+      canvas.makeRemovePacket()?.let { ServerPlayNetworking.send(canvas.player, CanvasRemovePacket.id, it.toBytes()) }
     }
   }
 
@@ -74,9 +75,12 @@ object CanvasHandler {
   fun update() {
     synchronized(server) {
       for (canvas in server) {
-        val packet = canvas.makeUpdatePacket()
-        if (packet != null) {
-          ServerPlayNetworking.send(canvas.player, Packets.CANVAS_UPDATE_PACKET_ID, packet.toBytes())
+        canvas.makeUpdatePacket()?.let {
+          try {
+            ServerPlayNetworking.send(canvas.player, CanvasUpdatePacket.id, it.toBytes())
+          } catch (e: Exception) {
+            Plethora.log.error("Error sending canvas update packet", e)
+          }
         }
       }
     }

@@ -1,6 +1,7 @@
 package io.sc3.plethora.gameplay.modules.keyboard
 
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs
+import io.sc3.library.networking.ScLibraryPacket
+import io.sc3.plethora.Plethora.ModId
 import net.fabricmc.fabric.api.networking.v1.PacketSender
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.PacketByteBuf.getMaxValidator
@@ -12,29 +13,30 @@ data class KeyboardKeyPacket(
   val presses:  List<KeyPressEvent>,
   val chars:    List<CharEvent>,
   val releases: List<Int>
-) {
-  fun toBytes(buf: PacketByteBuf) {
+): ScLibraryPacket() {
+  override val id = KeyboardKeyPacket.id
+
+  override fun toBytes(buf: PacketByteBuf) {
     buf.writeCollection(presses) { b, p -> p.toBytes(b) }
     buf.writeCollection(chars) { b, c -> c.toBytes(b) }
     buf.writeCollection(releases, PacketByteBuf::writeVarInt)
   }
 
-  fun toBytes() =
-    PacketByteBufs.create().apply { toBytes(this) }
+  override fun onServerReceive(server: MinecraftServer, player: ServerPlayerEntity, handler: ServerPlayNetworkHandler,
+                               responseSender: PacketSender) {
+    ServerKeyListener.process(player, presses, chars, releases)
+  }
 
   companion object {
+    @JvmField
+    val id = ModId("keyboard_key")
+
+    @JvmStatic
     fun fromBytes(buf: PacketByteBuf) = KeyboardKeyPacket(
       buf.readCollection(getMaxValidator({ mutableListOf() }, 128)) { KeyPressEvent.fromBytes(it) },
       buf.readCollection(getMaxValidator({ mutableListOf() }, 128)) { CharEvent.fromBytes(it) },
       buf.readCollection(getMaxValidator({ mutableListOf() }, 128)) { it.readVarInt() }
     )
-
-    @JvmStatic
-    fun onReceive(server: MinecraftServer, player: ServerPlayerEntity, handler: ServerPlayNetworkHandler,
-                  buf: PacketByteBuf, responseSender: PacketSender) {
-      val packet = fromBytes(buf)
-      ServerKeyListener.process(player, packet.presses, packet.chars, packet.releases)
-    }
   }
 }
 

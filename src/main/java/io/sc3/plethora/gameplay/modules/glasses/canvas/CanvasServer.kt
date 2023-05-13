@@ -1,10 +1,6 @@
 package io.sc3.plethora.gameplay.modules.glasses.canvas
 
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet
-import it.unimi.dsi.fastutil.ints.IntSet
-import net.minecraft.server.network.ServerPlayerEntity
+import io.sc3.plethora.Plethora
 import io.sc3.plethora.api.method.IAttachable
 import io.sc3.plethora.api.module.IModuleAccess
 import io.sc3.plethora.api.reference.ConstantReference
@@ -19,6 +15,11 @@ import io.sc3.plethora.gameplay.modules.glasses.objects.BaseObject.BaseObjectRef
 import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectGroup
 import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectGroup.Frame2d
 import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectGroup.Origin3d
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet
+import it.unimi.dsi.fastutil.ints.IntSet
+import net.minecraft.server.network.ServerPlayerEntity
 import java.util.concurrent.atomic.AtomicInteger
 
 class CanvasServer(
@@ -29,7 +30,7 @@ class CanvasServer(
   private val access: IModuleAccess
   val player: ServerPlayerEntity
 
-  private val objects: Int2ObjectMap<BaseObject?> = Int2ObjectOpenHashMap()
+  private val objects: Int2ObjectMap<BaseObject> = Int2ObjectOpenHashMap()
   private val childrenOf: Int2ObjectMap<IntSet> = Int2ObjectOpenHashMap()
 
   private val removed: IntSet = IntOpenHashSet()
@@ -61,27 +62,46 @@ class CanvasServer(
   fun newObjectId() = lastId.incrementAndGet()
 
   @Synchronized
-  fun makeAddPacket() = CanvasAddPacket(canvasId, objects.values.toTypedArray())
+  fun makeAddPacket(): CanvasAddPacket? = try {
+    CanvasAddPacket(canvasId, objects.values)
+  } catch (e: Exception) {
+    Plethora.log.error("Error while making add packet. Object list was abandoned", e)
+    null
+  }
 
   @Synchronized
-  fun makeRemovePacket() = CanvasRemovePacket(canvasId)
+  fun makeRemovePacket(): CanvasRemovePacket? = try {
+    CanvasRemovePacket(canvasId)
+  } catch (e: Exception) {
+    Plethora.log.error("Error while making remove packet. Object list was abandoned", e)
+    null
+  }
 
   @Synchronized
   fun makeUpdatePacket(): CanvasUpdatePacket? {
-    var changed: MutableList<BaseObject>? = null
-    for (obj in objects.values) {
-      if (obj!!.pollDirty()) {
-        if (changed == null) changed = mutableListOf()
-        changed.add(obj)
+    try {
+      var changed: MutableList<BaseObject>? = null
+      for (obj in objects.values) {
+        try {
+          if (obj!!.pollDirty()) {
+            if (changed == null) changed = mutableListOf()
+            changed.add(obj)
+          }
+        } catch (e: Exception) {
+          Plethora.log.error("Error while polling object for changes. Object was skipped", e)
+        }
       }
+
+      if (changed == null && removed.isEmpty()) return null
+      if (changed == null) changed = mutableListOf()
+
+      val packet = CanvasUpdatePacket(canvasId, changed, removed.toIntArray())
+      removed.clear()
+      return packet
+    } catch (e: Exception) {
+      Plethora.log.error("Error while making update packet. Changelist was abandoned", e)
+      return null
     }
-
-    if (changed == null && removed.isEmpty()) return null
-    if (changed == null) changed = mutableListOf()
-
-    val packet = CanvasUpdatePacket(canvasId, changed, removed.toIntArray())
-    removed.clear()
-    return packet
   }
 
   @Synchronized

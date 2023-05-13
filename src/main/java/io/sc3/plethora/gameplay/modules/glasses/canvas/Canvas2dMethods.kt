@@ -8,6 +8,7 @@ import io.sc3.plethora.gameplay.modules.glasses.objects.DEFAULT_COLOUR
 import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectGroup.Frame2d
 import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectGroup.Group2d
 import io.sc3.plethora.gameplay.modules.glasses.objects.object2d.*
+import io.sc3.plethora.gameplay.modules.glasses.objects.object2d.Text2d.Companion.MAX_LENGTH
 
 object Canvas2dMethods {
   val ADD_RECTANGLE = BasicMethod.of(
@@ -89,6 +90,7 @@ object Canvas2dMethods {
 
     val position = args.getVec2dTable(0)
     val contents = args.getString(1)
+    ArgumentHelper.assertBetween(contents.length, 0, MAX_LENGTH, "string length out of bounds (%s)")
     val colour = args.optInt(2, DEFAULT_COLOUR.toInt())
     val size = args.optDouble(3, 1.0).toFloat()
 

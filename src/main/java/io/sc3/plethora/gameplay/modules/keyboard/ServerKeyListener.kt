@@ -1,7 +1,7 @@
 package io.sc3.plethora.gameplay.modules.keyboard
 
+import io.sc3.plethora.Plethora
 import io.sc3.plethora.api.module.IModuleAccess
-import io.sc3.plethora.gameplay.registry.Packets.KEYBOARD_LISTEN_PACKET_ID
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.server.network.ServerPlayerEntity
@@ -16,7 +16,7 @@ object ServerKeyListener {
 
       // Notify the client to start listening
       if (accesses.isEmpty()) {
-        ServerPlayNetworking.send(player, KEYBOARD_LISTEN_PACKET_ID, KeyboardListenPacket(true).toBytes())
+        ServerPlayNetworking.send(player, KeyboardListenPacket.id, KeyboardListenPacket(true).toBytes())
       }
 
       accesses.add(access)
@@ -29,7 +29,7 @@ object ServerKeyListener {
 
       // Notify the client to stop listening
       if (accesses.remove(access) && accesses.isEmpty()) {
-        ServerPlayNetworking.send(player, KEYBOARD_LISTEN_PACKET_ID, KeyboardListenPacket(false).toBytes())
+        ServerPlayNetworking.send(player, KeyboardListenPacket.id, KeyboardListenPacket(false).toBytes())
       }
     }
   }
@@ -39,23 +39,27 @@ object ServerKeyListener {
   }
 
   fun process(player: ServerPlayerEntity, presses: List<KeyPressEvent>, chars: List<CharEvent>, releases: List<Int>) {
-    synchronized(listeners) {
-      val accesses = listeners[player] ?: return
-      accesses.forEach { access ->
-        presses.forEach {
-          if (it.key > 0) access.queueEvent("key", it.key, it.repeat)
-        }
+    try {
+      synchronized(listeners) {
+        val accesses = listeners[player] ?: return
+        accesses.forEach { access ->
+          presses.forEach {
+            if (it.key > 0) access.queueEvent("key", it.key, it.repeat)
+          }
 
-        chars.forEach {
-          if (it.char.code in 32..126 || it.char.code in 160..255) {
-            access.queueEvent("char", it.char.toString())
+          chars.forEach {
+            if (it.char.code in 32..126 || it.char.code in 160..255) {
+              access.queueEvent("char", it.char.toString())
+            }
+          }
+
+          releases.forEach {
+            access.queueEvent("key_up", it)
           }
         }
-
-        releases.forEach {
-          access.queueEvent("key_up", it)
-        }
       }
+    } catch (e: Exception) {
+      Plethora.log.error("Error processing keyboard events", e)
     }
   }
 

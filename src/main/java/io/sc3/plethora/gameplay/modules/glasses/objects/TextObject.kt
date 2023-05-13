@@ -6,6 +6,7 @@ import io.sc3.plethora.api.method.BasicMethod
 import io.sc3.plethora.api.method.FutureMethodResult
 import io.sc3.plethora.api.method.IUnbakedContext
 import io.sc3.plethora.core.ContextHelpers.safeFromTarget
+import io.sc3.plethora.gameplay.modules.glasses.objects.object2d.Text2d
 
 /**
  * An object which contains text.
@@ -29,7 +30,7 @@ interface TextObject {
     )
     private fun setText(unbaked: IUnbakedContext<TextObject>, args: IArguments): FutureMethodResult {
       val contents = args.getString(0)
-      ArgumentHelper.assertBetween(contents.length, 0, 512, "string length out of bounds (%s)")
+      ArgumentHelper.assertBetween(contents.length, 0, Text2d.MAX_LENGTH, "string length out of bounds (%s)")
       safeFromTarget(unbaked).text = contents
       return FutureMethodResult.empty()
     }

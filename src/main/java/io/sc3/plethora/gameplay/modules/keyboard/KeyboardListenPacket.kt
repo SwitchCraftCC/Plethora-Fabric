@@ -1,27 +1,31 @@
 package io.sc3.plethora.gameplay.modules.keyboard
 
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs
+import io.sc3.library.networking.ScLibraryPacket
+import io.sc3.plethora.Plethora.ModId
+import io.sc3.plethora.gameplay.modules.glasses.networking.CanvasAddPacket
 import net.fabricmc.fabric.api.networking.v1.PacketSender
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.network.ClientPlayNetworkHandler
 import net.minecraft.network.PacketByteBuf
 
-data class KeyboardListenPacket(val listening: Boolean) {
-  fun toBytes(buf: PacketByteBuf) {
+data class KeyboardListenPacket(val listening: Boolean): ScLibraryPacket() {
+  override val id = CanvasAddPacket.id
+
+  override fun toBytes(buf: PacketByteBuf) {
     buf.writeBoolean(listening)
   }
 
-  fun toBytes() =
-    PacketByteBufs.create().apply { toBytes(this) }
+  override fun onClientReceive(client: MinecraftClient, handler: ClientPlayNetworkHandler,
+                               responseSender: PacketSender) {
+    ClientKeyListener.listening = listening
+  }
 
   companion object {
-    fun fromBytes(buf: PacketByteBuf) =
-      KeyboardListenPacket(buf.readBoolean())
+    @JvmField
+    val id = ModId("keyboard_listen")
 
     @JvmStatic
-    fun onReceive(client: MinecraftClient, handler: ClientPlayNetworkHandler, buf: PacketByteBuf,
-                  responseSender: PacketSender) {
-      ClientKeyListener.listening = fromBytes(buf).listening
-    }
+    fun fromBytes(buf: PacketByteBuf) =
+      KeyboardListenPacket(buf.readBoolean())
   }
 }

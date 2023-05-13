@@ -1,6 +1,6 @@
 package io.sc3.plethora.gameplay.modules.keyboard
 
-import io.sc3.plethora.gameplay.registry.Packets.KEYBOARD_KEY_PACKET_ID
+import io.sc3.plethora.Plethora
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
@@ -43,17 +43,21 @@ object ClientKeyListener {
   private fun processEvents() {
     if (!listening) return
 
-    val keyPresses = keyPressEvents.toList()
-    val chars = charEvents.toList()
-    val releases = keyReleases.toList()
+    try {
+      val keyPresses = keyPressEvents.toList()
+      val chars = charEvents.toList()
+      val releases = keyReleases.toList()
 
-    if (keyPresses.isNotEmpty() || chars.isNotEmpty() || releases.isNotEmpty()) {
-      val packet = KeyboardKeyPacket(keyPresses, chars, releases)
-      ClientPlayNetworking.send(KEYBOARD_KEY_PACKET_ID, packet.toBytes())
+      if (keyPresses.isNotEmpty() || chars.isNotEmpty() || releases.isNotEmpty()) {
+        val packet = KeyboardKeyPacket(keyPresses, chars, releases)
+        ClientPlayNetworking.send(KeyboardKeyPacket.id, packet.toBytes())
 
-      keyPressEvents.clear()
-      charEvents.clear()
-      keyReleases.clear()
+        keyPressEvents.clear()
+        charEvents.clear()
+        keyReleases.clear()
+      }
+    } catch (e: Exception) {
+      Plethora.log.error("Error processing keyboard events", e)
     }
   }
 

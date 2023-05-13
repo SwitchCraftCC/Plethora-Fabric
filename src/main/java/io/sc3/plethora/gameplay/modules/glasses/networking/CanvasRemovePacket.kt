@@ -1,44 +1,33 @@
-package io.sc3.plethora.gameplay.modules.glasses.networking;
+package io.sc3.plethora.gameplay.modules.glasses.networking
 
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.network.PacketByteBuf;
-import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasClient;
-import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasHandler;
+import io.sc3.library.networking.ScLibraryPacket
+import io.sc3.plethora.Plethora.ModId
+import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasHandler.getClient
+import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasHandler.removeClient
+import net.fabricmc.fabric.api.networking.v1.PacketSender
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.network.ClientPlayNetworkHandler
+import net.minecraft.network.PacketByteBuf
 
-public class CanvasRemovePacket {
-    private int canvasId;
+data class CanvasRemovePacket(var canvasId: Int = 0): ScLibraryPacket() {
+  override val id = CanvasRemovePacket.id
 
-    public CanvasRemovePacket(int canvasId) {
-        this.canvasId = canvasId;
-    }
+  override fun toBytes(buf: PacketByteBuf) {
+    buf.writeInt(canvasId)
+  }
 
-    public CanvasRemovePacket() {}
+  override fun onClientReceive(client: MinecraftClient, handler: ClientPlayNetworkHandler,
+                               responseSender: PacketSender) {
+    val canvas = getClient(canvasId) ?: return
+    removeClient(canvas)
+  }
 
-    public void fromBytes(PacketByteBuf buf) {
-        canvasId = buf.readInt();
-    }
+  companion object {
+    @JvmField
+    val id = ModId("canvas_remove")
 
-    public void toBytes(PacketByteBuf buf) {
-        buf.writeInt(canvasId);
-    }
-
-    public PacketByteBuf toBytes() {
-        PacketByteBuf buf = PacketByteBufs.create();
-        toBytes(buf);
-        return buf;
-    }
-
-    public static void onReceive(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf,
-                                 PacketSender responseSender) {
-        CanvasRemovePacket packet = new CanvasRemovePacket();
-        packet.fromBytes(buf);
-
-        CanvasClient canvas = CanvasHandler.getClient(packet.canvasId);
-        if (canvas == null) return;
-
-        CanvasHandler.removeClient(canvas);
-    }
+    @JvmStatic
+    fun fromBytes(buf: PacketByteBuf) =
+      CanvasRemovePacket(buf.readInt())
+  }
 }
