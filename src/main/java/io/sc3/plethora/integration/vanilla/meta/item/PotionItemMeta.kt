@@ -8,22 +8,19 @@ import net.minecraft.item.SplashPotionItem
 import net.minecraft.potion.PotionUtil
 import net.minecraft.registry.Registries
 
-class PotionItemMeta : ItemStackMetaProvider<PotionItem>(PotionItem::class.java) {
+object PotionItemMeta : ItemStackMetaProvider<PotionItem>(PotionItem::class.java) {
   override fun getMeta(stack: ItemStack, item: PotionItem): MutableMap<String, *> {
-    val data = mutableMapOf<String, Any>()
-
-    data["potionType"] = when (item) {
-      is LingeringPotionItem -> "lingering"
-      is SplashPotionItem -> "splash"
-      else -> "normal"
-    }
-
-    if (item is SplashPotionItem) {
-      data["splash"] = true
-    }
-
     val potion = PotionUtil.getPotion(stack)
-    data["potion"] = Registries.POTION.getId(potion).toString()
+
+    val data = mutableMapOf<String, Any>(
+      "potionType" to when (item) {
+        is LingeringPotionItem -> "lingering"
+        is SplashPotionItem    -> "splash"
+        else                   -> "normal"
+      },
+      "splash" to (item is SplashPotionItem),
+      "potion" to Registries.POTION.getId(potion).toString()
+    )
 
     val effects = PotionUtil.getPotionEffects(stack)
     if (effects.isNotEmpty()) {

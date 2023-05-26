@@ -1,51 +1,22 @@
-package io.sc3.plethora.integration;
+package io.sc3.plethora.integration
 
-import io.sc3.plethora.api.meta.BaseMetaProvider;
-import io.sc3.plethora.api.method.IPartialContext;
-import io.sc3.plethora.api.reference.ConstantReference;
+import io.sc3.plethora.api.meta.BaseMetaProvider
+import io.sc3.plethora.api.method.IPartialContext
+import io.sc3.plethora.api.reference.ConstantReference
 
-import javax.annotation.Nonnull;
-import java.util.Map;
-import java.util.Objects;
+class MetaWrapper<T : Any>(val value: T) : ConstantReference<MetaWrapper<T>> {
+  override fun get(): MetaWrapper<T> = this
+  override fun safeGet(): MetaWrapper<T> = this
 
-public class MetaWrapper<T> implements ConstantReference<MetaWrapper<T>> {
-	private final T value;
+  object MetaProvider : BaseMetaProvider<MetaWrapper<*>>(
+    description = "Simply wraps an object and exposes metadata for that. You can happily ignore this."
+  ) {
+    override fun getMeta(context: IPartialContext<MetaWrapper<*>>): Map<String, *> =
+      context.makePartialChild(context.target.value).meta
+  }
 
-	public MetaWrapper(@Nonnull T value) {
-		Objects.requireNonNull(value, "value cannot be null");
-		this.value = value;
-	}
-
-	@Nonnull
-	public T value() {
-		return value;
-	}
-
-	public static <T> MetaWrapper<T> of(@Nonnull T value) {
-		return new MetaWrapper<>(value);
-	}
-
-	@Nonnull
-	@Override
-	public MetaWrapper<T> get() {
-		return this;
-	}
-
-	@Nonnull
-	@Override
-	public MetaWrapper<T> safeGet() {
-		return this;
-	}
-
-	public static final class MetaProvider extends BaseMetaProvider<MetaWrapper> {
-		public MetaProvider() {
-			super("Simply wraps an object and exposes metadata for that. You can happily ignore this.");
-		}
-
-		@Nonnull
-		@Override
-		public Map<String, ?> getMeta(@Nonnull IPartialContext<MetaWrapper> context) {
-			return context.makePartialChild(context.getTarget().value()).getMeta();
-		}
-	}
+  companion object {
+    @JvmStatic
+    fun <T : Any> of(value: T): MetaWrapper<T> = MetaWrapper(value)
+  }
 }

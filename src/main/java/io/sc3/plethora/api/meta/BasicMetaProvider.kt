@@ -1,32 +1,13 @@
-package io.sc3.plethora.api.meta;
+package io.sc3.plethora.api.meta
 
-import io.sc3.plethora.api.method.IPartialContext;
-
-import javax.annotation.Nonnull;
-import java.util.Map;
+import io.sc3.plethora.api.method.IPartialContext
 
 /**
  * Basic wrapper for meta-providers
  */
-public abstract class BasicMetaProvider<T> extends BaseMetaProvider<T> implements SimpleMetaProvider<T> {
-    public BasicMetaProvider(int priority, String description) {
-        super(priority, description);
-    }
-
-    public BasicMetaProvider(String description) {
-        super(description);
-    }
-
-    public BasicMetaProvider(int priority) {
-        super(priority);
-    }
-
-    public BasicMetaProvider() {
-    }
-
-    @Nonnull
-    @Override
-    public final Map<String, ?> getMeta(@Nonnull IPartialContext<T> context) {
-        return getMeta(context.getTarget());
-    }
+abstract class BasicMetaProvider<T> @JvmOverloads constructor(
+  priority: Int = 0,
+  description: String? = null
+) : BaseMetaProvider<T>(priority, description), SimpleMetaProvider<T> {
+  override fun getMeta(context: IPartialContext<T>) = getMeta(context.target)
 }

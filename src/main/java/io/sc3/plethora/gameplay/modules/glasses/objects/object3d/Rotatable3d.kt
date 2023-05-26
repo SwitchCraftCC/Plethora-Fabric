@@ -1,7 +1,11 @@
 package io.sc3.plethora.gameplay.modules.glasses.objects.object3d
 
 import dan200.computercraft.api.lua.IArguments
-import io.sc3.plethora.api.method.*
+import io.sc3.plethora.api.method.ArgumentExt.getVec3dNullable
+import io.sc3.plethora.api.method.BasicMethod
+import io.sc3.plethora.api.method.FutureMethodResult
+import io.sc3.plethora.api.method.IUnbakedContext
+import io.sc3.plethora.api.method.toResult
 import io.sc3.plethora.core.ContextHelpers.safeFromTarget
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.math.MatrixStack

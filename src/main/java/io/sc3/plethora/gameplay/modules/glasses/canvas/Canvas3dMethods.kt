@@ -1,8 +1,12 @@
 package io.sc3.plethora.gameplay.modules.glasses.canvas
 
 import dan200.computercraft.api.lua.IArguments
-import io.sc3.plethora.api.method.*
-import io.sc3.plethora.gameplay.modules.glasses.GlassesArgumentHelper
+import io.sc3.plethora.api.method.ArgumentExt.getItem
+import io.sc3.plethora.api.method.ArgumentExt.getVec3d
+import io.sc3.plethora.api.method.ArgumentExt.getVec3dTable
+import io.sc3.plethora.api.method.BasicMethod
+import io.sc3.plethora.api.method.FutureMethodResult
+import io.sc3.plethora.api.method.IUnbakedContext
 import io.sc3.plethora.gameplay.modules.glasses.GlassesMethodsHelpers.getContext
 import io.sc3.plethora.gameplay.modules.glasses.objects.DEFAULT_COLOUR
 import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectGroup.Group3d
@@ -85,7 +89,7 @@ object Canvas3dMethods {
     val canvas = ctx.canvas
 
     val pos = args.getVec3dTable(0)
-    val item = GlassesArgumentHelper.getItem(args, 1)
+    val item = args.getItem(1)
     val scale = args.optDouble(2, 1.0).toFloat()
 
     val model = Item3d(canvas.newObjectId(), group.id)

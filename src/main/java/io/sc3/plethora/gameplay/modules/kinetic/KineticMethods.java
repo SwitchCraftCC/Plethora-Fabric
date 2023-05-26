@@ -3,12 +3,6 @@ package io.sc3.plethora.gameplay.modules.kinetic;
 import com.mojang.authlib.GameProfile;
 import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.LuaException;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.MathHelper;
 import io.sc3.plethora.api.IPlayerOwnable;
 import io.sc3.plethora.api.method.FutureMethodResult;
 import io.sc3.plethora.api.method.IContext;
@@ -17,12 +11,18 @@ import io.sc3.plethora.api.module.IModuleContainer;
 import io.sc3.plethora.api.module.SubtargetedModuleMethod;
 import io.sc3.plethora.gameplay.PlethoraFakePlayer;
 import io.sc3.plethora.mixin.ServerPlayNetworkHandlerAdapter;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.MathHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import static io.sc3.plethora.Plethora.config;
-import static io.sc3.plethora.api.method.ArgumentHelper.assertBetween;
+import static io.sc3.plethora.api.method.ArgumentExt.assertDoubleBetween;
 import static io.sc3.plethora.api.method.ContextKeys.ORIGIN;
 import static io.sc3.plethora.core.ContextHelpers.fromContext;
 import static io.sc3.plethora.core.ContextHelpers.fromSubtarget;
@@ -41,7 +41,7 @@ public class KineticMethods {
                                              @Nonnull IArguments args) throws LuaException {
         final float yaw = (float) normaliseAngle(args.getFiniteDouble(0));
         final float pitch = (float) normaliseAngle(args.getFiniteDouble(1));
-        final float power = (float) assertBetween(args.getFiniteDouble(2), 0, config.kinetic.launchMax, "Power out of range (%s).");
+        final float power = (float) assertDoubleBetween(args, 2, 0, config.kinetic.launchMax, "Power out of range (%s).");
 
         return unbaked.getCostHandler().await(power * config.kinetic.launchCost, FutureMethodResult.nextTick(() -> {
             LivingEntity entity = unbaked.bake().getContext(ORIGIN, LivingEntity.class);

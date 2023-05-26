@@ -1,46 +1,37 @@
-package io.sc3.plethora.integration.computercraft.meta.item;
+package io.sc3.plethora.integration.computercraft.meta.item
 
-import dan200.computercraft.api.turtle.ITurtleUpgrade;
-import dan200.computercraft.api.turtle.TurtleSide;
-import dan200.computercraft.shared.turtle.items.ITurtleItem;
-import net.minecraft.item.ItemStack;
-import io.sc3.plethora.api.meta.ItemStackMetaProvider;
+import dan200.computercraft.api.turtle.ITurtleUpgrade
+import dan200.computercraft.api.turtle.TurtleSide
+import dan200.computercraft.shared.turtle.items.ITurtleItem
+import io.sc3.plethora.api.meta.ItemStackMetaProvider
+import net.minecraft.item.ItemStack
 
-import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
+class TurtleItemMeta : ItemStackMetaProvider<ITurtleItem>(ITurtleItem::class.java, "turtle") {
+  override fun getMeta(stack: ItemStack, item: ITurtleItem): Map<String, *> {
+    val out: MutableMap<String, Any?> = HashMap()
 
-public final class TurtleItemMeta extends ItemStackMetaProvider<ITurtleItem> {
-    public TurtleItemMeta() {
-        super("turtle", ITurtleItem.class);
+    val colour = item.getColour(stack)
+    if (colour != -1) {
+      out["color"] = colour
+      out["colour"] = colour
     }
 
-    @Nonnull
-    @Override
-    public Map<String, ?> getMeta(@Nonnull ItemStack stack, @Nonnull ITurtleItem turtle) {
-        Map<String, Object> out = new HashMap<>();
+    out["fuel"] = item.getFuelLevel(stack)
 
-        int colour = turtle.getColour(stack);
-        if (colour != -1) {
-            out.put("color", colour);
-            out.put("colour", colour);
-        }
-        out.put("fuel", turtle.getFuelLevel(stack));
+    out["left"] = getUpgrade(item.getUpgrade(stack, TurtleSide.LEFT))
+    out["right"] = getUpgrade(item.getUpgrade(stack, TurtleSide.RIGHT))
 
-        out.put("left", getUpgrade(turtle.getUpgrade(stack, TurtleSide.LEFT)));
-        out.put("right", getUpgrade(turtle.getUpgrade(stack, TurtleSide.RIGHT)));
+    return out
+  }
 
-        return out;
+  companion object {
+    fun getUpgrade(upgrade: ITurtleUpgrade?): Map<String, String>? {
+      if (upgrade == null) return null
+      return mapOf(
+        "id"        to upgrade.upgradeID.toString(),
+        "adjective" to upgrade.unlocalisedAdjective,
+        "type"      to upgrade.type.toString()
+      )
     }
-
-    static Map<String, String> getUpgrade(ITurtleUpgrade upgrade) {
-        if (upgrade == null) return null;
-
-        Map<String, String> out = new HashMap<>(2);
-        out.put("id", upgrade.getUpgradeID().toString());
-        out.put("adjective", upgrade.getUnlocalisedAdjective());
-        out.put("type", upgrade.getType().toString());
-
-        return out;
-    }
+  }
 }

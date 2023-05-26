@@ -1,20 +1,21 @@
-package io.sc3.plethora.gameplay.registry;
+package io.sc3.plethora.gameplay.registry
 
-import net.minecraft.item.ItemStack;
-import io.sc3.plethora.Plethora;
-import io.sc3.plethora.api.meta.IMetaProvider;
-import io.sc3.plethora.api.meta.IMetaRegistry;
-import io.sc3.plethora.gameplay.BindableModuleItemMeta;
-import io.sc3.plethora.integration.MetaWrapper;
+import io.sc3.plethora.Plethora.modId
+import io.sc3.plethora.api.meta.IMetaProvider
+import io.sc3.plethora.api.meta.IMetaRegistry
+import io.sc3.plethora.gameplay.modules.BindableModuleItemMeta
+import io.sc3.plethora.integration.MetaWrapper.MetaProvider
 
-public class PlethoraMetaRegistration {
-    public static void registerMetaProviders(IMetaRegistry r) {
-        provider(r, "metaProvider", MetaWrapper.class, new MetaWrapper.MetaProvider());
-
-        provider(r, "bindableModuleItem", ItemStack.class, new BindableModuleItemMeta());
+object PlethoraMetaRegistration {
+  @JvmStatic
+  fun registerMetaProviders(registry: IMetaRegistry) {
+    with (registry) {
+      provider("metaProvider", MetaProvider)
+      provider("bindableModuleItem", BindableModuleItemMeta)
     }
+  }
 
-    private static <T> void provider(IMetaRegistry r, String name, Class<T> target, IMetaProvider<T> provider) {
-        r.registerMetaProvider(Plethora.modId + ":" + name, Plethora.modId, target, provider);
-    }
+  private inline fun <reified T> IMetaRegistry.provider(name: String, provider: IMetaProvider<T>) {
+    registerMetaProvider("$modId:$name", modId, T::class.java, provider)
+  }
 }

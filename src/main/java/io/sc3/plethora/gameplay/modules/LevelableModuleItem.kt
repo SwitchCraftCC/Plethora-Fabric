@@ -1,75 +1,71 @@
-package io.sc3.plethora.gameplay.modules;
+package io.sc3.plethora.gameplay.modules
 
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.Text;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
-import io.sc3.plethora.api.method.IContextBuilder;
-import io.sc3.plethora.api.module.IModuleAccess;
+import io.sc3.plethora.api.method.IContextBuilder
+import io.sc3.plethora.api.module.IModuleAccess
+import net.fabricmc.fabric.api.util.NbtType
+import net.minecraft.client.item.TooltipContext
+import net.minecraft.item.ItemStack
+import net.minecraft.text.Text
+import net.minecraft.text.Text.translatable
+import net.minecraft.world.World
+import kotlin.math.ceil
+import kotlin.math.pow
 
-import javax.annotation.Nonnull;
-import java.util.List;
+abstract class LevelableModuleItem(itemName: String, settings: Settings) : ModuleItem(itemName, settings) {
+  abstract val baseRange: Int
+  abstract val maxRange: Int
+  abstract val levelCost: Int
 
-public abstract class LevelableModuleItem extends ModuleItem {
-    public LevelableModuleItem(String itemName, Settings settings) {
-        super(itemName, settings);
+  override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
+    super.appendTooltip(stack, world, tooltip, context)
+
+    val level = getLevel(stack)
+    if (level < 0) return
+
+    val range = getEffectiveRange(stack)
+    tooltip.add(translatable("item.plethora.module.level", level, range))
+  }
+
+  override fun hasGlint(stack: ItemStack) =
+    super.hasGlint(stack) || getLevel(stack) > 0
+
+  override fun getAdditionalContext(stack: ItemStack, access: IModuleAccess, builder: IContextBuilder) {
+    super.getAdditionalContext(stack, access, builder)
+    builder.addContext(module.toString(), RangeInfo.of(
+      getLevel(stack),
+      { it * levelCost },
+      { getEffectiveRange(baseRange, maxRange, it) }
+    ))
+  }
+
+  companion object {
+    @JvmStatic
+    fun getLevel(stack: ItemStack?): Int {
+      if (stack == null || stack.isEmpty) return 0
+      val nbt = stack.nbt
+      return if (nbt != null && nbt.contains("level", NbtType.NUMBER)) {
+        nbt.getInt("level")
+      } else {
+        0
+      }
     }
 
-    @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        super.appendTooltip(stack, world, tooltip, context);
-
-        int level = getLevel(stack);
-        if (level < 0) return;
-
-        int range = getEffectiveRange(stack);
-        tooltip.add(Text.translatable("item.plethora.module.level", level, range));
-    }
-
-    @Override
-    public boolean hasGlint(ItemStack stack) {
-        return super.hasGlint(stack) || getLevel(stack) > 0;
-    }
-
-    public static int getLevel(ItemStack stack) {
-        if (stack == null || stack.isEmpty()) return 0;
-        NbtCompound nbt = stack.getNbt();
-        return nbt != null && nbt.contains("level", NbtCompound.NUMBER_TYPE) ? nbt.getInt("level") : 0;
-    }
-
-    public static int getEffectiveRange(int baseRange, int maxRange, int level) {
-        if (maxRange <= baseRange || level <= 0) return baseRange;
-
+    fun getEffectiveRange(baseRange: Int, maxRange: Int, level: Int): Int {
+      return if (maxRange <= baseRange || level <= 0) {
+        baseRange
+      } else {
         // Each level adds half of the remainder to the maximum level - so effectively the geometric sum.
-        return baseRange + (int) Math.ceil((1 - Math.pow(0.5, level)) * (maxRange - baseRange));
+        baseRange + ceil((1 - 0.5.pow(level.toDouble())) * (maxRange - baseRange)).toInt()
+      }
     }
 
-    public static int getEffectiveRange(ItemStack stack, int level) {
-        if (stack == null) return 0;
-        if (!(stack.getItem() instanceof LevelableModuleItem levelable)) return 0;
-        return getEffectiveRange(levelable.getBaseRange(), levelable.getMaxRange(), level);
+    fun getEffectiveRange(stack: ItemStack?, level: Int = getLevel(stack)): Int {
+      val item = stack?.item
+      return if (item != null && item is LevelableModuleItem) {
+        getEffectiveRange(item.baseRange, item.maxRange, level)
+      } else {
+        0
+      }
     }
-
-    public static int getEffectiveRange(ItemStack stack) {
-        return getEffectiveRange(stack, getLevel(stack));
-    }
-
-    public abstract int getBaseRange();
-    public abstract int getMaxRange();
-    public abstract int getLevelCost();
-
-    @Override
-    public void getAdditionalContext(@Nonnull ItemStack stack, @Nonnull IModuleAccess access, @Nonnull IContextBuilder builder) {
-        super.getAdditionalContext(stack, access, builder);
-
-        String moduleKey = getModule().toString();
-
-        int level = getLevel(stack);
-        builder.addContext(moduleKey, RangeInfo.of(level,
-            x -> x * getLevelCost(),
-            x -> getEffectiveRange(getBaseRange(), getMaxRange(), x)
-        ));
-    }
+  }
 }

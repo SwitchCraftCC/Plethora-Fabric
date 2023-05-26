@@ -2,11 +2,6 @@ package io.sc3.plethora.gameplay.modules.scanner;
 
 import dan200.computercraft.api.lua.IArguments;
 import dan200.computercraft.api.lua.LuaException;
-import net.minecraft.block.BlockState;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import io.sc3.plethora.api.IWorldLocation;
 import io.sc3.plethora.api.WorldLocation;
 import io.sc3.plethora.api.method.FutureMethodResult;
@@ -17,6 +12,11 @@ import io.sc3.plethora.api.module.SubtargetedModuleMethod;
 import io.sc3.plethora.api.reference.BlockReference;
 import io.sc3.plethora.gameplay.modules.RangeInfo;
 import io.sc3.plethora.integration.vanilla.meta.block.BlockStateMeta;
+import net.minecraft.block.BlockState;
+import net.minecraft.registry.Registries;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static io.sc3.plethora.api.method.ArgumentHelper.assertBetween;
+import static io.sc3.plethora.api.method.ArgumentExt.assertIntBetween;
 import static io.sc3.plethora.api.method.ContextKeys.ORIGIN;
 import static io.sc3.plethora.core.ContextHelpers.fromContext;
 import static io.sc3.plethora.gameplay.registry.PlethoraModules.SCANNER_M;
@@ -83,9 +83,9 @@ public class ScannerMethods {
         ScannerMethodContext ctx = getContext(unbaked);
         int radius = ctx.range.getRange();
 
-        int x = assertBetween(args.getInt(0), -radius, radius, "X coordinate out of bounds (%s)");
-        int y = assertBetween(args.getInt(1), -radius, radius, "Y coordinate out of bounds (%s)");
-        int z = assertBetween(args.getInt(2), -radius, radius, "Z coordinate out of bounds (%s)");
+        int x = assertIntBetween(args, 0, -radius, radius, "X coordinate out of bounds (%s)");
+        int y = assertIntBetween(args, 1, -radius, radius, "Y coordinate out of bounds (%s)");
+        int z = assertIntBetween(args, 2, -radius, radius, "Z coordinate out of bounds (%s)");
 
         return FutureMethodResult.result(ctx.context
             .makeChild(new BlockReference(new WorldLocation(ctx.loc.getWorld(), ctx.loc.getPos().add(x, y, z))))

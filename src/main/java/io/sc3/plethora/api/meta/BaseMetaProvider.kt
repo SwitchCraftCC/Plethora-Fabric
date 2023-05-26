@@ -1,39 +1,9 @@
-package io.sc3.plethora.api.meta;
-
-import javax.annotation.Nonnull;
+package io.sc3.plethora.api.meta
 
 /**
  * Basic wrapper for meta-providers
  */
-public abstract class BaseMetaProvider<T> implements IMetaProvider<T> {
-    private final int priority;
-    private final String description;
-
-    public BaseMetaProvider(int priority, String description) {
-        this.priority = priority;
-        this.description = description;
-    }
-
-    public BaseMetaProvider(String description) {
-        this(0, description);
-    }
-
-    public BaseMetaProvider(int priority) {
-        this(priority, null);
-    }
-
-    public BaseMetaProvider() {
-        this(0, null);
-    }
-
-    @Override
-    public int getPriority() {
-        return priority;
-    }
-
-    @Nonnull
-    @Override
-    public String getDescription() {
-        return description;
-    }
-}
+abstract class BaseMetaProvider<T> @JvmOverloads constructor(
+  override val priority: Int = 0,
+  override val description: String? = null
+) : IMetaProvider<T>

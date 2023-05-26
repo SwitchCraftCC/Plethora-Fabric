@@ -1,8 +1,13 @@
 package io.sc3.plethora.gameplay.modules.glasses.canvas
 
 import dan200.computercraft.api.lua.IArguments
-import io.sc3.plethora.api.method.*
-import io.sc3.plethora.gameplay.modules.glasses.GlassesArgumentHelper
+import io.sc3.plethora.api.method.ArgumentExt.assertStringLength
+import io.sc3.plethora.api.method.ArgumentExt.getItem
+import io.sc3.plethora.api.method.ArgumentExt.getVec2d
+import io.sc3.plethora.api.method.ArgumentExt.getVec2dTable
+import io.sc3.plethora.api.method.BasicMethod
+import io.sc3.plethora.api.method.FutureMethodResult
+import io.sc3.plethora.api.method.IUnbakedContext
 import io.sc3.plethora.gameplay.modules.glasses.GlassesMethodsHelpers.getContext
 import io.sc3.plethora.gameplay.modules.glasses.objects.DEFAULT_COLOUR
 import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectGroup.Frame2d
@@ -89,8 +94,7 @@ object Canvas2dMethods {
     val canvas = ctx.canvas
 
     val position = args.getVec2dTable(0)
-    val contents = args.getString(1)
-    ArgumentHelper.assertBetween(contents.length, 0, MAX_LENGTH, "string length out of bounds (%s)")
+    val contents = args.assertStringLength(1, 0, MAX_LENGTH)
     val colour = args.optInt(2, DEFAULT_COLOUR.toInt())
     val size = args.optDouble(3, 1.0).toFloat()
 
@@ -175,7 +179,7 @@ object Canvas2dMethods {
     val canvas = ctx.canvas
 
     val position = args.getVec2dTable(0)
-    val item = GlassesArgumentHelper.getItem(args, 1)
+    val item = args.getItem(1)
     val scale = args.optDouble(2, 1.0).toFloat()
 
     val model = Item2d(canvas.newObjectId(), group.id)

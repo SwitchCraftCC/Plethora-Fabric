@@ -1,32 +1,20 @@
-package io.sc3.plethora.integration.computercraft.meta.item;
+package io.sc3.plethora.integration.computercraft.meta.item
 
-import com.google.common.base.Strings;
-import dan200.computercraft.shared.computer.items.IComputerItem;
-import net.minecraft.item.ItemStack;
-import io.sc3.plethora.api.meta.ItemStackMetaProvider;
+import dan200.computercraft.shared.computer.items.IComputerItem
+import io.sc3.plethora.api.meta.ItemStackMetaProvider
+import net.minecraft.item.ItemStack
 
-import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
+class ComputerItemMeta : ItemStackMetaProvider<IComputerItem>(IComputerItem::class.java, "computer") {
+  override fun getMeta(stack: ItemStack, item: IComputerItem): Map<String, *> {
+    val data: MutableMap<String, Any?> = HashMap(3)
 
-public final class ComputerItemMeta extends ItemStackMetaProvider<IComputerItem> {
-    public ComputerItemMeta() {
-        super("computer", IComputerItem.class);
-    }
+    val id = item.getComputerID(stack)
+    if (id >= 0) data["id"] = id
 
-    @Nonnull
-    @Override
-    public Map<String, ?> getMeta(@Nonnull ItemStack stack, @Nonnull IComputerItem item) {
-        Map<String, Object> data = new HashMap<>(3);
+    val label = item.getLabel(stack)
+    if (!label.isNullOrEmpty()) data["label"] = label
+    data["family"] = item.family.toString()
 
-        int id = item.getComputerID(stack);
-        if (id >= 0) data.put("id", id);
-
-
-        String label = item.getLabel(stack);
-        if (!Strings.isNullOrEmpty(label)) data.put("label", label);
-        data.put("family", item.getFamily().toString());
-
-        return data;
-    }
+    return data
+  }
 }

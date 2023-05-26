@@ -1,7 +1,7 @@
 package io.sc3.plethora.gameplay.modules.glasses.objects
 
 import dan200.computercraft.api.lua.IArguments
-import io.sc3.plethora.api.method.ArgumentHelper
+import io.sc3.plethora.api.method.ArgumentExt.assertStringLength
 import io.sc3.plethora.api.method.BasicMethod
 import io.sc3.plethora.api.method.FutureMethodResult
 import io.sc3.plethora.api.method.IUnbakedContext
@@ -29,8 +29,7 @@ interface TextObject {
       { unbaked, args -> setText(unbaked, args) }, false
     )
     private fun setText(unbaked: IUnbakedContext<TextObject>, args: IArguments): FutureMethodResult {
-      val contents = args.getString(0)
-      ArgumentHelper.assertBetween(contents.length, 0, Text2d.MAX_LENGTH, "string length out of bounds (%s)")
+      val contents = args.assertStringLength(0, 0, Text2d.MAX_LENGTH)
       safeFromTarget(unbaked).text = contents
       return FutureMethodResult.empty()
     }

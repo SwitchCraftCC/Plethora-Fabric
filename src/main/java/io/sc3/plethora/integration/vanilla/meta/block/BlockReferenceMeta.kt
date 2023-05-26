@@ -1,39 +1,26 @@
-package io.sc3.plethora.integration.vanilla.meta.block;
+package io.sc3.plethora.integration.vanilla.meta.block
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.MapColor;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import io.sc3.plethora.api.meta.BasicMetaProvider;
-import io.sc3.plethora.api.reference.BlockReference;
+import io.sc3.plethora.api.meta.BasicMetaProvider
+import io.sc3.plethora.api.reference.BlockReference
 
-import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
+object BlockReferenceMeta : BasicMetaProvider<BlockReference>(
+  description = "Provides information about blocks which exist in the world."
+) {
+  override fun getMeta(target: BlockReference): Map<String, *> {
+    val out: MutableMap<String, Any> = HashMap()
 
-public final class BlockReferenceMeta extends BasicMetaProvider<BlockReference> {
-	public BlockReferenceMeta() {
-		super("Provides information about blocks which exist in the world.");
-	}
+    val state = target.state
+    val world = target.location.world
+    val pos = target.location.pos
 
-	@Nonnull
-	@Override
-	public Map<String, ?> getMeta(@Nonnull BlockReference reference) {
-		Map<String, Object> data = new HashMap<>();
+    out["hardness"] = state.getHardness(world, pos)
 
-		BlockState state = reference.getState();
-		World world = reference.getLocation().getWorld();
-		BlockPos pos = reference.getLocation().getPos();
+    val mapCol = state.getMapColor(world, pos)
+    if (mapCol != null) {
+      out["color"] = mapCol.color
+      out["colour"] = mapCol.color
+    }
 
-		data.put("hardness", state.getHardness(world, pos));
-
-		MapColor mapCol = state.getMapColor(world, pos);
-		if (mapCol != null) {
-			int colour = mapCol.color;
-			data.put("colour", colour);
-			data.put("color", colour);
-		}
-
-		return data;
-	}
+    return out
+  }
 }

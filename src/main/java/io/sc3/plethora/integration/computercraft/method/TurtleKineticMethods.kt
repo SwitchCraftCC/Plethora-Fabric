@@ -1,107 +1,96 @@
-package io.sc3.plethora.integration.computercraft.method;
+package io.sc3.plethora.integration.computercraft.method
 
-import dan200.computercraft.api.lua.IArguments;
-import dan200.computercraft.api.lua.LuaException;
-import dan200.computercraft.api.turtle.ITurtleAccess;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Pair;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.hit.HitResult;
-import io.sc3.plethora.api.IPlayerOwnable;
-import io.sc3.plethora.api.method.FutureMethodResult;
-import io.sc3.plethora.api.method.IContext;
-import io.sc3.plethora.api.method.IUnbakedContext;
-import io.sc3.plethora.api.module.IModuleContainer;
-import io.sc3.plethora.api.module.SubtargetedModuleMethod;
-import io.sc3.plethora.gameplay.PlethoraFakePlayer;
-import io.sc3.plethora.integration.PlayerInteractionHelpers;
-import io.sc3.plethora.integration.computercraft.TurtleFakePlayerProvider;
-import io.sc3.plethora.util.PlayerHelpers;
+import dan200.computercraft.api.lua.IArguments
+import dan200.computercraft.api.turtle.ITurtleAccess
+import io.sc3.plethora.api.IPlayerOwnable
+import io.sc3.plethora.api.method.ContextKeys.ORIGIN
+import io.sc3.plethora.api.method.FutureMethodResult
+import io.sc3.plethora.api.method.IContext
+import io.sc3.plethora.api.method.IUnbakedContext
+import io.sc3.plethora.api.module.IModuleContainer
+import io.sc3.plethora.api.module.SubtargetedModuleMethod
+import io.sc3.plethora.core.ContextHelpers
+import io.sc3.plethora.gameplay.registry.PlethoraModules.KINETIC_M
+import io.sc3.plethora.integration.PlayerInteractionHelpers
+import io.sc3.plethora.integration.computercraft.TurtleFakePlayerProvider
+import io.sc3.plethora.util.PlayerHelpers
+import net.minecraft.util.Hand
+import net.minecraft.util.hit.BlockHitResult
+import net.minecraft.util.hit.EntityHitResult
+import net.minecraft.util.hit.HitResult
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+object TurtleKineticMethods {
+  val USE = SubtargetedModuleMethod.of(
+    "use", KINETIC_M, ITurtleAccess::class.java,
+    "function([duration:integer]):boolean, string|nil -- Right click with this item. The duration is in ticks, " +
+      "or 1/20th of a second.",
+    ::use
+  )
+  private fun use(unbaked: IUnbakedContext<IModuleContainer>, args: IArguments): FutureMethodResult {
+    val (_, turtle, ownable) = getContext(unbaked)
+    val fakePlayer = TurtleFakePlayerProvider.getPlayer(turtle, ownable)
 
-import static io.sc3.plethora.api.method.ContextKeys.ORIGIN;
-import static io.sc3.plethora.core.ContextHelpers.fromContext;
-import static io.sc3.plethora.core.ContextHelpers.fromSubtarget;
-import static io.sc3.plethora.gameplay.registry.PlethoraModules.KINETIC_M;
+    val duration = args.optInt(0, 0)
 
-public class TurtleKineticMethods {
-    public static final SubtargetedModuleMethod<ITurtleAccess> USE = SubtargetedModuleMethod.of(
-        "use", KINETIC_M, ITurtleAccess.class,
-        "function([duration:integer]):boolean, string|nil -- Right click with this item. The duration is in ticks, " +
-        "or 1/20th of a second.",
-        TurtleKineticMethods::use
-    );
-    private static FutureMethodResult use(@Nonnull IUnbakedContext<IModuleContainer> unbaked,
-                                          @Nonnull IArguments args) throws LuaException {
-        TurtleKineticMethodContext ctx = getContext(unbaked);
-        ITurtleAccess turtle = ctx.turtle();
-        IPlayerOwnable ownable = ctx.ownable();
-        PlethoraFakePlayer fakePlayer = TurtleFakePlayerProvider.getPlayer(turtle, ownable);
+    // Sync the turtle's inventory with the fake player
+    TurtleFakePlayerProvider.load(fakePlayer, turtle, turtle.direction)
 
-        int duration = args.optInt(0, 0);
+    return try {
+      val hit = PlayerHelpers.raycast(fakePlayer, 1.5f)
+      PlayerInteractionHelpers.use(fakePlayer, hit, Hand.MAIN_HAND, duration)
+    } finally {
+      TurtleFakePlayerProvider.unload(fakePlayer, turtle)
+      fakePlayer.updateCooldown()
+    }
+  }
 
-        // Sync the turtle's inventory with the fake player
-        TurtleFakePlayerProvider.load(fakePlayer, turtle, turtle.getDirection());
+  val SWING = SubtargetedModuleMethod.of(
+    "swing", KINETIC_M, ITurtleAccess::class.java,
+    "function():boolean, string|nil -- Left click with this item. Returns the action taken."
+  ) { unbaked, _ -> swing(unbaked) }
+  private fun swing(unbaked: IUnbakedContext<IModuleContainer>): FutureMethodResult {
+    val (_, turtle, ownable) = getContext(unbaked)
+    val fakePlayer = TurtleFakePlayerProvider.getPlayer(turtle, ownable)
 
-        try {
-            HitResult hit = PlayerHelpers.raycast(fakePlayer, 1.5f);
-            return PlayerInteractionHelpers.use(fakePlayer, hit, Hand.MAIN_HAND, duration);
-        } finally {
-            TurtleFakePlayerProvider.unload(fakePlayer, turtle);
-            fakePlayer.updateCooldown();
+    // Sync the turtle's inventory with the fake player
+    TurtleFakePlayerProvider.load(fakePlayer, turtle, turtle.direction)
+
+    return try {
+      val baseHit = PlayerHelpers.raycast(fakePlayer, 1.5f)
+      when (baseHit.type) {
+        HitResult.Type.ENTITY -> {
+          val hit = baseHit as EntityHitResult
+          val result = PlayerInteractionHelpers.attack(fakePlayer, hit.entity)
+          FutureMethodResult.result(result.left, result.right)
         }
-    }
 
-    public static final SubtargetedModuleMethod<ITurtleAccess> SWING = SubtargetedModuleMethod.of(
-        "swing", KINETIC_M, ITurtleAccess.class,
-        "function():boolean, string|nil -- Left click with this item. Returns the action taken.",
-        TurtleKineticMethods::swing
-    );
-    private static FutureMethodResult swing(@Nonnull IUnbakedContext<IModuleContainer> unbaked,
-                                            @Nonnull IArguments args) throws LuaException {
-        TurtleKineticMethodContext ctx = getContext(unbaked);
-        ITurtleAccess turtle = ctx.turtle();
-        IPlayerOwnable ownable = ctx.ownable();
-        PlethoraFakePlayer fakePlayer = TurtleFakePlayerProvider.getPlayer(turtle, ownable);
-
-        // Sync the turtle's inventory with the fake player
-        TurtleFakePlayerProvider.load(fakePlayer, turtle, turtle.getDirection());
-
-        try {
-            HitResult baseHit = PlayerHelpers.raycast(fakePlayer, 1.5f);
-
-            switch (baseHit.getType()) {
-                case ENTITY -> {
-                    EntityHitResult hit = (EntityHitResult) baseHit;
-                    Pair<Boolean, String> result = PlayerInteractionHelpers.attack(fakePlayer, hit.getEntity());
-                    return FutureMethodResult.result(result.getLeft(), result.getRight());
-                }
-                case BLOCK -> {
-                    BlockHitResult hit = (BlockHitResult) baseHit;
-                    Pair<Boolean, String> result = fakePlayer.dig(hit.getBlockPos(), hit.getSide());
-                    return FutureMethodResult.result(result.getLeft(), result.getRight());
-                }
-                default -> {
-                    return FutureMethodResult.result(false, "Nothing to do here");
-                }
-            }
-        } finally {
-            fakePlayer.clearActiveItem();
-
-            TurtleFakePlayerProvider.unload(fakePlayer, turtle);
-            fakePlayer.updateCooldown();
+        HitResult.Type.BLOCK -> {
+          val hit = baseHit as BlockHitResult
+          val result = fakePlayer.dig(hit.blockPos, hit.side)
+          FutureMethodResult.result(result.left, result.right)
         }
-    }
 
-    public record TurtleKineticMethodContext(IContext<IModuleContainer> context, ITurtleAccess turtle,
-                                             @Nullable IPlayerOwnable ownable) {}
-    public static TurtleKineticMethodContext getContext(@Nonnull IUnbakedContext<IModuleContainer> unbaked) throws LuaException {
-        IContext<IModuleContainer> ctx = unbaked.bake();
-        ITurtleAccess turtle = fromSubtarget(ctx, ITurtleAccess.class, ORIGIN);
-        IPlayerOwnable ownable = fromContext(ctx, IPlayerOwnable.class, ORIGIN);
-        return new TurtleKineticMethodContext(ctx, turtle, ownable);
+        else -> {
+          FutureMethodResult.result(false, "Nothing to do here")
+        }
+      }
+    } finally {
+      fakePlayer.clearActiveItem()
+      TurtleFakePlayerProvider.unload(fakePlayer, turtle)
+      fakePlayer.updateCooldown()
     }
+  }
+
+  fun getContext(unbaked: IUnbakedContext<IModuleContainer>): TurtleKineticMethodContext {
+    val ctx = unbaked.bake()
+    val turtle = ContextHelpers.fromSubtarget(ctx, ITurtleAccess::class.java, ORIGIN)
+    val ownable = ContextHelpers.fromContext(ctx, IPlayerOwnable::class.java, ORIGIN)
+    return TurtleKineticMethodContext(ctx, turtle, ownable)
+  }
+
+  data class TurtleKineticMethodContext(
+    val context: IContext<IModuleContainer>,
+    val turtle: ITurtleAccess,
+    val ownable: IPlayerOwnable?
+  )
 }

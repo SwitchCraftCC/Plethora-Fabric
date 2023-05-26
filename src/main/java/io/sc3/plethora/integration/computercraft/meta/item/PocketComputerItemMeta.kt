@@ -1,42 +1,32 @@
-package io.sc3.plethora.integration.computercraft.meta.item;
+package io.sc3.plethora.integration.computercraft.meta.item
 
-import dan200.computercraft.api.pocket.IPocketUpgrade;
-import dan200.computercraft.shared.pocket.items.PocketComputerItem;
-import net.minecraft.item.ItemStack;
-import io.sc3.plethora.api.meta.ItemStackMetaProvider;
+import dan200.computercraft.api.pocket.IPocketUpgrade
+import dan200.computercraft.shared.pocket.items.PocketComputerItem
+import io.sc3.plethora.api.meta.ItemStackMetaProvider
+import net.minecraft.item.ItemStack
 
-import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
+class PocketComputerItemMeta : ItemStackMetaProvider<PocketComputerItem>(PocketComputerItem::class.java, "pocket") {
+  override fun getMeta(stack: ItemStack, item: PocketComputerItem): Map<String, *> {
+    val out: MutableMap<String, Any?> = HashMap(2)
 
-public final class PocketComputerItemMeta extends ItemStackMetaProvider<PocketComputerItem> {
-    public PocketComputerItemMeta() {
-        super("pocket", PocketComputerItem.class);
+    val colour = item.getColour(stack)
+    if (colour != -1) {
+      out["color"] = colour
+      out["colour"] = colour
     }
 
-    @Nonnull
-    @Override
-    public Map<String, ?> getMeta(@Nonnull ItemStack stack, @Nonnull PocketComputerItem pocket) {
-        Map<String, Object> out = new HashMap<>(2);
+    out["back"] = getUpgrade(PocketComputerItem.getUpgrade(stack))
 
-        int colour = pocket.getColour(stack);
-        if (colour != -1) {
-            out.put("color", colour);
-            out.put("colour", colour);
-        }
+    return out
+  }
 
-        out.put("back", getUpgrade(PocketComputerItem.getUpgrade(stack)));
-
-        return out;
+  companion object {
+    private fun getUpgrade(upgrade: IPocketUpgrade?): Map<String, String>? {
+      if (upgrade == null) return null
+      return mapOf(
+        "id"        to upgrade.upgradeID.toString(),
+        "adjective" to upgrade.unlocalisedAdjective
+      )
     }
-
-    private static Map<String, String> getUpgrade(IPocketUpgrade upgrade) {
-        if (upgrade == null) return null;
-
-        Map<String, String> out = new HashMap<>(2);
-        out.put("id", upgrade.getUpgradeID().toString());
-        out.put("adjective", upgrade.getUnlocalisedAdjective());
-
-        return out;
-    }
+  }
 }

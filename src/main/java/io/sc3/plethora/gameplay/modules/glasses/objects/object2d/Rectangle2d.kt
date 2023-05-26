@@ -1,15 +1,10 @@
 package io.sc3.plethora.gameplay.modules.glasses.objects.object2d
 
 import dan200.computercraft.api.lua.IArguments
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
-import net.minecraft.client.render.*
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.network.PacketByteBuf
+import io.sc3.plethora.api.method.ArgumentExt.getVec2d
 import io.sc3.plethora.api.method.BasicMethod
 import io.sc3.plethora.api.method.FutureMethodResult
 import io.sc3.plethora.api.method.IUnbakedContext
-import io.sc3.plethora.api.method.getVec2d
 import io.sc3.plethora.core.ContextHelpers.safeFromTarget
 import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasClient
 import io.sc3.plethora.gameplay.modules.glasses.objects.ColourableObject
@@ -17,6 +12,11 @@ import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectRegistry.RECTANGLE
 import io.sc3.plethora.util.ByteBufUtils
 import io.sc3.plethora.util.DirtyingProperty
 import io.sc3.plethora.util.Vec2d
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
+import net.minecraft.client.render.*
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.network.PacketByteBuf
 
 class Rectangle2d(
   id: Int,

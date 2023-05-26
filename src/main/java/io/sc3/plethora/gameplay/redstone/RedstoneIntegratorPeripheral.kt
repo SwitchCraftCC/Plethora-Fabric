@@ -5,7 +5,7 @@ import dan200.computercraft.api.lua.LuaException
 import dan200.computercraft.api.lua.LuaFunction
 import dan200.computercraft.api.peripheral.IComputerAccess
 import dan200.computercraft.api.peripheral.IPeripheral
-import io.sc3.plethora.api.method.ArgumentHelper
+import io.sc3.plethora.api.method.ArgumentExt.assertIntBetween
 import net.minecraft.util.math.Direction
 
 class RedstoneIntegratorPeripheral(private val be: RedstoneIntegratorBlockEntity) : IPeripheral {
@@ -65,7 +65,7 @@ class RedstoneIntegratorPeripheral(private val be: RedstoneIntegratorBlockEntity
   @LuaFunction("setAnalogOutput", "setAnalogueOutput")
   fun setAnalogOutput(args: IArguments) {
     val side = args.getSideIndex(0)
-    val power = ArgumentHelper.assertBetween(args.getInt(1), 0, 15, "Power out of range (%s)")
+    val power = args.assertIntBetween(1, 0, 15, "Power out of range (%s)")
     be.outputs[side] = power.toByte()
     be.enqueueOutputTick()
   }

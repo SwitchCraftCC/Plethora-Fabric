@@ -1,21 +1,23 @@
-package io.sc3.plethora.integration.computercraft.registry;
+package io.sc3.plethora.integration.computercraft.registry
 
-import dan200.computercraft.api.ComputerCraftAPI;
-import net.minecraft.item.ItemStack;
-import io.sc3.plethora.api.meta.IMetaProvider;
-import io.sc3.plethora.api.meta.IMetaRegistry;
-import io.sc3.plethora.integration.computercraft.meta.item.*;
+import dan200.computercraft.api.ComputerCraftAPI
+import io.sc3.plethora.api.meta.IMetaProvider
+import io.sc3.plethora.api.meta.IMetaRegistry
+import io.sc3.plethora.integration.computercraft.meta.item.*
 
-public class ComputerCraftMetaRegistration {
-    public static void registerMetaProviders(IMetaRegistry r) {
-        provider(r, "computer", ItemStack.class, new ComputerItemMeta());
-        provider(r, "media", ItemStack.class, new MediaItemMeta());
-        provider(r, "pocket", ItemStack.class, new PocketComputerItemMeta());
-        provider(r, "printout", ItemStack.class, new PrintoutItemMeta());
-        provider(r, "turtle", ItemStack.class, new TurtleItemMeta());
+object ComputerCraftMetaRegistration {
+  @JvmStatic
+  fun registerMetaProviders(registry: IMetaRegistry) {
+    with (registry) {
+      provider("computer", ComputerItemMeta())
+      provider("media", MediaItemMeta())
+      provider("pocket", PocketComputerItemMeta())
+      provider("printout", PrintoutItemMeta())
+      provider("turtle", TurtleItemMeta())
     }
+  }
 
-    private static <T> void provider(IMetaRegistry r, String name, Class<T> target, IMetaProvider<T> provider) {
-        r.registerMetaProvider(ComputerCraftAPI.MOD_ID + ":" + name, ComputerCraftAPI.MOD_ID, target, provider);
-    }
+  private inline fun <reified T> IMetaRegistry.provider(name: String, provider: IMetaProvider<T>) {
+    registerMetaProvider("${ComputerCraftAPI.MOD_ID}:$name", ComputerCraftAPI.MOD_ID, T::class.java, provider)
+  }
 }

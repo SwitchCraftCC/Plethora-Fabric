@@ -2,8 +2,12 @@ package io.sc3.plethora.gameplay.modules.glasses.objects.object2d
 
 import dan200.computercraft.api.lua.IArguments
 import dan200.computercraft.api.lua.LuaException
-import io.sc3.plethora.api.method.*
-import io.sc3.plethora.api.method.ArgumentHelper.assertBetween
+import io.sc3.plethora.api.method.ArgumentExt.assertIntBetween
+import io.sc3.plethora.api.method.ArgumentExt.getVec2d
+import io.sc3.plethora.api.method.ArgumentExt.getVec2dTable
+import io.sc3.plethora.api.method.BasicMethod
+import io.sc3.plethora.api.method.FutureMethodResult
+import io.sc3.plethora.api.method.IUnbakedContext
 import io.sc3.plethora.core.ContextHelpers.safeFromTarget
 import io.sc3.plethora.util.Vec2d
 
@@ -41,7 +45,7 @@ interface MultiPointResizable2d : MultiPoint2d {
     )
     private fun removePoint(unbaked: IUnbakedContext<MultiPointResizable2d>, args: IArguments): FutureMethodResult {
       val obj = safeFromTarget(unbaked)
-      val idx = assertBetween(args.getInt(0), 1, obj.vertices, "Index out of range (%s)")
+      val idx = args.assertIntBetween(0, 1, obj.vertices, "Index out of range (%s)")
       obj.removePoint(idx - 1)
       return FutureMethodResult.empty()
     }
@@ -57,7 +61,7 @@ interface MultiPointResizable2d : MultiPoint2d {
       val idx: Int
       val pos: Vec2d
       if (args.count() >= 3) {
-        idx = assertBetween(args.getInt(0), 1, obj.vertices, "Index out of range (%s)")
+        idx = args.assertIntBetween(0, 1, obj.vertices, "Index out of range (%s)")
         pos = args.getVec2d(1)
       } else {
         idx = obj.vertices

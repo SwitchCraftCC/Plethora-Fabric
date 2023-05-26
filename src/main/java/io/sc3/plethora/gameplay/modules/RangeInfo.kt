@@ -1,54 +1,37 @@
-package io.sc3.plethora.gameplay.modules;
+package io.sc3.plethora.gameplay.modules
 
-import io.sc3.plethora.api.reference.ConstantReference;
-import io.sc3.plethora.gameplay.modules.scanner.ScannerModuleItem;
-import io.sc3.plethora.gameplay.modules.sensor.SensorModuleItem;
-
-import javax.annotation.Nonnull;
-import java.util.function.IntUnaryOperator;
+import io.sc3.plethora.api.reference.ConstantReference
+import java.util.function.IntUnaryOperator
 
 /**
- * Provides the range for a {@link SensorModuleItem} or {@link ScannerModuleItem}
+ * Provides the range for a [SensorModuleItem] or [ScannerModuleItem]
  */
-public interface RangeInfo extends ConstantReference<RangeInfo> {
-    /**
-     * The maximum range this module operates at.
-     *
-     * @return This module's range.
-     */
-    int getRange();
+interface RangeInfo : ConstantReference<RangeInfo?> {
+  /**
+   * The maximum range this module operates at.
+   *
+   * @return This module's range.
+   */
+  val range: Int
 
-    /**
-     * The cost for some bulk operation (sense/scan).
-     *
-     * @return The cost of a bulk operation.
-     * @see io.sc3.plethora.api.method.ICostHandler
-     */
-    int getBulkCost();
+  /**
+   * The cost for some bulk operation (sense/scan).
+   *
+   * @return The cost of a bulk operation.
+   * @see io.sc3.plethora.api.method.ICostHandler
+   */
+  val bulkCost: Int
 
-    @Nonnull
-    @Override
-    default RangeInfo get() {
-        return this;
+  override fun get(): RangeInfo = this
+
+  override fun safeGet(): RangeInfo = this
+
+  companion object {
+    fun of(level: Int, cost: IntUnaryOperator, range: IntUnaryOperator) = object : RangeInfo {
+      override val range: Int
+        get() = range.applyAsInt(level)
+      override val bulkCost: Int
+        get() = cost.applyAsInt(level)
     }
-
-    @Nonnull
-    @Override
-    default RangeInfo safeGet() {
-        return this;
-    }
-
-    static RangeInfo of(int level, IntUnaryOperator cost, IntUnaryOperator range) {
-        return new RangeInfo() {
-            @Override
-            public int getRange() {
-                return range.applyAsInt(level);
-            }
-
-            @Override
-            public int getBulkCost() {
-                return cost.applyAsInt(level);
-            }
-        };
-    }
+  }
 }

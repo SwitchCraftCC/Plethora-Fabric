@@ -1,92 +1,42 @@
-package io.sc3.plethora.integration;
+package io.sc3.plethora.integration
 
-import com.mojang.authlib.GameProfile;
-import dan200.computercraft.api.lua.LuaException;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayerEntity;
-import io.sc3.plethora.api.IPlayerOwnable;
-import io.sc3.plethora.api.reference.ConstantReference;
-import io.sc3.plethora.util.EntityHelpers;
+import com.mojang.authlib.GameProfile
+import dan200.computercraft.api.lua.LuaException
+import io.sc3.plethora.api.IPlayerOwnable
+import io.sc3.plethora.api.reference.ConstantReference
+import io.sc3.plethora.util.EntityHelpers
+import net.minecraft.entity.Entity
+import net.minecraft.entity.LivingEntity
+import net.minecraft.server.MinecraftServer
+import java.util.*
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Objects;
-import java.util.UUID;
+open class EntityIdentifier private constructor(
+  val id: UUID,
+  val name: String?
+) : ConstantReference<EntityIdentifier> {
+  constructor(entity: Entity) : this(entity.uuid, null)
 
-public class EntityIdentifier implements ConstantReference<EntityIdentifier> {
-    private final UUID uuid;
-    private final String name;
+  override fun get() = this
+  override fun safeGet() = this
 
-    EntityIdentifier(UUID uuid, String name) {
-        this.uuid = uuid;
-        this.name = name;
-    }
+  fun getEntity(server: MinecraftServer): LivingEntity =
+    EntityHelpers.getEntityFromUuid(server, id) as? LivingEntity
+      ?: throw LuaException("Cannot find entity")
 
-    public EntityIdentifier(Entity entity) {
-        uuid = entity.getUuid();
-        name = null;
-    }
+  override fun equals(other: Any?): Boolean {
+    if (this === other) return true
+    if (other == null || javaClass != other.javaClass) return false
+    val that = other as EntityIdentifier
+    return id == that.id && name == that.name
+  }
 
-    @Nonnull
-    public UUID getId() {
-        return uuid;
-    }
+  override fun hashCode() = Objects.hash(id, name)
 
-    @Nullable
-    public String getName() {
-        return name;
-    }
+  class Player(private val profile: GameProfile) : EntityIdentifier(profile.id, profile.name), IPlayerOwnable {
+    override fun getOwningProfile() = profile
 
-    @Nonnull
-    @Override
-    public EntityIdentifier get() {
-        return this;
-    }
-
-    @Nonnull
-    @Override
-    public EntityIdentifier safeGet() {
-        return this;
-    }
-
-    public LivingEntity getEntity(MinecraftServer server) throws LuaException {
-        Entity entity = EntityHelpers.getEntityFromUuid(server, getId());
-        if (!(entity instanceof LivingEntity)) throw new LuaException("Cannot find entity");
-        return (LivingEntity) entity;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        EntityIdentifier that = (EntityIdentifier) o;
-        return Objects.equals(uuid, that.uuid) && Objects.equals(name, that.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(uuid, name);
-    }
-
-    public static class Player extends EntityIdentifier implements IPlayerOwnable {
-        private final GameProfile profile;
-
-        public Player(GameProfile profile) {
-            super(profile.getId(), profile.getName());
-            this.profile = profile;
-        }
-
-        @Override
-        public GameProfile getOwningProfile() {
-            return profile;
-        }
-
-        public ServerPlayerEntity getPlayer(MinecraftServer server) throws LuaException {
-            ServerPlayerEntity player = server.getPlayerManager().getPlayer(profile.getId());
-            if (player == null) throw new LuaException("Player is not online");
-            return player;
-        }
-    }
+    fun getPlayer(server: MinecraftServer) =
+      server.playerManager.getPlayer(profile.id)
+        ?: throw LuaException("Player is not online")
+  }
 }

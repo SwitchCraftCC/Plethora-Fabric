@@ -1,6 +1,18 @@
 package io.sc3.plethora.gameplay.modules.glasses.objects.object3d
 
 import dan200.computercraft.api.lua.IArguments
+import io.sc3.plethora.api.IWorldLocation
+import io.sc3.plethora.api.method.ArgumentExt.getVec3dNullable
+import io.sc3.plethora.api.method.BasicMethod
+import io.sc3.plethora.api.method.ContextKeys.ORIGIN
+import io.sc3.plethora.api.method.FutureMethodResult
+import io.sc3.plethora.api.method.IUnbakedContext
+import io.sc3.plethora.core.ContextHelpers
+import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasClient
+import io.sc3.plethora.gameplay.modules.glasses.objects.BaseObject
+import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectGroup.Group3d
+import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectRegistry.ORIGIN_3D
+import io.sc3.plethora.util.ByteBufUtils
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.util.math.MatrixStack
@@ -8,18 +20,6 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
-import io.sc3.plethora.api.IWorldLocation
-import io.sc3.plethora.api.method.BasicMethod
-import io.sc3.plethora.api.method.ContextKeys.ORIGIN
-import io.sc3.plethora.api.method.FutureMethodResult
-import io.sc3.plethora.api.method.IUnbakedContext
-import io.sc3.plethora.api.method.getVec3dNullable
-import io.sc3.plethora.core.ContextHelpers
-import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasClient
-import io.sc3.plethora.gameplay.modules.glasses.objects.BaseObject
-import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectGroup.Group3d
-import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectRegistry.ORIGIN_3D
-import io.sc3.plethora.util.ByteBufUtils
 
 class ObjectRoot3d(
   id: Int,

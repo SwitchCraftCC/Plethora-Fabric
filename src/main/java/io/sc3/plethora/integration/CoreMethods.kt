@@ -1,91 +1,79 @@
-package io.sc3.plethora.integration;
+package io.sc3.plethora.integration
 
-import dan200.computercraft.api.lua.IArguments;
-import dan200.computercraft.api.lua.LuaException;
-import net.minecraft.util.Identifier;
-import io.sc3.plethora.api.method.*;
-import io.sc3.plethora.api.module.BasicModuleContainer;
-import io.sc3.plethora.api.module.IModuleContainer;
+import dan200.computercraft.api.lua.IArguments
+import dan200.computercraft.api.lua.LuaException
+import io.sc3.plethora.api.method.BasicMethod
+import io.sc3.plethora.api.method.FutureMethodResult
+import io.sc3.plethora.api.method.IMethodCollection
+import io.sc3.plethora.api.method.IUnbakedContext
+import io.sc3.plethora.api.module.BasicModuleContainer
+import io.sc3.plethora.api.module.IModuleContainer
+import net.minecraft.util.Identifier
 
-import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+object CoreMethods {
+  val LIST_MODULES = BasicMethod.of(
+    "listModules", "function():table -- Lists all modules available"
+  ) { unbaked, _ -> listModules(unbaked) }
+  private fun listModules(unbaked: IUnbakedContext<IModuleContainer>): FutureMethodResult {
+    val container = unbaked.bake().target
+    val modules = container.modules
+      .mapIndexed { i, module -> i + 1 to module.toString() }
+      .toMap()
+    return FutureMethodResult.result(modules)
+  }
 
-public final class CoreMethods {
-    public static final BasicMethod<IModuleContainer> LIST_MODULES = BasicMethod.of(
-        "listModules", "function():table -- Lists all modules available",
-        CoreMethods::listModules
-    );
-    public static FutureMethodResult listModules(@Nonnull IUnbakedContext<IModuleContainer> unbaked,
-                                                 @Nonnull IArguments args) throws LuaException {
-        IModuleContainer container = unbaked.bake().getTarget();
-        Map<Integer, String> modules = new HashMap<>();
-        int i = 0;
-        for (Identifier module : container.getModules()) {
-            modules.put(++i, module.toString());
-        }
-        return FutureMethodResult.result(modules);
+  val HAS_MODULE = BasicMethod.of(
+    "hasModule", "function(module:string):boolean -- Checks whether a module is available",
+    ::hasModule
+  )
+  private fun hasModule(unbaked: IUnbakedContext<IModuleContainer>, args: IArguments): FutureMethodResult {
+    val container = unbaked.bake().target
+    val module = args.getString(0)
+    return FutureMethodResult.result(container.hasModule(Identifier(module)))
+  }
+
+  val FILTER_MODULES = BasicMethod.of(
+    "filterModules", "function(names:string...):table|nil -- Gets the methods which require these modules",
+    ::filterModules
+  )
+  private fun filterModules(unbaked: IUnbakedContext<IModuleContainer>, args: IArguments): FutureMethodResult? {
+    val context = unbaked.bake()
+    val oldModules = context.target.modules
+    val newModules = mutableSetOf<Identifier>()
+
+    for (i in 0 until args.count()) {
+      val module = Identifier(args.getString(i))
+      if (oldModules.contains(module)) newModules.add(module)
     }
 
-    public static final BasicMethod<IModuleContainer> HAS_MODULE = BasicMethod.of(
-        "hasModule", "function(module:string):boolean -- Checks whether a module is available",
-        CoreMethods::hasModule
-    );
-    public static FutureMethodResult hasModule(@Nonnull IUnbakedContext<IModuleContainer> unbaked,
-                                               @Nonnull IArguments args) throws LuaException {
-        IModuleContainer container = unbaked.bake().getTarget();
-        String module = args.getString(0);
-        return FutureMethodResult.result(container.hasModule(new Identifier(module)));
+    if (newModules.isEmpty()) {
+      return null
     }
 
-    public static final BasicMethod<IModuleContainer> FILTER_MODULES = BasicMethod.of(
-        "filterModules", "function(names:string...):table|nil -- Gets the methods which require these modules",
-        CoreMethods::filterModules
-    );
-    public static FutureMethodResult filterModules(@Nonnull IUnbakedContext<IModuleContainer> unbaked,
-                                                   @Nonnull IArguments args) throws LuaException {
-        IContext<IModuleContainer> context = unbaked.bake();
-        Set<Identifier> oldModules = context.getTarget().getModules();
-        Set<Identifier> newModules = new HashSet<>();
+    val obj = context
+      .makeChildId(BasicModuleContainer(newModules))
+      .getObject()
 
-        for (int i = 0; i < args.count(); i++) {
-            Identifier module = new Identifier(args.getString(i));
-            if (oldModules.contains(module)) newModules.add(module);
-        }
+    return FutureMethodResult.result(if (obj.methodNames.isEmpty()) null else obj)
+  }
 
-        if (newModules.isEmpty()) return null;
+  val GET_DOCS = BasicMethod.of(
+    "getDocs", "function([name: string]):string|table -- Get the documentation for all functions or the function " +
+      "specified. Errors if the function cannot be found.",
+    ::getDocs
+  )
+  private fun getDocs(unbaked: IUnbakedContext<IMethodCollection>, args: IArguments): FutureMethodResult {
+    val methodCollection = unbaked.bake().target
+    val name = args.optString(0, null)
 
-        TypedLuaObject<IModuleContainer> object = context
-            .<IModuleContainer>makeChildId(new BasicModuleContainer(newModules))
-            .getObject();
-
-        return FutureMethodResult.result(object.getMethodNames().length == 0 ? null : object);
+    return if (name == null) {
+      FutureMethodResult.result(methodCollection.methods()
+        .associate { it.name to it.docString })
+    } else {
+      FutureMethodResult.result(methodCollection.methods()
+        .firstOrNull { it.name == name }
+        ?.docString
+        ?: throw LuaException("No such method"))
     }
-
-    public static final BasicMethod<IMethodCollection> GET_DOCS = BasicMethod.of(
-        "getDocs", "function([name: string]):string|table -- Get the documentation for all functions or the function specified. Errors if the function cannot be found.",
-        CoreMethods::getDocs
-    );
-    public static FutureMethodResult getDocs(@Nonnull IUnbakedContext<IMethodCollection> unbaked,
-                                             @Nonnull IArguments args) throws LuaException {
-        IMethodCollection methodCollection = unbaked.bake().getTarget();
-        String name = args.optString(0, null);
-
-        if (name == null) {
-            Map<String, String> out = new HashMap<>();
-            for (IMethod method : methodCollection.methods()) {
-                out.put(method.getName(), method.getDocString());
-            }
-
-            return FutureMethodResult.result(out);
-        } else {
-            for (IMethod method : methodCollection.methods()) {
-                if (method.getName().equals(name)) return FutureMethodResult.result(method.getDocString());
-            }
-
-            throw new LuaException("No such method");
-        }
-    }
+  }
 }

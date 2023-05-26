@@ -1,34 +1,19 @@
-package io.sc3.plethora.integration.computercraft.meta.item;
+package io.sc3.plethora.integration.computercraft.meta.item
 
-import dan200.computercraft.api.media.IMedia;
-import dan200.computercraft.impl.MediaProviders;
-import net.minecraft.item.ItemStack;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.Identifier;
-import io.sc3.plethora.api.meta.BasicMetaProvider;
+import dan200.computercraft.impl.MediaProviders
+import io.sc3.plethora.api.meta.BasicMetaProvider
+import net.minecraft.item.ItemStack
 
-import javax.annotation.Nonnull;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+class MediaItemMeta : BasicMetaProvider<ItemStack>() {
+  override fun getMeta(target: ItemStack): Map<String, *> {
+    val media = MediaProviders.get(target) ?: return emptyMap<String, Any>()
 
-public final class MediaItemMeta extends BasicMetaProvider<ItemStack> {
-    @Nonnull
-    @Override
-    public Map<String, ?> getMeta(@Nonnull ItemStack stack) {
-        IMedia media = MediaProviders.get(stack);
-        if (media == null) return Collections.emptyMap();
-
-        Map<String, Object> out = new HashMap<>(3);
-        out.put("label", media.getLabel(stack));
-        out.put("recordTitle", media.getAudioTitle(stack));
-
-        SoundEvent soundEvent = media.getAudio(stack);
-        if (soundEvent != null) {
-            Identifier id = soundEvent.getId();
-            if (id != null) out.put("recordName", id.toString());
-        }
-
-        return Collections.singletonMap("media", out);
-    }
+    return mapOf(
+      "media" to mapOf(
+        "label"       to media.getLabel(target),
+        "recordTitle" to media.getAudioTitle(target),
+        "recordName"  to media.getAudio(target)?.id?.toString()
+      )
+    )
+  }
 }

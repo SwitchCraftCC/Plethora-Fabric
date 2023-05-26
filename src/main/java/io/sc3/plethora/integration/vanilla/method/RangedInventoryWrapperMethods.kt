@@ -2,9 +2,9 @@ package io.sc3.plethora.integration.vanilla.method
 
 import dan200.computercraft.api.lua.IArguments
 import dan200.computercraft.api.lua.LuaException
-import dan200.computercraft.shared.util.ArgumentHelpers
 import io.sc3.plethora.api.IWorldLocation
 import io.sc3.plethora.api.method.*
+import io.sc3.plethora.api.method.ArgumentExt.assertIntBetween
 import io.sc3.plethora.api.method.FutureMethodResult.result
 import io.sc3.plethora.core.ContextHelpers.fromContext
 import io.sc3.plethora.gameplay.registry.PlethoraModules.INTROSPECTION_M
@@ -25,8 +25,7 @@ object RangedInventoryWrapperMethods {
     ::consume
   )
   private fun consume(unbaked: IUnbakedContext<RangedInventoryWrapper<PlayerEntity>>, args: IArguments): FutureMethodResult {
-    val slot = args.getInt(0)
-    ArgumentHelpers.assertBetween(slot, 1, MAIN_SIZE, "Slot out of range (%s)")
+    val slot = args.assertIntBetween(0, 1, MAIN_SIZE, "Slot out of range (%s)")
 
     val (_, inventory, player) = unbaked.getInventory()
 
@@ -52,12 +51,8 @@ object RangedInventoryWrapperMethods {
     ::drop
   )
   private fun drop(unbaked: IUnbakedContext<RangedInventoryWrapper<PlayerEntity>>, args: IArguments): FutureMethodResult {
-    val slot = args.getInt(0)
-    ArgumentHelpers.assertBetween(slot, 1, MAIN_SIZE, "Slot out of range (%s)")
-
-    val limit = args.optInt(1, Integer.MAX_VALUE)
-    ArgumentHelpers.assertBetween(limit, 1, Integer.MAX_VALUE, "Limit out of range (%s)")
-
+    val slot = args.assertIntBetween(0, 1, MAIN_SIZE, "Slot out of range (%s)")
+    val limit = args.assertIntBetween(1, 1, Integer.MAX_VALUE, "Limit out of range (%s)")
     val direction = args.optString(2, null)
 
     val (context, inventory, player) = unbaked.getInventory()

@@ -1,24 +1,15 @@
-package io.sc3.plethora.api.meta;
+package io.sc3.plethora.api.meta
 
-import io.sc3.plethora.api.method.IPartialContext;
-
-import javax.annotation.Nonnull;
-import java.util.Map;
+import io.sc3.plethora.api.method.IPartialContext
 
 /**
- * An interface-based version of {@link IMetaProvider}. One consumes the object directly, rather than needing
- * to use {@link IPartialContext#getTarget()}.
+ * An interface-based version of [IMetaProvider]. One consumes the object directly, rather than needing
+ * to use [IPartialContext.getTarget].
  *
  * @param <T> The type of object this provider handles.
  */
 @FunctionalInterface
-public interface SimpleMetaProvider<T> extends IMetaProvider<T> {
-    @Nonnull
-    @Override
-    default Map<String, ?> getMeta(@Nonnull IPartialContext<T> context) {
-        return getMeta(context.getTarget());
-    }
-
-    @Nonnull
-    Map<String, ?> getMeta(@Nonnull T target);
+interface SimpleMetaProvider<T> : IMetaProvider<T> {
+  override fun getMeta(context: IPartialContext<T>): Map<String, *> = getMeta(context.target)
+  fun getMeta(target: T): Map<String, *>
 }

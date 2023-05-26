@@ -3,12 +3,11 @@ package io.sc3.plethora.integration.vanilla.meta.blockentity
 import io.sc3.plethora.api.meta.BasicMetaProvider
 import net.minecraft.block.entity.SignBlockEntity
 
-class SignBlockEntityMeta : BasicMetaProvider<SignBlockEntity>(
-  "Provides the text upon the sign."
+object SignBlockEntityMeta : BasicMetaProvider<SignBlockEntity>(
+  description = "Provides the text upon the sign."
 ) {
-  override fun getMeta(sign: SignBlockEntity): Map<String, *> {
-    return mapOf("lines" to sign.lines)
-  }
+  override fun getMeta(target: SignBlockEntity) =
+    mapOf("lines" to target.lines)
 }
 
 val SignBlockEntity.lines: Map<Int, String>

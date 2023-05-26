@@ -1,56 +1,48 @@
-package io.sc3.plethora.integration.vanilla.meta.entity;
+package io.sc3.plethora.integration.vanilla.meta.entity
 
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import io.sc3.plethora.api.meta.BaseMetaProvider;
-import io.sc3.plethora.api.method.ContextHelpers;
-import io.sc3.plethora.api.method.IPartialContext;
-
-import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
+import io.sc3.plethora.api.meta.BaseMetaProvider
+import io.sc3.plethora.api.method.ContextHelpers
+import io.sc3.plethora.api.method.IPartialContext
+import net.minecraft.entity.EquipmentSlot
+import net.minecraft.entity.LivingEntity
 
 /**
  * A basic provider for living entities
  */
-public final class LivingEntityMeta extends BaseMetaProvider<LivingEntity> {
-    @Nonnull
-    @Override
-    public Map<String, ?> getMeta(@Nonnull IPartialContext<LivingEntity> context) {
-        LivingEntity target = context.getTarget();
-        Map<String, Object> map = new HashMap<>();
+object LivingEntityMeta : BaseMetaProvider<LivingEntity>() {
+  override fun getMeta(context: IPartialContext<LivingEntity>): Map<String, *> {
+    return with (context.target) {
+      mapOf(
+        "armor" to mapOf(
+          "boots"      to context.wrappedStack(EquipmentSlot.FEET),
+          "leggings"   to context.wrappedStack(EquipmentSlot.LEGS),
+          "chestplate" to context.wrappedStack(EquipmentSlot.CHEST),
+          "helmet"     to context.wrappedStack(EquipmentSlot.HEAD),
+        ),
+        "heldItem"     to context.wrappedStack(EquipmentSlot.MAINHAND),
+        "offhandItem"  to context.wrappedStack(EquipmentSlot.OFFHAND),
 
-        {
-            Map<String, Object> armor = new HashMap<>();
-            armor.put("boots", ContextHelpers.wrapStack(context, target.getEquippedStack(EquipmentSlot.FEET)));
-            armor.put("leggings", ContextHelpers.wrapStack(context, target.getEquippedStack(EquipmentSlot.LEGS)));
-            armor.put("chestplate", ContextHelpers.wrapStack(context, target.getEquippedStack(EquipmentSlot.CHEST)));
-            armor.put("helmet", ContextHelpers.wrapStack(context, target.getEquippedStack(EquipmentSlot.HEAD)));
-            map.put("armor", armor);
-        }
+        "potionEffects" to activeStatusEffects.keys.map { it.name.string }.toList(),
+        "health"        to health,
+        "maxHealth"     to maxHealth,
 
-        map.put("heldItem", ContextHelpers.wrapStack(context, target.getMainHandStack()));
-        map.put("offhandItem", ContextHelpers.wrapStack(context, target.getOffHandStack()));
-        map.put("potionEffects", target.getActiveStatusEffects().keySet().stream()
-            .map(s -> s.getName().getString()).collect(Collectors.toList()));
-
-        map.put("health", target.getHealth());
-        map.put("maxHealth", target.getMaxHealth());
-        map.put("isAirborne", !target.isOnGround());
-        map.put("isBurning", target.isOnFire());
-        map.put("isAlive", target.isAlive());
-        map.put("isInWater", target.isTouchingWater());
-        map.put("isOnLadder", target.isClimbing());
-        map.put("isSleeping", target.isSleeping());
-        map.put("isRiding", target.hasVehicle());
-        map.put("isSneaking", target.isSneaking());
-        map.put("isSprinting", target.isSprinting());
-        map.put("isWet", target.isWet());
-        map.put("isChild", target.isBaby());
-        map.put("isDead", target.isDead());
-        map.put("isElytraFlying", target.isFallFlying());
-
-        return map;
+        "isAirborne"     to !isOnGround,
+        "isBurning"      to isOnFire,
+        "isAlive"        to isAlive,
+        "isInWater"      to isTouchingWater,
+        "isOnLadder"     to isClimbing,
+        "isSleeping"     to isSleeping,
+        "isRiding"       to hasVehicle(),
+        "isSneaking"     to isSneaking,
+        "isSprinting"    to isSprinting,
+        "isWet"          to isWet,
+        "isChild"        to isBaby,
+        "isDead"         to isDead,
+        "isElytraFlying" to isFallFlying,
+      )
     }
+  }
+
+  private fun IPartialContext<LivingEntity>.wrappedStack(slot: EquipmentSlot) =
+    ContextHelpers.wrapStack(this, target.getEquippedStack(slot))
 }

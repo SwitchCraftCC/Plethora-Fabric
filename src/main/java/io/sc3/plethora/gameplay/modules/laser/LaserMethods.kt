@@ -5,7 +5,7 @@ import dan200.computercraft.api.turtle.ITurtleAccess
 import io.sc3.plethora.Plethora
 import io.sc3.plethora.api.IPlayerOwnable
 import io.sc3.plethora.api.IWorldLocation
-import io.sc3.plethora.api.method.ArgumentHelper.assertBetween
+import io.sc3.plethora.api.method.ArgumentExt.assertDoubleBetween
 import io.sc3.plethora.api.method.ContextKeys
 import io.sc3.plethora.api.method.FutureMethodResult
 import io.sc3.plethora.api.method.IUnbakedContext
@@ -34,7 +34,7 @@ object LaserMethods {
   private fun fire(unbaked: IUnbakedContext<IModuleContainer>, args: IArguments): FutureMethodResult {
     val yaw = Helpers.normaliseAngle(args.getFiniteDouble(0))
     val pitch = Helpers.normaliseAngle(args.getFiniteDouble(1))
-    val potency = assertBetween(args.getFiniteDouble(2), cfg.minimumPotency, cfg.maximumPotency, "Potency out of range (%s).").toFloat()
+    val potency = args.assertDoubleBetween(2, cfg.minimumPotency, cfg.maximumPotency, "Potency out of range (%s).").toFloat()
 
     val motionX = -sin(yaw / 180.0f * PI.toFloat()) * cos(pitch / 180.0f * PI.toFloat())
     val motionZ =  cos(yaw / 180.0f * PI.toFloat()) * cos(pitch / 180.0f * PI.toFloat())
