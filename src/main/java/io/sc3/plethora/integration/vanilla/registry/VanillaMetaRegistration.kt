@@ -36,6 +36,8 @@ object VanillaMetaRegistration {
       provider("itemMaterial", ItemMaterialMeta)
       provider("foodItem", FoodItemMeta)
       provider("potionItem", PotionItemMeta)
+      provider("writableBookItem", WritableBookItemMeta)
+      provider("writtenBookItem", WrittenBookItemMeta)
     }
   }
 
