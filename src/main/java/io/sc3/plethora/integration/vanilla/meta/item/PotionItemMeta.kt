@@ -29,7 +29,7 @@ object PotionItemMeta : ItemStackMetaProvider<PotionItem>(PotionItem::class.java
         mapOf(
           "duration"  to effect.duration / 20, // ticks!
           "amplifier" to effect.amplifier,
-          "name"      to type.name,
+          "name"      to type.name.string,
           "instant"   to type.isInstant,
           "color"     to type.color
         )
