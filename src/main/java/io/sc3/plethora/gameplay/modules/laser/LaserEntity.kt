@@ -5,6 +5,7 @@ import io.sc3.plethora.Plethora
 import io.sc3.plethora.Plethora.config
 import io.sc3.plethora.api.IPlayerOwnable
 import io.sc3.plethora.gameplay.PlethoraBlockTags.LASER_DONT_DROP
+import io.sc3.plethora.gameplay.PlethoraEntityTags
 import io.sc3.plethora.gameplay.PlethoraFakePlayer
 import io.sc3.plethora.gameplay.registry.Registration
 import io.sc3.plethora.gameplay.registry.Registration.ModDamageSources
@@ -21,6 +22,8 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
+import net.minecraft.entity.effect.StatusEffectInstance
+import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
@@ -334,11 +337,19 @@ class LaserEntity : Entity, IPlayerOwnable {
         syncPositions(true)
 
         val shooter = getShooter()
-        val damageType = world.registryManager.get(RegistryKeys.DAMAGE_TYPE).entryOf(ModDamageSources.LASER)
-        val source = DamageSource(damageType, this, shooter)
 
-        entity.setFireTicks(5)
-        entity.damage(source, (potency * config.laser.damage).toFloat())
+        if (entity.type.isIn(PlethoraEntityTags.LASERS_PROVIDE_ENERGY)) {
+          // When shooting blazes, apply a strength effect and heal them instead.
+          val effect = StatusEffectInstance(StatusEffects.STRENGTH, (20 * potency).toInt())
+          entity.addStatusEffect(effect, shooter)
+          entity.heal((potency * config.laser.damage).toFloat())
+        } else {
+          val damageType = world.registryManager.get(RegistryKeys.DAMAGE_TYPE).entryOf(ModDamageSources.LASER)
+          val source = DamageSource(damageType, this, shooter)
+          entity.setFireTicks(5)
+          entity.damage(source, (potency * config.laser.damage).toFloat())
+        }
+
         potency = -1f
       }
     }

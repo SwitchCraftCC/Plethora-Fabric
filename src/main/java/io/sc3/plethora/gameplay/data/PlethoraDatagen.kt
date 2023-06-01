@@ -23,6 +23,7 @@ object PlethoraDatagen : DataGeneratorEntrypoint {
     pack.addProvider(::ItemTagProvider)
     pack.addProvider(::DamageTypeTagProvider)
     pack.addProvider(::DynamicRegistryProvider)
+    pack.addProvider(::EntityTypeTagProvider)
     pack.addProvider { out, _ -> RecipeGenerator(out, turtleUpgrades, pocketUpgrades) }
   }
 

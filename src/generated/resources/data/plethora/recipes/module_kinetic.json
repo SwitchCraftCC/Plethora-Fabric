@@ -3,8 +3,8 @@
   "category": "misc",
   "key": {
     "B": {
-      "effect": "minecraft:jump_boost",
       "fabric:type": "sc-library:brew",
+      "effect": "minecraft:jump_boost",
       "potion": "minecraft:leaping"
     },
     "G": {
