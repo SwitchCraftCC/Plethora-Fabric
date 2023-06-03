@@ -199,9 +199,9 @@ public final class Registration {
 
   public static class ModBlocks {
     public static final Block MANIPULATOR_MARK_1 = register("manipulator_mark_1",
-      new ManipulatorBlock(properties(), ManipulatorType.MARK_1));
+      new ManipulatorBlock(properties().nonOpaque(), ManipulatorType.MARK_1));
     public static final Block MANIPULATOR_MARK_2 = register("manipulator_mark_2",
-      new ManipulatorBlock(properties(), ManipulatorType.MARK_2));
+      new ManipulatorBlock(properties().nonOpaque(), ManipulatorType.MARK_2));
     public static final Block REDSTONE_INTEGRATOR = register("redstone_integrator",
       new RedstoneIntegratorBlock(properties()));
 
@@ -210,7 +210,7 @@ public final class Registration {
     }
 
     private static Block.Settings properties() {
-      return Block.Settings.of(Material.STONE).strength(2.0F).requiresTool().nonOpaque();
+      return Block.Settings.of(Material.STONE).strength(2.0F).requiresTool();
     }
   }
 
