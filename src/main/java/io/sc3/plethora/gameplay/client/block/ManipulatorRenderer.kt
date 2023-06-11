@@ -40,7 +40,7 @@ class ManipulatorRenderer : BlockEntityRenderer<ManipulatorBlockEntity> {
       matrices.translate(
         (box.minX + box.maxX) / 2.0f,
         type.scale.toDouble(),
-        (box.minZ + box.maxZ) / 2.0f
+        1 - (box.minZ + box.maxZ) / 2.0f
       )
 
       // Animated rotation

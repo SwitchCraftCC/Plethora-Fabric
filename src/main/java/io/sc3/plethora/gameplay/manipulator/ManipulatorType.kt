@@ -1,54 +1,46 @@
-package io.sc3.plethora.gameplay.manipulator;
+package io.sc3.plethora.gameplay.manipulator
 
-import net.minecraft.util.StringIdentifiable;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
-import org.joml.Matrix4f;
-import io.sc3.plethora.util.MatrixHelpers;
+import io.sc3.library.ext.rotate
+import io.sc3.library.ext.toDiv16
+import io.sc3.library.ext.toMul16
+import io.sc3.plethora.gameplay.manipulator.ManipulatorBlock.Companion.OFFSET
+import io.sc3.plethora.gameplay.manipulator.ManipulatorBlock.Companion.PIX
+import net.minecraft.item.ItemStack
+import net.minecraft.util.StringIdentifiable
+import net.minecraft.util.collection.DefaultedList
+import net.minecraft.util.math.Box
+import net.minecraft.util.math.Direction
+import java.util.*
 
-import static io.sc3.plethora.gameplay.manipulator.ManipulatorBlock.OFFSET;
-import static io.sc3.plethora.gameplay.manipulator.ManipulatorBlock.PIX;
+enum class ManipulatorType(
+  val scale: Float,
+  private vararg val boxes: Box
+) : StringIdentifiable {
+  MARK_1(
+    0.5f,
+    Box(PIX * 5, OFFSET, PIX * 5, PIX * 11, OFFSET + PIX, PIX * 11)
+  ),
+  MARK_2(
+    0.25f,
+    Box(PIX * 3, OFFSET, PIX * 3, PIX * 5, OFFSET + PIX, PIX * 5),
+    Box(PIX * 3, OFFSET, PIX * 11, PIX * 5, OFFSET + PIX, PIX * 13),
+    Box(PIX * 11, OFFSET, PIX * 3, PIX * 13, OFFSET + PIX, PIX * 5),
+    Box(PIX * 11, OFFSET, PIX * 11, PIX * 13, OFFSET + PIX, PIX * 13),
+    Box(PIX * 7, OFFSET, PIX * 7, PIX * 9, OFFSET + PIX, PIX * 9)
+  );
 
-public enum ManipulatorType implements StringIdentifiable {
-    MARK_1(0.5f, new Box(PIX * 5, OFFSET, PIX * 5, PIX * 11, OFFSET + PIX, PIX * 11)),
-    MARK_2(0.25f,
-        new Box(PIX * 3, OFFSET, PIX * 3, PIX * 5, OFFSET + PIX, PIX * 5),
-        new Box(PIX * 3, OFFSET, PIX * 11, PIX * 5, OFFSET + PIX, PIX * 13),
-        new Box(PIX * 11, OFFSET, PIX * 3, PIX * 13, OFFSET + PIX, PIX * 5),
-        new Box(PIX * 11, OFFSET, PIX * 11, PIX * 13, OFFSET + PIX, PIX * 13),
-        new Box(PIX * 7, OFFSET, PIX * 7, PIX * 9, OFFSET + PIX, PIX * 9)
-    );
-
-    private final String name;
-
-    private final Box[] boxes;
-    private final Box[][] facingBoxes;
-    public final float scale;
-
-    ManipulatorType(float scale, Box... boxes) {
-        name = name().toLowerCase();
-        this.scale = scale;
-        this.boxes = boxes;
-        facingBoxes = new Box[6][];
+  private val facingBoxes by lazy {
+    Direction.values().associateWith { dir ->
+      boxes.map { it.toMul16().rotate(dir).toDiv16() }
     }
+  }
 
-    @Override
-    public String asString() {
-        return name;
-    }
+  override fun asString() = name.lowercase(Locale.ROOT)
 
-    public int size() {
-        return boxes.length;
-    }
+  fun size() = boxes.size
+  fun boxesFor(facing: Direction) =
+    facingBoxes[facing] ?: facingBoxes[Direction.DOWN]!!
 
-    public Box[] boxesFor(Direction facing) {
-        Box[] cached = facingBoxes[facing.ordinal()];
-        if (cached != null) return cached;
-
-        Matrix4f m = MatrixHelpers.matrixFor(facing);
-        cached = new Box[boxes.length];
-        for (int i = 0; i < boxes.length; i++) cached[i] = MatrixHelpers.transform(boxes[i], m);
-
-        return facingBoxes[facing.ordinal()] = cached;
-    }
+  fun defaultStacks(): DefaultedList<ItemStack> =
+    DefaultedList.ofSize(size(), ItemStack.EMPTY)
 }

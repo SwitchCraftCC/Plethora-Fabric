@@ -1,21 +1,18 @@
 package io.sc3.plethora.gameplay.client.block
 
+import io.sc3.plethora.gameplay.manipulator.ManipulatorBlock
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext.BlockOutlineContext
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.render.*
+import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.WorldRenderer
 import net.minecraft.util.hit.HitResult
-import net.minecraft.util.math.Direction
-import org.joml.Matrix4f
-import io.sc3.plethora.Plethora.ModId
-import io.sc3.plethora.gameplay.manipulator.ManipulatorBlock
-import kotlin.math.sin
 
-private const val GLOW_OFFSET = 0.005f
-private const val GLOW_PERIOD = 20.0
+// private const val GLOW_OFFSET = 0.005f
+// private const val GLOW_PERIOD = 20.0
 
 object ManipulatorOutlineRenderer {
-  private val layer = RenderLayer.getEntityTranslucent(ModId("textures/misc/white.png"))
+  // private val layer = RenderLayer.getEntityTranslucent(ModId("textures/misc/white.png"))
   private var ticks = 0f
 
   @JvmStatic
@@ -32,42 +29,52 @@ object ManipulatorOutlineRenderer {
     if (result == null || result.type != HitResult.Type.BLOCK) return true
 
     val facing = state.get(ManipulatorBlock.FACING)
-    val down = facing == Direction.DOWN
 
     val hit = result.pos.subtract(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble())
     val type = manipulator.type
 
-    for (box in type.boxesFor(facing)) {
-      val expandBox = box.expand(ManipulatorBlock.BOX_EXPAND)
-      if (expandBox.contains(hit)) {
-        val rb = expandBox.offset(pos).offset(worldCtx.camera().pos.negate())
-        val matrixStack = worldCtx.matrixStack()
+    val facingBoxes = type.boxesFor(facing.opposite)
+    // val upBoxes     = type.boxesFor(Direction.UP)
 
-        // Glowing square
-        if (down) {
-          // TODO: Because Boxes, this doesn't work for any direction except DOWN. Fix later
-          val glow = worldCtx.consumers()!!.getBuffer(layer)
-          val matrix4f = matrixStack.peek().positionMatrix
+    val hitBoxId = facingBoxes
+      .map { it.expand(ManipulatorBlock.BOX_EXPAND) }
+      .indexOfFirst { it.contains(hit) }
+      .takeIf { it >= 0 } ?: return true
 
-          val alpha = 0.4f + sin(ticks / GLOW_PERIOD).toFloat() * 0.1f
-          vertex(glow, matrix4f, rb.minX, rb.minY + GLOW_OFFSET, rb.minZ, 0f, 1f, alpha)
-          vertex(glow, matrix4f, rb.maxX, rb.minY + GLOW_OFFSET, rb.minZ, 1f, 1f, alpha)
-          vertex(glow, matrix4f, rb.maxX, rb.minY + GLOW_OFFSET, rb.maxZ, 1f, 0f, alpha)
-          vertex(glow, matrix4f, rb.minX, rb.minY + GLOW_OFFSET, rb.maxZ, 0f, 0f, alpha)
-        }
+    val cameraPos = worldCtx.camera().pos.negate()
+    val hitBox    = facingBoxes[hitBoxId].offset(pos).offset(cameraPos)
+    // val upBox     = upBoxes[hitBoxId]
 
-        // Box outline
-        val outline = worldCtx.consumers()!!.getBuffer(RenderLayer.getLines())
+    val matrixStack = worldCtx.matrixStack()
 
-        WorldRenderer.drawBox(matrixStack, outline, rb, 0.0f, 0.0f, 0.0f, 0.4f)
+    // Glowing square (use the box from the up rotation and then apply the rotation to the matrix)
+    /*matrixStack.push()
+    matrixStack.translate(cameraPos.x, cameraPos.y, cameraPos.z)
+    matrixStack.translate(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble())
 
-        return false
-      }
-    }
-    return true
+    matrixStack.translate(0.5, 0.5, 0.5)
+    matrixStack.multiply(facing.opposite.rotationQuaternion)
+    matrixStack.translate(-0.5, -0.5, -0.5)
+
+    val glow = worldCtx.consumers()!!.getBuffer(layer)
+    val matrix4f = matrixStack.peek().positionMatrix
+
+    val alpha = 0.4f + sin(ticks / GLOW_PERIOD).toFloat() * 0.1f
+    vertex(glow, matrix4f, upBox.minX, upBox.minY + GLOW_OFFSET, upBox.minZ, 0f, 1f, alpha)
+    vertex(glow, matrix4f, upBox.maxX, upBox.minY + GLOW_OFFSET, upBox.minZ, 1f, 1f, alpha)
+    vertex(glow, matrix4f, upBox.maxX, upBox.minY + GLOW_OFFSET, upBox.maxZ, 1f, 0f, alpha)
+    vertex(glow, matrix4f, upBox.minX, upBox.minY + GLOW_OFFSET, upBox.maxZ, 0f, 0f, alpha)
+
+    matrixStack.pop()*/
+
+    // Box outline
+    val outline = worldCtx.consumers()!!.getBuffer(RenderLayer.getLines())
+    WorldRenderer.drawBox(matrixStack, outline, hitBox, 1.0f, 1.0f, 1.0f, 0.4f)
+
+    return false
   }
 
-  private fun vertex(consumer: VertexConsumer, matrix4f: Matrix4f, x: Double, y: Double, z: Double,
+  /*private fun vertex(consumer: VertexConsumer, matrix4f: Matrix4f, x: Double, y: Double, z: Double,
                      u: Float, v: Float, alpha: Float) {
     consumer // POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL
       .vertex(matrix4f, x.toFloat(), y.toFloat(), z.toFloat())
@@ -77,5 +84,5 @@ object ManipulatorOutlineRenderer {
       .light(LightmapTextureManager.MAX_LIGHT_COORDINATE)
       .normal(0.0f, 0.0f, 1.0f)
       .next()
-  }
+  }*/
 }

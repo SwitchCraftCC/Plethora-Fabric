@@ -1,266 +1,219 @@
-package io.sc3.plethora.gameplay.manipulator;
+package io.sc3.plethora.gameplay.manipulator
 
-import com.mojang.authlib.GameProfile;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.ItemScatterer;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
-import io.sc3.plethora.api.IPlayerOwnable;
-import io.sc3.plethora.api.module.IModuleHandler;
-import io.sc3.plethora.core.executor.TaskRunner;
-import io.sc3.plethora.gameplay.BaseBlockEntity;
-import io.sc3.plethora.gameplay.registry.Registration.ModBlocks;
-import io.sc3.plethora.util.Helpers;
-import io.sc3.plethora.util.PlayerHelpers;
+import com.mojang.authlib.GameProfile
+import io.sc3.plethora.api.IPlayerOwnable
+import io.sc3.plethora.api.module.IModuleHandler
+import io.sc3.plethora.core.executor.TaskRunner
+import io.sc3.plethora.gameplay.BaseBlockEntity
+import io.sc3.plethora.gameplay.manipulator.ManipulatorBlock.Companion.BOX_EXPAND
+import io.sc3.plethora.gameplay.manipulator.ManipulatorBlock.Companion.OFFSET
+import io.sc3.plethora.util.Helpers
+import io.sc3.plethora.util.PlayerHelpers
+import net.minecraft.block.Block
+import net.minecraft.block.BlockState
+import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtElement
+import net.minecraft.util.ActionResult
+import net.minecraft.util.Hand
+import net.minecraft.util.Identifier
+import net.minecraft.util.ItemScatterer
+import net.minecraft.util.hit.BlockHitResult
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Direction
+import net.minecraft.util.math.Vec3d
+import net.minecraft.world.World
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
-import static io.sc3.plethora.gameplay.manipulator.ManipulatorBlock.BOX_EXPAND;
-import static io.sc3.plethora.gameplay.manipulator.ManipulatorBlock.OFFSET;
-import static io.sc3.plethora.gameplay.manipulator.ManipulatorType.MARK_1;
-import static io.sc3.plethora.gameplay.manipulator.ManipulatorType.MARK_2;
-
-public class ManipulatorBlockEntity extends BaseBlockEntity implements IPlayerOwnable {
-    private ManipulatorType type;
-    private DefaultedList<ItemStack> stacks;
-    private GameProfile profile;
-    private int stackHash;
-
-    private final Map<Identifier, NbtCompound> moduleData = new HashMap<>();
-
-    private final TaskRunner runner = new TaskRunner();
-
-    // Lazily loaded render options
-    private float offset = -1;
-    private float rotation;
-
-    public ManipulatorBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, ManipulatorType manipulatorType) {
-        super(type, pos, state);
-        setType(manipulatorType);
+class ManipulatorBlockEntity(
+  type: BlockEntityType<*>,
+  pos: BlockPos,
+  state: BlockState,
+  initialType: ManipulatorType
+) : BaseBlockEntity(type, pos, state), IPlayerOwnable {
+  var manipulatorType: ManipulatorType = initialType
+    set(value) {
+      stacks = value.defaultStacks()
+      field = value
     }
 
-    private void setType(ManipulatorType type) {
-        if (this.type != null) return;
+  private val moduleData = mutableMapOf<Identifier, NbtCompound>()
+  private var stacks = manipulatorType.defaultStacks()
+  var stackHash = 0
+    private set
 
-        this.type = type;
-        stacks = DefaultedList.ofSize(type.size(), ItemStack.EMPTY);
+  private var profile: GameProfile? = null
+
+  val runner = TaskRunner()
+
+  // Lazily loaded render options
+  private var offset = -1f
+  private var rotation = 0f
+
+  val facing: Direction
+    get() {
+      val state = world!!.getBlockState(getPos())
+      return if (state.block is ManipulatorBlock) {
+        state.get(ManipulatorBlock.FACING)
+      } else {
+        Direction.DOWN
+      }
     }
 
-    public ManipulatorType getManipulatorType() {
-        return type;
+  fun getStack(slot: Int) = stacks[slot]
+
+  fun getModuleData(id: Identifier): NbtCompound = moduleData[id]
+    ?: NbtCompound().also { moduleData[id] = it }
+
+  fun markModuleDataDirty() {
+    markDirty()
+    val world = world ?: return
+    val pos = getPos()
+    val state = world.getBlockState(pos)
+    world.updateListeners(pos, state, state, Block.NOTIFY_ALL)
+  }
+
+  override fun readNbt(nbt: NbtCompound) {
+    super.readNbt(nbt)
+    readDescription(nbt)
+  }
+
+  override fun writeNbt(nbt: NbtCompound) {
+    super.writeNbt(nbt)
+    writeDescription(nbt)
+  }
+
+  override fun writeDescription(nbt: NbtCompound) {
+    super.writeDescription(nbt)
+
+    // Manipulator type (Mark I, Mark II)
+    nbt.putInt("type", manipulatorType.ordinal)
+
+    // Serialise the owner of the manipulator, used for tracking who fired a laser etc.
+    PlayerHelpers.writeProfile(nbt, profile)
+
+    // Manipulator's stored modules
+    for (i in stacks.indices) {
+      val stack = stacks[i]
+      if (!stack.isEmpty) {
+        nbt.put("stack$i", stack.writeNbt(NbtCompound()))
+      } else {
+        nbt.remove("stack$i")
+      }
     }
 
-    public Direction getFacing() {
-        BlockState state = Objects.requireNonNull(getWorld()).getBlockState(getPos());
-        return state.getBlock() instanceof ManipulatorBlock
-            ? state.get(ManipulatorBlock.FACING)
-            : Direction.DOWN;
+    // Any additional data stored by the modules in the manipulator
+    if (moduleData.isEmpty()) {
+      nbt.remove("data")
+    } else {
+      val data = NbtCompound()
+      for ((key, value) in moduleData) {
+        data.put(key.toString(), value)
+      }
+    }
+  }
+
+  override fun readDescription(nbt: NbtCompound) {
+    super.readDescription(nbt)
+
+    if (nbt.contains("type", NbtElement.INT_TYPE.toInt())) {
+      val meta = nbt.getInt("type")
+      manipulatorType = ManipulatorType.values()[meta and 1]
     }
 
-    @Nonnull
-    public ItemStack getStack(int slot) {
-        return stacks.get(slot);
+    profile = PlayerHelpers.readProfile(nbt)
+    for (i in stacks.indices) {
+      stacks[i] = if (nbt.contains("stack$i")) {
+        ItemStack.fromNbt(nbt.getCompound("stack$i"))
+      } else {
+        ItemStack.EMPTY
+      }
     }
 
-    public int getStackHash() {
-        return stackHash;
+    stackHash = Helpers.hashStacks(stacks)
+
+    val data = nbt.getCompound("data")
+    for (key in data.keys) {
+      moduleData[Identifier(key)] = data.getCompound(key)
     }
+  }
 
-    public NbtCompound getModuleData(Identifier id) {
-        NbtCompound nbt = moduleData.get(id);
-        if (nbt == null) moduleData.put(id, nbt = new NbtCompound());
-        return nbt;
-    }
+  override fun onUse(player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
+    if (player.entityWorld.isClient) return ActionResult.SUCCESS
+    
+    val world = world ?: return ActionResult.SUCCESS
+    val blockPos = getPos()
+    val hitPos = hit.pos.subtract(Vec3d.of(blockPos))
+    
+    val heldStack = player.getStackInHand(hand)
+    val boxes = manipulatorType.boxesFor(facing.opposite)
 
-    public void markModuleDataDirty() {
-        markDirty();
-        BlockPos pos = getPos();
-        World world = Objects.requireNonNull(getWorld());
-        BlockState state = world.getBlockState(pos);
-        world.updateListeners(pos, state, state, Block.NOTIFY_ALL);
-    }
+    boxes.forEachIndexed { i, box ->
+      if (box.expand(BOX_EXPAND).contains(hitPos)) {
+        val stack = stacks[i]
 
-    @Override
-    public void readNbt(NbtCompound nbt) {
-        super.readNbt(nbt);
-        readDescription(nbt);
-    }
-
-    @Override
-    protected void writeNbt(NbtCompound nbt) {
-        super.writeNbt(nbt);
-        writeDescription(nbt);
-    }
-
-    @Override
-    protected void writeDescription(NbtCompound nbt) {
-        super.writeDescription(nbt);
-
-        // Manipulator type (Mark I, Mark II)
-        nbt.putInt("type", type.ordinal());
-
-        // Serialise the owner of the manipulator, used for tracking who fired a laser etc.
-        PlayerHelpers.writeProfile(nbt, profile);
-
-        // Manipulator's stored modules
-        for (int i = 0; i < stacks.size(); i++) {
-            ItemStack stack = stacks.get(i);
-            if (!stack.isEmpty()) {
-                nbt.put("stack" + i, stack.writeNbt(new NbtCompound()));
-            } else {
-                nbt.remove("stack" + i);
-            }
+        if (heldStack.isEmpty && !stack.isEmpty) {
+          // Remove a module from the manipulator
+          if (!player.isCreative) {
+            val offset = Vec3d.of(pos)
+              .add(Vec3d(facing.opposite.unitVector).multiply(OFFSET))
+            ItemScatterer.spawn(world, offset.x, offset.y, offset.z, stack)
+          }
+          
+          stacks[i] = ItemStack.EMPTY
+          stackHash = Helpers.hashStacks(stacks)
+          markForUpdate()
+          
+          return ActionResult.SUCCESS
+        } else if (stack.isEmpty && !heldStack.isEmpty && heldStack.item is IModuleHandler) {
+          // Insert a module into the manipulator
+          stacks[i] = heldStack.copy()
+          stacks[i].count = 1
+          stackHash = Helpers.hashStacks(stacks)
+          
+          if (!player.isCreative) {
+            heldStack.decrement(1)
+            // TODO: Sufficient to just decrement without setting the inventory stack to empty? Should be.
+          }
+          
+          markForUpdate()
+          
+          return ActionResult.SUCCESS
         }
-
-        // Any additional data stored by the modules in the manipulator
-        if (moduleData.isEmpty()) {
-            nbt.remove("data");
-        } else {
-            NbtCompound data = new NbtCompound();
-            for (Map.Entry<Identifier, NbtCompound> entry : moduleData.entrySet()) {
-                data.put(entry.getKey().toString(), entry.getValue());
-            }
-        }
+      }
     }
+    
+    return ActionResult.PASS
+  }
 
-    @Override
-    protected void readDescription(NbtCompound nbt) {
-        super.readDescription(nbt);
+  override fun unload() {
+    super.unload()
+    runner.reset() // TODO: Verify this is sufficient, survives clearRemoved, etc
+  }
 
-        if (nbt.contains("type", NbtElement.INT_TYPE) && type != null) {
-            int meta = nbt.getInt("type");
-            setType(ManipulatorType.values()[meta & 1]);
-        }
+  override fun broken() {
+    super.broken()
+    ItemScatterer.spawn(world, pos, stacks) // Will already filter out empty ItemStacks in spawn check
+    stacks.clear()
+    stackHash = 0
+  }
 
-        if (type == null) return;
+  fun incrementRotation(tickDelta: Float): Float {
+    if (offset < 0) offset = (Helpers.RANDOM.nextDouble() * 360).toFloat()
+    rotation += tickDelta
+    return rotation + offset
+  }
 
-        profile = PlayerHelpers.readProfile(nbt);
+  override fun getOwningProfile() = profile
 
-        for (int i = 0; i < stacks.size(); i++) {
-            stacks.set(i, nbt.contains("stack" + i)
-                ? ItemStack.fromNbt(nbt.getCompound("stack" + i))
-                : ItemStack.EMPTY);
-        }
+  fun setOwningProfile(profile: GameProfile?) {
+    this.profile = profile
+  }
 
-        stackHash = Helpers.hashStacks(stacks);
-
-        NbtCompound data = nbt.getCompound("data");
-        for (String key : data.getKeys()) {
-            moduleData.put(new Identifier(key), data.getCompound(key));
-        }
+  companion object {
+    fun tick(world: World, pos: BlockPos, state: BlockState, be: ManipulatorBlockEntity) {
+      be.runner.update()
     }
-
-    @Nonnull
-    @Override
-    public ActionResult onUse(PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (player.getEntityWorld().isClient) return ActionResult.SUCCESS;
-
-        World world = Objects.requireNonNull(getWorld());
-        BlockPos blockPos = getPos();
-        Vec3d hitPos = hit.getPos().subtract(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-
-        if (type == null) {
-            Block block = world.getBlockState(blockPos).getBlock();
-            setType(block == ModBlocks.MANIPULATOR_MARK_1 ? MARK_1 : MARK_2);
-        }
-
-        ItemStack heldStack = player.getStackInHand(hand);
-        Box[] boxes = type.boxesFor(getFacing());
-        for (int i = 0; i < type.size(); i++) {
-            Box box = boxes[i];
-            if (box.expand(BOX_EXPAND).contains(hitPos)) {
-                final ItemStack stack = stacks.get(i);
-                if (heldStack.isEmpty() && !stack.isEmpty()) {
-                    // Remove a module from the manipulator
-                    if (!player.isCreative()) {
-                        Vec3d offset = new Vec3d(pos.getX(), pos.getY(), pos.getZ())
-                            .add(new Vec3d(getFacing().getOpposite().getUnitVector()).multiply(OFFSET));
-                        ItemScatterer.spawn(world, offset.x, offset.y, offset.z, stack);
-                    }
-
-                    stacks.set(i, ItemStack.EMPTY);
-                    stackHash = Helpers.hashStacks(stacks);
-                    markForUpdate();
-
-                    return ActionResult.SUCCESS;
-                } else if (stack.isEmpty() && !heldStack.isEmpty() && heldStack.getItem() instanceof IModuleHandler) {
-                    // Insert a module into the manipulator
-                    stacks.set(i, heldStack.copy());
-                    stacks.get(i).setCount(1);
-                    stackHash = Helpers.hashStacks(stacks);
-
-                    if (!player.isCreative()) {
-                        heldStack.decrement(1);
-                        // TODO: Sufficient to just decrement without setting the inventory stack to empty? Should be.
-                    }
-
-                    markForUpdate();
-
-                    return ActionResult.SUCCESS;
-                }
-            }
-        }
-
-        return ActionResult.PASS;
-    }
-
-    @Override
-    protected void unload() {
-        super.unload();
-        runner.reset(); // TODO: Verify this is sufficient, survives clearRemoved, etc
-    }
-
-    @Override
-    public void broken() {
-        super.broken();
-
-        if (stacks == null) return;
-
-        ItemScatterer.spawn(world, pos, stacks); // Will already filter out empty ItemStacks in spawn check
-
-        stacks.clear();
-        stackHash = 0;
-    }
-
-    public float incrementRotation(float tickDelta) {
-        if (offset < 0) offset = (float) (Helpers.RANDOM.nextDouble() * 360);
-        rotation += tickDelta;
-        return rotation + offset;
-    }
-
-    public static void tick(World world, BlockPos pos, BlockState state, ManipulatorBlockEntity be) {
-        be.runner.update();
-    }
-
-    public TaskRunner getRunner() {
-        return runner;
-    }
-
-    @Nullable
-    @Override
-    public GameProfile getOwningProfile() {
-        return profile;
-    }
-
-    public void setOwningProfile(GameProfile profile) {
-        this.profile = profile;
-    }
+  }
 }
