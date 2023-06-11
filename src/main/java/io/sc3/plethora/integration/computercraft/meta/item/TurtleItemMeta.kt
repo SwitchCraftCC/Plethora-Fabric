@@ -2,12 +2,12 @@ package io.sc3.plethora.integration.computercraft.meta.item
 
 import dan200.computercraft.api.turtle.ITurtleUpgrade
 import dan200.computercraft.api.turtle.TurtleSide
-import dan200.computercraft.shared.turtle.items.ITurtleItem
+import dan200.computercraft.shared.turtle.items.TurtleItem
 import io.sc3.plethora.api.meta.ItemStackMetaProvider
 import net.minecraft.item.ItemStack
 
-class TurtleItemMeta : ItemStackMetaProvider<ITurtleItem>(ITurtleItem::class.java, "turtle") {
-  override fun getMeta(stack: ItemStack, item: ITurtleItem): Map<String, *> {
+class TurtleItemMeta : ItemStackMetaProvider<TurtleItem>(TurtleItem::class.java, "turtle") {
+  override fun getMeta(stack: ItemStack, item: TurtleItem): Map<String, *> {
     val out: MutableMap<String, Any?> = HashMap()
 
     val colour = item.getColour(stack)

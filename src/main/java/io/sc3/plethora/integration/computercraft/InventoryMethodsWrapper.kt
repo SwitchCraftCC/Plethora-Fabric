@@ -75,21 +75,24 @@ object InventoryMethodsWrapper {
     return result(InventoryMethods.pullItems(inv, access, fromName, fromSlot, limit, toSlot))
   }
 
+  private fun InventoryStorage.wrapped(): InventoryMethods.StorageWrapper =
+    InventoryMethods.StorageWrapper(this)
+
   private fun IUnbakedContext<Inventory>.getInventory(): Inventory =
     bake().target
 
-  private fun IUnbakedContext<Inventory>.getInventoryStorage(): InventoryStorage =
-    InventoryStorage.of(getInventory(), null)
+  private fun IUnbakedContext<Inventory>.getInventoryStorage(): InventoryMethods.StorageWrapper =
+    InventoryStorage.of(getInventory(), null).wrapped()
 
   private fun getContext(unbaked: IUnbakedContext<Inventory>): Context {
     val ctx = unbaked.bake()
     val access = ContextHelpers.fromContext(ctx, IComputerAccess::class.java)
-    return Context(ctx, InventoryStorage.of(ctx.target, null), access)
+    return Context(ctx, InventoryStorage.of(ctx.target, null).wrapped(), access)
   }
 
   private data class Context(
     val context: IContext<Inventory>,
-    val inv: InventoryStorage,
+    val inv: InventoryMethods.StorageWrapper,
     val access: IComputerAccess?
   )
 }

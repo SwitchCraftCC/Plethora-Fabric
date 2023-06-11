@@ -246,7 +246,7 @@ public final class Registration {
   public static final class ModTurtleUpgradeSerialisers {
     private static <T extends TurtleUpgradeSerialiser<?>> T register(Identifier name, T serialiser) {
       @SuppressWarnings("unchecked")
-      var registry = (Registry<? super TurtleUpgradeSerialiser<?>>) REGISTRIES.get(TurtleUpgradeSerialiser.REGISTRY_ID.getValue());
+      var registry = (Registry<? super TurtleUpgradeSerialiser<?>>) REGISTRIES.get(TurtleUpgradeSerialiser.registryId().getValue());
       if (registry == null) throw new IllegalStateException("ComputerCraft has not initialised yet?");
       Registry.register(registry, name, serialiser);
       return serialiser;
@@ -268,7 +268,7 @@ public final class Registration {
   public static final class ModPocketUpgradeSerialisers {
     private static <T extends PocketUpgradeSerialiser<?>> T register(Identifier name, T serialiser) {
       @SuppressWarnings("unchecked")
-      var registry = (Registry<? super PocketUpgradeSerialiser<?>>) REGISTRIES.get(PocketUpgradeSerialiser.REGISTRY_ID.getValue());
+      var registry = (Registry<? super PocketUpgradeSerialiser<?>>) REGISTRIES.get(PocketUpgradeSerialiser.registryId().getValue());
       if (registry == null) throw new IllegalStateException("ComputerCraft has not initialised yet?");
       Registry.register(registry, name, serialiser);
       return serialiser;
