@@ -104,7 +104,7 @@ public class PocketUpgradeModule implements IPocketUpgrade {
 		IWorldLocation location = new LastEntityLocation(pocket);
 
 		ContextFactory<IModuleContainer> factory = ContextFactory.of(container, containerRef)
-			.withCostHandler(DefaultCostHandler.get(pocket))
+			.withCostHandler(DefaultCostHandler.get(entity))
 			.withModules(container, containerRef)
 			.addContext(ContextKeys.ORIGIN, new PocketPlayerOwnable(access))
 			.addContext(ContextKeys.ORIGIN, location)
