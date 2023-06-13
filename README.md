@@ -1,7 +1,7 @@
 # Plethora-Fabric
 
-Plethora is a ComputerCraft/CC:Tweaked peripheral provider for Minecraft 1.19.4. Plethora-Fabric is a port of 
-[Plethora](https://github.com/SquidDev-CC/plethora) for Fabric 1.19.4. It aims to provide both metadata and
+Plethora is a ComputerCraft/CC:Tweaked peripheral provider for Minecraft 1.20.1. Plethora-Fabric is a port of 
+[Plethora](https://github.com/SquidDev-CC/plethora) for Fabric 1.20.1. It aims to provide both metadata and
 peripherals for vanilla Minecraft and (*TODO*) mainstream mods.
 
 Plethora also adds a series of "modules" to the game. These modules can be used by the player with varying success.
@@ -26,7 +26,7 @@ as much of the original mod as possible. For a detailed list of differences to t
 to migrate your code, see the changes list at [docs.sc3.io](https://docs.sc3.io/whats-new/plethora.html).
 
 ## Requirements
-- Minecraft 1.19.4
+- Minecraft 1.20.1
 - [Fabric](https://fabricmc.net/use/installer)
 - [Fabric API](https://modrinth.com/mod/fabric-api)
 - [CC: Tweaked](https://modrinth.com/mod/cc-tweaked)
