@@ -220,7 +220,7 @@ class LaserEntity : Entity, IPlayerOwnable {
 
         // Set position
         setPosition(nextPos)
-        syncPositions(false)
+        // syncPositions(false) // TODO: Verify this is no longer needed
 
         // Handle collision
         if (collision != null && collision.type != HitResult.Type.MISS) {
@@ -428,12 +428,20 @@ class LaserEntity : Entity, IPlayerOwnable {
 
     private fun syncFromEntity(player: PlayerEntity, from: Entity) {
       val fromPos = from.pos
-      player.moveToWorld(from.entityWorld as ServerWorld)
+      val fromWorld = from.entityWorld
+
+      if (player.world != fromWorld && fromWorld is ServerWorld) {
+        player.moveToWorld(fromWorld)
+      }
+
       player.updatePositionAndAngles(fromPos.x, fromPos.y, fromPos.z, from.yaw, from.pitch)
     }
 
     private fun syncFromPos(player: PlayerEntity, @Nonnull world: World, pos: Vec3d, yaw: Float, pitch: Float) {
-      player.moveToWorld(world as ServerWorld)
+      if (player.world != world && world is ServerWorld) {
+        player.moveToWorld(world)
+      }
+
       player.updatePositionAndAngles(pos.x, pos.y, pos.z, yaw, pitch)
     }
 
