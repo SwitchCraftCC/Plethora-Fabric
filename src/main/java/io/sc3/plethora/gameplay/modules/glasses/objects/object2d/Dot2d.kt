@@ -1,10 +1,5 @@
 package io.sc3.plethora.gameplay.modules.glasses.objects.object2d
 
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
-import net.minecraft.client.render.*
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.network.PacketByteBuf
 import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasClient
 import io.sc3.plethora.gameplay.modules.glasses.objects.ColourableObject
 import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectRegistry.DOT_2D
@@ -12,6 +7,11 @@ import io.sc3.plethora.gameplay.modules.glasses.objects.Scalable
 import io.sc3.plethora.util.ByteBufUtils
 import io.sc3.plethora.util.DirtyingProperty
 import io.sc3.plethora.util.Vec2d
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
+import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.render.*
+import net.minecraft.network.PacketByteBuf
 
 class Dot2d(
   id: Int,
@@ -33,12 +33,13 @@ class Dot2d(
   }
 
   @Environment(EnvType.CLIENT)
-  override fun draw(canvas: CanvasClient, matrices: MatrixStack, consumers: VertexConsumerProvider?) {
+  override fun draw(canvas: CanvasClient, ctx: DrawContext, consumers: VertexConsumerProvider?) {
     setupFlat()
 
     val x = position.x().toFloat(); val y = position.y().toFloat()
     val delta = scale / 2
 
+    val matrices = ctx.matrices
     val buffer = Tessellator.getInstance().buffer
     val matrix = matrices.peek().positionMatrix
 

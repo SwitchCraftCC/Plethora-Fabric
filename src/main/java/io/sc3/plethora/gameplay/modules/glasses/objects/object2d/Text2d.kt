@@ -13,10 +13,10 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.font.TextRenderer.TextLayerType
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.Tessellator
 import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.network.PacketByteBuf
 
 class Text2d(
@@ -52,7 +52,7 @@ class Text2d(
   }
 
   @Environment(EnvType.CLIENT)
-  override fun draw(canvas: CanvasClient, matrices: MatrixStack, consumers: VertexConsumerProvider?) {
+  override fun draw(canvas: CanvasClient, ctx: DrawContext, consumers: VertexConsumerProvider?) {
     // If the alpha channel doesn't match a 0xFC, then the font renderer
     // will make it opaque. We also early exit here if we're transparent.
     val alpha = colour and 0xFF
@@ -63,6 +63,7 @@ class Text2d(
 
     val textRenderer = MinecraftClient.getInstance().textRenderer
 
+    val matrices = ctx.matrices
     matrices.push()
     matrices.translate(position.x, position.y, 0.0)
     matrices.scale(scale, scale, 1f)

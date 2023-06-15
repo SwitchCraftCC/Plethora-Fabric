@@ -6,6 +6,7 @@ import dan200.computercraft.api.lua.LuaFunction
 import dan200.computercraft.api.lua.MethodResult
 import dan200.computercraft.api.peripheral.GenericPeripheral
 import io.sc3.plethora.integration.vanilla.meta.blockentity.lines
+import io.sc3.plethora.integration.vanilla.meta.blockentity.withMessages
 import net.minecraft.block.Block
 import net.minecraft.block.entity.SignBlockEntity
 import net.minecraft.text.Text
@@ -23,7 +24,7 @@ object SignGenericPeripheral : GenericPeripheral {
   @LuaFunction(mainThread = true)
   @JvmStatic
   fun setSignText(sign: SignBlockEntity, args: IArguments) {
-    val lines = (0 until 4).map {
+    val lines = (0 until 8).map {
       val line = args.optUtf8String(it) ?: ""
       // This may seem rather large, but it is possible to get quite large when using very narrow letters.
       if (line.length > 384) {
@@ -33,9 +34,10 @@ object SignGenericPeripheral : GenericPeripheral {
       Text.of(line)
     }
 
-    // TODO: This currently bypasses text filtering, though I am not aware of any JE servers using it at the moment
-    lines.forEachIndexed { i, line -> sign.setTextOnRow(i, line) }
-    sign.markDirty()
+    val front = sign.frontText.withMessages(lines.subList(0, 4))
+    val back = sign.backText.withMessages(lines.subList(4, 8))
+    sign.setText(front, true) // calls updateListeners and markDirty twice
+    sign.setText(back, true)
 
     val world = sign.world ?: return
     val pos = sign.pos

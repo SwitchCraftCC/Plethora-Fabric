@@ -23,7 +23,7 @@ object TurtleFakePlayerProvider {
 
   @JvmStatic
   fun load(player: PlethoraFakePlayer, turtle: ITurtleAccess, dir: Direction) {
-    player.setWorld(turtle.level as ServerWorld)
+    player.serverWorld = turtle.level as ServerWorld
 
     val pos = turtle.position
     player.updatePositionAndAngles(

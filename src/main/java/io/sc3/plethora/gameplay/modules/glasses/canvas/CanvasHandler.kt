@@ -19,7 +19,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.fabricmc.fabric.api.util.NbtType.COMPOUND
 import net.fabricmc.fabric.api.util.NbtType.NUMBER
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.entity.player.PlayerEntity
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -108,12 +108,13 @@ object CanvasHandler {
   }
 
   @JvmStatic
-  fun render2DOverlay(client: MinecraftClient, matrices: MatrixStack) {
+  fun render2DOverlay(client: MinecraftClient, ctx: DrawContext) {
     val canvas = getCanvas(client) ?: return
 
     // If we've no text renderer then we're probably not quite ready yet
     if (client.textRenderer == null) return
 
+    val matrices = ctx.matrices
     matrices.push()
 
     // The hotbar renders at -90 (see InGameGui#renderHotbar)
@@ -122,7 +123,7 @@ object CanvasHandler {
 
     synchronized(canvas) {
       canvas.getChildren(ID_2D)?.let {
-        canvas.drawChildren(it.iterator(), matrices, null)
+        canvas.drawChildren(it.iterator(), ctx, null)
       }
     }
 
@@ -132,10 +133,13 @@ object CanvasHandler {
   }
 
   private fun onWorldRender(ctx: WorldRenderContext) {
-    val canvas = getCanvas(MinecraftClient.getInstance()) ?: return
+    val mc = MinecraftClient.getInstance()
+    val canvas = getCanvas(mc) ?: return
+    val drawContext = DrawContext(mc, mc.bufferBuilders.entityVertexConsumers) // TODO(1.20.1): correct?
+
     synchronized(canvas) {
       canvas.getChildren(ID_3D)?.let {
-        canvas.drawChildren(it.iterator(), ctx.matrixStack(), ctx.consumers())
+        canvas.drawChildren(it.iterator(), drawContext, ctx.consumers())
       }
     }
 

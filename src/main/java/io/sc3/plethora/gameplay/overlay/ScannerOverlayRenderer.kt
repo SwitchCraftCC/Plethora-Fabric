@@ -33,7 +33,7 @@ object ScannerOverlayRenderer : FlareOverlayRenderer() {
 
     scanTimer += tickDelta
     if (scanTimer >= 10) {
-      scanBlocks(player.getWorld(), player.blockPos, stack)
+      scanBlocks(player.world, player.blockPos, stack)
       scanTimer = 0f
     }
 

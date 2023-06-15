@@ -14,8 +14,8 @@ import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectGroup.Group3d
 import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectRegistry.ORIGIN_3D
 import io.sc3.plethora.util.ByteBufUtils
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3d
@@ -48,9 +48,10 @@ class ObjectRoot3d(
     buf.writeIdentifier(worldKey)
   }
 
-  override fun draw(canvas: CanvasClient, matrices: MatrixStack, consumers: VertexConsumerProvider?) {
+  override fun draw(canvas: CanvasClient, ctx: DrawContext, consumers: VertexConsumerProvider?) {
     val children = canvas.getChildren(id) ?: return
 
+    val matrices = ctx.matrices
     val mc = MinecraftClient.getInstance()
     val entity = mc.cameraEntity ?: return
     if (entity.world?.registryKey?.value != worldKey) return
@@ -65,7 +66,7 @@ class ObjectRoot3d(
     // TODO: View bobbing
     matrices.translate(-view.x + origin.x, -view.y + origin.y, -view.z + origin.z)
 
-    canvas.drawChildren(children.iterator(), matrices, consumers)
+    canvas.drawChildren(children.iterator(), ctx, consumers)
 
     matrices.pop()
   }

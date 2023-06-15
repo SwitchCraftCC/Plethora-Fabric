@@ -14,8 +14,8 @@ import io.sc3.plethora.util.DirtyingProperty
 import io.sc3.plethora.util.Vec2d
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.render.*
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.network.PacketByteBuf
 
 class Rectangle2d(
@@ -52,12 +52,13 @@ class Rectangle2d(
   }
 
   @Environment(EnvType.CLIENT)
-  override fun draw(canvas: CanvasClient, matrices: MatrixStack, consumers: VertexConsumerProvider?) {
+  override fun draw(canvas: CanvasClient, ctx: DrawContext, consumers: VertexConsumerProvider?) {
     setupFlat()
 
     val minX = position.x().toFloat(); val minY = position.y().toFloat()
     val maxX = (minX + width).toFloat(); val maxY = (minY + height).toFloat()
 
+    val matrices = ctx.matrices
     val buffer = Tessellator.getInstance().buffer
     val matrix = matrices.peek().positionMatrix
 

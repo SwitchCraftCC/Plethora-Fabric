@@ -17,6 +17,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.util.NbtType
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks
+import net.minecraft.block.FluidBlock
 import net.minecraft.block.OperatorBlock
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
@@ -255,7 +256,7 @@ class LaserEntity : Entity, IPlayerOwnable {
       val blockState = world.getBlockState(position)
       val block = blockState.block
 
-      if (!blockState.isAir && !blockState.material.isLiquid) {
+      if (!blockState.isAir && blockState.block !is FluidBlock) {
         val hardness = blockState.getHardness(world, position)
         val player = getShooterPlayer() ?: return
 

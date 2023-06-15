@@ -2,7 +2,7 @@ package io.sc3.plethora.gameplay.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import dan200.computercraft.client.gui.widgets.DynamicImageButton;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Identifier;
 
 import javax.annotation.Nonnull;
@@ -19,10 +19,10 @@ public class PlethoraDynamicImageButton extends DynamicImageButton {
   }
 
   @Override
-  public void renderButton(@Nonnull MatrixStack stack, int mouseX, int mouseY, float partialTicks) {
+  public void renderButton(@Nonnull DrawContext ctx, int mouseX, int mouseY, float partialTicks) {
     // The transparent module icon does not render properly with the plain old DynamicImageButton
     RenderSystem.enableBlend();
-    super.renderButton(stack, mouseX, mouseY, partialTicks);
+    super.renderButton(ctx, mouseX, mouseY, partialTicks);
     RenderSystem.disableBlend();
   }
 }

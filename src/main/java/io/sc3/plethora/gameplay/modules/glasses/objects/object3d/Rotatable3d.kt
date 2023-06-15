@@ -8,15 +8,16 @@ import io.sc3.plethora.api.method.IUnbakedContext
 import io.sc3.plethora.api.method.toResult
 import io.sc3.plethora.core.ContextHelpers.safeFromTarget
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.util.math.RotationAxis
 import net.minecraft.util.math.Vec3d
 
 interface Rotatable3d {
   var rotation: Vec3d?
 
-  fun applyRotation(matrices: MatrixStack, flipPitch: Boolean) {
+  fun applyRotation(ctx: DrawContext, flipPitch: Boolean) {
     val mc = MinecraftClient.getInstance()
+    val matrices = ctx.matrices
 
     val rot = rotation
     if (rot == null) {

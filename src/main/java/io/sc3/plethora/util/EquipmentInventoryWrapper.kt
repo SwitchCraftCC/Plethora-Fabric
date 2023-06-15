@@ -38,9 +38,9 @@ class EquipmentInventoryWrapper(
       onContentsChanged(slot)
       existing
     } else {
-      setStack(slot, copyStackWithSize(existing, existing.count - toExtract))
+      setStack(slot, existing.copyWithCount(existing.count - toExtract))
       onContentsChanged(slot)
-      copyStackWithSize(existing, toExtract)
+      existing.copyWithCount(toExtract)
     }
   }
 
@@ -88,13 +88,6 @@ class EquipmentInventoryWrapper(
 
     private fun validateSlotIndex(slot: Int) {
       require(slot in 0..SLOTS) { "Slot $slot not in valid range - [0, $SLOTS]" }
-    }
-
-    private fun copyStackWithSize(stack: ItemStack, size: Int): ItemStack {
-      if (size == 0) return EMPTY
-      val copy = stack.copy()
-      copy.count = size
-      return copy
     }
   }
 }

@@ -8,6 +8,7 @@ import io.sc3.plethora.mixin.ServerPlayerInteractionManagerAccessor
 import net.fabricmc.fabric.api.entity.FakePlayer
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks
+import net.minecraft.block.FluidBlock
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
@@ -73,13 +74,12 @@ class PlethoraFakePlayer(
     val world = entityWorld
     val state = world.getBlockState(pos)
     val block = state.block
-    val material = state.material
 
     val topY = world.topY
 
     if (block !== digBlock || pos != digPosition) setState(block, pos)
 
-    if (!world.isAir(pos) && !material.isLiquid) {
+    if (!world.isAir(pos) && block !is FluidBlock) {
       if (block === Blocks.BEDROCK || state.getHardness(world, pos) <= -1) {
         return Pair(false, "Unbreakable block detected")
       }

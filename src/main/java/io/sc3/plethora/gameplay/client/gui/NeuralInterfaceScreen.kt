@@ -1,19 +1,12 @@
 package io.sc3.plethora.gameplay.client.gui
 
-import com.mojang.blaze3d.systems.RenderSystem
 import dan200.computercraft.client.gui.AbstractComputerScreen
 import dan200.computercraft.client.gui.widgets.ComputerSidebar
 import dan200.computercraft.client.gui.widgets.DynamicImageButton
 import dan200.computercraft.client.gui.widgets.TerminalWidget
 import dan200.computercraft.client.render.ComputerBorderRenderer
+import dan200.computercraft.shared.computer.core.ComputerFamily
 import dan200.computercraft.shared.computer.inventory.AbstractComputerMenu
-import net.minecraft.client.gui.tooltip.Tooltip
-import net.minecraft.client.render.GameRenderer
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.entity.player.PlayerInventory
-import net.minecraft.screen.slot.Slot
-import net.minecraft.text.Text
-import net.minecraft.text.Text.translatable
 import io.sc3.plethora.Plethora.ModId
 import io.sc3.plethora.gameplay.neural.NeuralInterfaceScreenHandler
 import io.sc3.plethora.gameplay.neural.NeuralInterfaceScreenHandler.Companion.NEURAL_START_X
@@ -21,6 +14,12 @@ import io.sc3.plethora.gameplay.neural.NeuralInterfaceScreenHandler.Companion.S
 import io.sc3.plethora.gameplay.neural.NeuralInterfaceScreenHandler.Companion.START_Y
 import io.sc3.plethora.gameplay.neural.NeuralInterfaceScreenHandler.Companion.slotPositions
 import io.sc3.plethora.gameplay.neural.NeuralInterfaceScreenHandler.Companion.swapBtn
+import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.tooltip.Tooltip
+import net.minecraft.entity.player.PlayerInventory
+import net.minecraft.screen.slot.Slot
+import net.minecraft.text.Text
+import net.minecraft.text.Text.translatable
 
 class NeuralInterfaceScreen(
   private val container: NeuralInterfaceScreenHandler,
@@ -61,22 +60,17 @@ class NeuralInterfaceScreen(
     y + BORDER
   )
 
-  override fun drawBackground(matrices: MatrixStack, delta: Float, mouseX: Int, mouseY: Int) {
-    RenderSystem.setShader(GameRenderer::getPositionTexProgram)
-    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f)
-    RenderSystem.setShaderTexture(0, tex)
-
-    drawTexture(matrices, x + AbstractComputerMenu.SIDEBAR_WIDTH, y, 0, 0, TEX_WIDTH, TEX_HEIGHT)
+  override fun drawBackground(ctx: DrawContext, delta: Float, mouseX: Int, mouseY: Int) {
+    ctx.drawTexture(tex, x + AbstractComputerMenu.SIDEBAR_WIDTH, y, 0, 0, TEX_WIDTH, TEX_HEIGHT)
 
     // Peripheral direction overlay
     if (peripherals) {
-      drawTexture(matrices, x + NEURAL_START_X + 1 + S, y + START_Y + 1, 32, ICON_Y, 16, 16); // Top
-      drawTexture(matrices, x + NEURAL_START_X + 1, y + START_Y + 1 + S, 50, ICON_Y, 16 * 3, 16); // Middle 3
-      drawTexture(matrices, x + NEURAL_START_X + 1 + S, y + START_Y + 1 + 2 * S, 104, ICON_Y, 16, 16); // Bottom
+      ctx.drawTexture(tex, x + NEURAL_START_X + 1 + S, y + START_Y + 1, 32, ICON_Y, 16, 16); // Top
+      ctx.drawTexture(tex, x + NEURAL_START_X + 1, y + START_Y + 1 + S, 50, ICON_Y, 16 * 3, 16); // Middle 3
+      ctx.drawTexture(tex, x + NEURAL_START_X + 1 + S, y + START_Y + 1 + 2 * S, 104, ICON_Y, 16, 16); // Bottom
     }
 
-    RenderSystem.setShaderTexture(0, ComputerBorderRenderer.BACKGROUND_NORMAL)
-    ComputerSidebar.renderBackground(matrices, x, y + sidebarYOffset)
+    ComputerSidebar.renderBackground(ctx, borderTex, x, y + sidebarYOffset)
   }
 
   private fun updateVisible() {
@@ -86,6 +80,8 @@ class NeuralInterfaceScreen(
 
   companion object {
     private val tex = ModId("textures/gui/neural_interface.png")
+    private val borderTex = ComputerBorderRenderer.getTexture(ComputerFamily.NORMAL)
+
     private const val ICON_Y = 224
 
     private const val TEX_SIZE = 256

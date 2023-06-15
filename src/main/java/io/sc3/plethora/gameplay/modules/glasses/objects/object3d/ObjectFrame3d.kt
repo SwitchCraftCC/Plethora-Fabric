@@ -3,6 +3,7 @@ package io.sc3.plethora.gameplay.modules.glasses.objects.object3d
 import com.mojang.blaze3d.platform.GlConst
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
+import com.mojang.blaze3d.systems.VertexSorter
 import io.sc3.plethora.Plethora
 import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasClient
 import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasHandler.HEIGHT
@@ -14,6 +15,7 @@ import io.sc3.plethora.util.ByteBufUtils
 import io.sc3.plethora.util.DirtyingProperty
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gl.SimpleFramebuffer
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.render.*
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.network.PacketByteBuf
@@ -42,11 +44,10 @@ class ObjectFrame3d(
     buf.writeBoolean(hasDepthTest)
   }
 
-  override fun draw(canvas: CanvasClient, matrices: MatrixStack, consumers: VertexConsumerProvider?) {
+  override fun draw(canvas: CanvasClient, ctx: DrawContext, consumers: VertexConsumerProvider?) {
     val children = canvas.getChildren(id) ?: return
 
     val mc = MinecraftClient.getInstance()
-    val gr = mc.gameRenderer
     val w = WIDTH.toFloat(); val h = HEIGHT.toFloat()
 
     val currentBuffer = GlStateManager.getBoundFramebuffer()
@@ -60,7 +61,7 @@ class ObjectFrame3d(
     RenderSystem.backupProjectionMatrix()
 
     val matrix4f = Matrix4f().setOrtho(0.0f, WIDTH.toFloat(), HEIGHT.toFloat(), 0.0f, 1000.0f, 3000.0f)
-    RenderSystem.setProjectionMatrix(matrix4f)
+    RenderSystem.setProjectionMatrix(matrix4f, VertexSorter.BY_Z)
 
     val matrixStack = MatrixStack()
     matrixStack.loadIdentity()
@@ -72,7 +73,7 @@ class ObjectFrame3d(
     framebuffer.beginWrite(true)
 
     RenderSystem.disableDepthTest()
-    canvas.drawChildren(children.iterator(), matrixStack, consumers)
+    canvas.drawChildren(children.iterator(), ctx, consumers)
 
     RenderSystem.viewport(0, 0, mc.window.framebufferWidth, mc.window.framebufferHeight)
     RenderSystem.restoreProjectionMatrix()
@@ -81,11 +82,12 @@ class ObjectFrame3d(
 
     // ===============================
 
+    val matrices = ctx.matrices
     matrices.push()
 
     matrices.translate(position.x, position.y, position.z)
     matrices.scale(SCALE, -SCALE, SCALE)
-    applyRotation(matrices, false)
+    applyRotation(ctx, false)
 
     if (hasDepthTest) {
       RenderSystem.enableDepthTest()

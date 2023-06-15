@@ -50,9 +50,10 @@ import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Material;
+import net.minecraft.block.MapColor;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.block.enums.Instrument;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -72,6 +73,7 @@ import java.util.function.Function;
 
 import static io.sc3.library.networking.ScLibraryPacketKt.registerServerReceiver;
 import static io.sc3.plethora.Plethora.log;
+import static io.sc3.plethora.gameplay.registry.Registration.ModItems.PLETHORA_ITEM_GROUP;
 import static net.minecraft.registry.Registries.*;
 
 public final class Registration {
@@ -88,6 +90,11 @@ public final class Registration {
   );
 
   public static void init() {
+    Registry.register(Registries.ITEM_GROUP, PLETHORA_ITEM_GROUP, FabricItemGroup.builder()
+      .icon(() -> new ItemStack(ModItems.NEURAL_CONNECTOR))
+      .entries((enabledFeatures, entries) -> items.forEach(entries::add))
+      .build());
+
     // Similar to how CC behaves - touch each static class to force the static initializers to run.
     Object[] o = {
       ModBlockEntities.MANIPULATOR_MARK_1,
@@ -171,10 +178,8 @@ public final class Registration {
     public static final BlockItem MANIPULATOR_MARK_2 = ofBlock(ModBlocks.MANIPULATOR_MARK_2, BlockItem::new);
     public static final BlockItem REDSTONE_INTEGRATOR = ofBlock(ModBlocks.REDSTONE_INTEGRATOR, BlockItem::new);
 
-    public static final ItemGroup PLETHORA_ITEM_GROUP = FabricItemGroup.builder(new Identifier(Plethora.modId, "main"))
-      .icon(() -> new ItemStack(NEURAL_CONNECTOR))
-      .entries((enabledFeatures, entries) -> items.forEach(entries::add))
-      .build();
+    public static final RegistryKey<ItemGroup> PLETHORA_ITEM_GROUP =
+      RegistryKey.of(RegistryKeys.ITEM_GROUP, new Identifier(Plethora.modId, "main"));
 
     private static Item.Settings properties() {
       return new Item.Settings();
@@ -210,7 +215,11 @@ public final class Registration {
     }
 
     private static Block.Settings properties() {
-      return Block.Settings.of(Material.STONE).strength(2.0F).requiresTool();
+      return Block.Settings.create()
+        .mapColor(MapColor.STONE_GRAY)
+        .instrument(Instrument.BASEDRUM)
+        .strength(2.0F)
+        .requiresTool();
     }
   }
 

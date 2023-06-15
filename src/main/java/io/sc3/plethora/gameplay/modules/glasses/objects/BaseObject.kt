@@ -2,16 +2,16 @@ package io.sc3.plethora.gameplay.modules.glasses.objects
 
 import com.mojang.blaze3d.systems.RenderSystem
 import dan200.computercraft.api.lua.LuaException
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
-import net.minecraft.client.render.GameRenderer
-import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.network.PacketByteBuf
 import io.sc3.plethora.api.reference.ConstantReference
 import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasClient
 import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasServer
 import io.sc3.plethora.util.Dirtyable
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
+import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.render.GameRenderer
+import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.network.PacketByteBuf
 
 abstract class BaseObject(
   val id: Int,
@@ -52,7 +52,7 @@ abstract class BaseObject(
    * @param consumers
    */
   @Environment(EnvType.CLIENT)
-  abstract fun draw(canvas: CanvasClient, matrices: MatrixStack, consumers: VertexConsumerProvider?)
+  abstract fun draw(canvas: CanvasClient, ctx: DrawContext, consumers: VertexConsumerProvider?)
 
   class BaseObjectReference<T : BaseObject>(
     private val canvas: CanvasServer,

@@ -12,9 +12,8 @@ import io.sc3.plethora.util.DirtyingProperty
 import io.sc3.plethora.util.Vec2d
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.network.PacketByteBuf
@@ -47,11 +46,8 @@ class Item2d(
   }
 
   @Environment(EnvType.CLIENT)
-  override fun draw(canvas: CanvasClient, matrices: MatrixStack, consumers: VertexConsumerProvider?) {
-    val mc = MinecraftClient.getInstance()
-    val itemRenderer = mc.itemRenderer
-    val player = mc.player ?: return
-
+  override fun draw(canvas: CanvasClient, ctx: DrawContext, consumers: VertexConsumerProvider?) {
+    val matrices = ctx.matrices
     matrices.push()
 
     matrices.translate(position.x(), position.y(), 0.0)
@@ -78,7 +74,7 @@ class Item2d(
 
     matrices.push()
     // matrices.translate(0.0f, 0.0f, 200.0f)
-    itemRenderer.renderInGuiWithOverrides(matrices, stack, 0, 0)
+    ctx.drawItem(stack, 0, 0)
     matrices.pop()
 
     renderStack.pop()

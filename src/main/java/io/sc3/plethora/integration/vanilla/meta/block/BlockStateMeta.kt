@@ -13,9 +13,6 @@ object BlockStateMeta : BaseMetaProvider<BlockState>(
     val data: MutableMap<String, Any> = HashMap()
     fillBasicMeta(data, state)
 
-    val material = state.material
-    data["material"] = context.makePartialChild(material).meta
-
     return data
   }
 

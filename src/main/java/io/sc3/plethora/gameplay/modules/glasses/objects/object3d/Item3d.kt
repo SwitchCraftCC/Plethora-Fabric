@@ -9,12 +9,12 @@ import io.sc3.plethora.gameplay.modules.glasses.objects.Scalable
 import io.sc3.plethora.util.ByteBufUtils
 import io.sc3.plethora.util.DirtyingProperty
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.render.LightmapTextureManager.MAX_LIGHT_COORDINATE
 import net.minecraft.client.render.OverlayTexture.DEFAULT_UV
 import net.minecraft.client.render.Tessellator
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.model.json.ModelTransformationMode
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.network.PacketByteBuf
@@ -54,15 +54,16 @@ class Item3d(
     buf.writeBoolean(hasDepthTest)
   }
 
-  override fun draw(canvas: CanvasClient, matrices: MatrixStack, consumers: VertexConsumerProvider?) {
+  override fun draw(canvas: CanvasClient, ctx: DrawContext, consumers: VertexConsumerProvider?) {
     val mc = MinecraftClient.getInstance()
     val itemRenderer = mc.itemRenderer
 
+    val matrices = ctx.matrices
     matrices.push()
 
     matrices.translate(position.x, position.y, position.z)
     matrices.scale(scale, scale, scale)
-    applyRotation(matrices, true)
+    applyRotation(ctx, true)
 
     val buffer = Tessellator.getInstance().buffer
     val immediate = VertexConsumerProvider.immediate(buffer)

@@ -1,17 +1,18 @@
 package io.sc3.plethora.gameplay.modules.glasses.objects.object2d
 
 import com.google.common.base.Objects
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
-import net.minecraft.client.render.*
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.network.PacketByteBuf
-import net.minecraft.network.PacketByteBuf.getMaxValidator
 import io.sc3.plethora.gameplay.modules.glasses.canvas.CanvasClient
 import io.sc3.plethora.gameplay.modules.glasses.objects.ColourableObject
 import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectRegistry.POLYGON_2D
 import io.sc3.plethora.util.ByteBufUtils
 import io.sc3.plethora.util.Vec2d
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
+import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.render.*
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.PacketByteBuf.getMaxValidator
 import javax.annotation.Nonnull
 
 open class Polygon2d(
@@ -58,7 +59,7 @@ open class Polygon2d(
   }
 
   @Environment(EnvType.CLIENT)
-  override fun draw(canvas: CanvasClient, matrices: MatrixStack, consumers: VertexConsumerProvider?) {
+  override fun draw(canvas: CanvasClient, ctx: DrawContext, consumers: VertexConsumerProvider?) {
     if (points.size < 3) return
 
     setupFlat()
@@ -66,6 +67,7 @@ open class Polygon2d(
     val size = points.size
     val a = points[0]
 
+    val matrices = ctx.matrices
     val buffer = Tessellator.getInstance().buffer
     val matrix = matrices.peek().positionMatrix
 

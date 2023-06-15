@@ -1,5 +1,7 @@
 package io.sc3.plethora.gameplay.overlay
 
+import io.sc3.plethora.Plethora
+import io.sc3.plethora.gameplay.modules.LevelableModuleItem
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.render.Camera
 import net.minecraft.client.util.math.MatrixStack
@@ -9,8 +11,6 @@ import net.minecraft.item.ItemStack
 import net.minecraft.registry.Registries
 import net.minecraft.util.TypeFilter
 import net.minecraft.util.math.Box
-import io.sc3.plethora.Plethora
-import io.sc3.plethora.gameplay.modules.LevelableModuleItem
 
 object SensorOverlayRenderer : FlareOverlayRenderer() {
   private val cfg by Plethora.config::sensor
@@ -26,7 +26,7 @@ object SensorOverlayRenderer : FlareOverlayRenderer() {
   ) {
     initFlareRenderer(matrices, camera)
 
-    val world = player.getWorld()
+    val world = player.world
     val position = player.eyePos
     val range = LevelableModuleItem.getEffectiveRange(stack)
 

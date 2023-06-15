@@ -1,14 +1,14 @@
 package io.sc3.plethora.gameplay.modules.glasses.canvas
 
+import io.sc3.plethora.Plethora
+import io.sc3.plethora.gameplay.modules.glasses.objects.BaseObject
+import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectGroup
 import it.unimi.dsi.fastutil.ints.*
 import it.unimi.dsi.fastutil.ints.IntIterator
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.render.VertexConsumerProvider
-import net.minecraft.client.util.math.MatrixStack
-import io.sc3.plethora.Plethora
-import io.sc3.plethora.gameplay.modules.glasses.objects.BaseObject
-import io.sc3.plethora.gameplay.modules.glasses.objects.ObjectGroup
 
 class CanvasClient(val id: Int) {
   private val objects: Int2ObjectMap<BaseObject?> = Int2ObjectOpenHashMap()
@@ -52,11 +52,11 @@ class CanvasClient(val id: Int) {
   }
 
   @Environment(EnvType.CLIENT)
-  fun drawChildren(children: IntIterator, matrices: MatrixStack?, consumers: VertexConsumerProvider?) {
+  fun drawChildren(children: IntIterator, ctx: DrawContext?, consumers: VertexConsumerProvider?) {
     while (children.hasNext()) {
       val id = children.nextInt()
       val obj = getObject(id)
-      obj?.draw(this, matrices!!, consumers)
+      obj?.draw(this, ctx!!, consumers)
     }
   }
 }
