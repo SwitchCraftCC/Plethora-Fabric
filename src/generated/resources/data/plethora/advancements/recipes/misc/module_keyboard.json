@@ -56,5 +56,6 @@
     "recipes": [
       "plethora:module_keyboard"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

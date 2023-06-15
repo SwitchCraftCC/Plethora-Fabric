@@ -63,6 +63,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.*;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
@@ -73,6 +74,7 @@ import java.util.function.Function;
 
 import static io.sc3.library.networking.ScLibraryPacketKt.registerServerReceiver;
 import static io.sc3.plethora.Plethora.log;
+import static io.sc3.plethora.Plethora.modId;
 import static io.sc3.plethora.gameplay.registry.Registration.ModItems.PLETHORA_ITEM_GROUP;
 import static net.minecraft.registry.Registries.*;
 
@@ -91,6 +93,7 @@ public final class Registration {
 
   public static void init() {
     Registry.register(Registries.ITEM_GROUP, PLETHORA_ITEM_GROUP, FabricItemGroup.builder()
+      .displayName(Text.translatable("itemGroup." + modId + ".main"))
       .icon(() -> new ItemStack(ModItems.NEURAL_CONNECTOR))
       .entries((enabledFeatures, entries) -> items.forEach(entries::add))
       .build());

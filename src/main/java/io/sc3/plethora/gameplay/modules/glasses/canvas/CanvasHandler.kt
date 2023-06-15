@@ -114,12 +114,19 @@ object CanvasHandler {
     // If we've no text renderer then we're probably not quite ready yet
     if (client.textRenderer == null) return
 
+    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f)
+
+    val currentFog = RenderSystem.getShaderFogEnd()
+    val currentFogColor = RenderSystem.getShaderFogColor()
+    RenderSystem.setShaderFogEnd(2000.0f)
+    RenderSystem.setShaderFogColor(0.0f, 0.0f, 0.0f, 0.0f)
+
     val matrices = ctx.matrices
     matrices.push()
 
     // The hotbar renders at -90 (see InGameGui#renderHotbar)
-    matrices.translate(0.0, 0.0, -100.0)
-    matrices.scale(client.window.scaledWidth.toFloat() / WIDTH, client.window.scaledHeight.toFloat() / HEIGHT, 2f)
+    matrices.translate(0.0, 0.0, -200.0)
+    matrices.scale(client.window.scaledWidth.toFloat() / WIDTH, client.window.scaledHeight.toFloat() / HEIGHT, 1f)
 
     synchronized(canvas) {
       canvas.getChildren(ID_2D)?.let {
@@ -127,7 +134,14 @@ object CanvasHandler {
       }
     }
 
+    // Restore the renderer state
+    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f)
     RenderSystem.enableCull()
+    RenderSystem.defaultBlendFunc()
+    RenderSystem.enableBlend()
+
+    RenderSystem.setShaderFogEnd(currentFog)
+    RenderSystem.setShaderFogColor(currentFogColor[0], currentFogColor[1], currentFogColor[2], currentFogColor[3])
 
     matrices.pop()
   }
@@ -135,7 +149,7 @@ object CanvasHandler {
   private fun onWorldRender(ctx: WorldRenderContext) {
     val mc = MinecraftClient.getInstance()
     val canvas = getCanvas(mc) ?: return
-    val drawContext = DrawContext(mc, mc.bufferBuilders.entityVertexConsumers) // TODO(1.20.1): correct?
+    val drawContext = DrawContext(mc, ctx.matrixStack(), mc.bufferBuilders.entityVertexConsumers) // TODO(1.20.1): correct?
 
     synchronized(canvas) {
       canvas.getChildren(ID_3D)?.let {

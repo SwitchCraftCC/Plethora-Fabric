@@ -30,5 +30,6 @@
     "recipes": [
       "plethora:sensor_module_upgrade"
     ]
-  }
+  },
+  "sends_telemetry_event": true
 }

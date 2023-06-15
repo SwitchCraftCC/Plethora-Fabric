@@ -92,10 +92,9 @@ dependencies {
 
   modImplementation(include("io.sc3", "sc-library", scLibraryVersion))
 
-  // CC: Restitched
+  // CC: Tweaked
   modApi("cc.tweaked:cc-tweaked-$ccMcVersion-fabric:$ccVersion") {
     exclude("net.fabricmc.fabric-api", "fabric-gametest-api-v1")
-    exclude("fuzs.forgeconfigapiport", "forgeconfigapiport-fabric")
   }
 
   modImplementation("dev.emi:trinkets:${trinketsVersion}")

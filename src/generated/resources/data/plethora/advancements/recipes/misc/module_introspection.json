@@ -56,5 +56,6 @@
     "recipes": [
       "plethora:module_introspection"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

@@ -35,5 +35,6 @@
     "recipes": [
       "plethora:pocket_advanced/plethora/scanner"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

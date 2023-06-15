@@ -95,5 +95,6 @@
     "recipes": [
       "plethora:neural_connector"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

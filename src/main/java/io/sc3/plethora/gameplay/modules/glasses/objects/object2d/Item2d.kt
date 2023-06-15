@@ -55,6 +55,7 @@ class Item2d(
 
     // RenderSystem.enableRescaleNormal();
     // RenderSystem.enableAlpha();
+    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f)
     RenderSystem.enableDepthTest()
     RenderSystem.enableBlend()
     RenderSystem.blendFuncSeparate(
@@ -73,12 +74,12 @@ class Item2d(
     RenderSystem.applyModelViewMatrix()
 
     matrices.push()
-    // matrices.translate(0.0f, 0.0f, 200.0f)
     ctx.drawItem(stack, 0, 0)
     matrices.pop()
 
     renderStack.pop()
     RenderSystem.applyModelViewMatrix()
+    RenderSystem.enableBlend()
 
     matrices.pop()
   }

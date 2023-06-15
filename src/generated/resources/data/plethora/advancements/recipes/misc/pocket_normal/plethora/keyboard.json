@@ -35,5 +35,6 @@
     "recipes": [
       "plethora:pocket_normal/plethora/keyboard"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

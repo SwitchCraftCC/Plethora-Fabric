@@ -56,5 +56,6 @@
     "recipes": [
       "plethora:module_sensor"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

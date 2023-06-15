@@ -35,5 +35,6 @@
     "recipes": [
       "plethora:turtle_normal/plethora/scanner"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

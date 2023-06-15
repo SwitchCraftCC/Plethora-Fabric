@@ -95,5 +95,6 @@
     "recipes": [
       "plethora:redstone_integrator"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

@@ -95,5 +95,6 @@
     "recipes": [
       "plethora:manipulator_mark_1"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

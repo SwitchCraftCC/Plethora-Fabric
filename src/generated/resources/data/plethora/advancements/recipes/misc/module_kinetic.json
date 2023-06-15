@@ -56,5 +56,6 @@
     "recipes": [
       "plethora:module_kinetic"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }
