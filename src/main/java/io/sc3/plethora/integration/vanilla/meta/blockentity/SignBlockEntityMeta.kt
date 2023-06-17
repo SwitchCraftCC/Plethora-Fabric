@@ -13,7 +13,7 @@ object SignBlockEntityMeta : BasicMetaProvider<SignBlockEntity>(
 }
 
 val SignBlockEntity.lines: Map<Int, String>
-  get() = (1 .. 8).associateWith { getText(it <= 4).getMessage(it - 1, true).string }
+  get() = (1 .. 8).associateWith { getText(it <= 4).getMessage((it - 1) % 4, true).string }
 
 // Two different copies of messages here (non-filtered and filtered respectively)
 // TODO: This currently bypasses text filtering, though I am not aware of any JE servers using it at the moment

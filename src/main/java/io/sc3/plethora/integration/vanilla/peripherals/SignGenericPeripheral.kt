@@ -37,7 +37,7 @@ object SignGenericPeripheral : GenericPeripheral {
     val front = sign.frontText.withMessages(lines.subList(0, 4))
     val back = sign.backText.withMessages(lines.subList(4, 8))
     sign.setText(front, true) // calls updateListeners and markDirty twice
-    sign.setText(back, true)
+    sign.setText(back, false)
 
     val world = sign.world ?: return
     val pos = sign.pos
