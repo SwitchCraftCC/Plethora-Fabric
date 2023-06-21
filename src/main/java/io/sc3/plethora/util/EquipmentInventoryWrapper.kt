@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.Inventory
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemStack.EMPTY
+import net.minecraft.item.ItemStack.canCombine
 
 class EquipmentInventoryWrapper(
   private val entityReference: IReference<LivingEntity>
@@ -62,7 +63,8 @@ class EquipmentInventoryWrapper(
     // Verify the specified item stack is valid for the armor slot
     if (!stack.isEmpty && slotType.type == EquipmentSlot.Type.ARMOR) {
       val preferredSlot = LivingEntity.getPreferredEquipmentSlot(stack)
-      return slotType == preferredSlot && entity.getEquippedStack(preferredSlot).isEmpty
+      return slotType == preferredSlot
+        && (entity.getEquippedStack(preferredSlot).isEmpty || canCombine(entity.getEquippedStack(slotType), stack))
     }
 
     return true
