@@ -52,7 +52,6 @@ class EquipmentInventoryWrapper(
 
   override fun setStack(slot: Int, stack: ItemStack) {
     validateSlotIndex(slot)
-    if (!isValid(slot, stack)) return
     entity.equipStack(VALUES[slot], stack)
   }
 
