@@ -56,6 +56,11 @@ class EquipmentInventoryWrapper(
     entity.equipStack(VALUES[slot], stack)
   }
 
+  fun forceSetStack(slot: Int, stack: ItemStack) {
+    validateSlotIndex(slot)
+    entity.equipStack(VALUES[slot], stack)
+  }
+
   override fun isValid(slot: Int, stack: ItemStack): Boolean {
     validateSlotIndex(slot)
     val slotType = VALUES[slot]

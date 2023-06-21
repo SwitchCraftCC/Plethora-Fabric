@@ -9,6 +9,8 @@ import io.sc3.plethora.api.method.FutureMethodResult.result
 import io.sc3.plethora.api.method.IContext
 import io.sc3.plethora.api.method.IUnbakedContext
 import io.sc3.plethora.core.ContextHelpers
+import io.sc3.plethora.util.DerivedInventoryStorageImpl
+import io.sc3.plethora.util.EquipmentInventoryWrapper
 import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage
 import net.minecraft.inventory.Inventory
 
@@ -78,6 +80,9 @@ object InventoryMethodsWrapper {
   private fun InventoryStorage.wrapped(): InventoryMethods.StorageWrapper =
     InventoryMethods.StorageWrapper(this)
 
+  private fun DerivedInventoryStorageImpl.wrapped(): InventoryMethods.StorageWrapper =
+    InventoryMethods.StorageWrapper(this)
+
   private fun IUnbakedContext<Inventory>.getInventory(): Inventory =
     bake().target
 
@@ -87,7 +92,14 @@ object InventoryMethodsWrapper {
   private fun getContext(unbaked: IUnbakedContext<Inventory>): Context {
     val ctx = unbaked.bake()
     val access = ContextHelpers.fromContext(ctx, IComputerAccess::class.java)
-    return Context(ctx, InventoryStorage.of(ctx.target, null).wrapped(), access)
+    val inv = ctx.target
+    val invStorage = if (inv is EquipmentInventoryWrapper) {
+      // Special case for equipment, as InventoryStorage does not support derived inventories
+      DerivedInventoryStorageImpl.of(inv).wrapped()
+    } else {
+      InventoryStorage.of(inv, null).wrapped()
+    }
+    return Context(ctx, invStorage, access)
   }
 
   private data class Context(
