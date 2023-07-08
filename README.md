@@ -56,5 +56,5 @@ your modpack.
 
 ## License
 
-This mod and it's source code is licensed under the 
+This mod and its source code is licensed under the 
 [MIT license](https://github.com/SwitchCraftCC/Plethora-Fabric/blob/HEAD/LICENSE).
