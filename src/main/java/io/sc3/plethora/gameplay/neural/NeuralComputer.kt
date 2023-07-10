@@ -88,7 +88,7 @@ class NeuralComputer(
       val upgrade = PocketUpgrades.instance()[stack] ?: continue
       val side = ComputerSide.valueOf(if (slot < NeuralHelpers.BACK) slot else slot + 1)
       val peripheral = getPeripheral(side) ?: continue
-      upgrade.update(access, peripheral)
+      upgrade.upgrade.update(access, peripheral)
     }
 
     if (dirty != 0) {

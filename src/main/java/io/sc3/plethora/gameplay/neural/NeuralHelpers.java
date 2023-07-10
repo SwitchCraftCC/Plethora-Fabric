@@ -65,7 +65,7 @@ public class NeuralHelpers {
             // Check if the item stack is a peripheral by checking if it is included in the allowed peripherals list and
             // is registered as a pocket computer upgrade. This may be made more extensible in the future.
             Identifier id = Registries.ITEM.getId(stack.getItem());
-            IPocketUpgrade upgrade = PocketUpgrades.instance().get(stack);
+            var upgrade = PocketUpgrades.instance().get(stack);
             return upgrade != null && config.neuralInterface.peripheralItemIds.contains(id.toString());
         } else {
             return stack.getItem() instanceof ModuleItem;
@@ -75,10 +75,10 @@ public class NeuralHelpers {
     public static IPeripheral buildPeripheral(@Nonnull NeuralPocketAccess access, @Nonnull ItemStack stack) {
         if (stack.isEmpty()) return null;
 
-        IPocketUpgrade upgrade = PocketUpgrades.instance().get(stack);
+        var upgrade = PocketUpgrades.instance().get(stack);
         if (upgrade == null) return null;
 
-        return upgrade.createPeripheral(access);
+        return upgrade.upgrade().createPeripheral(access);
     }
 
     public static IDynamicPeripheral buildModules(final NeuralComputer computer,
