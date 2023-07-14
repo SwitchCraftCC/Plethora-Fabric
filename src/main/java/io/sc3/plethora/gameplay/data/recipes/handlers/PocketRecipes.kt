@@ -1,6 +1,7 @@
 package io.sc3.plethora.gameplay.data.recipes.handlers
 
 import dan200.computercraft.api.pocket.PocketUpgradeDataProvider
+import dan200.computercraft.api.upgrades.UpgradeData
 import dan200.computercraft.shared.ModRegistry
 import dan200.computercraft.shared.computer.core.ComputerFamily
 import dan200.computercraft.shared.pocket.items.PocketComputerItem
@@ -23,7 +24,7 @@ class PocketRecipes(private val upgrades: PocketUpgradeDataProvider) : RecipeHan
       val nameId = family.name.lowercase()
 
       upgrades.generatedUpgrades.forEach { upgrade ->
-        val result = PocketComputerItem.create(-1, null, -1, family, upgrade);
+        val result = PocketComputerItem.create(-1, null, -1, family, UpgradeData.ofDefault(upgrade));
         ShapedRecipeJsonBuilder
           .create(RecipeCategory.MISC, result.item)
           .group(String.format("%s:pocket_%s", modId, nameId))
