@@ -23,7 +23,7 @@ class RangedInventoryWrapper<T : LivingEntity>(
     safeInv?.canPlayerUse(player) ?: false
 
   private fun checkSlot(localSlot: Int) =
-    localSlot + minSlot < maxSlot
+    safeInv != null && localSlot + minSlot < maxSlot
 
   override fun getStack(slot: Int): ItemStack =
     if (checkSlot(slot)) inv.getStack(slot + minSlot) else EMPTY
@@ -39,7 +39,7 @@ class RangedInventoryWrapper<T : LivingEntity>(
   }
 
   override fun markDirty() {
-    inv.markDirty()
+    safeInv?.markDirty()
   }
 
   override fun clear() {
