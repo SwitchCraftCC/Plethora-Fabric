@@ -78,7 +78,7 @@ repositories {
   maven("https://maven.shedaniel.me") // cloth-config
   maven("https://maven.terraformersmc.com/releases") // Mod Menu
   maven("https://maven.terraformersmc.com/") // Trinkets
-  maven("https://ladysnake.jfrog.io/artifactory/mods") // Trinkets
+  maven("https://maven.ladysnake.org/releases") // Trinkets
 }
 
 dependencies {
