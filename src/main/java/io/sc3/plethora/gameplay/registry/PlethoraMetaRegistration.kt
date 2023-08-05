@@ -4,7 +4,7 @@ import io.sc3.plethora.Plethora.modId
 import io.sc3.plethora.api.meta.IMetaProvider
 import io.sc3.plethora.api.meta.IMetaRegistry
 import io.sc3.plethora.gameplay.modules.BindableModuleItemMeta
-import io.sc3.plethora.integration.MetaWrapper.MetaProvider
+import io.sc3.plethora.integration.DetailsMetaWrapper.MetaProvider
 
 object PlethoraMetaRegistration {
   @JvmStatic
