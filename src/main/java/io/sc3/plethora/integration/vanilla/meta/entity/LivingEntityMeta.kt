@@ -1,5 +1,6 @@
 package io.sc3.plethora.integration.vanilla.meta.entity
 
+import dev.emi.trinkets.api.TrinketsApi
 import io.sc3.plethora.api.meta.BaseMetaProvider
 import io.sc3.plethora.api.method.ContextHelpers
 import io.sc3.plethora.api.method.IPartialContext
@@ -19,6 +20,11 @@ object LivingEntityMeta : BaseMetaProvider<LivingEntity>() {
           "chestplate" to context.wrappedStack(EquipmentSlot.CHEST),
           "helmet"     to context.wrappedStack(EquipmentSlot.HEAD),
         ),
+        "trinkets" to TrinketsApi.getTrinketComponent(this).map {
+          it.inventory.mapValues { (_, group) ->
+            group.mapValues { (_, items) -> ContextHelpers.getInventoryItems(context, items) }
+          }
+        }.orElse(null),
         "heldItem"     to context.wrappedStack(EquipmentSlot.MAINHAND),
         "offhandItem"  to context.wrappedStack(EquipmentSlot.OFFHAND),
 

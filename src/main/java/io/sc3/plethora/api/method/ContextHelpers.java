@@ -1,5 +1,6 @@
 package io.sc3.plethora.api.method;
 
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import io.sc3.plethora.api.meta.TypedMeta;
 import io.sc3.plethora.core.ContextFactory;
@@ -8,10 +9,7 @@ import io.sc3.plethora.integration.DetailsMetaWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public final class ContextHelpers {
 	private ContextHelpers() {
@@ -70,5 +68,24 @@ public final class ContextHelpers {
 		return context instanceof IContext
 			? ((IContext<?>) context).makeChildId(wrapper).getObject()
 			: ContextFactory.of(wrapper).withExecutor(BasicExecutor.INSTANCE).getObject();
+	}
+
+	/**
+	 * List all items in the inventory,
+	 *
+	 * @param context The base context to use in getting metadata
+	 * @param inventory The inventory to list items in.
+	 * @return The wrapped stack
+	 * @see #wrapStack(IPartialContext, ItemStack)
+	 */
+	public static Map<Integer, TypedLuaObject<DetailsMetaWrapper<ItemStack>>> getInventoryItems(@Nonnull IPartialContext<?> context, Inventory inventory) {
+		var out = new HashMap<Integer, TypedLuaObject<DetailsMetaWrapper<ItemStack>>>();
+
+		for (int i = 0, size = inventory.size(); i < size; i++) {
+			var item = wrapStack(context, inventory.getStack(i));
+			if (item != null) out.put(i + 1, item);
+		}
+
+		return out;
 	}
 }
