@@ -140,6 +140,7 @@ class ManipulatorBlockEntity(
   }
 
   override fun onUse(player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
+    if (!player.canModifyBlocks()) return ActionResult.PASS
     if (player.entityWorld.isClient) return ActionResult.SUCCESS
     
     val world = world ?: return ActionResult.SUCCESS
