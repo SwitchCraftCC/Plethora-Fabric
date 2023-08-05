@@ -49,7 +49,6 @@ public final class BasicExecutor implements IResultExecutor {
 	}
 
 	private static class BlockingTask implements LuaTask {
-		Object[] returnValue;
 		private FutureMethodResult.Resolver resolver;
 		private Callable<FutureMethodResult> callback;
 
@@ -66,8 +65,7 @@ public final class BasicExecutor implements IResultExecutor {
 				try {
 					FutureMethodResult result = callback.call();
 					if (result.isFinal()) {
-						returnValue = result.getResult().getResult();
-						return new Object[] { returnValue };
+						return result.getResult().getResult();
 					} else {
 						resolver = result.getResolver();
 						callback = result.getCallback();
