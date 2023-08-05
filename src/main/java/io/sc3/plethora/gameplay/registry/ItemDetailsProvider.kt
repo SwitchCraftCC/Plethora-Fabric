@@ -2,9 +2,8 @@ package io.sc3.plethora.gameplay.registry
 
 import dan200.computercraft.api.detail.DetailProvider
 import io.sc3.plethora.Plethora.log
+import io.sc3.plethora.api.reference.Reference
 import io.sc3.plethora.core.ContextFactory
-import io.sc3.plethora.core.executor.BasicExecutor
-import io.sc3.plethora.integration.MetaWrapper
 import net.minecraft.item.ItemStack
 
 object ItemDetailsProvider : DetailProvider<ItemStack> {
@@ -19,9 +18,7 @@ object ItemDetailsProvider : DetailProvider<ItemStack> {
   override fun provideDetails(out: MutableMap<in String, Any?>, stack: ItemStack) {
     // Supply Plethora's item meta to CC items
     try {
-      val wrapper = MetaWrapper.of(stack.copy())
-      val meta = ContextFactory.of(wrapper).withExecutor(BasicExecutor.INSTANCE).baked.meta
-      for ((key, value) in meta) {
+      for ((key, value) in ContextFactory.of(stack, Reference.id(stack)).baked.meta) {
         // Don't overwrite CC's data or add our own similarly-named keys. CC gets the final say on what it wants
         // to do with these keys to ensure compatibility.
         if (IGNORE_KEYS.contains(key)) continue

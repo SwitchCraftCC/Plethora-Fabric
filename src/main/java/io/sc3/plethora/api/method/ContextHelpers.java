@@ -4,7 +4,7 @@ import net.minecraft.item.ItemStack;
 import io.sc3.plethora.api.meta.TypedMeta;
 import io.sc3.plethora.core.ContextFactory;
 import io.sc3.plethora.core.executor.BasicExecutor;
-import io.sc3.plethora.integration.MetaWrapper;
+import io.sc3.plethora.integration.DetailsMetaWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -63,11 +63,10 @@ public final class ContextHelpers {
 	 * @return The wrapped stack
 	 */
 	@Nullable
-	public static TypedLuaObject<MetaWrapper<ItemStack>> wrapStack(@Nonnull IPartialContext<?> context,
-																   @Nullable ItemStack object) {
+	public static TypedLuaObject<DetailsMetaWrapper<ItemStack>> wrapStack(@Nonnull IPartialContext<?> context, @Nullable ItemStack object) {
 		if (object == null || object.isEmpty()) return null;
 
-		MetaWrapper<ItemStack> wrapper = MetaWrapper.of(object.copy());
+		var wrapper = DetailsMetaWrapper.stack(object.copy());
 		return context instanceof IContext
 			? ((IContext<?>) context).makeChildId(wrapper).getObject()
 			: ContextFactory.of(wrapper).withExecutor(BasicExecutor.INSTANCE).getObject();
