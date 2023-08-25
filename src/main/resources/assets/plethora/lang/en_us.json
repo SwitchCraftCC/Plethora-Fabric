@@ -6,13 +6,13 @@
   "block.plethora.manipulator_mark_1.desc": "Used to interface with a module from a computer",
   "block.plethora.manipulator_mark_2.desc": "Used to interface with multiple modules from a computer.",
 
-  "block.plethora.redstone_integrator": "Redstone integrator",
+  "block.plethora.redstone_integrator": "Redstone Integrator",
   "block.plethora.redstone_integrator.desc": "Get and set redstone levels for this block.",
 
-  "item.plethora.neuralConnector": "Neural connector",
+  "item.plethora.neuralConnector": "Neural Connector",
   "item.plethora.neuralConnector.desc": "Used to connect to Neural Interfaces.",
 
-  "item.plethora.neuralInterface": "Neural interface",
+  "item.plethora.neuralInterface": "Neural Interface",
   "item.plethora.neuralInterface.desc": "Goes in your face slot inside the helmet slot. Connect with the neural connector.",
 
   "item.plethora.neuralInterface.peripherals": "View peripherals",
@@ -20,7 +20,7 @@
 
   "item.plethora.module.level": "Level %s (%s blocks)",
 
-  "item.plethora.module.module_introspection": "Introspection module",
+  "item.plethora.module.module_introspection": "Introspection Module",
   "item.plethora.module.module_introspection.adjective": "Introspective",
   "item.plethora.module.module_introspection.desc": "Wraps your inventory as a peripheral. Shift+Use to bind to player.",
 
@@ -32,22 +32,22 @@
   "item.plethora.module.module_keyboard.desc": "Insert as a neural interface module to type while in-game. Right click a computer up to 32 blocks away to type.",
   "item.plethora.module.module_keyboard.close": "Keyboard open. Press ESC to close.",
 
-  "item.plethora.module.module_kinetic": "Kinetic augment",
+  "item.plethora.module.module_kinetic": "Kinetic Augment",
   "item.plethora.module.module_kinetic.adjective": "Kinetic",
   "item.plethora.module.module_kinetic.desc": "Allows controlling your body via the neural interface.",
 
-  "item.plethora.module.module_laser": "Frickin' laser beam",
+  "item.plethora.module.module_laser": "Frickin' Laser Beam",
   "item.plethora.module.module_laser.adjective": "Laser",
   "item.plethora.module.module_laser.desc": "It fires lasers. 'nough said",
 
-  "item.plethora.module.module_glasses": "Overlay glasses",
+  "item.plethora.module.module_glasses": "Overlay Glasses",
   "item.plethora.module.module_glasses.desc": "Renders an overlay over the world.",
 
-  "item.plethora.module.module_scanner": "Block scanner",
+  "item.plethora.module.module_scanner": "Block Scanner",
   "item.plethora.module.module_scanner.adjective": "Scanning",
   "item.plethora.module.module_scanner.desc": "Allows scanning blocks in the vicinity.",
 
-  "item.plethora.module.module_sensor": "Entity sensor",
+  "item.plethora.module.module_sensor": "Entity Sensor",
   "item.plethora.module.module_sensor.adjective": "Sensing",
   "item.plethora.module.module_sensor.desc": "Detects nearby entities, gathering data about them.",
 
@@ -58,7 +58,7 @@
 
   "gui.plethora.tooltip.computer_id": "Computer ID: %s",
 
-  "gui.plethora.neuralInterface.title": "Neural interface",
+  "gui.plethora.neuralInterface.title": "Neural Interface",
   "gui.plethora.neuralInterface.modules": "View modules",
   "gui.plethora.neuralInterface.peripherals": "View peripherals",
 
