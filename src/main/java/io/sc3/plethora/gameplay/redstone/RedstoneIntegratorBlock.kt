@@ -23,8 +23,6 @@ class RedstoneIntegratorBlock(settings: Settings) : BaseBlockWithEntity(settings
   override fun getWeakRedstonePower(state: BlockState, world: BlockView, pos: BlockPos, direction: Direction) =
     getStrongRedstonePower(state, world, pos, direction) // Weak same as strong
 
-  override fun getBundledRedstoneConnectivity(world: World, pos: BlockPos, side: Direction) = true
-
   override fun getBundledRedstoneOutput(world: World, pos: BlockPos, side: Direction) =
     getIntegrator(world, pos)?.getBundledRedstoneOutput(side) ?: 0
 
