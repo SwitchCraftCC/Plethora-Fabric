@@ -1,10 +1,11 @@
 package io.sc3.plethora.gameplay.client.gui
 
 import dan200.computercraft.client.gui.AbstractComputerScreen
+import dan200.computercraft.client.gui.GuiSprites
 import dan200.computercraft.client.gui.widgets.ComputerSidebar
-import dan200.computercraft.client.gui.widgets.DynamicImageButton
 import dan200.computercraft.client.gui.widgets.TerminalWidget
-import dan200.computercraft.client.render.ComputerBorderRenderer
+import dan200.computercraft.client.render.RenderTypes
+import dan200.computercraft.client.render.SpriteRenderer
 import dan200.computercraft.shared.computer.core.ComputerFamily
 import dan200.computercraft.shared.computer.inventory.AbstractComputerMenu
 import io.sc3.plethora.Plethora.ModId
@@ -38,7 +39,7 @@ class NeuralInterfaceScreen(
 
   fun initNeural() {
     // Draw the button to swap between peripherals/modules view
-    addDrawableChild(PlethoraDynamicImageButton(
+    addDrawableChild(DynamicImageButton(
       x + swapBtn.x(), y + swapBtn.y(), 16, 16,
       { if (peripherals) 0 else 16 },  // Show the appropriate icon based on the current view
       ICON_Y, 0, tex, TEX_SIZE, TEX_SIZE,
@@ -70,7 +71,9 @@ class NeuralInterfaceScreen(
       ctx.drawTexture(tex, x + NEURAL_START_X + 1 + S, y + START_Y + 1 + 2 * S, 104, ICON_Y, 16, 16); // Bottom
     }
 
-    ComputerSidebar.renderBackground(ctx, borderTex, x, y + sidebarYOffset)
+    val spriteRenderer = SpriteRenderer.createForGui(ctx, RenderTypes.GUI_SPRITES)
+    ComputerSidebar.renderBackground(spriteRenderer, computerTextures, x, y + sidebarYOffset)
+    ctx.draw()
   }
 
   private fun updateVisible() {
@@ -80,7 +83,7 @@ class NeuralInterfaceScreen(
 
   companion object {
     private val tex = ModId("textures/gui/neural_interface.png")
-    private val borderTex = ComputerBorderRenderer.getTexture(ComputerFamily.NORMAL)
+    private val computerTextures = GuiSprites.getComputerTextures(ComputerFamily.NORMAL)
 
     private const val ICON_Y = 224
 
