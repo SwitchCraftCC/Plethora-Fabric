@@ -4,32 +4,25 @@ import com.google.gson.JsonObject
 import dan200.computercraft.shared.computer.items.IComputerItem
 import dan200.computercraft.shared.computer.recipe.ComputerConvertRecipe
 import dan200.computercraft.shared.pocket.items.PocketComputerItem
-import io.sc3.library.recipe.ShapedRecipeSpec
+import dan200.computercraft.shared.recipe.ShapedRecipeSpec
 import io.sc3.plethora.gameplay.neural.NeuralComputerHandler
 import io.sc3.plethora.gameplay.neural.NeuralHelpers
 import io.sc3.plethora.gameplay.neural.NeuralInterfaceInventory
 import net.minecraft.inventory.Inventories
 import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.RecipeSerializer
-import net.minecraft.recipe.book.CraftingRecipeCategory
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
-import net.minecraft.util.collection.DefaultedList
 
 class NeuralInterfaceRecipe(
   id: Identifier,
-  group: String,
-  category: CraftingRecipeCategory,
-  width: Int,
-  height: Int,
-  ingredients: DefaultedList<Ingredient>,
-  result: ItemStack,
-) : ComputerConvertRecipe(id, group, category, width, height, ingredients, result) {
+  recipe: ShapedRecipeSpec
+) : ComputerConvertRecipe(id, recipe) {
+  private val output = recipe.result.item
+
   override fun convert(item: IComputerItem, old: ItemStack): ItemStack {
-    val output = getOutput(null) // TODO(1.19.4)
-    val result = ItemStack(output.item)
+    val result = ItemStack(output)
     val id = item.getComputerID(old)
     val label = item.getLabel(old)
 
@@ -59,12 +52,9 @@ class NeuralInterfaceRecipe(
   override fun getSerializer() = Serializer
 
   object Serializer : RecipeSerializer<NeuralInterfaceRecipe> {
-    private fun make(id: Identifier, spec: ShapedRecipeSpec) = NeuralInterfaceRecipe(
-      id, spec.group, spec.category, spec.width, spec.height, spec.ingredients, spec.output,
-    )
-
-    override fun read(id: Identifier, json: JsonObject) = make(id, ShapedRecipeSpec.ofJson(json))
-    override fun read(id: Identifier, buf: PacketByteBuf) = make(id, ShapedRecipeSpec.ofPacket(buf))
-    override fun write(buf: PacketByteBuf, recipe: NeuralInterfaceRecipe) = ShapedRecipeSpec.ofRecipe(recipe).write(buf)
+    private fun make(id: Identifier, spec: ShapedRecipeSpec) = NeuralInterfaceRecipe(id, spec)
+    override fun read(id: Identifier, json: JsonObject) = make(id, ShapedRecipeSpec.fromJson(json))
+    override fun read(id: Identifier, buf: PacketByteBuf) = make(id, ShapedRecipeSpec.fromNetwork(buf))
+    override fun write(buf: PacketByteBuf, recipe: NeuralInterfaceRecipe) = recipe.toSpec().toNetwork(buf)
   }
 }
