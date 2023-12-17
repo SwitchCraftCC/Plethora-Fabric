@@ -13,6 +13,8 @@ import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage
 import net.minecraft.inventory.Inventory
 
 object InventoryMethodsWrapper {
+  private val inventory = InventoryMethods()
+
   val GET_SIZE = BasicMethod.of("size", "function():number -- Get the size of this inventory.", ::size)
   private fun size(unbaked: IUnbakedContext<Inventory>, args: IArguments): FutureMethodResult {
     val inv = unbaked.getInventory()
@@ -25,7 +27,7 @@ object InventoryMethodsWrapper {
   )
   private fun list(unbaked: IUnbakedContext<Inventory>, args: IArguments): FutureMethodResult {
     val inv = unbaked.getInventoryStorage()
-    return result(InventoryMethods.list(inv))
+    return result(inventory.list(inv))
   }
 
   val GET_ITEM_DETAIL = BasicMethod.of(
@@ -34,7 +36,7 @@ object InventoryMethodsWrapper {
   private fun getItemDetail(unbaked: IUnbakedContext<Inventory>, args: IArguments): FutureMethodResult {
     val slot = args.getInt(0)
     val inv = unbaked.getInventoryStorage()
-    return result(InventoryMethods.getItemDetail(inv, slot))
+    return result(inventory.getItemDetail(inv, slot))
   }
 
   val GET_ITEM_LIMIT = BasicMethod.of(
@@ -44,7 +46,7 @@ object InventoryMethodsWrapper {
   private fun getItemLimit(unbaked: IUnbakedContext<Inventory>, args: IArguments): FutureMethodResult {
     val slot = args.getInt(0)
     val inv = unbaked.getInventoryStorage()
-    return result(InventoryMethods.getItemLimit(inv, slot))
+    return result(inventory.getItemLimit(inv, slot))
   }
 
   val PUSH_ITEMS = BasicMethod.of(
@@ -58,7 +60,7 @@ object InventoryMethodsWrapper {
     val limit = args.optInt(2)
     val toSlot = args.optInt(3)
     val (_, inv, access) = getContext(unbaked)
-    return result(InventoryMethods.pushItems(inv, access, toName, fromSlot, limit, toSlot))
+    return result(inventory.pushItems(inv, access, toName, fromSlot, limit, toSlot))
   }
 
   val PULL_ITEMS = BasicMethod.of(
@@ -72,7 +74,7 @@ object InventoryMethodsWrapper {
     val limit = args.optInt(2)
     val toSlot = args.optInt(3)
     val (_, inv, access) = getContext(unbaked)
-    return result(InventoryMethods.pullItems(inv, access, fromName, fromSlot, limit, toSlot))
+    return result(inventory.pullItems(inv, access, fromName, fromSlot, limit, toSlot))
   }
 
   private fun InventoryStorage.wrapped(): InventoryMethods.StorageWrapper =
