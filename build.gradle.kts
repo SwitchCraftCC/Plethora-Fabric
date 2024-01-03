@@ -96,6 +96,7 @@ dependencies {
   modApi("cc.tweaked:cc-tweaked-$ccMcVersion-fabric:$ccVersion") {
     exclude("net.fabricmc.fabric-api", "fabric-gametest-api-v1")
   }
+  runtimeOnly("com.electronwill.night-config:toml:3.6.5") // FIXME: CC:T has a broken night config dep
 
   modImplementation("dev.emi:trinkets:${trinketsVersion}")
 

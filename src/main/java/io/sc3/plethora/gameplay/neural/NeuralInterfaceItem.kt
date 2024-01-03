@@ -3,8 +3,6 @@ package io.sc3.plethora.gameplay.neural
 import dan200.computercraft.api.ComputerCraftAPI
 import dan200.computercraft.api.filesystem.Mount
 import dan200.computercraft.api.media.IMedia
-import dan200.computercraft.shared.computer.core.ComputerFamily
-import dan200.computercraft.shared.computer.core.ComputerFamily.ADVANCED
 import dan200.computercraft.shared.computer.items.IComputerItem
 import dan200.computercraft.shared.config.Config.computerSpaceLimit
 import dev.emi.trinkets.api.SlotReference
@@ -15,6 +13,7 @@ import io.sc3.plethora.gameplay.neural.NeuralComputerHandler.COMPUTER_ID
 import io.sc3.plethora.gameplay.neural.NeuralComputerHandler.DIRTY
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.LivingEntity
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
@@ -65,9 +64,8 @@ class NeuralInterfaceItem(settings: Settings?) : TrinketItem(settings), ICompute
     }
   }
 
-  override fun getFamily() = ADVANCED
-
-  override fun withFamily(stack: ItemStack, @Nonnull family: ComputerFamily) = stack
+  override fun changeItem(stack: ItemStack, newItem: Item): ItemStack =
+    if (newItem === this) stack.copy() else ItemStack.EMPTY
 
   override fun tick(stack: ItemStack, slot: SlotReference, entity: LivingEntity) {
     onUpdate(stack, slot, entity, true)

@@ -1,4 +1,4 @@
-// 1.20.1	2023-06-15T14:33:00.9586224	Plethora/Tags for minecraft:block
-785f33f2865bd89d8f24fc84ab143def8e4c5d87 data\minecraft\tags\blocks\mineable\pickaxe.json
-023aacfec8a137605576149770fb054d1a01123e data\plethora\tags\blocks\block_scanner_ores.json
-389c15ba83b888d17814bef9eb5714c033f0913a data\plethora\tags\blocks\laser_dont_drop.json
+// 1.20.1	2024-01-03T20:42:40.324767235	Plethora/Tags for minecraft:block
+023aacfec8a137605576149770fb054d1a01123e data/plethora/tags/blocks/block_scanner_ores.json
+389c15ba83b888d17814bef9eb5714c033f0913a data/plethora/tags/blocks/laser_dont_drop.json
+785f33f2865bd89d8f24fc84ab143def8e4c5d87 data/minecraft/tags/blocks/mineable/pickaxe.json
