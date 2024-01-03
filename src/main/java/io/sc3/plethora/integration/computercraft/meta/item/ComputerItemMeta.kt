@@ -13,7 +13,6 @@ class ComputerItemMeta : ItemStackMetaProvider<IComputerItem>(IComputerItem::cla
 
     val label = item.getLabel(stack)
     if (!label.isNullOrEmpty()) data["label"] = label
-    data["family"] = item.family.toString()
 
     return data
   }
