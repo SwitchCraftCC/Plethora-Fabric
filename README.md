@@ -23,7 +23,7 @@ You can also add a kinetic augment to the neural interface. This allows controll
 ## Port status
 The port to Fabric is still ongoing. SwitchCraft's needs were prioritised in the port, but we eventually aim to support
 as much of the original mod as possible. For a detailed list of differences to the original mod, and information on how
-to migrate your code, see the changes list at [docs.sc3.io](https://docs.sc3.io/whats-new/plethora.html).
+to migrate your code, see the changes list at [docs.sc3.io](https://docs.sc3.io/features/plethora.html).
 
 ## Requirements
 - Minecraft 1.20.1
@@ -36,7 +36,7 @@ to migrate your code, see the changes list at [docs.sc3.io](https://docs.sc3.io/
 There is pretty comprehensive documentation on [the Plethora website](https://squiddev-cc.github.io/plethora/). This
 contains tutorials, explanations of several fundamental concepts and thoroughly explained examples. For a detailed list 
 of differences to the 1.12.2 mod, and information on how to migrate your code, see the changes list at 
-[docs.sc3.io](https://docs.sc3.io/whats-new/plethora.html).
+[docs.sc3.io](https://docs.sc3.io/features/plethora.html).
 
 ## Images
 ![](https://squiddev-cc.github.io/plethora/images/squids-laser.png)
