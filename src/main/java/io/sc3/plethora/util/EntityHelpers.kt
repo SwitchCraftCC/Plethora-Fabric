@@ -1,38 +1,27 @@
-package io.sc3.plethora.util;
+package io.sc3.plethora.util
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.registry.Registries;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.entity.Entity
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.registry.Registries
+import net.minecraft.server.MinecraftServer
+import java.util.*
 
-import javax.annotation.Nonnull;
-import java.util.UUID;
-
-public class EntityHelpers {
-    public static Entity getEntityFromUuid(MinecraftServer server, UUID uuid) {
-        for (ServerWorld world : server.getWorlds()) {
-            if (world != null) {
-                Entity entity = world.getEntity(uuid);
-                if (entity != null) return entity;
-            }
-        }
-
-        return null;
+object EntityHelpers {
+  @JvmStatic
+  fun getEntityFromUuid(server: MinecraftServer, uuid: UUID): Entity? {
+    for (world in server.worlds) {
+      world?.getEntity(uuid)?.let { return it }
     }
 
-    @Nonnull
-    public static String getName(Entity entity) {
-        // TODO: Verify this matches the original logic
-        if (entity instanceof PlayerEntity) {
-            return entity.getName().getString();
-        } else {
-            return entity.getType().getName().getString();
-        }
-    }
+    return null
+  }
 
-    @Nonnull
-    public static String getKey(Entity entity) {
-        return Registries.ENTITY_TYPE.getId(entity.getType()).toString();
-    }
+  // TODO: Verify this matches the original logic
+  fun getName(e: Entity): String = when (e) {
+    is PlayerEntity -> e.getName().string
+    else -> e.type.name.string
+  }
+
+  fun getKey(e: Entity): String =
+    Registries.ENTITY_TYPE.getId(e.type).toString()
 }
