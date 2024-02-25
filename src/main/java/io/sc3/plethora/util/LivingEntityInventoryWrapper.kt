@@ -1,5 +1,6 @@
 package io.sc3.plethora.util
 
+import dan200.computercraft.api.lua.LuaException
 import io.sc3.plethora.Plethora
 import io.sc3.plethora.api.reference.IReference
 import net.minecraft.entity.LivingEntity
@@ -14,7 +15,10 @@ abstract class LivingEntityInventoryWrapper<T : LivingEntity>(
         val entity = entityReference.get()
         provideInventory(entity)
       } catch (e: Exception) {
-        Plethora.log.error("Error getting inventory for RangedInventoryWrapper", e)
+        if (e !is LuaException) {
+          Plethora.log.error("Error getting inventory for RangedInventoryWrapper", e)
+        }
+
         null
       }
 
