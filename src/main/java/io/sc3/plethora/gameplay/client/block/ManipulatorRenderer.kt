@@ -25,7 +25,7 @@ class ManipulatorRenderer : BlockEntityRenderer<ManipulatorBlockEntity> {
     matrices.translate(0.0, ManipulatorBlock.OFFSET, 0.0)
 
     val type = manipulator.manipulatorType
-    val rotation = manipulator.incrementRotation(tickDelta)
+    val rotation = (manipulator.world?.time?.toFloat() ?: 0f) + tickDelta
 
     val size = type.size()
     val boxes = type.boxesFor(Direction.DOWN)
