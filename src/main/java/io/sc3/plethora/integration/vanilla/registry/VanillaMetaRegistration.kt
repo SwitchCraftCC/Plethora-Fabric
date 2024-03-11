@@ -5,6 +5,7 @@ import io.sc3.plethora.api.meta.IMetaRegistry
 import io.sc3.plethora.integration.vanilla.meta.block.BlockMeta
 import io.sc3.plethora.integration.vanilla.meta.block.BlockReferenceMeta
 import io.sc3.plethora.integration.vanilla.meta.block.BlockStateMeta
+import io.sc3.plethora.integration.vanilla.meta.blockentity.BeehiveBlockEntityMeta
 import io.sc3.plethora.integration.vanilla.meta.blockentity.SignBlockEntityMeta
 import io.sc3.plethora.integration.vanilla.meta.entity.*
 import io.sc3.plethora.integration.vanilla.meta.item.*
@@ -21,6 +22,7 @@ object VanillaMetaRegistration {
 
       // integration.vanilla.blockentity
       provider("signBlockEntity", SignBlockEntityMeta)
+      provider("beehiveBlockEntity", BeehiveBlockEntityMeta)
 
       // integration.vanilla.entity
       provider("entity", EntityMeta)
