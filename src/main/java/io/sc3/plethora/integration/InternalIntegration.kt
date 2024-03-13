@@ -3,6 +3,7 @@ package io.sc3.plethora.integration
 import io.sc3.plethora.api.PlethoraAPI.IPlethoraAPI
 import io.sc3.plethora.api.meta.IMetaProvider
 import io.sc3.plethora.api.meta.IMetaRegistry
+import io.sc3.plethora.integration.scgoodies.ScGoodiesIntegration
 import io.sc3.plethora.integration.scperipherals.ScPeripheralsIntegration
 import net.fabricmc.loader.api.FabricLoader
 
@@ -15,6 +16,7 @@ abstract class InternalIntegration(val modId: String) {
 
   companion object {
     private val integrations = mapOf(
+      "sc-goodies"     to ScGoodiesIntegration,
       "sc-peripherals" to ScPeripheralsIntegration,
     )
 

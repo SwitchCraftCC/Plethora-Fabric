@@ -40,6 +40,7 @@ val scLibraryVersion: String by project
 // Third party mod integration
 // ===========================
 val scPeripheralsVersion: String by project
+val scGoodiesVersion: String by project
 
 val archivesBaseName = "plethora"
 version = modVersion
@@ -142,6 +143,7 @@ dependencies {
   // ===========================
   // sc-peripherals
   modCompileOnly("io.sc3:sc-peripherals:${scPeripheralsVersion}")
+  modCompileOnly("io.sc3:sc-goodies:${scGoodiesVersion}")
 }
 
 tasks {
