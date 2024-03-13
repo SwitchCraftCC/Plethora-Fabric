@@ -59,7 +59,7 @@ public class KineticTurtleUpgrade extends TurtleUpgradeModule {
                 return toResult(previous);
             } else if (verb == TurtleVerb.ATTACK && baseHit.getType() == HitResult.Type.ENTITY) {
                 EntityHitResult hit = (EntityHitResult) baseHit;
-                return toResult(PlayerInteractionHelpers.attack(fakePlayer, hit.getEntity()));
+                return toResult(PlayerInteractionHelpers.attack(fakePlayer, hit.getEntity(), hit));
             } else {
                 return TurtleCommandResult.failure("Nothing to do here");
             }

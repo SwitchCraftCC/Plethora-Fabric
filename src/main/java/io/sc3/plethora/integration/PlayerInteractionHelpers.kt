@@ -41,12 +41,10 @@ object PlayerInteractionHelpers {
         val insideBlock = hit.isInsideBlock
 
         if (!world.isAir(pos) && world.worldBorder.contains(pos)) {
-          val hitPos = hit.pos.subtract(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble())
-
-          var result = rightClickBlock(player, world, stack, hand, pos, side, hitPos, insideBlock)
+          var result = rightClickBlock(player, world, stack, hand, pos, side, hit.pos, insideBlock)
           if (result.isAccepted) return FutureMethodResult.result(true, "block")
 
-          result = rightClickBlock(player, world, stack, hand, pos, side.opposite, hitPos, insideBlock)
+          result = rightClickBlock(player, world, stack, hand, pos, side.opposite, hit.pos, insideBlock)
           if (result.isAccepted) return FutureMethodResult.result(true, "block")
         }
       }
@@ -117,7 +115,7 @@ object PlayerInteractionHelpers {
    * @return If this entity could be attacked.
    */
   @JvmStatic
-  fun attack(player: ServerPlayerEntity, hitEntity: Entity?): Pair<Boolean, String> =
+  fun attack(player: ServerPlayerEntity, hitEntity: Entity?, hitResult: EntityHitResult): Pair<Boolean, String> =
     if (hitEntity != null) {
       // TODO: Use the original entity for the main attacker
       player.attack(hitEntity)

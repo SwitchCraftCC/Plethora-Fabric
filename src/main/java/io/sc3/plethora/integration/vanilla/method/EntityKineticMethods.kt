@@ -85,7 +85,7 @@ object EntityKineticMethods {
       when (baseHit.type) {
         HitResult.Type.ENTITY -> {
           val hit = baseHit as EntityHitResult
-          val result = PlayerInteractionHelpers.attack(player, hit.entity)
+          val result = PlayerInteractionHelpers.attack(player, hit.entity, hit)
           FutureMethodResult.result(result.left, result.right)
         }
         HitResult.Type.BLOCK -> {

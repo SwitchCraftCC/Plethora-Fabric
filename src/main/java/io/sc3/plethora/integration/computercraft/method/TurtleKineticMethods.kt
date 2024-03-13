@@ -60,7 +60,7 @@ object TurtleKineticMethods {
       when (baseHit.type) {
         HitResult.Type.ENTITY -> {
           val hit = baseHit as EntityHitResult
-          val result = PlayerInteractionHelpers.attack(fakePlayer, hit.entity)
+          val result = PlayerInteractionHelpers.attack(fakePlayer, hit.entity, hit)
           FutureMethodResult.result(result.left, result.right)
         }
 
