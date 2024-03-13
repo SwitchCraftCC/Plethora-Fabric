@@ -6,9 +6,10 @@ import net.minecraft.item.DyeableArmorItem
 import net.minecraft.item.ItemStack
 
 /**
- * Meta provider for amour properties. Material is handled in [ItemMaterialMeta].
+ * Meta provider for armour properties. Material is handled in [ItemMaterialMeta].
  */
-object ArmorItemMeta : ItemStackMetaProvider<ArmorItem>(ArmorItem::class.java, "Provides type and colour of amour.") {
+object ArmorItemMeta : ItemStackMetaProvider<ArmorItem>(ArmorItem::class.java, "armor",
+  description = "Provides type and colour of armour.") {
   override fun getMeta(stack: ItemStack, item: ArmorItem): Map<String, *> {
     val data = mutableMapOf<String, Any>(
       "armorType" to item.slotType.getName()
