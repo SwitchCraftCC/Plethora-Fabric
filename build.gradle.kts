@@ -98,6 +98,13 @@ repositories {
       includeGroup("dev.onyxstudios.cardinal-components-api")
     }
   }
+
+  maven("https://oss.sonatype.org/content/repositories/snapshots") {
+    // fabric-permissions-api (dependency of sc-goodies)
+    content {
+      includeModule("me.lucko", "fabric-permissions-api")
+    }
+  }
 }
 
 dependencies {
