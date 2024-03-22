@@ -1,6 +1,6 @@
 package io.sc3.plethora.gameplay.client;
 
-import dan200.computercraft.api.client.ComputerCraftAPIClient;
+import dan200.computercraft.api.client.FabricComputerCraftAPIClient;
 import dan200.computercraft.shared.computer.inventory.AbstractComputerMenu;
 import dev.emi.trinkets.api.client.TrinketRendererRegistry;
 import io.sc3.plethora.core.TurtleUpgradeModuleRenderer;
@@ -43,8 +43,8 @@ public class PlethoraClient implements ClientModInitializer {
         BlockEntityRendererRegistry.register(ModBlockEntities.MANIPULATOR_MARK_1, ctx -> new ManipulatorRenderer());
         BlockEntityRendererRegistry.register(ModBlockEntities.MANIPULATOR_MARK_2, ctx -> new ManipulatorRenderer());
         TrinketRendererRegistry.registerRenderer(Registration.ModItems.NEURAL_INTERFACE, new NeuralInterfaceTrinketRenderer());
-        ComputerCraftAPIClient.registerTurtleUpgradeModeller(Registration.ModTurtleUpgradeSerialisers.MODULE, TurtleUpgradeModuleRenderer.INSTANCE);
-        ComputerCraftAPIClient.registerTurtleUpgradeModeller(Registration.ModTurtleUpgradeSerialisers.KINETIC_AUGMENT, TurtleUpgradeModuleRenderer.INSTANCE::getModel);
+        FabricComputerCraftAPIClient.registerTurtleUpgradeModeller(Registration.ModTurtleUpgradeSerialisers.MODULE, TurtleUpgradeModuleRenderer.INSTANCE);
+        FabricComputerCraftAPIClient.registerTurtleUpgradeModeller(Registration.ModTurtleUpgradeSerialisers.KINETIC_AUGMENT, TurtleUpgradeModuleRenderer.INSTANCE::getModel);
 
         // These generics are required even if IDEA says they're not
         //noinspection RedundantTypeArguments
