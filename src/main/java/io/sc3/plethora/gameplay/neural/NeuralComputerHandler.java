@@ -22,8 +22,8 @@ public class NeuralComputerHandler {
     public static final int WIDTH = 39;
     public static final int HEIGHT = 13;
 
-    public static final String SESSION_ID = "session_id";
-    public static final String INSTANCE_ID = "instance_id";
+    private static final String SESSION_ID = "session_id";
+    private static final String INSTANCE_ID = "instance_id";
     public static final String COMPUTER_ID = "id";
     public static final String ITEMS = "items";
     public static final String DIRTY = "dirty";
@@ -39,8 +39,8 @@ public class NeuralComputerHandler {
         final int sessionId = manager.getSessionID();
 
         NeuralComputer neural = null;
-        if (nbt.contains(SESSION_ID) && nbt.contains(INSTANCE_ID)) {
-            ServerComputer computer = manager.get(nbt.getInt(SESSION_ID), nbt.getInt(INSTANCE_ID));
+        if (nbt.contains(SESSION_ID) && nbt.containsUuid(INSTANCE_ID)) {
+            ServerComputer computer = manager.get(nbt.getInt(SESSION_ID), nbt.getUuid(INSTANCE_ID));
             if (computer instanceof NeuralComputer neuralComputer) {
                 neural = neuralComputer;
             } else if(computer != null) {
@@ -58,7 +58,7 @@ public class NeuralComputerHandler {
             neural.readModuleData(nbt.getCompound(MODULE_DATA));
 
             nbt.putInt(SESSION_ID, sessionId);
-            nbt.putInt(INSTANCE_ID, neural.register());
+            nbt.putUuid(INSTANCE_ID, neural.register());
             nbt.putInt(COMPUTER_ID, computerId);
 
             neural.turnOn();
@@ -70,10 +70,10 @@ public class NeuralComputerHandler {
 
     public static NeuralComputer tryGetServer(@Nonnull ItemStack stack, LivingEntity player) {
         NbtCompound nbt = stack.getNbt();
-        if(nbt == null || !nbt.contains(SESSION_ID) || !nbt.contains(INSTANCE_ID)) return null;
+        if(nbt == null || !nbt.contains(SESSION_ID) || !nbt.containsUuid(INSTANCE_ID)) return null;
 
         final ServerComputerRegistry manager = ServerContext.get(player.getServer()).registry();
-        var computer = manager.get(nbt.getInt(SESSION_ID), nbt.getInt(INSTANCE_ID));
+        var computer = manager.get(nbt.getInt(SESSION_ID), nbt.getUuid(INSTANCE_ID));
         if(computer == null) {
             return null;
         } else if (computer instanceof NeuralComputer neuralComputer) {
