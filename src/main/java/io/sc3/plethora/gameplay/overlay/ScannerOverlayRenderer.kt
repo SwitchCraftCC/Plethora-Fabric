@@ -14,7 +14,8 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
 object ScannerOverlayRenderer : FlareOverlayRenderer() {
-  private val cfg by Plethora.config::scanner
+  private val cfg
+    get() = Plethora.config.scanner
 
   private val blockColorCache = mutableMapOf<Block, FlareColor>()
 

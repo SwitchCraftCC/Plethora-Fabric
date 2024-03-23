@@ -13,7 +13,8 @@ import net.minecraft.util.TypeFilter
 import net.minecraft.util.math.Box
 
 object SensorOverlayRenderer : FlareOverlayRenderer() {
-  private val cfg by Plethora.config::sensor
+  private val cfg
+    get() = Plethora.config.sensor
 
   private val entityColorCache: MutableMap<EntityType<*>, FlareColor> = HashMap()
 

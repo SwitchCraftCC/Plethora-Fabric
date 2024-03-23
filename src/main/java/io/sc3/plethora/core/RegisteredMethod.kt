@@ -12,7 +12,9 @@ abstract class RegisteredMethod<T>(
   mod: String,
   val target: Class<T>
 ) : RegisteredValue(regName, mod) {
-  private val cfg by Plethora.config::costSystem
+  private val cfg
+    get() = Plethora.config.costSystem
+
   private var cost = 0
 
   abstract val method: IMethod<T>

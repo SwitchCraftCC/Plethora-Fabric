@@ -24,7 +24,8 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 object LaserMethods {
-  private val cfg by Plethora.config::laser
+  private val cfg
+    get() = Plethora.config.laser
 
   val FIRE = SubtargetedModuleMethod.of(
     "fire", PlethoraModules.LASER_M, IWorldLocation::class.java,

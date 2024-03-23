@@ -6,7 +6,8 @@ import io.sc3.plethora.gameplay.registry.PlethoraModules.SENSOR_M
 import net.minecraft.util.Identifier
 
 class SensorModuleItem(settings: Settings) : LevelableModuleItem("sensor", settings) {
-  private val cfg by Plethora.config::sensor
+  private val cfg
+    get() = Plethora.config.sensor
 
   override fun getModule(): Identifier = SENSOR_M
 

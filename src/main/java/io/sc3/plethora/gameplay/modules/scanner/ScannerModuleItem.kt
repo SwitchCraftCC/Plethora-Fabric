@@ -6,7 +6,8 @@ import io.sc3.plethora.gameplay.registry.PlethoraModules.SCANNER_M
 import net.minecraft.util.Identifier
 
 class ScannerModuleItem(settings: Settings) : LevelableModuleItem("scanner", settings) {
-  private val cfg by Plethora.config::scanner
+  private val cfg
+    get() = Plethora.config.scanner
 
   override fun getModule(): Identifier = SCANNER_M
 

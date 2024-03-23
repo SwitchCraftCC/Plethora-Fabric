@@ -1,6 +1,10 @@
 package io.sc3.plethora.gameplay.modules.laser
 
 import dan200.computercraft.api.client.TransformedModel
+import io.sc3.plethora.Plethora
+import io.sc3.plethora.api.module.IModuleHandler
+import io.sc3.plethora.gameplay.modules.ModuleItem
+import io.sc3.plethora.gameplay.registry.PlethoraModules
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -9,10 +13,6 @@ import net.minecraft.util.*
 import net.minecraft.util.math.AffineTransformation
 import net.minecraft.util.math.RotationAxis
 import net.minecraft.world.World
-import io.sc3.plethora.Plethora
-import io.sc3.plethora.api.module.IModuleHandler
-import io.sc3.plethora.gameplay.modules.ModuleItem
-import io.sc3.plethora.gameplay.registry.PlethoraModules
 
 private const val MAX_TICKS = 72000
 private const val USE_TICKS = 30
@@ -26,7 +26,8 @@ private const val USE_TICKS = 30
 private const val LASER_MAX_SPREAD = (0.1 / 0.0075).toFloat()
 
 class LaserModuleItem(settings: Settings) : ModuleItem("laser", settings), IModuleHandler {
-  private val cfg by Plethora.config::laser
+  private val cfg
+    get() = Plethora.config.laser
 
   override fun getModule(): Identifier = PlethoraModules.LASER_M
 

@@ -13,7 +13,8 @@ import java.util.concurrent.Callable
  * @see PlethoraCore.initializeCore
  */
 class DefaultCostHandler : ICostHandler {
-  private val cfg by Plethora.config::costSystem
+  private val cfg
+    get() = Plethora.config.costSystem
 
   private var value: Double = cfg.initial
   @Synchronized

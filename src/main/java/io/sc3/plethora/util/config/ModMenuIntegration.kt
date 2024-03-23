@@ -2,6 +2,9 @@ package io.sc3.plethora.util.config
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory
 import com.terraformersmc.modmenu.api.ModMenuApi
+import io.sc3.plethora.Plethora
+import io.sc3.plethora.gameplay.overlay.ScannerOverlayRenderer
+import io.sc3.plethora.gameplay.overlay.SensorOverlayRenderer
 import me.shedaniel.clothconfig2.api.ConfigBuilder
 import net.fabricmc.api.EnvType
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags.ORES
@@ -11,19 +14,17 @@ import net.minecraft.block.RedstoneOreBlock
 import net.minecraft.registry.Registries
 import net.minecraft.text.Text.of
 import net.minecraft.text.Text.translatable
-import io.sc3.plethora.Plethora
-import io.sc3.plethora.gameplay.overlay.ScannerOverlayRenderer
-import io.sc3.plethora.gameplay.overlay.SensorOverlayRenderer
 import java.awt.Color
 
 object ModMenuIntegration : ModMenuApi {
-  private const val lang = "gui.plethora.config"
-  private val cfg by Plethora::config
+  private const val key = "gui.plethora.config"
+  private val cfg
+    get() = Plethora.config
 
   override fun getModConfigScreenFactory(): ConfigScreenFactory<*> {
     return ConfigScreenFactory { parent ->
       val builder = ConfigBuilder.create().setParentScreen(parent)
-        .setTitle(translatable("$lang.title"))
+        .setTitle(translatable("$key.title"))
         .setSavingRunnable {
           ConfigLoader.saveConfig(cfg)
 
@@ -36,9 +37,9 @@ object ModMenuIntegration : ModMenuApi {
       // ======================================================================
       // Scanner
       // ======================================================================
-      val scanner = builder.getOrCreateCategory(translatable("$lang.scanner.title"))
+      val scanner = builder.getOrCreateCategory(translatable("$key.scanner.title"))
 
-      val oreColours = builder.entryBuilder().startSubCategory(translatable("$lang.scanner.ore_colours"))
+      val oreColours = builder.entryBuilder().startSubCategory(translatable("$key.scanner.ore_colours"))
       oreColours.addAll(getOreBlocks().map { block ->
         val id = Registries.BLOCK.getId(block).toString()
         val currentColor = (cfg.scanner.oreColours[id] ?: "#FFFFFF").color()
