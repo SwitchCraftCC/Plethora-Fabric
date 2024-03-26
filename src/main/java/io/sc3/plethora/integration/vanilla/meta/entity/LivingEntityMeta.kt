@@ -29,6 +29,7 @@ object LivingEntityMeta : BaseMetaProvider<LivingEntity>() {
         "offhandItem"  to context.wrappedStack(EquipmentSlot.OFFHAND),
 
         "potionEffects" to activeStatusEffects.keys.map { it.name.string }.toList(),
+        "absorption"    to absorptionAmount,
         "health"        to health,
         "maxHealth"     to maxHealth,
 
