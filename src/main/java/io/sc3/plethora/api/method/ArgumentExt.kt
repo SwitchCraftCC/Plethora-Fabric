@@ -84,8 +84,8 @@ object ArgumentExt {
 
   fun IArguments.optHand(index: Int): Hand {
     return when (val hand = optString(index, "main")!!.lowercase()) {
-      "main", "mainhand", "right" -> Hand.MAIN_HAND
-      "off", "offhand", "left" -> Hand.OFF_HAND
+      "main", "mainhand" -> Hand.MAIN_HAND
+      "off", "offhand" -> Hand.OFF_HAND
       else -> throw LuaException("Unknown hand '$hand', expected 'main' or 'off'")
     }
   }
