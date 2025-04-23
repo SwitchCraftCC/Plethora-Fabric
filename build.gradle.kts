@@ -1,4 +1,3 @@
-import net.darkhax.curseforgegradle.TaskPublishCurseForge
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
@@ -10,7 +9,6 @@ plugins {
   id("maven-publish")
   id("signing")
   id("com.modrinth.minotaur") version "2.+"
-  id("net.darkhax.curseforgegradle") version "1.0.11"
 }
 
 val modVersion: String by project
@@ -234,27 +232,6 @@ modrinth {
 
 tasks.modrinth { dependsOn(tasks.modrinthSyncBody) }
 tasks.publish { dependsOn(tasks.modrinth) }
-
-val publishCurseForge by tasks.registering(TaskPublishCurseForge::class) {
-  group = PublishingPlugin.PUBLISH_TASK_GROUP
-  description = "Upload artifacts to CurseForge"
-
-  apiToken = findProperty("curseForgeApiKey") as String? ?: ""
-  enabled = apiToken != ""
-
-  val mainFile = upload("248425", tasks.remapJar.get().archiveFile)
-  dependsOn(tasks.remapJar)
-  mainFile.releaseType = "release"
-  mainFile.changelog = "Release notes can be found on the [GitHub repository](https://github.com/SwitchCraftCC/Plethora-Fabric/commits/$minecraftVersion)."
-  mainFile.changelogType = "markdown"
-  mainFile.addGameVersion(minecraftVersion)
-  mainFile.addRequirement("fabric-api")
-  mainFile.addRequirement("fabric-language-kotlin")
-  mainFile.addRequirement("cc-tweaked")
-  mainFile.addRequirement("trinkets")
-}
-
-tasks.publish { dependsOn(publishCurseForge) }
 
 publishing {
   publications {
