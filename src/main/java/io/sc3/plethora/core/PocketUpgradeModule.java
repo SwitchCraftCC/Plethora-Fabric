@@ -88,7 +88,7 @@ public class PocketUpgradeModule implements IPocketUpgrade {
 			@Nonnull
 			@Override
 			public IModuleContainer get() throws LuaException {
-				if (!pocket.getUpgrades().containsKey(getUpgradeID())) {
+				if (pocket.getUpgrade()==null || !pocket.getUpgrade().upgrade().getUpgradeID().equals(getUpgradeID())) {
 					throw new LuaException("The upgrade is gone");
 				}
 				return container;

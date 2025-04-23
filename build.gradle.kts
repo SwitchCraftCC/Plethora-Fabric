@@ -1,11 +1,12 @@
 import net.darkhax.curseforgegradle.TaskPublishCurseForge
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
   val kotlinVersion: String by System.getProperties()
   kotlin("jvm").version(kotlinVersion)
 
-  id("fabric-loom") version "1.6-SNAPSHOT"
+  id("fabric-loom") version "1.9-SNAPSHOT"
   id("maven-publish")
   id("signing")
   id("com.modrinth.minotaur") version "2.+"
@@ -46,11 +47,11 @@ val archivesBaseName = "plethora"
 version = modVersion
 group = mavenGroup
 
-tasks.withType<KotlinCompile>().configureEach {
-  kotlinOptions {
-    jvmTarget = "17"
-    apiVersion = "1.9"
-    languageVersion = "1.9"
+kotlin {
+  compilerOptions {
+    jvmTarget = JvmTarget.JVM_17
+    apiVersion = KotlinVersion.KOTLIN_1_9
+    languageVersion = KotlinVersion.KOTLIN_1_9
   }
 }
 
@@ -69,10 +70,9 @@ repositories {
     }
   }
 
-  maven("https://squiddev.cc/maven") {
+  maven("https://maven.squiddev.cc/") {
     content {
       includeGroup("cc.tweaked")
-      includeModule("org.squiddev", "Cobalt")
     }
   }
 
@@ -283,4 +283,3 @@ publishing {
     }
   }
 }
-

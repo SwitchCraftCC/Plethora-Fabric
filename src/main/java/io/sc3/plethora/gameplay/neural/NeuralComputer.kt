@@ -26,7 +26,7 @@ class NeuralComputer(
   pos: BlockPos,
   computerId: Int,
   label: String?
-) : ServerComputer(world, pos, computerId, label, ADVANCED, WIDTH, HEIGHT) {
+) : ServerComputer(world, pos, properties(computerId, ADVANCED).label(label).terminalSize(WIDTH, HEIGHT)) {
   var entity: WeakReference<LivingEntity>? = null
     private set
 
@@ -70,8 +70,7 @@ class NeuralComputer(
       entity = if (owner.isAlive) WeakReference(owner) else null
     }
 
-    level = owner.entityWorld as ServerWorld
-    position = owner.blockPos
+    setPosition(owner.entityWorld as ServerWorld, owner.blockPos)
 
     // Sync changed slots
     if (dirty != 0) {

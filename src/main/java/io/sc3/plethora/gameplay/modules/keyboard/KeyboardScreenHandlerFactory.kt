@@ -19,10 +19,11 @@ class KeyboardScreenHandlerFactory(
   private val item: KeyboardModuleItem,
   private val hand: Hand
 ) : NamedScreenHandlerFactory {
+
   override fun getDisplayName() = name
 
   override fun createMenu(syncId: Int, inv: PlayerInventory, player: PlayerEntity): ScreenHandler =
-    ComputerMenuWithoutInventory(KEYBOARD_HANDLER_TYPE, syncId, inv, ::canUse, computer, computer.family)
+    ComputerMenuWithoutInventory(KEYBOARD_HANDLER_TYPE, syncId, inv, ::canUse, computer,)
 
   private fun canUse(player: PlayerEntity): Boolean {
     if (!player.isAlive) return false
