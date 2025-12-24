@@ -5,7 +5,7 @@ plugins {
   val kotlinVersion: String by System.getProperties()
   kotlin("jvm").version(kotlinVersion)
 
-  id("fabric-loom") version "1.9-SNAPSHOT"
+  id("fabric-loom") version "1.14.10"
   id("maven-publish")
   id("signing")
   id("com.modrinth.minotaur") version "2.+"
@@ -45,6 +45,19 @@ val archivesBaseName = "plethora"
 version = modVersion
 group = mavenGroup
 
+java {
+  sourceCompatibility = JavaVersion.VERSION_17
+  targetCompatibility = JavaVersion.VERSION_17
+  withSourcesJar()
+}
+
+sourceSets.all {
+  tasks.named(compileJavaTaskName, JavaCompile::class.java) {
+    // Explicitly set release, as that limits the APIs we can use to the right version of Java.
+    options.release = 17
+  }
+}
+
 kotlin {
   compilerOptions {
     jvmTarget = JvmTarget.JVM_17
@@ -65,6 +78,8 @@ repositories {
     url = uri("https://repo.lem.sh/releases")
     content {
       includeGroup("io.sc3")
+      // fabric-permissions-api (dependency of sc-goodies)
+      includeModule("me.lucko", "fabric-permissions-api")
     }
   }
 
@@ -94,13 +109,6 @@ repositories {
     // Cardinal Components API (dependency of Trinkets)
     content {
       includeGroup("dev.onyxstudios.cardinal-components-api")
-    }
-  }
-
-  maven("https://oss.sonatype.org/content/repositories/snapshots") {
-    // fabric-permissions-api (dependency of sc-goodies)
-    content {
-      includeModule("me.lucko", "fabric-permissions-api")
     }
   }
 }
