@@ -18,15 +18,20 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Identifier
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Vec3d
 import java.lang.ref.WeakReference
 import javax.annotation.Nonnull
 
 class NeuralComputer(
   world: ServerWorld,
-  pos: BlockPos,
+  pos: Vec3d,
   computerId: Int,
   label: String?
-) : ServerComputer(world, pos, properties(computerId, ADVANCED).label(label).terminalSize(WIDTH, HEIGHT)) {
+) : ServerComputer(
+  world,
+  BlockPos(pos.x.toInt(), pos.y.toInt(), pos.z.toInt()),
+  properties(computerId, ADVANCED).label(label).terminalSize(WIDTH, HEIGHT)
+) {
   var entity: WeakReference<LivingEntity>? = null
     private set
 
@@ -38,7 +43,7 @@ class NeuralComputer(
   private var moduleDataDirty = false
 
   val executor = TaskRunner()
-  private val access: NeuralPocketAccess = NeuralPocketAccess(this)
+  private val access: NeuralPocketAccess = NeuralPocketAccess(this, pos)
 
   fun readModuleData(nbt: NbtCompound) {
     for (key in nbt.keys) {
@@ -71,6 +76,7 @@ class NeuralComputer(
     }
 
     setPosition(owner.entityWorld as ServerWorld, owner.blockPos)
+    access.updatePosition(owner.pos)
 
     // Sync changed slots
     if (dirty != 0) {
