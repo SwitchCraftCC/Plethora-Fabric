@@ -22,9 +22,11 @@ import java.util.Map;
 public class NeuralPocketAccess implements IPocketAccess {
     private final NeuralComputer neural;
     private UpgradeData<IPocketUpgrade> upgradeData;
+    private Vec3d position;
 
-    public NeuralPocketAccess(NeuralComputer neural) {
+    public NeuralPocketAccess(NeuralComputer neural, Vec3d position) {
         this.neural = neural;
+        this.position = position;
     }
 
   /**
@@ -44,7 +46,13 @@ public class NeuralPocketAccess implements IPocketAccess {
    */
   @Override
   public Vec3d getPosition() {
-    return this.neural.getPosition().toCenterPos();
+    // This method can be called from off-thread, and so we must use the cached position rather than rereading
+    // from the holder.
+    return this.position;
+  }
+
+  public void updatePosition(Vec3d position) {
+    this.position = position;
   }
 
   @Nullable
