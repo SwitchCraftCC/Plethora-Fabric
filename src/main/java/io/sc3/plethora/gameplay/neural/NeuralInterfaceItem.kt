@@ -5,20 +5,27 @@ import dan200.computercraft.api.filesystem.Mount
 import dan200.computercraft.api.media.IMedia
 import dan200.computercraft.shared.computer.items.IComputerItem
 import dan200.computercraft.shared.config.Config.computerSpaceLimit
+import dev.emi.trinkets.TrinketSlot
 import dev.emi.trinkets.api.SlotReference
+import dev.emi.trinkets.api.TrinketComponent
 import dev.emi.trinkets.api.TrinketItem
+import dev.emi.trinkets.api.TrinketsApi
 import io.sc3.library.Tooltips.addDescLines
 import io.sc3.plethora.Plethora.modId
 import io.sc3.plethora.gameplay.neural.NeuralComputerHandler.COMPUTER_ID
 import io.sc3.plethora.gameplay.neural.NeuralComputerHandler.DIRTY
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
 import net.minecraft.text.Text.translatable
+import net.minecraft.util.ActionResult
 import net.minecraft.util.Formatting.GRAY
+import net.minecraft.util.Hand
+import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
 import javax.annotation.Nonnull
 
@@ -69,6 +76,19 @@ class NeuralInterfaceItem(settings: Settings?) : TrinketItem(settings), ICompute
 
   override fun tick(stack: ItemStack, slot: SlotReference, entity: LivingEntity) {
     onUpdate(stack, slot, entity, true)
+  }
+
+  override fun useOnEntity(stack: ItemStack?, user: PlayerEntity?, entity: LivingEntity?, hand: Hand?): ActionResult {
+    return if (!entity!!.isPlayer) {
+      if (!entity.world.isClient) {
+        if (!equipItem(entity, stack)) {
+          return ActionResult.FAIL;
+        }
+      }
+      ActionResult.success(!entity.world.isClient)
+    } else {
+      ActionResult.FAIL
+    }
   }
 
   companion object {

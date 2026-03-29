@@ -1,6 +1,9 @@
 {
   "entities": [
-    "player"
+    "player",
+    "zombie",
+    "villager",
+    "slime"
   ],
   "slots": [
     "head/face"
